@@ -1,4 +1,0 @@
-- Aclarar dudas:
-    - [ ] A pesar de estar orientados hacia el mismo lado (izquierda o derecha), ¿deberían los frames donde el personaje anda y ataca contenerse en un mismo estado (p. ej., LEFT o LEFT_WALK/LEFT_ATTACK)?
-    - [ ] ¿Cómo calcular las coordenadas de cada frame en el spritesheet, el cual no tiene columnas y filas uniformes?
-- Continuar "Tutorial 2. Drawing (I) - Multiple Sprites" (sección "INICIALIZACIÓN DE LOS SPRITES")
