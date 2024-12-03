@@ -19,21 +19,19 @@ const SpriteID = {
     HELL_BAT_HAND_TO_HAND: 5,
     POTION_GREEN: 6,
     POTION_BLUE: 7,
+    BACKGROUND_IMG: 8,
 }
 
 // |||||||||||| SPRITE STATE IDENTIFIER (DIRECTION)
 const State = {
     // |||||||| PLAYER
-    LEFT: 0,
-    RIGHT: 1,
+    UP: 0,
+    LEFT: 1,
+    DOWN: 2,
+    RIGHT: 3,
 
-    // |||||||| CHAOTIC HUMAN (BOW)
-    LEFT_2: 0,
-    RIGHT_2: 1,
-    
-    // |||||||| CHAOTIC HUMAN (SWORD)
-    LEFT_3: 0,
-    RIGHT_3: 1,
+    // |||||||| BACKGROUND IMAGE
+    STILL: 0,
 
     // TODO: CONTINUE WITH THE OTHER SPRITES
 }

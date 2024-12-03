@@ -49,13 +49,13 @@ function updateSprite(sprite) {
 }
 
 
-// |||||||||||| UPDATES THE CHARACTER
+// |||||||||||| UPDATES THE PLAYER
 
 function updatePlayer(sprite) {
     sprite.xPos = 10;
-    sprite.yPos = 50;
+    sprite.yPos = 10;
 
-    sprite.frames.frameCounter = 2;
+    sprite.frames.frameCounter = 1;
 
-    sprite.state = State.LEFT;
+    sprite.state = State.RIGHT;
 }

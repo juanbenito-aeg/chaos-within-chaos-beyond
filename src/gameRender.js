@@ -30,12 +30,9 @@ function drawGame() {
 
 
 function renderSprite(sprite) {
-    const xPosInit = sprite.imageSet.initCol * sprite.imageSet.gridSize;
-    const yPosInit = sprite.imageSet.initFil * sprite.imageSet.gridSize;
-
     // |||||||||||| CALCULATE POSITION IN THE TILEMAP
-    const xTile = xPosInit + sprite.frames.frameCounter * sprite.imageSet.gridSize + sprite.imageSet.xOffset;
-    const yTile = yPosInit + sprite.state * sprite.imageSet.gridSize + sprite.imageSet.yOffset;
+    const xTile = sprite.imageSet.xInit + sprite.frames.frameCounter * sprite.imageSet.xGridSize + sprite.imageSet.xOffset;
+    const yTile = sprite.imageSet.yInit + sprite.state * sprite.imageSet.yGridSize + sprite.imageSet.yOffset;
 
     const xPos = Math.floor(sprite.xPos);
     const yPos = Math.floor(sprite.yPos);

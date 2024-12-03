@@ -15,9 +15,6 @@ function initHTMLElements() {
 
     // |||||||| ANTI-ALIASING DELETION
     globals.ctx.imageSmoothingEnabled = false;
-
-    // |||||||| TEXT BOX FOR TESTING
-    globals.txtPruebas = document.getElementById("txtPruebas");
 }
 
 
@@ -61,21 +58,32 @@ function loadHandler() {
 
 
 function initSprites() {
+    initBackgroundImg();
     initPlayer();
 }
 
 function initPlayer() {
-    // |||||||||||| CREATE THE IMAGES' PROPERTIES: initFil, initCol, xSize, ySize, gridSize, xOffset, yOffset
-    const imageSet = new ImageSet(3, 0, 66, 66, 66, 0, 0);
+    // |||||||||||| CREATE THE IMAGES' PROPERTIES: xInit, yInit, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset
+    const imageSet = new ImageSet(0, 0, 64, 61, 64, 64, 0, 3);
 
     // |||||||||||| CREATE THE ANIMATION DATA. 8 FRAMES / STATE
     const frames = new Frames(8);
 
     // |||||||||||| CREATE SPRITE
-    const player = new Sprite(SpriteID.PLAYER, State.UP, 100, 70, imageSet, frames);
+    const player = new Sprite(SpriteID.PLAYER, State.LEFT, 0, 0, imageSet, frames);
 
     // |||||||||||| ADD PLAYER TO THE SPRITES' ARRAY
     globals.sprites.push(player);
+}
+
+function initBackgroundImg() {
+    const imageSet = new ImageSet(0, 1063, 448, 256, 448, 329, 0, 0);
+
+    const frames = new Frames(0);
+
+    const backgroundImg = new Sprite(SpriteID.BACKGROUND_IMG, State.STILL, 0, 0, imageSet, frames);
+
+    globals.sprites.push(backgroundImg);
 }
 
 

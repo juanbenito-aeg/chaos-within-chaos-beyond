@@ -19,9 +19,6 @@ export default {
 
     cycleRealTime: 0,
 
-    // |||||||||||| TEXT BOX TO DISPLAY DEBUGGING DATA
-    txtPruebas: {},
-
     // |||||||||||| IMAGE DATA (TILESET)
     tileSet: {},
 
