@@ -66,11 +66,11 @@ function initPlayer() {
     // |||||||||||| CREATE THE IMAGES' PROPERTIES: xInit, yInit, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset
     const imageSet = new ImageSet(0, 0, 64, 61, 64, 64, 0, 3);
 
-    // |||||||||||| CREATE THE ANIMATION DATA. 8 FRAMES / STATE
-    const frames = new Frames(8);
+    // |||||||||||| CREATE THE ANIMATION DATA. 9 FRAMES / STATE
+    const frames = new Frames(9);
 
     // |||||||||||| CREATE SPRITE
-    const player = new Sprite(SpriteID.PLAYER, State.LEFT, 0, 0, imageSet, frames);
+    const player = new Sprite(SpriteID.PLAYER, State.UP, 0, 0, imageSet, frames);
 
     // |||||||||||| ADD PLAYER TO THE SPRITES' ARRAY
     globals.sprites.push(player);

@@ -55,7 +55,7 @@ function updatePlayer(sprite) {
     sprite.xPos = 10;
     sprite.yPos = 10;
 
-    sprite.frames.frameCounter = 1;
+    sprite.frames.frameCounter = 2;
 
     sprite.state = State.RIGHT;
 }
