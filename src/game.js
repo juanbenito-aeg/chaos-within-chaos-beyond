@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { initHTMLElements, loadAssets, initSprites, initVars } from "./initialize.js";
+import { initHTMLElements, loadAssets, initSprites, initVars, initLevel } from "./initialize.js";
 import update from "./gameLogic.js";
 import render from "./gameRender.js";
 
@@ -17,8 +17,11 @@ function init() {
     // |||||||| INITIALIZATION OF SPRITES
     initSprites();
 
-    // |||||||| INITIALIZATION OF GAME'S VARIABLES
+    // |||||||| INITIALIZATION OF THE GAME'S VARIABLES
     initVars();
+    
+    // |||||||| INITIALIZATION OF THE GAME'S MAP
+    initLevel();
 
     // |||||||| FIRST FRAME REQUEST
     window.requestAnimationFrame(gameLoop);

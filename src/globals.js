@@ -4,6 +4,8 @@ export default {
     // |||||||||||| CANVAS & CONTEXT
     canvas: {},
     ctx: {},
+    canvasHUD: {},
+    ctxHUD: {},
 
     // |||||||||||| GAME STATE
     gameState: Game.INVALID,
@@ -20,7 +22,7 @@ export default {
     cycleRealTime: 0,
 
     // |||||||||||| IMAGE DATA (TILESET)
-    tileSet: {},
+    tileSets: [],
 
     // |||||||||||| VARIABLES TO MANAGE ASSETS LOADING
     // |||||||| HOLDS THE ELEMENTS TO LOAD (PRIMARILY, IMAGES & SOUNDS)
@@ -30,4 +32,7 @@ export default {
 
     // |||||||||||| ARRAY WITH SPRITES' DATA
     sprites: [],
+
+    // |||||||||||| CAVE SECTION (LEVEL) DATA
+    level: {},
 };

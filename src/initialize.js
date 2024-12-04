@@ -3,15 +3,18 @@ import { Game, FPS, SpriteID, State } from "./constants.js";
 import Sprite from "./Sprite.js";
 import ImageSet from "./ImageSet.js";
 import Frames from "./Frames.js";
+import { Level, level1 } from "./Level.js";
 
 // |||||||||||| INITIALIZES THE HTML ELEMENTS
 
 function initHTMLElements() {
-    // |||||||| CANVAS
+    // |||||||| CANVAS, CONTEXT (SCREEN)
     globals.canvas = document.getElementById("gameScreen");
-
-    // |||||||| CONTEXT
     globals.ctx = globals.canvas.getContext("2d");
+    
+    // |||||||| CANVAS, CONTEXT (HUD)
+    globals.canvasHUD = document.getElementById("gameHUD");
+    globals.ctxHUD = globals.canvas.getContext("2d");
 
     // |||||||| ANTI-ALIASING DELETION
     globals.ctx.imageSmoothingEnabled = false;
@@ -34,11 +37,21 @@ function initVars() {
 // |||||||||||| ASSETS LOADING: TILEMAPS, IMAGES, SOUNDS
 
 function loadAssets() {
-    // |||||||| LOAD THE tileSet IMAGE
-    globals.tileSet = new Image();
-    globals.tileSet.addEventListener("load", loadHandler, false);
-    globals.tileSet.src = "./images/spritesheet.png";
-    globals.assetsToLoad.push(globals.tileSet);
+    let tileSet;
+
+    // |||||||| LOAD THE SPRITESHEET
+    tileSet = new Image();
+    tileSet.addEventListener("load", loadHandler, false);
+    tileSet.src = "./images/spritesheet.png";
+    globals.tileSets.push(tileSet);
+    globals.assetsToLoad.push(tileSet);
+    
+    // |||||||| LOAD THE MAP TILESET
+    tileSet = new Image();
+    tileSet.addEventListener("load", loadHandler, false);
+    tileSet.src = "./images/map-tileset.png";
+    globals.tileSets.push(tileSet);
+    globals.assetsToLoad.push(tileSet);
 }
 
 
@@ -48,10 +61,13 @@ function loadHandler() {
     globals.assetsLoaded++;
 
     if (globals.assetsLoaded === globals.assetsToLoad.length) {
-        globals.tileSet.removeEventListener("load", loadHandler, false);
+        for (let i = 0; i < globals.tileSets.length; i++) {
+            globals.tileSets[i].removeEventListener("load", loadHandler, false);
+        }
 
         console.log("Assets finished loading");
 
+        // |||||||| START THE GAME
         globals.gameState = Game.PLAYING;
     }
 }
@@ -87,6 +103,15 @@ function initBackgroundImg() {
 }
 
 
+function initLevel() {
+    // |||||||||||| CREATE THE MAP'S IMAGES PROPERTIES: xInit, yInit, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset
+    const imageSet = new ImageSet(0, 0, 16, 16, 16, 16, 0, 0);
+
+    // |||||||||||| CREATE AND SAVE THE CAVE SECTION (LEVEL)
+    globals.level = new Level(level1, imageSet);
+}
+
+
 // |||||||||||| EXPORTS
 
-export { initHTMLElements, loadAssets, initVars, initSprites };
+export { initHTMLElements, loadAssets, initVars, initSprites, initLevel };

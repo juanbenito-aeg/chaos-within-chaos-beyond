@@ -1,10 +1,23 @@
-#gameScreen {
+@font-face {
+    font-family: emulogic;
+    src: url("../fonts/emulogic.ttf");
+}
+
+#gameScreen,
+#gameHUD {
     width: 1120px;
-    height: 640px;
-    border: black;
-    border-style: solid;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-crisp-edges;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
+}
+
+#gameScreen {
+    height: 640px;
+}
+
+#gameHUD {
+    height: 128px;
+    margin-bottom: -5px;
+    background-color: black;
 }

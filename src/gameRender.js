@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { Game } from "./constants.js";
+import { Game, Tile } from "./constants.js";
 
 // |||||||||||| RENDERS THE GRAPHICS
 
@@ -29,6 +29,36 @@ function drawGame() {
 }
 
 
+// |||||||||||| DRAWS THE MAP
+
+function renderMap() {
+    const numColTileSet = 9;
+
+    const brickSize = globals.level.imageSet.xGridSize;
+    const levelData = globals.level.data;
+
+    const numFil = levelData.length;
+    const numCol = levelData[0].length;
+
+    for (let i = 0; i < numFil; i++) {
+        for (let j = 0; j < numCol; j++) {
+            const xTile = Math.floor((levelData[i][j] - 1) % numColTileSet) * brickSize;
+            const yTile = Math.floor((levelData[i][j] - 1) / numColTileSet) * brickSize;
+            const xPos = j * brickSize;
+            const yPos = i * brickSize;
+
+            globals.ctx.drawImage(
+                globals.tileSets[Tile.SIZE_16],
+                xTile, yTile,
+                brickSize, brickSize,
+                xPos, yPos,
+                brickSize, brickSize
+            );
+        }
+    }
+}
+
+
 function renderSprite(sprite) {
     // |||||||||||| CALCULATE POSITION IN THE TILEMAP
     const xTile = sprite.imageSet.xInit + sprite.frames.frameCounter * sprite.imageSet.xGridSize + sprite.imageSet.xOffset;
@@ -39,7 +69,7 @@ function renderSprite(sprite) {
 
     // |||||||||||| DRAW THE SPRITE'S NEW FRAME IN THE DESIRED POSITION
     globals.ctx.drawImage(
-        globals.tileSet,                                // THE IMAGE FILE
+        globals.tileSets[Tile.SIZE_OTHERS],             // THE IMAGE FILE
         xTile, yTile,                                   // THE SOURCE X & Y POSITION
         sprite.imageSet.xSize, sprite.imageSet.ySize,   // THE SOURCE WIDTH & HEIGHT
         xPos, yPos,                                     // THE DESTINATION X & Y POSITION
@@ -51,6 +81,10 @@ function renderSprite(sprite) {
 function drawSprites() {
     for (let i = 0; i < globals.sprites.length; i++) {
         const sprite = globals.sprites[i];
+
+        if (i === 1) {
+            renderMap();
+        }
 
         // TEST
         drawSpriteRectangle(sprite);
@@ -68,4 +102,9 @@ function drawSpriteRectangle(sprite) {
 
     globals.ctx.fillStyle = "green";
     globals.ctx.fillRect(x1, y1, w1, h1);
+}
+
+
+function renderHUD() {
+    
 }

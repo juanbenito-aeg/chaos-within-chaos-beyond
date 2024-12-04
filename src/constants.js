@@ -4,7 +4,7 @@ const Game = {
     LOADING: 0,
     PLAYING: 1,
     OVER: 2,
-}
+};
 
 // |||||||||||| FPS (FRAMES PER SECOND)
 const FPS = 30;
@@ -20,7 +20,7 @@ const SpriteID = {
     POTION_GREEN: 6,
     POTION_BLUE: 7,
     BACKGROUND_IMG: 8,
-}
+};
 
 // |||||||||||| SPRITE STATE IDENTIFIER (DIRECTION)
 const State = {
@@ -34,7 +34,24 @@ const State = {
     STILL: 0,
 
     // TODO: CONTINUE WITH THE OTHER SPRITES
-}
+};
+
+// |||||||||||| DIFFERENT TILESETS
+const Tile = {
+    SIZE_OTHERS: 0,     // SPRITES (64 x 64, ETC.)
+    SIZE_16:     1,     // MAP TILES (16 x 16)
+};
+
+// |||||||||||| MAP BLOCK IDENTIFIER
+const Block = {
+    EMPTY: 0,
+    DARK_BROWN_BLOCK: 64,
+    DARK_BROWN_SLOPE_UPWARDS_1: 66,
+    DARK_BROWN_SLOPE_UPWARDS_2: 67,
+    SPIKES_FLOOR: 86,
+    SPIKES_CEILING: 87,
+    GRAY_BLOCK: 95,
+};
 
 // |||||||||||| EXPORTS
-export { Game, FPS, SpriteID, State };
+export { Game, FPS, SpriteID, State, Tile, Block };
