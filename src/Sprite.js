@@ -1,5 +1,4 @@
 // |||||||||||| MANAGES SPRITES
-
 export default class Sprite {
     constructor(id, state, xPos, yPos, imageSet, frames) {
         this.id             = id;           // SPRITE TYPE

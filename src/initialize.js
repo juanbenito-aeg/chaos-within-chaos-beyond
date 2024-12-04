@@ -6,7 +6,6 @@ import Frames from "./Frames.js";
 import { Level, level1 } from "./Level.js";
 
 // |||||||||||| INITIALIZES THE HTML ELEMENTS
-
 function initHTMLElements() {
     // |||||||| CANVAS, CONTEXT (SCREEN)
     globals.canvas = document.getElementById("gameScreen");
@@ -14,15 +13,13 @@ function initHTMLElements() {
     
     // |||||||| CANVAS, CONTEXT (HUD)
     globals.canvasHUD = document.getElementById("gameHUD");
-    globals.ctxHUD = globals.canvas.getContext("2d");
+    globals.ctxHUD = globals.canvasHUD.getContext("2d");
 
     // |||||||| ANTI-ALIASING DELETION
     globals.ctx.imageSmoothingEnabled = false;
 }
 
-
 // |||||||||||| INITIALIZES THE GAME'S VARIABLES
-
 function initVars() {
     // |||||||| INITIALIZE THE TIME MANAGEMENT VARIABLES
     globals.previousCycleMilliseconds = 0;
@@ -33,9 +30,7 @@ function initVars() {
     globals.gameState = Game.LOADING;
 }
 
-
 // |||||||||||| ASSETS LOADING: TILEMAPS, IMAGES, SOUNDS
-
 function loadAssets() {
     let tileSet;
 
@@ -54,9 +49,7 @@ function loadAssets() {
     globals.assetsToLoad.push(tileSet);
 }
 
-
 // |||||||||||| FUNCTION THAT IS CALLED EACH TIME AN ASSET IS LOADED
-
 function loadHandler() {
     globals.assetsLoaded++;
 
@@ -72,10 +65,30 @@ function loadHandler() {
     }
 }
 
-
 function initSprites() {
+    initTheEruditeHUD();
     initBackgroundImg();
     initPlayer();
+}
+
+function initTheEruditeHUD() {
+    const imageSet = new ImageSet(0, 1321, 85, 85, 85, 85, 0, 0);
+
+    const frames = new Frames(5);
+
+    const theEruditeHUD = new Sprite(SpriteID.THE_ERUDITE_HUD, State.STILL, 200, 0, imageSet, frames);
+
+    globals.sprites.push(theEruditeHUD);
+}
+
+function initBackgroundImg() {
+    const imageSet = new ImageSet(0, 1063, 448, 256, 448, 329, 0, 0);
+
+    const frames = new Frames(0);
+
+    const backgroundImg = new Sprite(SpriteID.BACKGROUND_IMG, State.STILL, 0, 0, imageSet, frames);
+
+    globals.sprites.push(backgroundImg);
 }
 
 function initPlayer() {
@@ -92,17 +105,6 @@ function initPlayer() {
     globals.sprites.push(player);
 }
 
-function initBackgroundImg() {
-    const imageSet = new ImageSet(0, 1063, 448, 256, 448, 329, 0, 0);
-
-    const frames = new Frames(0);
-
-    const backgroundImg = new Sprite(SpriteID.BACKGROUND_IMG, State.STILL, 0, 0, imageSet, frames);
-
-    globals.sprites.push(backgroundImg);
-}
-
-
 function initLevel() {
     // |||||||||||| CREATE THE MAP'S IMAGES PROPERTIES: xInit, yInit, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset
     const imageSet = new ImageSet(0, 0, 16, 16, 16, 16, 0, 0);
@@ -111,7 +113,5 @@ function initLevel() {
     globals.level = new Level(level1, imageSet);
 }
 
-
 // |||||||||||| EXPORTS
-
 export { initHTMLElements, loadAssets, initVars, initSprites, initLevel };

@@ -1,5 +1,4 @@
 // |||||||||||| MANAGES A SPRITE'S TILESET
-
 export default class ImageSet {
     constructor(xInit, yInit, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset) {
         this.xInit        = xInit;          // IMAGESET START X COORDINATE

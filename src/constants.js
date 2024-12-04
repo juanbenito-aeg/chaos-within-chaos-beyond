@@ -20,6 +20,7 @@ const SpriteID = {
     POTION_GREEN: 6,
     POTION_BLUE: 7,
     BACKGROUND_IMG: 8,
+    THE_ERUDITE_HUD: 9,
 };
 
 // |||||||||||| SPRITE STATE IDENTIFIER (DIRECTION)
@@ -30,10 +31,8 @@ const State = {
     DOWN: 2,
     RIGHT: 3,
 
-    // |||||||| BACKGROUND IMAGE
+    // |||||||| BACKGROUND IMAGE, THE ERUDITE (HUD)
     STILL: 0,
-
-    // TODO: CONTINUE WITH THE OTHER SPRITES
 };
 
 // |||||||||||| DIFFERENT TILESETS
