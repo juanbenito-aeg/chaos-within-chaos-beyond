@@ -1,7 +1,7 @@
 import { Game } from "./constants.js";
 
 export default {
-    // |||||||||||| CANVAS & CONTEXT
+    // |||||||||||| CANVAS & CONTEXT (SCREEN & HUD)
     canvas: {},
     ctx: {},
     canvasHUD: {},
@@ -21,7 +21,7 @@ export default {
 
     cycleRealTime: 0,
 
-    // |||||||||||| IMAGE DATA (TILESET)
+    // |||||||||||| IMAGES DATA (TILESETS)
     tileSets: [],
 
     // |||||||||||| VARIABLES TO MANAGE ASSETS LOADING

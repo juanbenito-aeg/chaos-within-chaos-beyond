@@ -21,6 +21,8 @@ const SpriteID = {
     POTION_BLUE: 7,
     BACKGROUND_IMG: 8,
     THE_ERUDITE_HUD: 9,
+    RAGE_BAR_CONTAINER: 10,
+    RAGE_BAR_CONTENT: 11,
 };
 
 // |||||||||||| SPRITE STATE IDENTIFIER (DIRECTION)
@@ -30,8 +32,13 @@ const State = {
     LEFT: 1,
     DOWN: 2,
     RIGHT: 3,
+    UP_ATTACK: 4,
+    LEFT_ATTACK: 5,
+    DOWN_ATTACK: 6,
+    RIGHT_ATTACK: 7,
+    AWAKENING: 8,
 
-    // |||||||| BACKGROUND IMAGE, THE ERUDITE (HUD)
+    // |||||||| BACKGROUND IMAGE, THE ERUDITE (HUD), RAGE BAR (CONTAINER & CONTENT)
     STILL: 0,
 };
 

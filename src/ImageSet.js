@@ -1,8 +1,8 @@
 // |||||||||||| MANAGES A SPRITE'S TILESET
 export default class ImageSet {
     constructor(xInit, yInit, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset) {
-        this.xInit        = xInit;          // IMAGESET START X COORDINATE
-        this.yInit        = yInit;          // IMAGESET START Y COORDINATE
+        this.xInit          = xInit;        // IMAGESET START X COORDINATE
+        this.yInit          = yInit;        // IMAGESET START Y COORDINATE
         this.xSize          = xSize;        // IMAGE'S SIZE IN PX (X)
         this.ySize          = ySize;        // IMAGE'S SIZE IN PX (Y)
         this.xOffset        = xOffset;      // OFFSET IN X OF THE BEGINNING OF THE CHARACTER'S DRAWING WITH RESPECT TO THE GRID

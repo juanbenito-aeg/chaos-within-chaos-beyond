@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { Game, Tile } from "./constants.js";
+import { Game, SpriteID, Tile } from "./constants.js";
 
 // |||||||||||| RENDERS THE GRAPHICS
 export default function render() {
@@ -32,7 +32,7 @@ function drawGame() {
 
 // |||||||||||| DRAWS THE BACKGROUND IMAGE
 function renderBackgroundImg() {
-    const backgroundImg = globals.sprites[1];
+    const backgroundImg = globals.sprites[3];
 
     const xTile = backgroundImg.imageSet.xInit + backgroundImg.frames.frameCounter * backgroundImg.imageSet.xGridSize + backgroundImg.imageSet.xOffset;
     const yTile = backgroundImg.imageSet.yInit + backgroundImg.state * backgroundImg.imageSet.yGridSize + backgroundImg.imageSet.yOffset;
@@ -74,17 +74,28 @@ function renderMap() {
     }
 }
 
-function drawSpriteRectangle(sprite) {
+function drawSpriteRectangle(sprite, destinationWidth, destinationHeight) {
     const x1 = Math.floor(sprite.xPos);
     const y1 = Math.floor(sprite.yPos);
-    const w1 = sprite.imageSet.xSize;
-    const h1 = sprite.imageSet.ySize;
 
     globals.ctx.fillStyle = "green";
-    globals.ctx.fillRect(x1, y1, w1, h1);
+    globals.ctx.fillRect(x1, y1, destinationWidth, destinationHeight);
 }
 
 function renderScreenSprite(sprite) {
+    // |||||||||||| SET SIZES SOME SPRITES WILL APPEAR WITH IN THE CANVAS
+    let destinationWidth;
+    let destinationHeight;
+
+    switch (sprite.id) {
+        case SpriteID.PLAYER:
+            destinationWidth = 51;
+            destinationHeight = 48;
+
+        default:
+            break;
+    }
+    
     // |||||||||||| CALCULATE POSITION IN THE TILEMAP
     const xTile = sprite.imageSet.xInit + sprite.frames.frameCounter * sprite.imageSet.xGridSize + sprite.imageSet.xOffset;
     const yTile = sprite.imageSet.yInit + sprite.state * sprite.imageSet.yGridSize + sprite.imageSet.yOffset;
@@ -92,46 +103,48 @@ function renderScreenSprite(sprite) {
     const xPos = Math.floor(sprite.xPos);
     const yPos = Math.floor(sprite.yPos);
 
+    // |||||||||||| TEST
+    drawSpriteRectangle(sprite, destinationWidth, destinationHeight);
+
     // |||||||||||| DRAW THE SPRITE'S NEW FRAME IN THE DESIRED POSITION
     globals.ctx.drawImage(
         globals.tileSets[Tile.SIZE_OTHERS],             // THE IMAGE FILE
         xTile, yTile,                                   // THE SOURCE X & Y POSITION
         sprite.imageSet.xSize, sprite.imageSet.ySize,   // THE SOURCE WIDTH & HEIGHT
         xPos, yPos,                                     // THE DESTINATION X & Y POSITION
-        sprite.imageSet.xSize, sprite.imageSet.ySize    // THE DESTINATION WIDTH & HEIGHT
+        destinationWidth, destinationHeight             // THE DESTINATION WIDTH & HEIGHT
     );
 }
 
 function renderScreenSprites() {
     for (let i = 0; i < globals.sprites.length; i++) {
-        // |||||||||||| AVOID RENDERING THE HUD'S "THE ERUDITE" AND THE SCREEN'S BACKGROUND IMAGE, AS THEY ALREADY DO IT ON THEIR OWN ON SEPARATE FUNCTIONS (renderTheEruditeHUD & renderBackgroundImg, RESPECTIVELY)
-        if (i !== 0 && i !== 1) {
+        // |||||||||||| AVOID RENDERING THE HUD'S THE ERUDITE'S FACE AND HIS RAGE BAR AND THE SCREEN'S BACKGROUND IMAGE, AS THEY ALREADY DO IT ON THEIR OWN ON SEPARATE FUNCTIONS (renderHUDSprites & renderBackgroundImg)
+        if (i > 3) {
             const sprite = globals.sprites[i];
-    
-            // TEST
-            drawSpriteRectangle(sprite);
     
             renderScreenSprite(sprite);
         } 
     }
 }
 
-function renderTheEruditeHUD() {
-    const theEruditeHUD = globals.sprites[0];
+function renderHUDSprites() {
+    for (let i = 0; i < 3; i++) {
+        const sprite = globals.sprites[i];
 
-    const xTile = theEruditeHUD.imageSet.xInit + theEruditeHUD.frames.frameCounter * theEruditeHUD.imageSet.xGridSize + theEruditeHUD.imageSet.xOffset;
-    const yTile = theEruditeHUD.imageSet.yInit + theEruditeHUD.state * theEruditeHUD.imageSet.yGridSize + theEruditeHUD.imageSet.yOffset;
+        const xTile = sprite.imageSet.xInit + sprite.frames.frameCounter * sprite.imageSet.xGridSize + sprite.imageSet.xOffset;
+        const yTile = sprite.imageSet.yInit + sprite.state * sprite.imageSet.yGridSize + sprite.imageSet.yOffset;
 
-    const xPos = Math.floor(theEruditeHUD.xPos);
-    const yPos = Math.floor(theEruditeHUD.yPos);
+        const xPos = Math.floor(sprite.xPos);
+        const yPos = Math.floor(sprite.yPos);
 
-    globals.ctxHUD.drawImage(
-        globals.tileSets[Tile.SIZE_OTHERS],                           // THE IMAGE FILE
-        xTile, yTile,                                                 // THE SOURCE X & Y POSITION
-        theEruditeHUD.imageSet.xSize, theEruditeHUD.imageSet.ySize,   // THE SOURCE WIDTH & HEIGHT
-        xPos, yPos,                                                   // THE DESTINATION X & Y POSITION
-        theEruditeHUD.imageSet.xSize, theEruditeHUD.imageSet.ySize    // THE DESTINATION WIDTH & HEIGHT
-    );
+        globals.ctxHUD.drawImage(
+            globals.tileSets[Tile.SIZE_OTHERS],             // THE IMAGE FILE
+            xTile, yTile,                                   // THE SOURCE X & Y POSITION
+            sprite.imageSet.xSize, sprite.imageSet.ySize,   // THE SOURCE WIDTH & HEIGHT
+            xPos, yPos,                                     // THE DESTINATION X & Y POSITION
+            sprite.imageSet.xSize, sprite.imageSet.ySize    // THE DESTINATION WIDTH & HEIGHT
+        );
+    }
 }
 
 function renderHUD() {
@@ -140,22 +153,22 @@ function renderHUD() {
     const highScore = 10000;
 
     // |||||||||||| DRAW SCORE
-    globals.ctxHUD.font = "10px emulogic";
+    globals.ctxHUD.font = "8.5px emulogic";
     globals.ctxHUD.fillStyle = "#d5dbc6";
-    globals.ctxHUD.fillText("SCORE", 15, 40);
+    globals.ctxHUD.fillText("SCORE", 15, 39.5);
     globals.ctxHUD.fillStyle = "#e7ebdd";
-    globals.ctxHUD.fillText(score, 15, 55);
+    globals.ctxHUD.fillText(score, 15, 54.5);
     
     // |||||||||||| DRAW HIGH SCORE
     globals.ctxHUD.fillStyle = "#d5dbc6";
-    globals.ctxHUD.fillText("HIGH SCORE", 85, 40);
+    globals.ctxHUD.fillText("HIGH SCORE", 80, 39.5);
     globals.ctxHUD.fillStyle = "#e7ebdd";
-    globals.ctxHUD.fillText(highScore, 85, 55);
-
-    // |||||||||||| RENDER THE ERUDITE'S FACE
-    renderTheEruditeHUD();
+    globals.ctxHUD.fillText(highScore, 80, 54.5);
     
-    // |||||||||||| DRAW RAGE BAR'S SYMBOL AND FIRST HALF
+    // |||||||||||| DRAW RAGE BAR'S SYMBOL
     globals.ctxHUD.font = "20px emulogic";
-    globals.ctxHUD.fillText("💢", 300, 48.5);
+    globals.ctxHUD.fillText("💢", 282.5, 49.5);
+
+    // |||||||||||| RENDER THE ERUDITE'S FACE & HIS RAGE BAR
+    renderHUDSprites();
 }

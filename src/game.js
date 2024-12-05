@@ -8,7 +8,7 @@ import render from "./gameRender.js";
 window.onload = init;
 
 function init() {
-    // |||||||| INITIALIZATION OF THE HTML ELEMENTS: CANVAS, CONTEXT, TEXT BOX FOR TESTING
+    // |||||||| INITIALIZATION OF THE HTML ELEMENTS: CANVAS & CONTEXT (SCREEN & HUD)
     initHTMLElements();
 
     // |||||||| LOAD ALL ASSETS: TILEMAPS, IMAGES, SOUNDS
@@ -27,11 +27,9 @@ function init() {
     window.requestAnimationFrame(gameLoop);
 }
 
-
 // |||||||||||| GAME EXECUTION
 
 // |||||||| MAIN EXECUTION LOOP
-
 function gameLoop(timeStamp) {
     // |||| KEEP REQUESTING ANIMATION FRAMES
     window.requestAnimationFrame(gameLoop, globals.canvas);

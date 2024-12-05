@@ -67,6 +67,8 @@ function loadHandler() {
 
 function initSprites() {
     initTheEruditeHUD();
+    initRageBarContainer();
+    initRageBarContent();
     initBackgroundImg();
     initPlayer();
 }
@@ -76,15 +78,35 @@ function initTheEruditeHUD() {
 
     const frames = new Frames(5);
 
-    const theEruditeHUD = new Sprite(SpriteID.THE_ERUDITE_HUD, State.STILL, 200, 0, imageSet, frames);
+    const theEruditeHUD = new Sprite(SpriteID.THE_ERUDITE_HUD, State.STILL, 181, 0, imageSet, frames);
 
     globals.sprites.push(theEruditeHUD);
+}
+
+function initRageBarContainer() {
+    const imageSet = new ImageSet(0, 1404, 112, 28, 112, 26, 0, 0);
+
+    const frames = new Frames(1);
+
+    const rageBarContainer = new Sprite(SpriteID.RAGE_BAR_CONTAINER, State.STILL, 321, 29, imageSet, frames);
+
+    globals.sprites.push(rageBarContainer);
+}
+
+function initRageBarContent() {
+    const imageSet = new ImageSet(112, 1404, 86, 14, 86, 14, 0, 0);
+
+    const frames = new Frames(1);
+
+    const rageBarContent = new Sprite(SpriteID.RAGE_BAR_CONTENT, State.STILL, 334, 36, imageSet, frames);
+
+    globals.sprites.push(rageBarContent);
 }
 
 function initBackgroundImg() {
     const imageSet = new ImageSet(0, 1063, 448, 256, 448, 329, 0, 0);
 
-    const frames = new Frames(0);
+    const frames = new Frames(1);
 
     const backgroundImg = new Sprite(SpriteID.BACKGROUND_IMG, State.STILL, 0, 0, imageSet, frames);
 
@@ -95,11 +117,11 @@ function initPlayer() {
     // |||||||||||| CREATE THE IMAGES' PROPERTIES: xInit, yInit, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset
     const imageSet = new ImageSet(0, 0, 64, 61, 64, 64, 0, 3);
 
-    // |||||||||||| CREATE THE ANIMATION DATA. 9 FRAMES / STATE
+    // |||||||||||| CREATE THE ANIMATION DATA. 9 (OR LESS IN THIS CASE) FRAMES PER STATE
     const frames = new Frames(9);
 
     // |||||||||||| CREATE SPRITE
-    const player = new Sprite(SpriteID.PLAYER, State.UP, 0, 0, imageSet, frames);
+    const player = new Sprite(SpriteID.PLAYER, State.RIGHT, 0, 0, imageSet, frames);
 
     // |||||||||||| ADD PLAYER TO THE SPRITES' ARRAY
     globals.sprites.push(player);

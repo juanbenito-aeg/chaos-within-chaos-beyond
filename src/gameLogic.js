@@ -3,7 +3,6 @@ import { Game, SpriteID, State } from "./constants.js";
 
 export default function update() {
     // |||||||||||| CHANGE WHAT THE GAME IS DOING BASED ON THE GAME STATE
-
     switch (globals.gameState) {
         case Game.LOADING:
             console.log("Loading assets...");
@@ -18,11 +17,9 @@ export default function update() {
     }
 }
 
-
 function playGame() {
     updateSprites();
 }
-
 
 function updateSprites() {
     for (let i = 0; i < globals.sprites.length; i++) {
@@ -32,7 +29,6 @@ function updateSprites() {
     }
 }
 
-
 function updateSprite(sprite) {
     const type = sprite.id;
 
@@ -41,6 +37,11 @@ function updateSprite(sprite) {
         case SpriteID.PLAYER:
             updatePlayer(sprite);
             break;
+        
+        // |||||||||||| RAGE BAR (CONTENT)
+        case SpriteID.RAGE_BAR_CONTENT:
+            updateRageBarContent(sprite);
+            break;
 
         // |||||||||||| OTHERS
         default:
@@ -48,14 +49,17 @@ function updateSprite(sprite) {
     }
 }
 
-
-// |||||||||||| UPDATES THE PLAYER
-
 function updatePlayer(sprite) {
     sprite.xPos = 10;
     sprite.yPos = 10;
 
-    sprite.frames.frameCounter = 2;
+    sprite.frames.frameCounter = 0;
 
     sprite.state = State.RIGHT;
+}
+
+function updateRageBarContent(sprite) {
+    sprite.imageSet.xSize = 86;
+
+    sprite.imageSet.xSize *= 0.5;
 }
