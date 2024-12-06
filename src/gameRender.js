@@ -88,9 +88,35 @@ function renderScreenSprite(sprite) {
     let destinationHeight;
 
     switch (sprite.id) {
+        // |||||||| PLAYER
         case SpriteID.PLAYER:
-            destinationWidth = 51;
+            destinationWidth = 55.6;
+            destinationHeight = 53;
+            break;
+        
+        // |||||||| CHAOTIC HUMAN (BOW)
+        case SpriteID.CHAOTIC_HUMAN_BOW:
+            destinationWidth = 33;
+            destinationHeight = 49;
+            break;
+        
+        // |||||||| FAST WORM
+        case SpriteID.FAST_WORM:
+            destinationWidth = 32.15;
             destinationHeight = 48;
+            break;
+        
+        // |||||||| HELL BAT (ACID)
+        case SpriteID.HELL_BAT_ACID:
+            destinationWidth = 52;
+            destinationHeight = 51;
+            break;
+        
+        // |||||||| POTION (GREEN)
+        case SpriteID.POTION_GREEN:
+            destinationWidth = 17;
+            destinationHeight = 19;
+            break;
 
         default:
             break;

@@ -38,6 +38,26 @@ function updateSprite(sprite) {
             updatePlayer(sprite);
             break;
         
+        // |||||||||||| CHAOTIC HUMAN (BOW)
+        case SpriteID.CHAOTIC_HUMAN_BOW:
+            updateChaoticHumanBow(sprite);
+            break;
+        
+        // |||||||||||| FAST WORM
+        case SpriteID.FAST_WORM:
+            updateFastWorm(sprite);
+            break;
+        
+        // |||||||||||| HELL BAT (ACID)
+        case SpriteID.HELL_BAT_ACID:
+            updateHellBatAcid(sprite);
+            break;
+        
+        // |||||||||||| POTION (GREEN)
+        case SpriteID.POTION_GREEN:
+            updatePotionGreen(sprite);
+            break;
+        
         // |||||||||||| RAGE BAR (CONTENT)
         case SpriteID.RAGE_BAR_CONTENT:
             updateRageBarContent(sprite);
@@ -51,11 +71,43 @@ function updateSprite(sprite) {
 
 function updatePlayer(sprite) {
     sprite.xPos = 10;
-    sprite.yPos = 10;
+    sprite.yPos = 179;
 
     sprite.frames.frameCounter = 0;
 
     sprite.state = State.RIGHT;
+}
+
+function updateChaoticHumanBow(sprite) {
+    sprite.xPos = 260;
+    sprite.yPos = 20.85;
+
+    sprite.frames.frameCounter = 0;
+
+    sprite.state = State.LEFT_ATTACK_2;
+}
+
+function updateFastWorm(sprite) {
+    sprite.xPos = 390;
+    sprite.yPos = 119;
+
+    sprite.frames.frameCounter = 0;
+
+    sprite.state = State.LEFT;
+}
+
+function updateHellBatAcid(sprite) {
+    sprite.xPos = 60;
+    sprite.yPos = 2;
+
+    sprite.frames.frameCounter = 2;
+
+    sprite.state = State.DOWN;
+}
+
+function updatePotionGreen(sprite) {
+    sprite.xPos = 306;
+    sprite.yPos = 45;
 }
 
 function updateRageBarContent(sprite) {

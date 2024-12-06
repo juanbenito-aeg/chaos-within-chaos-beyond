@@ -71,6 +71,10 @@ function initSprites() {
     initRageBarContent();
     initBackgroundImg();
     initPlayer();
+    initChaoticHumanBow();
+    initFastWorm();
+    initHellBatAcid();
+    initPotionGreen();
 }
 
 function initTheEruditeHUD() {
@@ -115,7 +119,7 @@ function initBackgroundImg() {
 
 function initPlayer() {
     // |||||||||||| CREATE THE IMAGES' PROPERTIES: xInit, yInit, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset
-    const imageSet = new ImageSet(0, 0, 64, 61, 64, 64, 0, 3);
+    const imageSet = new ImageSet(0, 0, 63.6, 61, 63.6, 64, 0, 3);
 
     // |||||||||||| CREATE THE ANIMATION DATA. 9 (OR LESS IN THIS CASE) FRAMES PER STATE
     const frames = new Frames(9);
@@ -125,6 +129,62 @@ function initPlayer() {
 
     // |||||||||||| ADD PLAYER TO THE SPRITES' ARRAY
     globals.sprites.push(player);
+}
+
+function initChaoticHumanBow() {
+    // |||||||||||| CREATE THE IMAGES' PROPERTIES: xInit, yInit, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset
+    const imageSet = new ImageSet(1151, 0, 48, 64, 64, 63, 4, 0);
+
+    // |||||||||||| CREATE THE ANIMATION DATA. 3 FRAMES PER STATE
+    const frames = new Frames(3);
+
+    // |||||||||||| CREATE SPRITE
+    const chaoticHumanBow = new Sprite(SpriteID.CHAOTIC_HUMAN_BOW, State.DOWN_2, 0, 0, imageSet, frames);
+
+    // |||||||||||| ADD CHAOTIC HUMAN (BOW) TO THE SPRITES' ARRAY
+    globals.sprites.push(chaoticHumanBow);
+}
+
+function initFastWorm() {
+    // |||||||||||| CREATE THE IMAGES' PROPERTIES: xInit, yInit, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset
+    const imageSet = new ImageSet(899, 505, 42.15, 58, 64.15, 63.1, 0, 6);
+
+    // |||||||||||| CREATE THE ANIMATION DATA. 6 FRAMES PER STATE
+    const frames = new Frames(6);
+
+    // |||||||||||| CREATE SPRITE
+    const fastWorm = new Sprite(SpriteID.FAST_WORM, State.UP, 0, 0, imageSet, frames);
+
+    // |||||||||||| ADD FAST WORM TO THE SPRITES' ARRAY
+    globals.sprites.push(fastWorm);
+}
+
+function initHellBatAcid() {
+    // |||||||||||| CREATE THE IMAGES' PROPERTIES: xInit, yInit, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset
+    const imageSet = new ImageSet(0, 590, 92, 91, 122, 118, 30, 27);
+
+    // |||||||||||| CREATE THE ANIMATION DATA. 7 FRAMES PER STATE
+    const frames = new Frames(7);
+
+    // |||||||||||| CREATE SPRITE
+    const hellBatAcid = new Sprite(SpriteID.HELL_BAT_ACID, State.UP, 0, 0, imageSet, frames);
+
+    // |||||||||||| ADD HELL BAT (ACID) TO THE SPRITES' ARRAY
+    globals.sprites.push(hellBatAcid);
+}
+
+function initPotionGreen() {
+    // |||||||||||| CREATE THE IMAGES' PROPERTIES: xInit, yInit, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset
+    const imageSet = new ImageSet(733, 510, 28, 30, 33.25, 30, 0, 0);
+
+    // |||||||||||| CREATE THE ANIMATION DATA. 1 FRAME PER STATE
+    const frames = new Frames(1);
+
+    // |||||||||||| CREATE SPRITE
+    const potionGreen = new Sprite(SpriteID.POTION_GREEN, State.STILL, 0, 0, imageSet, frames);
+
+    // |||||||||||| ADD POTION (GREEN) TO THE SPRITES' ARRAY
+    globals.sprites.push(potionGreen);
 }
 
 function initLevel() {
