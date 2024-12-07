@@ -10,18 +10,18 @@ window.onload = init;
 function init() {
     // |||||||| INITIALIZATION OF THE HTML ELEMENTS: CANVAS & CONTEXT (SCREEN & HUD)
     initHTMLElements();
+    
+    // |||||||| INITIALIZATION OF THE GAME'S VARIABLES
+    initVars();
 
     // |||||||| LOAD ALL ASSETS: TILEMAPS, IMAGES, SOUNDS
     loadAssets();
 
-    // |||||||| INITIALIZATION OF SPRITES
-    initSprites();
-
-    // |||||||| INITIALIZATION OF THE GAME'S VARIABLES
-    initVars();
-    
     // |||||||| INITIALIZATION OF THE GAME'S MAP
     initLevel();
+
+    // |||||||| INITIALIZATION OF SPRITES
+    initSprites();
 
     // |||||||| FIRST FRAME REQUEST
     window.requestAnimationFrame(gameLoop);

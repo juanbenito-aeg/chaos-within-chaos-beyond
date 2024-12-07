@@ -65,16 +65,41 @@ function loadHandler() {
     }
 }
 
+function initLevel() {
+    const imageSet = new ImageSet(0, 0, 16, 16, 16, 16, 0, 0);
+
+    // |||||||||||| CREATE AND SAVE THE CAVE SECTION (LEVEL)
+    globals.level = new Level(level1, imageSet);
+}
+
 function initSprites() {
+    // |||||||||||| INITIALIZATION OF THE SCREEN BACKGROUND IMAGES SPRITES
+    initScreenCaveSect1BackgroundImg();
+    // initScreenCaveSect2BackgroundImg();
+
+    // |||||||||||| INITIALIZATION OF THE HUD SPRITES
     initTheEruditeHUD();
     initRageBarContainer();
     initRageBarContent();
-    initBackgroundImg();
+
+    // |||||||||||| INITIALIZATION OF THE SCREEN SPRITES
     initPlayer();
     initChaoticHumanBow();
+    // initChaoticHumanSword();
     initFastWorm();
     initHellBatAcid();
     initPotionGreen();
+}
+
+function initScreenCaveSect1BackgroundImg() {
+    const imageSet = new ImageSet(0, 1063, 448, 256, 448, 329, 0, 0);
+
+    const frames = new Frames(1);
+
+    const screenCaveSect1BackgroundImg = new Sprite(SpriteID.BACKGROUND_IMG_CAVE_SECT_1, State.STILL, 0, 0, imageSet, frames);
+
+    // |||||||||||| ADD THE CAVE'S FIRST SECTION'S BACKGROUND IMAGE TO ITS CORRESPONDING SPRITES ARRAY
+    globals.screenBackgroundImgsSprites.push(screenCaveSect1BackgroundImg);
 }
 
 function initTheEruditeHUD() {
@@ -84,7 +109,8 @@ function initTheEruditeHUD() {
 
     const theEruditeHUD = new Sprite(SpriteID.THE_ERUDITE_HUD, State.STILL, 181, 0, imageSet, frames);
 
-    globals.sprites.push(theEruditeHUD);
+    // |||||||||||| ADD THE ERUDITE (HUD) TO ITS CORRESPONDING SPRITES ARRAY
+    globals.HUDSprites.push(theEruditeHUD);
 }
 
 function initRageBarContainer() {
@@ -94,7 +120,8 @@ function initRageBarContainer() {
 
     const rageBarContainer = new Sprite(SpriteID.RAGE_BAR_CONTAINER, State.STILL, 321, 29, imageSet, frames);
 
-    globals.sprites.push(rageBarContainer);
+    // |||||||||||| ADD RAGE BAR (CONTAINER) TO ITS CORRESPONDING SPRITES ARRAY
+    globals.HUDSprites.push(rageBarContainer);
 }
 
 function initRageBarContent() {
@@ -104,95 +131,79 @@ function initRageBarContent() {
 
     const rageBarContent = new Sprite(SpriteID.RAGE_BAR_CONTENT, State.STILL, 334, 36, imageSet, frames);
 
-    globals.sprites.push(rageBarContent);
-}
-
-function initBackgroundImg() {
-    const imageSet = new ImageSet(0, 1063, 448, 256, 448, 329, 0, 0);
-
-    const frames = new Frames(1);
-
-    const backgroundImg = new Sprite(SpriteID.BACKGROUND_IMG, State.STILL, 0, 0, imageSet, frames);
-
-    globals.sprites.push(backgroundImg);
+    // |||||||||||| ADD RAGE BAR (CONTENT) TO ITS CORRESPONDING SPRITES ARRAY
+    globals.HUDSprites.push(rageBarContent);
 }
 
 function initPlayer() {
-    // |||||||||||| CREATE THE IMAGES' PROPERTIES: xInit, yInit, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset
     const imageSet = new ImageSet(0, 0, 63.6, 61, 63.6, 64, 0, 3);
 
-    // |||||||||||| CREATE THE ANIMATION DATA. 9 (OR LESS IN THIS CASE) FRAMES PER STATE
+    // |||||||||||| 9 (OR LESS IN THIS CASE) FRAMES PER STATE
     const frames = new Frames(9);
 
-    // |||||||||||| CREATE SPRITE
     const player = new Sprite(SpriteID.PLAYER, State.RIGHT, 0, 0, imageSet, frames);
 
-    // |||||||||||| ADD PLAYER TO THE SPRITES' ARRAY
-    globals.sprites.push(player);
+    // |||||||||||| ADD PLAYER TO ITS CORRESPONDING SPRITES ARRAY
+    globals.screenSprites.push(player);
 }
 
 function initChaoticHumanBow() {
-    // |||||||||||| CREATE THE IMAGES' PROPERTIES: xInit, yInit, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset
     const imageSet = new ImageSet(1151, 0, 48, 64, 64, 63, 4, 0);
 
-    // |||||||||||| CREATE THE ANIMATION DATA. 3 FRAMES PER STATE
+    // |||||||||||| 3 FRAMES PER STATE
     const frames = new Frames(3);
 
-    // |||||||||||| CREATE SPRITE
     const chaoticHumanBow = new Sprite(SpriteID.CHAOTIC_HUMAN_BOW, State.DOWN_2, 0, 0, imageSet, frames);
 
-    // |||||||||||| ADD CHAOTIC HUMAN (BOW) TO THE SPRITES' ARRAY
-    globals.sprites.push(chaoticHumanBow);
+    // |||||||||||| ADD CHAOTIC HUMAN (BOW) TO ITS CORRESPONDING SPRITES ARRAY
+    globals.screenSprites.push(chaoticHumanBow);
+}
+
+function initChaoticHumanSword() {
+    const imageSet = new ImageSet(576, 0, 60, 62.5, 64, 62.5, 0, 0);
+
+    // |||||||||||| 9 (OR LESS IN THIS CASE) FRAMES PER STATE
+    const frames = new Frames(9);
+
+    const chaoticHumanSword = new Sprite(SpriteID.CHAOTIC_HUMAN_SWORD, State.DOWN_3, 0, 0, imageSet, frames);
+
+    // |||||||||||| ADD CHAOTIC HUMAN (SWORD) TO ITS CORRESPONDING SPRITES ARRAY
+    globals.screenSprites.push(chaoticHumanSword);
 }
 
 function initFastWorm() {
-    // |||||||||||| CREATE THE IMAGES' PROPERTIES: xInit, yInit, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset
     const imageSet = new ImageSet(899, 505, 42.15, 58, 64.15, 63.1, 0, 6);
 
-    // |||||||||||| CREATE THE ANIMATION DATA. 6 FRAMES PER STATE
+    // |||||||||||| 6 FRAMES PER STATE
     const frames = new Frames(6);
 
-    // |||||||||||| CREATE SPRITE
     const fastWorm = new Sprite(SpriteID.FAST_WORM, State.UP, 0, 0, imageSet, frames);
 
-    // |||||||||||| ADD FAST WORM TO THE SPRITES' ARRAY
-    globals.sprites.push(fastWorm);
+    // |||||||||||| ADD FAST WORM TO ITS CORRESPONDING SPRITES ARRAY
+    globals.screenSprites.push(fastWorm);
 }
 
 function initHellBatAcid() {
-    // |||||||||||| CREATE THE IMAGES' PROPERTIES: xInit, yInit, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset
     const imageSet = new ImageSet(0, 590, 92, 91, 122, 118, 30, 27);
 
-    // |||||||||||| CREATE THE ANIMATION DATA. 7 FRAMES PER STATE
+    // |||||||||||| 7 FRAMES PER STATE
     const frames = new Frames(7);
 
-    // |||||||||||| CREATE SPRITE
     const hellBatAcid = new Sprite(SpriteID.HELL_BAT_ACID, State.UP, 0, 0, imageSet, frames);
 
-    // |||||||||||| ADD HELL BAT (ACID) TO THE SPRITES' ARRAY
-    globals.sprites.push(hellBatAcid);
+    // |||||||||||| ADD HELL BAT (ACID) TO ITS CORRESPONDING SPRITES ARRAY
+    globals.screenSprites.push(hellBatAcid);
 }
 
 function initPotionGreen() {
-    // |||||||||||| CREATE THE IMAGES' PROPERTIES: xInit, yInit, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset
     const imageSet = new ImageSet(733, 510, 28, 30, 33.25, 30, 0, 0);
 
-    // |||||||||||| CREATE THE ANIMATION DATA. 1 FRAME PER STATE
     const frames = new Frames(1);
 
-    // |||||||||||| CREATE SPRITE
     const potionGreen = new Sprite(SpriteID.POTION_GREEN, State.STILL, 0, 0, imageSet, frames);
 
-    // |||||||||||| ADD POTION (GREEN) TO THE SPRITES' ARRAY
-    globals.sprites.push(potionGreen);
-}
-
-function initLevel() {
-    // |||||||||||| CREATE THE MAP'S IMAGES PROPERTIES: xInit, yInit, xSize, ySize, xGridSize, yGridSize, xOffset, yOffset
-    const imageSet = new ImageSet(0, 0, 16, 16, 16, 16, 0, 0);
-
-    // |||||||||||| CREATE AND SAVE THE CAVE SECTION (LEVEL)
-    globals.level = new Level(level1, imageSet);
+    // |||||||||||| ADD POTION (GREEN) TO ITS CORRESPONDING SPRITES ARRAY
+    globals.screenSprites.push(potionGreen);
 }
 
 // |||||||||||| EXPORTS

@@ -30,9 +30,18 @@ export default {
     // |||||||| INDICATES THE NUMBER OF ELEMENTS THAT HAVE BEEN LOADED SO FAR
     assetsLoaded: 0,
 
-    // |||||||||||| ARRAY WITH SPRITES' DATA
-    sprites: [],
-
     // |||||||||||| CAVE SECTION (LEVEL) DATA
     level: {},
+
+    // |||||||||||| ARRAY WITH THE MENUS BACKGROUND IMAGES SPRITES' DATA
+    menuBackgroundImgsSprites: [],
+
+    // |||||||||||| ARRAY WITH THE SCREEN BACKGROUND IMAGES SPRITES' DATA
+    screenBackgroundImgsSprites: [],
+
+    // |||||||||||| ARRAY WITH THE HUD SPRITES' DATA
+    HUDSprites: [],
+
+    // |||||||||||| ARRAY WITH THE SCREEN SPRITES' DATA
+    screenSprites: [],
 };

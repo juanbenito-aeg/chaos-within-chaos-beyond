@@ -4,7 +4,6 @@ import { Game, SpriteID, Tile } from "./constants.js";
 // |||||||||||| RENDERS THE GRAPHICS
 export default function render() {
     // |||||||| CHANGE WHAT THE GAME IS DOING BASED ON THE GAME STATE
-
     switch (globals.gameState) {
         case Game.LOADING:
             // DRAW LOADING SPINNER
@@ -24,25 +23,25 @@ function drawGame() {
     globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
     globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
 
-    renderBackgroundImg();
+    renderScreenBackgroundImg();
     renderMap();
-    renderScreenSprites();
     renderHUD();
+    renderScreenSprites();
 }
 
-// |||||||||||| DRAWS THE BACKGROUND IMAGE
-function renderBackgroundImg() {
-    const backgroundImg = globals.sprites[3];
+// |||||||||||| DRAWS THE SCREEN BACKGROUND IMAGE
+function renderScreenBackgroundImg() {
+    const screenBackgroundImg = globals.screenBackgroundImgsSprites[0];
 
-    const xTile = backgroundImg.imageSet.xInit + backgroundImg.frames.frameCounter * backgroundImg.imageSet.xGridSize + backgroundImg.imageSet.xOffset;
-    const yTile = backgroundImg.imageSet.yInit + backgroundImg.state * backgroundImg.imageSet.yGridSize + backgroundImg.imageSet.yOffset;
+    const xTile = screenBackgroundImg.imageSet.xInit + screenBackgroundImg.frames.frameCounter * screenBackgroundImg.imageSet.xGridSize + screenBackgroundImg.imageSet.xOffset;
+    const yTile = screenBackgroundImg.imageSet.yInit + screenBackgroundImg.state * screenBackgroundImg.imageSet.yGridSize + screenBackgroundImg.imageSet.yOffset;
 
     globals.ctx.drawImage(
         globals.tileSets[Tile.SIZE_OTHERS],                           // THE IMAGE FILE
         xTile, yTile,                                                 // THE SOURCE X & Y POSITION
-        backgroundImg.imageSet.xSize, backgroundImg.imageSet.ySize,   // THE SOURCE WIDTH & HEIGHT
+        screenBackgroundImg.imageSet.xSize, screenBackgroundImg.imageSet.ySize,   // THE SOURCE WIDTH & HEIGHT
         0, 0,                                                         // THE DESTINATION X & Y POSITION
-        backgroundImg.imageSet.xSize, backgroundImg.imageSet.ySize    // THE DESTINATION WIDTH & HEIGHT
+        screenBackgroundImg.imageSet.xSize, screenBackgroundImg.imageSet.ySize    // THE DESTINATION WIDTH & HEIGHT
     );
 }
 
@@ -74,88 +73,9 @@ function renderMap() {
     }
 }
 
-function drawSpriteRectangle(sprite, destinationWidth, destinationHeight) {
-    const x1 = Math.floor(sprite.xPos);
-    const y1 = Math.floor(sprite.yPos);
-
-    globals.ctx.fillStyle = "green";
-    globals.ctx.fillRect(x1, y1, destinationWidth, destinationHeight);
-}
-
-function renderScreenSprite(sprite) {
-    // |||||||||||| SET SIZES SOME SPRITES WILL APPEAR WITH IN THE CANVAS
-    let destinationWidth;
-    let destinationHeight;
-
-    switch (sprite.id) {
-        // |||||||| PLAYER
-        case SpriteID.PLAYER:
-            destinationWidth = 55.6;
-            destinationHeight = 53;
-            break;
-        
-        // |||||||| CHAOTIC HUMAN (BOW)
-        case SpriteID.CHAOTIC_HUMAN_BOW:
-            destinationWidth = 33;
-            destinationHeight = 49;
-            break;
-        
-        // |||||||| FAST WORM
-        case SpriteID.FAST_WORM:
-            destinationWidth = 32.15;
-            destinationHeight = 48;
-            break;
-        
-        // |||||||| HELL BAT (ACID)
-        case SpriteID.HELL_BAT_ACID:
-            destinationWidth = 52;
-            destinationHeight = 51;
-            break;
-        
-        // |||||||| POTION (GREEN)
-        case SpriteID.POTION_GREEN:
-            destinationWidth = 17;
-            destinationHeight = 19;
-            break;
-
-        default:
-            break;
-    }
-    
-    // |||||||||||| CALCULATE POSITION IN THE TILEMAP
-    const xTile = sprite.imageSet.xInit + sprite.frames.frameCounter * sprite.imageSet.xGridSize + sprite.imageSet.xOffset;
-    const yTile = sprite.imageSet.yInit + sprite.state * sprite.imageSet.yGridSize + sprite.imageSet.yOffset;
-
-    const xPos = Math.floor(sprite.xPos);
-    const yPos = Math.floor(sprite.yPos);
-
-    // |||||||||||| TEST
-    drawSpriteRectangle(sprite, destinationWidth, destinationHeight);
-
-    // |||||||||||| DRAW THE SPRITE'S NEW FRAME IN THE DESIRED POSITION
-    globals.ctx.drawImage(
-        globals.tileSets[Tile.SIZE_OTHERS],             // THE IMAGE FILE
-        xTile, yTile,                                   // THE SOURCE X & Y POSITION
-        sprite.imageSet.xSize, sprite.imageSet.ySize,   // THE SOURCE WIDTH & HEIGHT
-        xPos, yPos,                                     // THE DESTINATION X & Y POSITION
-        destinationWidth, destinationHeight             // THE DESTINATION WIDTH & HEIGHT
-    );
-}
-
-function renderScreenSprites() {
-    for (let i = 0; i < globals.sprites.length; i++) {
-        // |||||||||||| AVOID RENDERING THE HUD'S THE ERUDITE'S FACE AND HIS RAGE BAR AND THE SCREEN'S BACKGROUND IMAGE, AS THEY ALREADY DO IT ON THEIR OWN ON SEPARATE FUNCTIONS (renderHUDSprites & renderBackgroundImg)
-        if (i > 3) {
-            const sprite = globals.sprites[i];
-    
-            renderScreenSprite(sprite);
-        } 
-    }
-}
-
 function renderHUDSprites() {
-    for (let i = 0; i < 3; i++) {
-        const sprite = globals.sprites[i];
+    for (let i = 0; i < globals.HUDSprites.length; i++) {
+        const sprite = globals.HUDSprites[i];
 
         const xTile = sprite.imageSet.xInit + sprite.frames.frameCounter * sprite.imageSet.xGridSize + sprite.imageSet.xOffset;
         const yTile = sprite.imageSet.yInit + sprite.state * sprite.imageSet.yGridSize + sprite.imageSet.yOffset;
@@ -181,15 +101,15 @@ function renderHUD() {
     // |||||||||||| DRAW SCORE
     globals.ctxHUD.font = "8.5px emulogic";
     globals.ctxHUD.fillStyle = "#d5dbc6";
-    globals.ctxHUD.fillText("SCORE", 15, 39.5);
+    globals.ctxHUD.fillText("SCORE", 13, 39.5);
     globals.ctxHUD.fillStyle = "#e7ebdd";
-    globals.ctxHUD.fillText(score, 15, 54.5);
+    globals.ctxHUD.fillText(score, 13, 54.5);
     
     // |||||||||||| DRAW HIGH SCORE
     globals.ctxHUD.fillStyle = "#d5dbc6";
-    globals.ctxHUD.fillText("HIGH SCORE", 80, 39.5);
+    globals.ctxHUD.fillText("HIGH SCORE", 81.5, 39.5);
     globals.ctxHUD.fillStyle = "#e7ebdd";
-    globals.ctxHUD.fillText(highScore, 80, 54.5);
+    globals.ctxHUD.fillText(highScore, 81.5, 54.5);
     
     // |||||||||||| DRAW RAGE BAR'S SYMBOL
     globals.ctxHUD.font = "20px emulogic";
@@ -197,4 +117,87 @@ function renderHUD() {
 
     // |||||||||||| RENDER THE ERUDITE'S FACE & HIS RAGE BAR
     renderHUDSprites();
+}
+
+function drawSpriteRectangle(sprite, destinationWidth, destinationHeight) {
+    const x1 = Math.floor(sprite.xPos);
+    const y1 = Math.floor(sprite.yPos);
+
+    globals.ctx.fillStyle = "green";
+    globals.ctx.fillRect(x1, y1, destinationWidth, destinationHeight);
+}
+
+function renderScreenSprite(sprite) {
+    // |||||||||||| SET THE SIZES SOME SPRITES WILL APPEAR WITH IN THE CANVAS
+    let destinationWidth;
+    let destinationHeight;
+
+    switch (sprite.id) {
+        // |||||||| PLAYER
+        case SpriteID.PLAYER:
+            destinationWidth = 42.6;
+            destinationHeight = 40;
+            break;
+        
+        // |||||||| CHAOTIC HUMAN (BOW)
+        case SpriteID.CHAOTIC_HUMAN_BOW:
+            destinationWidth = 30;
+            destinationHeight = 46;
+            break;
+        
+        // |||||||| CHAOTIC HUMAN (SWORD)
+        case SpriteID.CHAOTIC_HUMAN_SWORD:
+            destinationWidth = 44;
+            destinationHeight = 46.5;
+            break;
+        
+        // |||||||| FAST WORM
+        case SpriteID.FAST_WORM:
+            destinationWidth = 28.15;
+            destinationHeight = 44;
+            break;
+        
+        // |||||||| HELL BAT (ACID)
+        case SpriteID.HELL_BAT_ACID:
+            destinationWidth = 50;
+            destinationHeight = 49;
+            break;
+        
+        // |||||||| POTION (GREEN)
+        case SpriteID.POTION_GREEN:
+            destinationWidth = 14;
+            destinationHeight = 16;
+            break;
+
+        // |||||||| OTHERS
+        default:
+            break;
+    }
+    
+    // |||||||||||| CALCULATE POSITION OF THE SPRITE IN THE SPRITESHEET
+    const xTile = sprite.imageSet.xInit + sprite.frames.frameCounter * sprite.imageSet.xGridSize + sprite.imageSet.xOffset;
+    const yTile = sprite.imageSet.yInit + sprite.state * sprite.imageSet.yGridSize + sprite.imageSet.yOffset;
+
+    const xPos = Math.floor(sprite.xPos);
+    const yPos = Math.floor(sprite.yPos);
+
+    // |||||||||||| TEST
+    drawSpriteRectangle(sprite, destinationWidth, destinationHeight);
+
+    // |||||||||||| DRAW THE SPRITE'S (NEW) FRAME IN THE DESIRED POSITION
+    globals.ctx.drawImage(
+        globals.tileSets[Tile.SIZE_OTHERS],             // THE IMAGE FILE
+        xTile, yTile,                                   // THE SOURCE X & Y POSITION
+        sprite.imageSet.xSize, sprite.imageSet.ySize,   // THE SOURCE WIDTH & HEIGHT
+        xPos, yPos,                                     // THE DESTINATION X & Y POSITION
+        destinationWidth, destinationHeight             // THE DESTINATION WIDTH & HEIGHT
+    );
+}
+
+function renderScreenSprites() {
+    for (let i = 0; i < globals.screenSprites.length; i++) {
+        const sprite = globals.screenSprites[i];
+
+        renderScreenSprite(sprite);
+    }
 }

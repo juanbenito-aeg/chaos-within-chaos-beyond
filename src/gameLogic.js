@@ -18,18 +18,57 @@ export default function update() {
 }
 
 function playGame() {
-    updateSprites();
+    updateHUDSprites();
+    updateScreenSprites();
 }
 
-function updateSprites() {
-    for (let i = 0; i < globals.sprites.length; i++) {
-        const sprite = globals.sprites[i];
+function updateHUDSprites() {
+    for (let i = 0; i < globals.HUDSprites.length; i++) {
+        const sprite = globals.HUDSprites[i];
 
-        updateSprite(sprite);
+        updateHUDSprite(sprite);
     }
 }
 
-function updateSprite(sprite) {
+function updateHUDSprite(sprite) {
+    const type = sprite.id;
+
+    switch (type) {
+        // |||||||||||| THE ERUDITE (HUD)
+        case SpriteID.THE_ERUDITE_HUD:
+            updateTheEruditeHUD(sprite);
+            break;
+
+        // |||||||||||| RAGE BAR (CONTENT)
+        case SpriteID.RAGE_BAR_CONTENT:
+            updateRageBarContent(sprite);
+            break;
+
+        // |||||||||||| OTHERS
+        default:
+            break;
+    }
+}
+
+function updateTheEruditeHUD(sprite) {
+    sprite.frames.frameCounter = 0;
+}
+
+function updateRageBarContent(sprite) {
+    sprite.imageSet.xSize = 86;
+
+    sprite.imageSet.xSize *= 0.5;
+}
+
+function updateScreenSprites() {
+    for (let i = 0; i < globals.screenSprites.length; i++) {
+        const sprite = globals.screenSprites[i];
+
+        updateScreenSprite(sprite);
+    }
+}
+
+function updateScreenSprite(sprite) {
     const type = sprite.id;
 
     switch (type) {
@@ -41,6 +80,11 @@ function updateSprite(sprite) {
         // |||||||||||| CHAOTIC HUMAN (BOW)
         case SpriteID.CHAOTIC_HUMAN_BOW:
             updateChaoticHumanBow(sprite);
+            break;
+        
+        // |||||||||||| CHAOTIC HUMAN (SWORD)
+        case SpriteID.CHAOTIC_HUMAN_SWORD:
+            updateChaoticHumanSword(sprite);
             break;
         
         // |||||||||||| FAST WORM
@@ -57,11 +101,6 @@ function updateSprite(sprite) {
         case SpriteID.POTION_GREEN:
             updatePotionGreen(sprite);
             break;
-        
-        // |||||||||||| RAGE BAR (CONTENT)
-        case SpriteID.RAGE_BAR_CONTENT:
-            updateRageBarContent(sprite);
-            break;
 
         // |||||||||||| OTHERS
         default:
@@ -70,8 +109,8 @@ function updateSprite(sprite) {
 }
 
 function updatePlayer(sprite) {
-    sprite.xPos = 10;
-    sprite.yPos = 179;
+    sprite.xPos = 0;
+    sprite.yPos = 190;
 
     sprite.frames.frameCounter = 0;
 
@@ -79,17 +118,26 @@ function updatePlayer(sprite) {
 }
 
 function updateChaoticHumanBow(sprite) {
-    sprite.xPos = 260;
-    sprite.yPos = 20.85;
+    sprite.xPos = 275;
+    sprite.yPos = 24.85;
 
     sprite.frames.frameCounter = 0;
 
     sprite.state = State.LEFT_ATTACK_2;
 }
 
+function updateChaoticHumanSword(sprite) {
+    sprite.xPos = 200;
+    sprite.yPos = 20.85;
+
+    sprite.frames.frameCounter = 4;
+
+    sprite.state = State.UP_3;
+}
+
 function updateFastWorm(sprite) {
     sprite.xPos = 390;
-    sprite.yPos = 119;
+    sprite.yPos = 124;
 
     sprite.frames.frameCounter = 0;
 
@@ -97,8 +145,8 @@ function updateFastWorm(sprite) {
 }
 
 function updateHellBatAcid(sprite) {
-    sprite.xPos = 60;
-    sprite.yPos = 2;
+    sprite.xPos = 30;
+    sprite.yPos = 18;
 
     sprite.frames.frameCounter = 2;
 
@@ -107,11 +155,5 @@ function updateHellBatAcid(sprite) {
 
 function updatePotionGreen(sprite) {
     sprite.xPos = 306;
-    sprite.yPos = 45;
-}
-
-function updateRageBarContent(sprite) {
-    sprite.imageSet.xSize = 86;
-
-    sprite.imageSet.xSize *= 0.5;
+    sprite.yPos = 48;
 }
