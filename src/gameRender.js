@@ -9,6 +9,10 @@ export default function render() {
             // DRAW LOADING SPINNER
             break;
         
+        case Game.MAIN_MENU:
+            drawMainMenu();
+            break;
+        
         case Game.PLAYING:
             drawGame();
             break;
@@ -16,6 +20,18 @@ export default function render() {
         default:
             console.error("Error: Invalid game state");
     }
+}
+
+function drawMainMenu() {
+    // |||||||||||| CLEAR SCREEN
+    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+
+    const canvasOriginalHeight = 256;
+    const canvasHUDOriginalHeight = 85;
+
+    globals.canvasHUD.style.display = "none";
+    globals.canvas.style.height = "auto";
+    globals.canvas.height = canvasOriginalHeight + canvasHUDOriginalHeight;
 }
 
 function drawGame() {

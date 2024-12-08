@@ -8,6 +8,10 @@ export default function update() {
             console.log("Loading assets...");
             break;
         
+        case Game.MAIN_MENU:
+            // TODO: COMPLETE THIS SECTION
+            break;
+        
         case Game.PLAYING:
             playGame();
             break;

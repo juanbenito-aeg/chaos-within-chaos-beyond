@@ -60,8 +60,8 @@ function loadHandler() {
 
         console.log("Assets finished loading");
 
-        // |||||||| START THE GAME
-        globals.gameState = Game.PLAYING;
+        // |||||||| SHOW MAIN MENU
+        globals.gameState = Game.MAIN_MENU;
     }
 }
 
