@@ -89,6 +89,7 @@ function initSprites() {
     initFastWorm();
     initHellBatAcid();
     initPotionGreen();
+    // initPotionBlue();
 }
 
 function initScreenCaveSect1BackgroundImg() {
@@ -204,6 +205,17 @@ function initPotionGreen() {
 
     // |||||||||||| ADD POTION (GREEN) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(potionGreen);
+}
+
+function initPotionBlue() {
+    const imageSet = new ImageSet(699.75, 510, 28, 30, 33.25, 30, 1, 0);
+
+    const frames = new Frames(1);
+
+    const potionBlue = new Sprite(SpriteID.POTION_BLUE, State.STILL, 0, 0, imageSet, frames);
+
+    // |||||||||||| ADD POTION (BLUE) TO ITS CORRESPONDING SPRITES ARRAY
+    globals.screenSprites.push(potionBlue);
 }
 
 // |||||||||||| EXPORTS

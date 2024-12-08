@@ -168,6 +168,12 @@ function renderScreenSprite(sprite) {
             destinationWidth = 14;
             destinationHeight = 16;
             break;
+        
+        // |||||||| POTION (BLUE)
+        case SpriteID.POTION_BLUE:
+            destinationWidth = 14;
+            destinationHeight = 16;
+            break;
 
         // |||||||| OTHERS
         default:

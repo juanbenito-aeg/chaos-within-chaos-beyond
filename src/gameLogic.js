@@ -101,6 +101,11 @@ function updateScreenSprite(sprite) {
         case SpriteID.POTION_GREEN:
             updatePotionGreen(sprite);
             break;
+        
+        // |||||||||||| POTION (BLUE)
+        case SpriteID.POTION_BLUE:
+            updatePotionBlue(sprite);
+            break;
 
         // |||||||||||| OTHERS
         default:
@@ -155,5 +160,10 @@ function updateHellBatAcid(sprite) {
 
 function updatePotionGreen(sprite) {
     sprite.xPos = 306;
+    sprite.yPos = 48;
+}
+
+function updatePotionBlue(sprite) {
+    sprite.xPos = 206;
     sprite.yPos = 48;
 }
