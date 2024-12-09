@@ -62,6 +62,7 @@ function loadHandler() {
 
         // |||||||| SHOW MAIN MENU
         globals.gameState = Game.MAIN_MENU;
+        globals.gameState = Game.PLAYING;
     }
 }
 
@@ -97,6 +98,7 @@ function initSprites() {
     // initChaoticHumanSword();
     initFastWorm();
     initHellBatAcid();
+    // initHellBatHandToHand();
     initPotionGreen();
     // initPotionBlue();
 }
@@ -258,6 +260,18 @@ function initHellBatAcid() {
 
     // |||||||||||| ADD HELL BAT (ACID) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(hellBatAcid);
+}
+
+function initHellBatHandToHand() {
+    const imageSet = new ImageSet(1334, 0, 33, 37, 46, 59, 8, 21, 33, 37);
+
+    // |||||||||||| 3 FRAMES PER STATE
+    const frames = new Frames(3);
+
+    const hellBatHandToHand = new Sprite(SpriteID.HELL_BAT_HAND_TO_HAND, State.DOWN_3, 0, 0, imageSet, frames);
+
+    // |||||||||||| ADD HELL BAT (HAND-TO-HAND) TO ITS CORRESPONDING SPRITES ARRAY
+    globals.screenSprites.push(hellBatHandToHand);
 }
 
 function initPotionGreen() {

@@ -101,6 +101,11 @@ function updateScreenSprite(sprite) {
             updateHellBatAcid(sprite);
             break;
         
+        // |||||||||||| HELL BAT (HAND-TO-HAND)
+        case SpriteID.HELL_BAT_HAND_TO_HAND:
+            updateHellBatHandToHand(sprite);
+            break;
+        
         // |||||||||||| POTION (GREEN)
         case SpriteID.POTION_GREEN:
             updatePotionGreen(sprite);
@@ -160,6 +165,15 @@ function updateHellBatAcid(sprite) {
     sprite.frames.frameCounter = 2;
 
     sprite.state = State.DOWN;
+}
+
+function updateHellBatHandToHand(sprite) {
+    sprite.xPos = 100;
+    sprite.yPos = 18;
+
+    sprite.frames.frameCounter = 0;
+
+    sprite.state = State.DOWN_3;
 }
 
 function updatePotionGreen(sprite) {

@@ -66,7 +66,7 @@ const SpriteID = {
 
 // |||||||||||| SPRITE STATE IDENTIFIER (DIRECTION)
 const State = {
-    // |||||||| PLAYER (1), FAST WORM, HELL BAT (ACID & HAND-TO-HAND)
+    // |||||||| PLAYER (1), FAST WORM, HELL BAT (ACID)
     UP: 0,
     LEFT: 1,
     DOWN: 2,
@@ -89,14 +89,16 @@ const State = {
     UP_2: 6,
     UP_ATTACK_2: 7,
 
-    // |||||||| CHAOTIC HUMAN (SWORD)
+    // |||||||| CHAOTIC HUMAN (SWORD | 1), HELL BAT (HAND-TO-HAND)
     DOWN_3: 0,
     LEFT_3: 1,
     RIGHT_3: 2,
     UP_3: 3,
+
+    // |||||||| CHAOTIC HUMAN (SWORD | 2)
     DYING: 4,
 
-    // |||||||| POTION (GREEN & BLUE), BACKGROUND IMAGES, THE ERUDITE (HUD), RAGE BAR (CONTAINER & CONTENT)
+    // |||||||| POTION (GREEN & BLUE), BACKGROUND IMAGES, ICONS, THE ERUDITE (HUD), RAGE BAR (CONTAINER & CONTENT)
     STILL: 0,
 };
 
