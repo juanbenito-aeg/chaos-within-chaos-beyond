@@ -13,6 +13,10 @@ export default function render() {
             drawMainMenu();
             break;
         
+        case Game.STORY_MENU:
+            drawStoryMenu();
+            break;
+        
         case Game.PLAYING:
             drawGame();
             break;
@@ -123,6 +127,51 @@ function renderMainMenuSprites() {
 
         renderMainMenuSprite(sprite);
     }
+}
+
+function drawStoryMenu() {
+    enlargeCanvasForMenus();
+
+    const storyMenuBackgroundImg = globals.menusBackgroundImgsSprites[1];
+    renderNMenuBackgroundImg(storyMenuBackgroundImg);
+
+    renderStoryMenuTxt();
+}
+
+function renderStoryMenuTxt() {
+    const canvasWidthDividedBy2 = globals.canvas.width / 2;
+    globals.ctx.textAlign = "center";
+    
+    // |||||||||||| "STORY" AND CHAPTER'S TITLE TEXTS
+    globals.ctx.font = "22px emulogic";
+    globals.ctx.strokeStyle = "rgb(222 249 219)";
+    globals.ctx.strokeText("STORY", canvasWidthDividedBy2, 35);
+    globals.ctx.font = "12px emulogic";
+    globals.ctx.fillStyle = "rgb(222 249 219)";
+    globals.ctx.fillText("TRAPPED IN THE CAVE OF CHAOS", canvasWidthDividedBy2, 62);
+    
+    // |||||||||||| THE STORY
+    globals.ctx.font = "6.25px emulogic";
+    globals.ctx.fillStyle = "rgb(198 237 197)";
+    globals.ctx.fillText("Now that the children were safe, X.G entered the family’s", canvasWidthDividedBy2, 82);
+    globals.ctx.fillText("house, tired as never before, and after they all had a big", canvasWidthDividedBy2, 96);
+    globals.ctx.fillText("feast, The Erudite fell asleep in just a matter of seconds.", canvasWidthDividedBy2, 110);
+    globals.ctx.fillText("Several hours later, X.G woke up inside an eerie cave,", canvasWidthDividedBy2, 124);
+    globals.ctx.fillText("surrounded by dirt, strange creatures and even other crazy", canvasWidthDividedBy2, 138);
+    globals.ctx.fillText("chaotic humans that looked messy and rather aggressive towards", canvasWidthDividedBy2, 152);
+    globals.ctx.fillText("everything and everyone that got in their way. What had", canvasWidthDividedBy2, 166);
+    globals.ctx.fillText("unfortunately happened was that The Erudite had been poisoned", canvasWidthDividedBy2, 180);
+    globals.ctx.fillText("by the woman, who turned out to be an evil witch dreaded by", canvasWidthDividedBy2, 194);
+    globals.ctx.fillText("those who knew her from ancient Kaotika tales. She had created", canvasWidthDividedBy2, 208);
+    globals.ctx.fillText("fake beings to make naive humans as X.G think they were saving", canvasWidthDividedBy2, 222);
+    globals.ctx.fillText("her actual children, with the aim of later taking advantage of", canvasWidthDividedBy2, 236);
+    globals.ctx.fillText("their weariness to easily drug and throw them into a place", canvasWidthDividedBy2, 250);
+    globals.ctx.fillText("filled with never-before-seen dangers. The purpose of gathering", canvasWidthDividedBy2, 264);
+    globals.ctx.fillText("all those beings was unknown, but at that moment all X.G had to", canvasWidthDividedBy2, 278);
+    globals.ctx.fillText("care about was doing his best to escape that place safe and sound.", canvasWidthDividedBy2, 292);
+
+    globals.ctx.fillStyle = "rgb(222 249 219)";
+    globals.ctx.fillText("PRESS ESCAPE (esc) TO RETURN TO THE MAIN MENU", canvasWidthDividedBy2, 324);
 }
 
 function drawGame() {

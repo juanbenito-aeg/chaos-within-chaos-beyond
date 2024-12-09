@@ -75,6 +75,7 @@ function initLevel() {
 function initSprites() {
     // |||||||||||| INITIALIZATION OF THE MENUS BACKGROUND IMAGES SPRITES
     initMainMenuBackgroundImg();
+    initStoryMenuBackgroundImg();
     
     // |||||||||||| INITIALIZATION OF THE SCREEN BACKGROUND IMAGES SPRITES
     initScreenCaveSect1BackgroundImg();
@@ -111,6 +112,17 @@ function initMainMenuBackgroundImg() {
 
     // |||||||||||| ADD THE MAIN MENU'S BACKGROUND IMAGE TO ITS CORRESPONDING SPRITES ARRAY
     globals.menusBackgroundImgsSprites.push(mainMenuBackgroundImg);
+}
+
+function initStoryMenuBackgroundImg() {
+    const imageSet = new ImageSet(605, 1432, 597, 341, 597, 358, 74, 0, -1, -1);
+
+    const frames = new Frames(1);
+
+    const storyMenuBackgroundImg = new Sprite(SpriteID.BACKGROUND_IMG_STORY_MENU, State.STILL, 0, 0, imageSet, frames);
+
+    // |||||||||||| ADD THE STORY MENU'S BACKGROUND IMAGE TO ITS CORRESPONDING SPRITES ARRAY
+    globals.menusBackgroundImgsSprites.push(storyMenuBackgroundImg);
 }
 
 function initScreenCaveSect1BackgroundImg() {
