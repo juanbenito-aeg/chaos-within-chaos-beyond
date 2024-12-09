@@ -22,7 +22,7 @@ export default function render() {
     }
 }
 
-function drawMainMenu() {
+function enlargeCanvasForMenus() {
     // |||||||||||| CLEAR SCREEN
     globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
 
@@ -32,26 +32,30 @@ function drawMainMenu() {
     globals.canvasHUD.style.display = "none";
     globals.canvas.style.height = "auto";
     globals.canvas.height = canvasOriginalHeight + canvasHUDOriginalHeight;
+}
 
-    renderMainMenuBackgroundImg();
+function renderNMenuBackgroundImg(nMenuBackgroundImg) {
+    const xTile = nMenuBackgroundImg.imageSet.xInit + nMenuBackgroundImg.frames.frameCounter * nMenuBackgroundImg.imageSet.xGridSize + nMenuBackgroundImg.imageSet.xOffset;
+    const yTile = nMenuBackgroundImg.imageSet.yInit + nMenuBackgroundImg.state * nMenuBackgroundImg.imageSet.yGridSize + nMenuBackgroundImg.imageSet.yOffset;
+
+    globals.ctx.drawImage(
+        globals.tileSets[Tile.SIZE_OTHERS],                                       // THE IMAGE FILE
+        xTile, yTile,                                                             // THE SOURCE X & Y POSITION
+        nMenuBackgroundImg.imageSet.xSize, nMenuBackgroundImg.imageSet.ySize,     // THE SOURCE WIDTH & HEIGHT
+        0, 0,                                                                     // THE DESTINATION X & Y POSITION
+        nMenuBackgroundImg.imageSet.xSize, nMenuBackgroundImg.imageSet.ySize      // THE DESTINATION WIDTH & HEIGHT
+    );
+}
+
+function drawMainMenu() {
+    enlargeCanvasForMenus();
+
+    const mainMenuBackgroundImg = globals.menusBackgroundImgsSprites[0];
+    renderNMenuBackgroundImg(mainMenuBackgroundImg);
+
     renderMainMenuTxt();
     renderMainMenuButtons();
     renderMainMenuSprites();
-}
-
-function renderMainMenuBackgroundImg() {
-    const mainMenuBackgroundImg = globals.menusBackgroundImgsSprites[0];
-
-    const xTile = mainMenuBackgroundImg.imageSet.xInit + mainMenuBackgroundImg.frames.frameCounter * mainMenuBackgroundImg.imageSet.xGridSize + mainMenuBackgroundImg.imageSet.xOffset;
-    const yTile = mainMenuBackgroundImg.imageSet.yInit + mainMenuBackgroundImg.state * mainMenuBackgroundImg.imageSet.yGridSize + mainMenuBackgroundImg.imageSet.yOffset;
-
-    globals.ctx.drawImage(
-        globals.tileSets[Tile.SIZE_OTHERS],                                         // THE IMAGE FILE
-        xTile, yTile,                                                               // THE SOURCE X & Y POSITION
-        mainMenuBackgroundImg.imageSet.xSize, mainMenuBackgroundImg.imageSet.ySize, // THE SOURCE WIDTH & HEIGHT
-        0, 0,                                                                       // THE DESTINATION X & Y POSITION
-        mainMenuBackgroundImg.imageSet.xSize, mainMenuBackgroundImg.imageSet.ySize  // THE DESTINATION WIDTH & HEIGHT
-    );
 }
 
 function renderMainMenuTxt() {
@@ -59,11 +63,11 @@ function renderMainMenuTxt() {
     globals.ctx.textAlign = "center";
 
     // |||||||||||| GAME TITLE
-    globals.ctx.font = "16px emulogic";
-    globals.ctx.fillStyle = "rgb(198, 237, 197)";
-    globals.ctx.fillText("CHAOS WITHIN", canvasWidthDividedBy2, 40);
-    globals.ctx.font = "22px emulogic";
-    globals.ctx.fillText("CHAOS BEYOND", canvasWidthDividedBy2, 80);
+    globals.ctx.font = "18px emulogic";
+    globals.ctx.strokeStyle = "rgb(222 249 219)";
+    globals.ctx.strokeText("CHAOS WITHIN", canvasWidthDividedBy2, 37.15);
+    globals.ctx.font = "24px emulogic";
+    globals.ctx.strokeText("CHAOS BEYOND", canvasWidthDividedBy2, 80);
 }
 
 function renderMainMenuButtons() {
@@ -71,28 +75,28 @@ function renderMainMenuButtons() {
     globals.ctx.lineWidth = 5;
 
     // |||||||||||| "NEW GAME" BUTTON
-    globals.ctx.fillStyle = "rgb(0 0 0 / 0.35)";
-    globals.ctx.fillRect(70, 120, 70, 70);
-    globals.ctx.strokeStyle = "rgb(198 237 197)";
-    globals.ctx.strokeRect(70, 120, 70, 70);
+    globals.ctx.fillStyle = "rgb(0 0 0 / 0.5)";
+    globals.ctx.fillRect(97, 125, 60, 60);
+    globals.ctx.strokeStyle = "rgb(222 249 219)";
+    globals.ctx.strokeRect(97, 125, 60, 60);
     
     // |||||||||||| "STORY" BUTTON
-    globals.ctx.fillStyle = "rgb(0 0 0 / 0.35)";
-    globals.ctx.fillRect(70, 231, 70, 70);
-    globals.ctx.strokeStyle = "rgb(198 237 197)";
-    globals.ctx.strokeRect(70, 231, 70, 70);
+    globals.ctx.fillStyle = "rgb(0 0 0 / 0.5)";
+    globals.ctx.fillRect(97, 231, 60, 60);
+    globals.ctx.strokeStyle = "rgb(222 249 219)";
+    globals.ctx.strokeRect(97, 231, 60, 60);
     
     // |||||||||||| "HIGH SCORES" BUTTON
-    globals.ctx.fillStyle = "rgb(0 0 0 / 0.35)";
-    globals.ctx.fillRect(310, 231, 70, 70);
-    globals.ctx.strokeStyle = "rgb(198 237 197)";
-    globals.ctx.strokeRect(310, 231, 70, 70);
+    globals.ctx.fillStyle = "rgb(0 0 0 / 0.5)";
+    globals.ctx.fillRect(291.5, 125, 60, 60);
+    globals.ctx.strokeStyle = "rgb(222 249 219)";
+    globals.ctx.strokeRect(291.5, 125, 60, 60);
     
     // |||||||||||| "CONTROLS" BUTTON
-    globals.ctx.fillStyle = "rgb(0 0 0 / 0.35)";
-    globals.ctx.fillRect(310, 120, 70, 70);
-    globals.ctx.strokeStyle = "rgb(198 237 197)";
-    globals.ctx.strokeRect(310, 120, 70, 70);
+    globals.ctx.fillStyle = "rgb(0 0 0 / 0.5)";
+    globals.ctx.fillRect(291.5, 231, 60, 60);
+    globals.ctx.strokeStyle = "rgb(222 249 219)";
+    globals.ctx.strokeRect(291.5, 231, 60, 60);
 }
 
 function renderMainMenuSprite(sprite) {
@@ -140,10 +144,10 @@ function renderScreenBackgroundImg() {
     const yTile = screenBackgroundImg.imageSet.yInit + screenBackgroundImg.state * screenBackgroundImg.imageSet.yGridSize + screenBackgroundImg.imageSet.yOffset;
 
     globals.ctx.drawImage(
-        globals.tileSets[Tile.SIZE_OTHERS],                           // THE IMAGE FILE
-        xTile, yTile,                                                 // THE SOURCE X & Y POSITION
+        globals.tileSets[Tile.SIZE_OTHERS],                                       // THE IMAGE FILE
+        xTile, yTile,                                                             // THE SOURCE X & Y POSITION
         screenBackgroundImg.imageSet.xSize, screenBackgroundImg.imageSet.ySize,   // THE SOURCE WIDTH & HEIGHT
-        0, 0,                                                         // THE DESTINATION X & Y POSITION
+        0, 0,                                                                     // THE DESTINATION X & Y POSITION
         screenBackgroundImg.imageSet.xSize, screenBackgroundImg.imageSet.ySize    // THE DESTINATION WIDTH & HEIGHT
     );
 }
