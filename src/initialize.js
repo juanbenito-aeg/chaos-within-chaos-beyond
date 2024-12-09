@@ -73,9 +73,18 @@ function initLevel() {
 }
 
 function initSprites() {
+    // |||||||||||| INITIALIZATION OF THE MENUS BACKGROUND IMAGES SPRITES
+    initMainMenuBackgroundImg();
+    
     // |||||||||||| INITIALIZATION OF THE SCREEN BACKGROUND IMAGES SPRITES
     initScreenCaveSect1BackgroundImg();
     // initScreenCaveSect2BackgroundImg();
+
+    // |||||||||||| INITIALIZATION OF THE MAIN MENU SPRITES
+    initNewGameIcon();
+    initStoryIcon();
+    initHighScoresIcon();
+    initControlsIcon();
 
     // |||||||||||| INITIALIZATION OF THE HUD SPRITES
     initTheEruditeHUD();
@@ -92,8 +101,19 @@ function initSprites() {
     // initPotionBlue();
 }
 
+function initMainMenuBackgroundImg() {
+    const imageSet = new ImageSet(0, 1432, 597, 341, 597, 358, 74, 0, -1, -1);
+
+    const frames = new Frames(1);
+
+    const mainMenuBackgroundImg = new Sprite(SpriteID.BACKGROUND_IMG_MAIN_MENU, State.STILL, 0, 0, imageSet, frames);
+
+    // |||||||||||| ADD THE MAIN MENU'S BACKGROUND IMAGE TO ITS CORRESPONDING SPRITES ARRAY
+    globals.menusBackgroundImgsSprites.push(mainMenuBackgroundImg);
+}
+
 function initScreenCaveSect1BackgroundImg() {
-    const imageSet = new ImageSet(0, 1063, 448, 256, 448, 329, 0, 0);
+    const imageSet = new ImageSet(0, 1063, 448, 256, 448, 329, 0, 0, -1, -1);
 
     const frames = new Frames(1);
 
@@ -103,8 +123,52 @@ function initScreenCaveSect1BackgroundImg() {
     globals.screenBackgroundImgsSprites.push(screenCaveSect1BackgroundImg);
 }
 
+function initNewGameIcon() {
+    const imageSet = new ImageSet(97, 1945, 64, 85, 80, 102.15, 0, 0, 34, 55);
+
+    const frames = new Frames(1);
+
+    const newGameIcon = new Sprite(SpriteID.NEW_GAME_ICON, State.STILL, 101, 140.5, imageSet, frames);
+
+    // |||||||||||| ADD THE "NEW GAME" ICON TO ITS CORRESPONDING SPRITES ARRAY
+    globals.mainMenuSprites.push(newGameIcon);
+}
+
+function initStoryIcon() {
+    const imageSet = new ImageSet(0, 1853, 104, 88, 104, 102.15, 14, 0, 64, 48);
+
+    const frames = new Frames(1);
+
+    const storyIcon = new Sprite(SpriteID.STORY_ICON, State.STILL, 101, 249, imageSet, frames);
+
+    // |||||||||||| ADD THE "STORY" ICON TO ITS CORRESPONDING SPRITES ARRAY
+    globals.mainMenuSprites.push(storyIcon);
+}
+
+function initHighScoresIcon() {
+    const imageSet = new ImageSet(0, 1941, 104, 96, 104, 102.15, 0, 0, 64, 56);
+
+    const frames = new Frames(1);
+
+    const highScoresIcon = new Sprite(SpriteID.HIGH_SCORES_ICON, State.STILL, 101, 249, imageSet, frames);
+
+    // |||||||||||| ADD THE "HIGH SCORES" ICON TO ITS CORRESPONDING SPRITES ARRAY
+    globals.mainMenuSprites.push(highScoresIcon);
+}
+
+function initControlsIcon() {
+    const imageSet = new ImageSet(0, 1773, 112, 80, 112, 88.65, 0, 0, 72, 40);
+
+    const frames = new Frames(1);
+
+    const controlsIcon = new Sprite(SpriteID.CONTROLS_ICON, State.STILL, 101, 249, imageSet, frames);
+
+    // |||||||||||| ADD THE "CONTROLS" ICON TO ITS CORRESPONDING SPRITES ARRAY
+    globals.mainMenuSprites.push(controlsIcon);
+}
+
 function initTheEruditeHUD() {
-    const imageSet = new ImageSet(0, 1321, 85, 85, 85, 85, 0, 0);
+    const imageSet = new ImageSet(0, 1321, 85, 85, 85, 85, 0, 0, -1, -1);
 
     const frames = new Frames(5);
 
@@ -115,7 +179,7 @@ function initTheEruditeHUD() {
 }
 
 function initRageBarContainer() {
-    const imageSet = new ImageSet(0, 1404, 112, 28, 112, 26, 0, 0);
+    const imageSet = new ImageSet(0, 1404, 112, 28, 112, 26, 0, 0, -1, -1);
 
     const frames = new Frames(1);
 
@@ -126,7 +190,7 @@ function initRageBarContainer() {
 }
 
 function initRageBarContent() {
-    const imageSet = new ImageSet(112, 1404, 86, 14, 86, 14, 0, 0);
+    const imageSet = new ImageSet(112, 1404, 86, 14, 86, 14, 0, 0, -1, -1);
 
     const frames = new Frames(1);
 
@@ -137,7 +201,7 @@ function initRageBarContent() {
 }
 
 function initPlayer() {
-    const imageSet = new ImageSet(0, 0, 63.6, 61, 63.6, 64, 0, 3);
+    const imageSet = new ImageSet(0, 0, 63.6, 61, 63.6, 64, 0, 3, 42.6, 40);
 
     // |||||||||||| 9 (OR LESS IN THIS CASE) FRAMES PER STATE
     const frames = new Frames(9);
@@ -149,7 +213,7 @@ function initPlayer() {
 }
 
 function initChaoticHumanBow() {
-    const imageSet = new ImageSet(1151, 0, 48, 64, 64, 63, 4, 0);
+    const imageSet = new ImageSet(1151, 0, 48, 64, 64, 63, 4, 0, 30, 46);
 
     // |||||||||||| 3 FRAMES PER STATE
     const frames = new Frames(3);
@@ -161,7 +225,7 @@ function initChaoticHumanBow() {
 }
 
 function initChaoticHumanSword() {
-    const imageSet = new ImageSet(576, 0, 60, 62.5, 64, 62.5, 0, 0);
+    const imageSet = new ImageSet(576, 0, 60, 62.5, 64, 62.5, 0, 0, 44, 46.5);
 
     // |||||||||||| 9 (OR LESS IN THIS CASE) FRAMES PER STATE
     const frames = new Frames(9);
@@ -173,7 +237,7 @@ function initChaoticHumanSword() {
 }
 
 function initFastWorm() {
-    const imageSet = new ImageSet(899, 505, 42.15, 58, 64.15, 63.1, 0, 6);
+    const imageSet = new ImageSet(899, 505, 42.15, 58, 64.15, 63.1, 0, 6, 28.15, 44);
 
     // |||||||||||| 6 FRAMES PER STATE
     const frames = new Frames(6);
@@ -185,7 +249,7 @@ function initFastWorm() {
 }
 
 function initHellBatAcid() {
-    const imageSet = new ImageSet(0, 590, 92, 91, 122, 118, 30, 27);
+    const imageSet = new ImageSet(0, 590, 92, 91, 122, 118, 30, 27, 50, 49);
 
     // |||||||||||| 7 FRAMES PER STATE
     const frames = new Frames(7);
@@ -197,7 +261,7 @@ function initHellBatAcid() {
 }
 
 function initPotionGreen() {
-    const imageSet = new ImageSet(733, 510, 28, 30, 33.25, 30, 0, 0);
+    const imageSet = new ImageSet(733, 510, 28, 30, 33.25, 30, 0, 0, 14, 16);
 
     const frames = new Frames(1);
 
@@ -208,7 +272,7 @@ function initPotionGreen() {
 }
 
 function initPotionBlue() {
-    const imageSet = new ImageSet(699.75, 510, 28, 30, 33.25, 30, 1, 0);
+    const imageSet = new ImageSet(699.75, 510, 28, 30, 33.25, 30, 1, 0, 14, 16);
 
     const frames = new Frames(1);
 

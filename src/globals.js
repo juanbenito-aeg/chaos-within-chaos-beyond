@@ -34,10 +34,13 @@ export default {
     level: {},
 
     // |||||||||||| ARRAY WITH THE MENUS BACKGROUND IMAGES SPRITES' DATA
-    menuBackgroundImgsSprites: [],
-
+    menusBackgroundImgsSprites: [],
+    
     // |||||||||||| ARRAY WITH THE SCREEN BACKGROUND IMAGES SPRITES' DATA
     screenBackgroundImgsSprites: [],
+    
+    // |||||||||||| ARRAY WITH THE MAIN MENU SPRITES' DATA
+    mainMenuSprites: [],
 
     // |||||||||||| ARRAY WITH THE HUD SPRITES' DATA
     HUDSprites: [],

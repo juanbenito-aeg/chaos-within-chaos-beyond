@@ -32,6 +32,93 @@ function drawMainMenu() {
     globals.canvasHUD.style.display = "none";
     globals.canvas.style.height = "auto";
     globals.canvas.height = canvasOriginalHeight + canvasHUDOriginalHeight;
+
+    renderMainMenuBackgroundImg();
+    renderMainMenuTxt();
+    renderMainMenuButtons();
+    renderMainMenuSprites();
+}
+
+function renderMainMenuBackgroundImg() {
+    const mainMenuBackgroundImg = globals.menusBackgroundImgsSprites[0];
+
+    const xTile = mainMenuBackgroundImg.imageSet.xInit + mainMenuBackgroundImg.frames.frameCounter * mainMenuBackgroundImg.imageSet.xGridSize + mainMenuBackgroundImg.imageSet.xOffset;
+    const yTile = mainMenuBackgroundImg.imageSet.yInit + mainMenuBackgroundImg.state * mainMenuBackgroundImg.imageSet.yGridSize + mainMenuBackgroundImg.imageSet.yOffset;
+
+    globals.ctx.drawImage(
+        globals.tileSets[Tile.SIZE_OTHERS],                                         // THE IMAGE FILE
+        xTile, yTile,                                                               // THE SOURCE X & Y POSITION
+        mainMenuBackgroundImg.imageSet.xSize, mainMenuBackgroundImg.imageSet.ySize, // THE SOURCE WIDTH & HEIGHT
+        0, 0,                                                                       // THE DESTINATION X & Y POSITION
+        mainMenuBackgroundImg.imageSet.xSize, mainMenuBackgroundImg.imageSet.ySize  // THE DESTINATION WIDTH & HEIGHT
+    );
+}
+
+function renderMainMenuTxt() {
+    const canvasWidthDividedBy2 = globals.canvas.width / 2;
+    globals.ctx.textAlign = "center";
+
+    // |||||||||||| GAME TITLE
+    globals.ctx.font = "16px emulogic";
+    globals.ctx.fillStyle = "rgb(198, 237, 197)";
+    globals.ctx.fillText("CHAOS WITHIN", canvasWidthDividedBy2, 40);
+    globals.ctx.font = "22px emulogic";
+    globals.ctx.fillText("CHAOS BEYOND", canvasWidthDividedBy2, 80);
+}
+
+function renderMainMenuButtons() {
+    globals.ctx.lineJoin = "bevel";
+    globals.ctx.lineWidth = 5;
+
+    // |||||||||||| "NEW GAME" BUTTON
+    globals.ctx.fillStyle = "rgb(0 0 0 / 0.35)";
+    globals.ctx.fillRect(70, 120, 70, 70);
+    globals.ctx.strokeStyle = "rgb(198 237 197)";
+    globals.ctx.strokeRect(70, 120, 70, 70);
+    
+    // |||||||||||| "STORY" BUTTON
+    globals.ctx.fillStyle = "rgb(0 0 0 / 0.35)";
+    globals.ctx.fillRect(70, 231, 70, 70);
+    globals.ctx.strokeStyle = "rgb(198 237 197)";
+    globals.ctx.strokeRect(70, 231, 70, 70);
+    
+    // |||||||||||| "HIGH SCORES" BUTTON
+    globals.ctx.fillStyle = "rgb(0 0 0 / 0.35)";
+    globals.ctx.fillRect(310, 231, 70, 70);
+    globals.ctx.strokeStyle = "rgb(198 237 197)";
+    globals.ctx.strokeRect(310, 231, 70, 70);
+    
+    // |||||||||||| "CONTROLS" BUTTON
+    globals.ctx.fillStyle = "rgb(0 0 0 / 0.35)";
+    globals.ctx.fillRect(310, 120, 70, 70);
+    globals.ctx.strokeStyle = "rgb(198 237 197)";
+    globals.ctx.strokeRect(310, 120, 70, 70);
+}
+
+function renderMainMenuSprite(sprite) {
+    // |||||||||||| CALCULATE POSITION OF THE SPRITE IN THE SPRITESHEET
+    const xTile = sprite.imageSet.xInit + sprite.frames.frameCounter * sprite.imageSet.xGridSize + sprite.imageSet.xOffset;
+    const yTile = sprite.imageSet.yInit + sprite.state * sprite.imageSet.yGridSize + sprite.imageSet.yOffset;
+
+    const xPos = Math.floor(sprite.xPos);
+    const yPos = Math.floor(sprite.yPos);
+
+    // |||||||||||| DRAW THE SPRITE'S (NEW) FRAME IN THE DESIRED POSITION
+    globals.ctx.drawImage(
+        globals.tileSets[Tile.SIZE_OTHERS],                                 // THE IMAGE FILE
+        xTile, yTile,                                                       // THE SOURCE X & Y POSITION
+        sprite.imageSet.xSize, sprite.imageSet.ySize,                       // THE SOURCE WIDTH & HEIGHT
+        xPos, yPos,                                                         // THE DESTINATION X & Y POSITION
+        sprite.imageSet.xDestinationSize, sprite.imageSet.xDestinationSize  // THE DESTINATION WIDTH & HEIGHT
+    );
+}
+
+function renderMainMenuSprites() {
+    for (let i = 0; i < globals.mainMenuSprites.length; i++) {
+        const sprite = globals.mainMenuSprites[i];
+
+        renderMainMenuSprite(sprite);
+    }
 }
 
 function drawGame() {
@@ -144,58 +231,6 @@ function drawSpriteRectangle(sprite, destinationWidth, destinationHeight) {
 }
 
 function renderScreenSprite(sprite) {
-    // |||||||||||| SET THE SIZES SOME SPRITES WILL APPEAR WITH IN THE CANVAS
-    let destinationWidth;
-    let destinationHeight;
-
-    switch (sprite.id) {
-        // |||||||| PLAYER
-        case SpriteID.PLAYER:
-            destinationWidth = 42.6;
-            destinationHeight = 40;
-            break;
-        
-        // |||||||| CHAOTIC HUMAN (BOW)
-        case SpriteID.CHAOTIC_HUMAN_BOW:
-            destinationWidth = 30;
-            destinationHeight = 46;
-            break;
-        
-        // |||||||| CHAOTIC HUMAN (SWORD)
-        case SpriteID.CHAOTIC_HUMAN_SWORD:
-            destinationWidth = 44;
-            destinationHeight = 46.5;
-            break;
-        
-        // |||||||| FAST WORM
-        case SpriteID.FAST_WORM:
-            destinationWidth = 28.15;
-            destinationHeight = 44;
-            break;
-        
-        // |||||||| HELL BAT (ACID)
-        case SpriteID.HELL_BAT_ACID:
-            destinationWidth = 50;
-            destinationHeight = 49;
-            break;
-        
-        // |||||||| POTION (GREEN)
-        case SpriteID.POTION_GREEN:
-            destinationWidth = 14;
-            destinationHeight = 16;
-            break;
-        
-        // |||||||| POTION (BLUE)
-        case SpriteID.POTION_BLUE:
-            destinationWidth = 14;
-            destinationHeight = 16;
-            break;
-
-        // |||||||| OTHERS
-        default:
-            break;
-    }
-    
     // |||||||||||| CALCULATE POSITION OF THE SPRITE IN THE SPRITESHEET
     const xTile = sprite.imageSet.xInit + sprite.frames.frameCounter * sprite.imageSet.xGridSize + sprite.imageSet.xOffset;
     const yTile = sprite.imageSet.yInit + sprite.state * sprite.imageSet.yGridSize + sprite.imageSet.yOffset;
@@ -208,11 +243,11 @@ function renderScreenSprite(sprite) {
 
     // |||||||||||| DRAW THE SPRITE'S (NEW) FRAME IN THE DESIRED POSITION
     globals.ctx.drawImage(
-        globals.tileSets[Tile.SIZE_OTHERS],             // THE IMAGE FILE
-        xTile, yTile,                                   // THE SOURCE X & Y POSITION
-        sprite.imageSet.xSize, sprite.imageSet.ySize,   // THE SOURCE WIDTH & HEIGHT
-        xPos, yPos,                                     // THE DESTINATION X & Y POSITION
-        destinationWidth, destinationHeight             // THE DESTINATION WIDTH & HEIGHT
+        globals.tileSets[Tile.SIZE_OTHERS],                                 // THE IMAGE FILE
+        xTile, yTile,                                                       // THE SOURCE X & Y POSITION
+        sprite.imageSet.xSize, sprite.imageSet.ySize,                       // THE SOURCE WIDTH & HEIGHT
+        xPos, yPos,                                                         // THE DESTINATION X & Y POSITION
+        sprite.imageSet.xDestinationSize, sprite.imageSet.yDestinationSize  // THE DESTINATION WIDTH & HEIGHT
     );
 }
 
