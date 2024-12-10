@@ -22,46 +22,21 @@ export default function update() {
 }
 
 function playGame() {
-    updateHUDSprites();
+    updateHUD();
     updateScreenSprites();
 }
 
-function updateHUDSprites() {
-    for (let i = 0; i < globals.HUDSprites.length; i++) {
-        const sprite = globals.HUDSprites[i];
-
-        updateHUDSprite(sprite);
-    }
+function updateHUD() {
+    updateLifePoints();
+    updateRageLevel();
 }
 
-function updateHUDSprite(sprite) {
-    const type = sprite.id;
-
-    switch (type) {
-        // |||||||||||| THE ERUDITE (HUD)
-        case SpriteID.THE_ERUDITE_HUD:
-            updateTheEruditeHUD(sprite);
-            break;
-
-        // |||||||||||| RAGE BAR (CONTENT)
-        case SpriteID.RAGE_BAR_CONTENT:
-            updateRageBarContent(sprite);
-            break;
-
-        // |||||||||||| OTHERS
-        default:
-            break;
-    }
+function updateLifePoints() {
+    globals.lifePoints = 1;
 }
 
-function updateTheEruditeHUD(sprite) {
-    sprite.frames.frameCounter = 0;
-}
-
-function updateRageBarContent(sprite) {
-    sprite.imageSet.xSize = 86;
-
-    sprite.imageSet.xSize *= 0.5;
+function updateRageLevel() {
+    globals.rageLevel = 50;
 }
 
 function updateScreenSprites() {

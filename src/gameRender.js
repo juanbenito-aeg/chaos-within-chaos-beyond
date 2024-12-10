@@ -229,26 +229,6 @@ function renderMap() {
     }
 }
 
-function renderHUDSprites() {
-    for (let i = 0; i < globals.HUDSprites.length; i++) {
-        const sprite = globals.HUDSprites[i];
-
-        const xTile = sprite.imageSet.xInit + sprite.frames.frameCounter * sprite.imageSet.xGridSize + sprite.imageSet.xOffset;
-        const yTile = sprite.imageSet.yInit + sprite.state * sprite.imageSet.yGridSize + sprite.imageSet.yOffset;
-
-        const xPos = Math.floor(sprite.xPos);
-        const yPos = Math.floor(sprite.yPos);
-
-        globals.ctxHUD.drawImage(
-            globals.tileSets[Tile.SIZE_OTHERS],             // THE IMAGE FILE
-            xTile, yTile,                                   // THE SOURCE X & Y POSITION
-            sprite.imageSet.xSize, sprite.imageSet.ySize,   // THE SOURCE WIDTH & HEIGHT
-            xPos, yPos,                                     // THE DESTINATION X & Y POSITION
-            sprite.imageSet.xSize, sprite.imageSet.ySize    // THE DESTINATION WIDTH & HEIGHT
-        );
-    }
-}
-
 function renderHUD() {
     // |||||||||||| HARD-CODED DATA
     const score = 1000;
@@ -271,8 +251,61 @@ function renderHUD() {
     globals.ctxHUD.font = "20px emulogic";
     globals.ctxHUD.fillText("💢", 282.5, 49.5);
 
-    // |||||||||||| RENDER THE ERUDITE'S FACE & HIS RAGE BAR
-    renderHUDSprites();
+    // |||||||||||| RENDER LIFE POINTS
+    renderLifePoints();
+
+    // |||||||||||| RENDER RAGE LEVEL
+    renderRageLevel();
+}
+
+function renderLifePoints() {
+    const theEruditeFace = globals.HUDSprites[0];
+
+    const xTile = theEruditeFace.imageSet.xInit + (globals.lifePoints - 1) * theEruditeFace.imageSet.xGridSize + theEruditeFace.imageSet.xOffset;
+    const yTile = theEruditeFace.imageSet.yInit + theEruditeFace.state * theEruditeFace.imageSet.yGridSize + theEruditeFace.imageSet.yOffset;
+
+    const xPos = Math.floor(theEruditeFace.xPos);
+    const yPos = Math.floor(theEruditeFace.yPos);
+
+    globals.ctxHUD.drawImage(
+        globals.tileSets[Tile.SIZE_OTHERS],                             // THE IMAGE FILE
+        xTile, yTile,                                                   // THE SOURCE X & Y POSITION
+        theEruditeFace.imageSet.xSize, theEruditeFace.imageSet.ySize,   // THE SOURCE WIDTH & HEIGHT
+        xPos, yPos,                                                     // THE DESTINATION X & Y POSITION
+        theEruditeFace.imageSet.xSize, theEruditeFace.imageSet.ySize    // THE DESTINATION WIDTH & HEIGHT
+    );
+}
+
+function renderRageLevel() {
+    for (let i = 1; i < globals.HUDSprites.length; i++) {
+        const sprite = globals.HUDSprites[i];
+
+        const xTile = sprite.imageSet.xInit + sprite.frames.frameCounter * sprite.imageSet.xGridSize + sprite.imageSet.xOffset;
+        const yTile = sprite.imageSet.yInit + sprite.state * sprite.imageSet.yGridSize + sprite.imageSet.yOffset;
+
+        const xPos = Math.floor(sprite.xPos);
+        const yPos = Math.floor(sprite.yPos);
+
+        let spriteSourceAndDestinationWidth;
+
+        switch (sprite.id) {
+            case SpriteID.RAGE_BAR_CONTAINER:
+                spriteSourceAndDestinationWidth = sprite.imageSet.xSize;
+                break;
+            
+            case SpriteID.RAGE_BAR_CONTENT:
+                spriteSourceAndDestinationWidth = sprite.imageSet.xSize * (globals.rageLevel / 100);
+                break;
+        }
+
+        globals.ctxHUD.drawImage(
+            globals.tileSets[Tile.SIZE_OTHERS],                       // THE IMAGE FILE
+            xTile, yTile,                                             // THE SOURCE X & Y POSITION
+            spriteSourceAndDestinationWidth, sprite.imageSet.ySize,   // THE SOURCE WIDTH & HEIGHT
+            xPos, yPos,                                               // THE DESTINATION X & Y POSITION
+            spriteSourceAndDestinationWidth, sprite.imageSet.ySize    // THE DESTINATION WIDTH & HEIGHT
+        );
+    }
 }
 
 function drawSpriteRectangle(sprite, destinationWidth, destinationHeight) {
