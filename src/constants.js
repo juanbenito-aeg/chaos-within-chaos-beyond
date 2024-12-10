@@ -4,8 +4,9 @@ const Game = {
     LOADING: 0,
     MAIN_MENU: 1,
     STORY_MENU: 2,
-    PLAYING: 3,
-    OVER: 4,
+    CONTROLS_MENU: 3,
+    PLAYING: 4,
+    OVER: 5,
 };
 
 // |||||||||||| FPS (FRAMES PER SECOND)
@@ -64,6 +65,7 @@ const SpriteID = {
     HIGH_SCORES_ICON: 15,
     CONTROLS_ICON: 16,
     BACKGROUND_IMG_STORY_MENU: 17,
+    BACKGROUND_IMG_CONTROLS_MENU: 18,
 };
 
 // |||||||||||| SPRITE STATE IDENTIFIER (DIRECTION)

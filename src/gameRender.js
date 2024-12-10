@@ -17,6 +17,10 @@ export default function render() {
             drawStoryMenu();
             break;
         
+        case Game.CONTROLS_MENU:
+            drawControlsMenu();
+            break;
+        
         case Game.PLAYING:
             drawGame();
             break;
@@ -183,6 +187,58 @@ function renderStoryMenuTxt() {
     globals.ctx.fillStyle = "rgb(222 249 219)";
     globals.ctx.fillText("PRESS ESCAPE (esc) TO RETURN TO THE MAIN MENU", canvasWidthDividedBy2, 324);
 }
+
+function drawControlsMenu() {
+    enlargeCanvasForMenus();
+
+    const controlsMenuBackgroundImg = globals.menusBackgroundImgsSprites[2];
+    renderNMenuBackgroundImg(controlsMenuBackgroundImg);
+
+    renderControlsMenuTxt();
+    renderControlsMenuSprites();
+}
+
+function renderControlsMenuTxt() {
+    const canvasWidthDividedBy2 = globals.canvas.width / 2;
+    globals.ctx.textAlign = "center";
+    
+    // |||||||||||| "CONTROLS" TEXT
+    globals.ctx.font = "22px emulogic";
+    globals.ctx.strokeStyle = "rgb(222 249 219)";
+    globals.ctx.strokeText("CONTROLS", canvasWidthDividedBy2, 40);
+    
+    // |||||||||||| MOVEMENT CONTROLS
+    globals.ctx.font = "12px emulogic";
+    globals.ctx.fillStyle = "rgb(222 249 219)";
+    globals.ctx.fillText("MOVEMENT", canvasWidthDividedBy2, 82);
+
+    globals.ctx.textAlign = "start";
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "rgb(198 237 197)";
+
+    const movementControlsDividedIntoLines = [
+        "GO UP USING CHAIN",
+        "GO DOWN USING CHAIN",
+        "MOVE LEFTWARDS",
+        "MOVE RIGHTWARDS",
+        "JUMP",
+    ];
+
+    let movementControlsLineYCoordinate = 115;
+
+    for (let i = 0; i < movementControlsDividedIntoLines.length; i++) {
+        globals.ctx.fillText(movementControlsDividedIntoLines[i], 20, movementControlsLineYCoordinate);
+        movementControlsLineYCoordinate += 20;
+    }
+}
+
+// function renderControlsMenuSprites() {
+//     for (let i = 0; i < globals.controlsMenuSprites.length; i++) {
+//         const sprite = globals.controlsMenuSprites[i];
+
+//         renderControlsMenuSprite(sprite);
+//     }
+// }
 
 function drawGame() {
     // |||||||||||| CLEAR SCREEN & HUD

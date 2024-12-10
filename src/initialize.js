@@ -61,7 +61,7 @@ function loadHandler() {
         console.log("Assets finished loading");
 
         // |||||||| SHOW [-]
-        globals.gameState = Game.PLAYING;
+        globals.gameState = Game.CONTROLS_MENU;
     }
 }
 
@@ -76,6 +76,7 @@ function initSprites() {
     // |||||||||||| INITIALIZATION OF THE MENUS BACKGROUND IMAGES SPRITES
     initMainMenuBackgroundImg();
     initStoryMenuBackgroundImg();
+    initControlsMenuBackgroundImg();
     
     // |||||||||||| INITIALIZATION OF THE SCREEN BACKGROUND IMAGES SPRITES
     initScreenCaveSect1BackgroundImg();
@@ -123,6 +124,17 @@ function initStoryMenuBackgroundImg() {
 
     // |||||||||||| ADD THE STORY MENU'S BACKGROUND IMAGE TO ITS CORRESPONDING SPRITES ARRAY
     globals.menusBackgroundImgsSprites.push(storyMenuBackgroundImg);
+}
+
+function initControlsMenuBackgroundImg() {
+    const imageSet = new ImageSet(1209, 1432, 597, 341, 597, 358, 74, 0, -1, -1);
+
+    const frames = new Frames(1);
+
+    const controlsMenuBackgroundImg = new Sprite(SpriteID.BACKGROUND_IMG_CONTROLS_MENU, State.STILL, 0, 0, imageSet, frames);
+
+    // |||||||||||| ADD THE CONTROLS MENU'S BACKGROUND IMAGE TO ITS CORRESPONDING SPRITES ARRAY
+    globals.menusBackgroundImgsSprites.push(controlsMenuBackgroundImg);
 }
 
 function initScreenCaveSect1BackgroundImg() {

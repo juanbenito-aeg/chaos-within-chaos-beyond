@@ -41,6 +41,9 @@ export default {
     
     // |||||||||||| ARRAY WITH THE MAIN MENU SPRITES' DATA
     mainMenuSprites: [],
+    
+    // |||||||||||| ARRAY WITH THE CONTROLS MENU SPRITES' DATA
+    controlsMenuSprites: [],
 
     // |||||||||||| ARRAY WITH THE HUD SPRITES' DATA
     HUDSprites: [],
