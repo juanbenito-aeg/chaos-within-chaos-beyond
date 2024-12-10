@@ -9,7 +9,13 @@ export default function update() {
             break;
         
         case Game.MAIN_MENU:
-            // TODO: COMPLETE THIS SECTION
+            break;
+        
+        case Game.STORY_MENU:
+            break;
+        
+        case Game.CONTROLS_MENU:
+            updateControlsMenuElements();
             break;
         
         case Game.PLAYING:
@@ -19,6 +25,91 @@ export default function update() {
         default:
             console.error("Error: Invalid game state");
     }
+}
+
+function updateControlsMenuElements() {
+    updateControlsMenuSprites();
+}
+
+function updateControlsMenuSprites() {
+    for (let i = 0; i < globals.controlsMenuSprites.length; i++) {
+        const sprite = globals.controlsMenuSprites[i];
+
+        updateControlsMenuSprite(sprite);
+    }
+}
+
+function updateControlsMenuSprite(sprite) {
+    const type = sprite.id;
+
+    switch (type) {
+        // |||||||||||| "UP ARROW" KEY
+        case SpriteID.UP_ARROW_KEY:
+            updateUpArrowKey(sprite);
+            break;
+        
+        // |||||||||||| "DOWN ARROW" KEY
+        case SpriteID.DOWN_ARROW_KEY:
+            updateDownArrowKey(sprite);
+            break;
+
+        // |||||||||||| "LEFT ARROW" KEY
+        case SpriteID.LEFT_ARROW_KEY:
+            updateLeftArrowKey(sprite);
+            break;
+
+        // |||||||||||| "RIGHT ARROW" KEY
+        case SpriteID.RIGHT_ARROW_KEY:
+            updateRightArrowKey(sprite);
+            break;
+
+        // |||||||||||| "SPACE" KEY
+        case SpriteID.SPACE_KEY:
+            updateSpaceKey(sprite);
+            break;
+
+        // |||||||||||| "A" LETTER KEY
+        case SpriteID.A_LETTER_KEY:
+            updateALetterKey(sprite);
+            break;
+
+        // |||||||||||| "S" LETTER KEY
+        case SpriteID.S_LETTER_KEY:
+            updateSLetterKey(sprite);
+            break;
+
+        // |||||||||||| OTHERS
+        default:
+            break;
+    }
+}
+
+function updateUpArrowKey(sprite) {
+    sprite.frames.frameCounter = 0;
+}
+
+function updateDownArrowKey(sprite) {
+    sprite.frames.frameCounter = 0;
+}
+
+function updateLeftArrowKey(sprite) {
+    sprite.frames.frameCounter = 0;
+}
+
+function updateRightArrowKey(sprite) {
+    sprite.frames.frameCounter = 0;
+}
+
+function updateSpaceKey(sprite) {
+    sprite.frames.frameCounter = 0;
+}
+
+function updateALetterKey(sprite) {
+    sprite.frames.frameCounter = 0;
+}
+
+function updateSLetterKey(sprite) {
+    sprite.frames.frameCounter = 0;
 }
 
 function playGame() {

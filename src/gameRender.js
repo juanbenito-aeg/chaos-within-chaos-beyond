@@ -204,17 +204,17 @@ function renderControlsMenuTxt() {
     
     // |||||||||||| "CONTROLS" TEXT
     globals.ctx.font = "22px emulogic";
-    globals.ctx.strokeStyle = "rgb(222 249 219)";
+    globals.ctx.strokeStyle = "white";
     globals.ctx.strokeText("CONTROLS", canvasWidthDividedBy2, 40);
     
     // |||||||||||| MOVEMENT CONTROLS
     globals.ctx.font = "12px emulogic";
-    globals.ctx.fillStyle = "rgb(222 249 219)";
-    globals.ctx.fillText("MOVEMENT", canvasWidthDividedBy2, 82);
+    globals.ctx.fillStyle = "white";
+    globals.ctx.fillText("MOVEMENT", canvasWidthDividedBy2, 71);
 
     globals.ctx.textAlign = "start";
-    globals.ctx.font = "8px emulogic";
-    globals.ctx.fillStyle = "rgb(198 237 197)";
+    globals.ctx.font = "7px emulogic";
+    globals.ctx.fillStyle = "rgb(212 212 212)";
 
     const movementControlsDividedIntoLines = [
         "GO UP USING CHAIN",
@@ -224,21 +224,65 @@ function renderControlsMenuTxt() {
         "JUMP",
     ];
 
-    let movementControlsLineYCoordinate = 115;
+    let movementControlsLineYCoordinate = 95;
 
     for (let i = 0; i < movementControlsDividedIntoLines.length; i++) {
-        globals.ctx.fillText(movementControlsDividedIntoLines[i], 20, movementControlsLineYCoordinate);
-        movementControlsLineYCoordinate += 20;
+        globals.ctx.fillText(movementControlsDividedIntoLines[i], 18, movementControlsLineYCoordinate);
+        movementControlsLineYCoordinate += 25;
+    }
+    
+    // |||||||||||| ATTACK CONTROLS
+    globals.ctx.textAlign = "center";
+    globals.ctx.font = "12px emulogic";
+    globals.ctx.fillStyle = "white";
+    globals.ctx.fillText("ATTACK", canvasWidthDividedBy2, 225);
+
+    globals.ctx.textAlign = "start";
+    globals.ctx.font = "7px emulogic";
+    globals.ctx.fillStyle = "rgb(212 212 212)";
+
+    const attackControlsDividedIntoLines = [
+        "USE THE HAMMER HAND TO HAND",
+        "THROW MAGICAL ORB THROUGH THE HAMMER",
+    ];
+
+    let attackControlsLineYCoordinate = 249;
+
+    for (let i = 0; i < attackControlsDividedIntoLines.length; i++) {
+        globals.ctx.fillText(attackControlsDividedIntoLines[i], 18, attackControlsLineYCoordinate);
+        attackControlsLineYCoordinate += 25;
+    }
+
+    globals.ctx.textAlign = "center";
+    globals.ctx.fillStyle = "white";
+    globals.ctx.fillText("PRESS ESCAPE (esc) TO RETURN TO THE MAIN MENU", canvasWidthDividedBy2, 321);
+}
+
+function renderControlsMenuSprites() {
+    for (let i = 0; i < globals.controlsMenuSprites.length; i++) {
+        const sprite = globals.controlsMenuSprites[i];
+
+        renderControlsMenuSprite(sprite);
     }
 }
 
-// function renderControlsMenuSprites() {
-//     for (let i = 0; i < globals.controlsMenuSprites.length; i++) {
-//         const sprite = globals.controlsMenuSprites[i];
+function renderControlsMenuSprite(sprite) {
+    // |||||||||||| CALCULATE POSITION OF THE SPRITE IN THE SPRITESHEET
+    const xTile = sprite.imageSet.xInit + sprite.frames.frameCounter * sprite.imageSet.xGridSize + sprite.imageSet.xOffset;
+    const yTile = sprite.imageSet.yInit + sprite.state * sprite.imageSet.yGridSize + sprite.imageSet.yOffset;
 
-//         renderControlsMenuSprite(sprite);
-//     }
-// }
+    const xPos = Math.floor(sprite.xPos);
+    const yPos = Math.floor(sprite.yPos);
+
+    // |||||||||||| DRAW THE SPRITE'S (NEW) FRAME IN THE DESIRED POSITION
+    globals.ctx.drawImage(
+        globals.tileSets[Tile.SIZE_OTHERS],                                 // THE IMAGE FILE
+        xTile, yTile,                                                       // THE SOURCE X & Y POSITION
+        sprite.imageSet.xSize, sprite.imageSet.ySize,                       // THE SOURCE WIDTH & HEIGHT
+        xPos, yPos,                                                         // THE DESTINATION X & Y POSITION
+        sprite.imageSet.xDestinationSize, sprite.imageSet.yDestinationSize  // THE DESTINATION WIDTH & HEIGHT
+    );
+}
 
 function drawGame() {
     // |||||||||||| CLEAR SCREEN & HUD

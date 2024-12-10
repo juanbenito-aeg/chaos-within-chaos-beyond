@@ -88,6 +88,15 @@ function initSprites() {
     initHighScoresIcon();
     initControlsIcon();
 
+    // |||||||||||| INITIALIZATION OF THE CONTROLS MENU SPRITES
+    initUpArrowKey();
+    initDownArrowKey();
+    initLeftArrowKey();
+    initRightArrowKey();
+    initSpaceKey();
+    initALetterKey();
+    initSLetterKey();
+
     // |||||||||||| INITIALIZATION OF THE HUD SPRITES
     initTheEruditeHUD();
     initRageBarContainer();
@@ -190,6 +199,90 @@ function initControlsIcon() {
 
     // |||||||||||| ADD THE "CONTROLS" ICON TO ITS CORRESPONDING SPRITES ARRAY
     globals.mainMenuSprites.push(controlsIcon);
+}
+
+function initUpArrowKey() {
+    const imageSet = new ImageSet(1496, 22, 19, 21, 22, 22, 0, 0, 17, 19);
+
+    // |||||||||||| 3 FRAMES PER STATE
+    const frames = new Frames(3);
+
+    const upArrowKey = new Sprite(SpriteID.UP_ARROW_KEY, State.STILL, 414, 82, imageSet, frames);
+
+    // |||||||||||| ADD THE "UP ARROW" KEY TO ITS CORRESPONDING SPRITES ARRAY
+    globals.controlsMenuSprites.push(upArrowKey);
+}
+
+function initDownArrowKey() {
+    const imageSet = new ImageSet(1496, 44, 19, 21, 22, 22, 0, 0, 17, 19);
+
+    // |||||||||||| 3 FRAMES PER STATE
+    const frames = new Frames(3);
+
+    const downArrowKey = new Sprite(SpriteID.DOWN_ARROW_KEY, State.STILL, 414, 107.5, imageSet, frames);
+
+    // |||||||||||| ADD THE "DOWN ARROW" KEY TO ITS CORRESPONDING SPRITES ARRAY
+    globals.controlsMenuSprites.push(downArrowKey);
+}
+
+function initLeftArrowKey() {
+    const imageSet = new ImageSet(1496, 66, 19, 21, 22, 22, 0, 0, 17, 19);
+
+    // |||||||||||| 3 FRAMES PER STATE
+    const frames = new Frames(3);
+
+    const leftArrowKey = new Sprite(SpriteID.LEFT_ARROW_KEY, State.STILL, 414, 132, imageSet, frames);
+
+    // |||||||||||| ADD THE "LEFT ARROW" KEY TO ITS CORRESPONDING SPRITES ARRAY
+    globals.controlsMenuSprites.push(leftArrowKey);
+}
+
+function initRightArrowKey() {
+    const imageSet = new ImageSet(1496, 88, 19, 21, 22, 22, 0, 0, 17, 19);
+
+    // |||||||||||| 3 FRAMES PER STATE
+    const frames = new Frames(3);
+
+    const rightArrowKey = new Sprite(SpriteID.RIGHT_ARROW_KEY, State.STILL, 414, 157, imageSet, frames);
+
+    // |||||||||||| ADD THE "RIGHT ARROW" KEY TO ITS CORRESPONDING SPRITES ARRAY
+    globals.controlsMenuSprites.push(rightArrowKey);
+}
+
+function initSpaceKey() {
+    const imageSet = new ImageSet(1680, 22, 98, 21, 105, 22, 0, 0, 94, 17);
+
+    // |||||||||||| 3 FRAMES PER STATE
+    const frames = new Frames(3);
+
+    const spaceKey = new Sprite(SpriteID.SPACE_KEY, State.STILL, 337, 182.75, imageSet, frames);
+
+    // |||||||||||| ADD THE "SPACE" KEY TO ITS CORRESPONDING SPRITES ARRAY
+    globals.controlsMenuSprites.push(spaceKey);
+}
+
+function initALetterKey() {
+    const imageSet = new ImageSet(1584, 22, 19, 21, 22, 22, 0, 0, 17, 19);
+
+    // |||||||||||| 3 FRAMES PER STATE
+    const frames = new Frames(3);
+
+    const ALetterKey = new Sprite(SpriteID.A_LETTER_KEY, State.STILL, 414, 236.5, imageSet, frames);
+
+    // |||||||||||| ADD THE "A" LETTER KEY TO ITS CORRESPONDING SPRITES ARRAY
+    globals.controlsMenuSprites.push(ALetterKey);
+}
+
+function initSLetterKey() {
+    const imageSet = new ImageSet(1584, 44, 19, 21, 22, 22, 0, 0, 17, 19);
+
+    // |||||||||||| 3 FRAMES PER STATE
+    const frames = new Frames(3);
+
+    const SLetterKey = new Sprite(SpriteID.S_LETTER_KEY, State.STILL, 414, 261.5, imageSet, frames);
+
+    // |||||||||||| ADD THE "S" LETTER KEY TO ITS CORRESPONDING SPRITES ARRAY
+    globals.controlsMenuSprites.push(SLetterKey);
 }
 
 function initTheEruditeHUD() {
