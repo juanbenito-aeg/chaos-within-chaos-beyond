@@ -129,7 +129,7 @@ function renderMainMenuSprite(sprite) {
         xTile, yTile,                                                       // THE SOURCE X & Y POSITION
         sprite.imageSet.xSize, sprite.imageSet.ySize,                       // THE SOURCE WIDTH & HEIGHT
         xPos, yPos,                                                         // THE DESTINATION X & Y POSITION
-        sprite.imageSet.xDestinationSize, sprite.imageSet.xDestinationSize  // THE DESTINATION WIDTH & HEIGHT
+        sprite.imageSet.xDestinationSize, sprite.imageSet.yDestinationSize  // THE DESTINATION WIDTH & HEIGHT
     );
 }
 
@@ -148,15 +148,15 @@ function renderStoryMenuTxt() {
     
     // |||||||||||| "STORY" AND CHAPTER'S TITLE TEXTS
     globals.ctx.font = "22px emulogic";
-    globals.ctx.strokeStyle = "rgb(222 249 219)";
+    globals.ctx.strokeStyle = "white";
     globals.ctx.strokeText("STORY", canvasWidthDividedBy2, 35);
     globals.ctx.font = "12px emulogic";
-    globals.ctx.fillStyle = "rgb(222 249 219)";
+    globals.ctx.fillStyle = "white";
     globals.ctx.fillText("TRAPPED IN THE CAVE OF CHAOS", canvasWidthDividedBy2, 62);
     
     // |||||||||||| THE STORY
     globals.ctx.font = "6.25px emulogic";
-    globals.ctx.fillStyle = "rgb(198 237 197)";
+    globals.ctx.fillStyle = "rgb(212 212 212)";
 
     const storyDividedIntoLines = [
         "Now that the children were safe, X.G entered the family’s",
@@ -184,7 +184,7 @@ function renderStoryMenuTxt() {
         storyLineYCoordinate += 14;
     }
 
-    globals.ctx.fillStyle = "rgb(222 249 219)";
+    globals.ctx.fillStyle = "white";
     globals.ctx.fillText("PRESS ESCAPE (esc) TO RETURN TO THE MAIN MENU", canvasWidthDividedBy2, 324);
 }
 

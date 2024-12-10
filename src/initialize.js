@@ -61,7 +61,7 @@ function loadHandler() {
         console.log("Assets finished loading");
 
         // |||||||| SHOW [-]
-        globals.gameState = Game.CONTROLS_MENU;
+        globals.gameState = Game.MAIN_MENU;
     }
 }
 
@@ -158,44 +158,44 @@ function initScreenCaveSect1BackgroundImg() {
 }
 
 function initNewGameIcon() {
-    const imageSet = new ImageSet(97, 1945, 64, 85, 80, 102.15, 0, 0, 27, 48);
+    const imageSet = new ImageSet(96, 1941, 64, 80, 96, 102.15, 0, 0, 28, 35);
 
     const frames = new Frames(1);
 
-    const newGameIcon = new Sprite(SpriteID.NEW_GAME_ICON, State.STILL, 114.5, 144, imageSet, frames);
+    const newGameIcon = new Sprite(SpriteID.NEW_GAME_ICON, State.STILL, 114.5, 138, imageSet, frames);
 
     // |||||||||||| ADD THE "NEW GAME" ICON TO ITS CORRESPONDING SPRITES ARRAY
     globals.mainMenuSprites.push(newGameIcon);
 }
 
 function initStoryIcon() {
-    const imageSet = new ImageSet(0, 1853, 104, 88, 104, 102.15, 14, 0, 33, 17);
+    const imageSet = new ImageSet(0, 1846, 104, 88, 104, 97.15, 0, 7, 34, 34);
 
     const frames = new Frames(1);
 
-    const storyIcon = new Sprite(SpriteID.STORY_ICON, State.STILL, 112.5, 245, imageSet, frames);
+    const storyIcon = new Sprite(SpriteID.STORY_ICON, State.STILL, 109, 244.5, imageSet, frames);
 
     // |||||||||||| ADD THE "STORY" ICON TO ITS CORRESPONDING SPRITES ARRAY
     globals.mainMenuSprites.push(storyIcon);
 }
 
 function initHighScoresIcon() {
-    const imageSet = new ImageSet(0, 1941, 96, 96, 104, 102.15, 0, 0, 32, 32);
+    const imageSet = new ImageSet(0, 1941, 96, 96, 104, 102.15, 0, 0, 34, 34);
 
     const frames = new Frames(1);
 
-    const highScoresIcon = new Sprite(SpriteID.HIGH_SCORES_ICON, State.STILL, 305.5, 140, imageSet, frames);
+    const highScoresIcon = new Sprite(SpriteID.HIGH_SCORES_ICON, State.STILL, 305, 138.5, imageSet, frames);
 
     // |||||||||||| ADD THE "HIGH SCORES" ICON TO ITS CORRESPONDING SPRITES ARRAY
     globals.mainMenuSprites.push(highScoresIcon);
 }
 
 function initControlsIcon() {
-    const imageSet = new ImageSet(0, 1773, 112, 80, 112, 88.65, 0, 0, 35, 3);
+    const imageSet = new ImageSet(0, 1773, 112, 80, 112, 88.65, 0, 0, 40, 34);
 
     const frames = new Frames(1);
 
-    const controlsIcon = new Sprite(SpriteID.CONTROLS_ICON, State.STILL, 304, 244, imageSet, frames);
+    const controlsIcon = new Sprite(SpriteID.CONTROLS_ICON, State.STILL, 302, 244, imageSet, frames);
 
     // |||||||||||| ADD THE "CONTROLS" ICON TO ITS CORRESPONDING SPRITES ARRAY
     globals.mainMenuSprites.push(controlsIcon);
