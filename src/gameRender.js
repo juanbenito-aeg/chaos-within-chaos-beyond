@@ -103,6 +103,14 @@ function renderMainMenuButtons() {
     globals.ctx.strokeRect(291.5, 231, 60, 60);
 }
 
+function renderMainMenuSprites() {
+    for (let i = 0; i < globals.mainMenuSprites.length; i++) {
+        const sprite = globals.mainMenuSprites[i];
+
+        renderMainMenuSprite(sprite);
+    }
+}
+
 function renderMainMenuSprite(sprite) {
     // |||||||||||| CALCULATE POSITION OF THE SPRITE IN THE SPRITESHEET
     const xTile = sprite.imageSet.xInit + sprite.frames.frameCounter * sprite.imageSet.xGridSize + sprite.imageSet.xOffset;
@@ -119,14 +127,6 @@ function renderMainMenuSprite(sprite) {
         xPos, yPos,                                                         // THE DESTINATION X & Y POSITION
         sprite.imageSet.xDestinationSize, sprite.imageSet.xDestinationSize  // THE DESTINATION WIDTH & HEIGHT
     );
-}
-
-function renderMainMenuSprites() {
-    for (let i = 0; i < globals.mainMenuSprites.length; i++) {
-        const sprite = globals.mainMenuSprites[i];
-
-        renderMainMenuSprite(sprite);
-    }
 }
 
 function drawStoryMenu() {
@@ -153,22 +153,32 @@ function renderStoryMenuTxt() {
     // |||||||||||| THE STORY
     globals.ctx.font = "6.25px emulogic";
     globals.ctx.fillStyle = "rgb(198 237 197)";
-    globals.ctx.fillText("Now that the children were safe, X.G entered the family’s", canvasWidthDividedBy2, 82);
-    globals.ctx.fillText("house, tired as never before, and after they all had a big", canvasWidthDividedBy2, 96);
-    globals.ctx.fillText("feast, The Erudite fell asleep in just a matter of seconds.", canvasWidthDividedBy2, 110);
-    globals.ctx.fillText("Several hours later, X.G woke up inside an eerie cave,", canvasWidthDividedBy2, 124);
-    globals.ctx.fillText("surrounded by dirt, strange creatures and even other crazy", canvasWidthDividedBy2, 138);
-    globals.ctx.fillText("chaotic humans that looked messy and rather aggressive towards", canvasWidthDividedBy2, 152);
-    globals.ctx.fillText("everything and everyone that got in their way. What had", canvasWidthDividedBy2, 166);
-    globals.ctx.fillText("unfortunately happened was that The Erudite had been poisoned", canvasWidthDividedBy2, 180);
-    globals.ctx.fillText("by the woman, who turned out to be an evil witch dreaded by", canvasWidthDividedBy2, 194);
-    globals.ctx.fillText("those who knew her from ancient Kaotika tales. She had created", canvasWidthDividedBy2, 208);
-    globals.ctx.fillText("fake beings to make naive humans as X.G think they were saving", canvasWidthDividedBy2, 222);
-    globals.ctx.fillText("her actual children, with the aim of later taking advantage of", canvasWidthDividedBy2, 236);
-    globals.ctx.fillText("their weariness to easily drug and throw them into a place", canvasWidthDividedBy2, 250);
-    globals.ctx.fillText("filled with never-before-seen dangers. The purpose of gathering", canvasWidthDividedBy2, 264);
-    globals.ctx.fillText("all those beings was unknown, but at that moment all X.G had to", canvasWidthDividedBy2, 278);
-    globals.ctx.fillText("care about was doing his best to escape that place safe and sound.", canvasWidthDividedBy2, 292);
+
+    const storyDividedIntoLines = [
+        "Now that the children were safe, X.G entered the family’s",
+        "house, tired as never before, and after they all had a big",
+        "feast, The Erudite fell asleep in just a matter of seconds.",
+        "Several hours later, X.G woke up inside an eerie cave,",
+        "surrounded by dirt, strange creatures and even other crazy",
+        "chaotic humans that looked messy and rather aggressive towards",
+        "everything and everyone that got in their way. What had",
+        "unfortunately happened was that The Erudite had been poisoned",
+        "by the woman, who turned out to be an evil witch dreaded by",
+        "those who knew her from ancient Kaotika tales. She had created",
+        "fake beings to make naive humans as X.G think they were saving",
+        "her actual children, with the aim of later taking advantage of",
+        "their weariness to easily drug and throw them into a place",
+        "filled with never-before-seen dangers. The purpose of gathering",
+        "all those beings was unknown, but at that moment all X.G had to",
+        "care about was doing his best to escape that place safe and sound.",
+    ];
+
+    let storyLineYCoordinate = 82;
+
+    for (let i = 0; i < storyDividedIntoLines.length; i++) {
+        globals.ctx.fillText(storyDividedIntoLines[i], canvasWidthDividedBy2, storyLineYCoordinate);
+        storyLineYCoordinate += 14;
+    }
 
     globals.ctx.fillStyle = "rgb(222 249 219)";
     globals.ctx.fillText("PRESS ESCAPE (esc) TO RETURN TO THE MAIN MENU", canvasWidthDividedBy2, 324);
