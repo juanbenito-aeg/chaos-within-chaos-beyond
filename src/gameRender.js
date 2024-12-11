@@ -70,6 +70,7 @@ function drawMainMenu() {
     renderNMenuBackgroundImg(mainMenuBackgroundImg);
 
     renderMainMenuTxt();
+    renderMainMenuSun();
     renderMainMenuButtons();
     renderMainMenuSprites();
 }
@@ -86,27 +87,67 @@ function renderMainMenuTxt() {
     globals.ctx.strokeText("CHAOS BEYOND", canvasWidthDividedBy2, 80);
 }
 
+function renderMainMenuSun() {
+    const sunGradient = globals.ctx.createRadialGradient(225.5, 179, 10, 224, 178, 40);
+    sunGradient.addColorStop(0, "rgb(255 228 132 / 0.35)");
+    sunGradient.addColorStop(1, "rgb(255 228 132 / 0.05)");
+
+    globals.ctx.fillStyle = sunGradient;
+    
+    globals.ctx.roundRect(205, 159, 40, 40, 100);
+    globals.ctx.fill();
+}
+
 function renderMainMenuButtons() {
     globals.ctx.lineJoin = "bevel";
     globals.ctx.lineWidth = 5;
+    globals.ctx.fillStyle = "rgb(0 0 0 / 0.5)";
+    globals.ctx.strokeStyle = "rgb(212 212 212 / 0.5)";
 
     // |||||||||||| "NEW GAME" BUTTON
-    globals.ctx.fillStyle = "rgb(0 0 0 / 0.5)";
-    globals.ctx.fillRect(97, 125, 60, 60);
-    globals.ctx.strokeStyle = "white";
-    globals.ctx.strokeRect(97, 125, 60, 60);
+    globals.ctx.fillRect(97, 120, 60, 60);
+    globals.ctx.strokeRect(97, 120, 60, 60);
     
     // |||||||||||| "STORY" BUTTON
-    globals.ctx.fillRect(97, 231, 60, 60);
-    globals.ctx.strokeRect(97, 231, 60, 60);
+    globals.ctx.fillRect(97, 221, 60, 60);
+    globals.ctx.strokeRect(97, 221, 60, 60);
     
     // |||||||||||| "HIGH SCORES" BUTTON
-    globals.ctx.fillRect(291.5, 125, 60, 60);
-    globals.ctx.strokeRect(291.5, 125, 60, 60);
+    globals.ctx.fillRect(291.5, 120, 60, 60);
+    globals.ctx.strokeRect(291.5, 120, 60, 60);
     
     // |||||||||||| "CONTROLS" BUTTON
-    globals.ctx.fillRect(291.5, 231, 60, 60);
-    globals.ctx.strokeRect(291.5, 231, 60, 60);
+    globals.ctx.fillRect(291.5, 221, 60, 60);
+    globals.ctx.strokeRect(291.5, 221, 60, 60);
+
+    // |||||||||||| DEFINITION OF THE CURRENT SELECTION & A "SIGN" TO RECOGNIZE IT
+    const currentSelection = "NEW GAME";
+
+    globals.ctx.font = "7px emulogic";
+    globals.ctx.fillStyle = "rgb(212 212 212)";
+    globals.ctx.strokeStyle = "rgb(212 212 212)";
+
+    switch (currentSelection) {
+        case "NEW GAME":
+            globals.ctx.strokeRect(97, 120, 60, 60);
+            globals.ctx.fillText(currentSelection, 126.25, 197);
+            break;
+        
+        case "STORY":
+            globals.ctx.strokeRect(97, 221, 60, 60);
+            globals.ctx.fillText(currentSelection, 126.25, 298);
+            break;
+        
+        case "HIGH SCORES":
+            globals.ctx.strokeRect(291.5, 120, 60, 60);
+            globals.ctx.fillText(currentSelection, 321.5, 197);
+            break;
+        
+        case "CONTROLS":
+            globals.ctx.strokeRect(291.5, 221, 60, 60);
+            globals.ctx.fillText(currentSelection, 321.5, 298);
+            break;
+    }
 }
 
 function renderMainMenuSprites() {
@@ -197,8 +238,6 @@ function drawHighScoresMenu() {
     renderNMenuBackgroundImg(highScoresMenuBackgroundImg);
 
     renderHighScoresMenuTxt();
-    // renderMainMenuButtons();
-    // renderMainMenuSprites();
 }
 
 function renderHighScoresMenuTxt() {
@@ -219,6 +258,7 @@ function renderHighScoresMenuTxt() {
 
     globals.ctx.direction = "rtl";
     globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "rgb(212 212 212)";
     
     let rowYCoordinate = 106;
 
@@ -246,9 +286,11 @@ function renderHighScoresMenuTxt() {
 
     // |||||||| NAME
     globals.ctx.font = "12px emulogic";
-    globals.ctx.fillText("NAME", 220, 78);
+    globals.ctx.fillStyle = "white";
+    globals.ctx.fillText("NAME", 241, 78);
 
     globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "rgb(212 212 212)";
 
     const playersNames = [
         "AAA",
@@ -266,16 +308,18 @@ function renderHighScoresMenuTxt() {
     rowYCoordinate = 106;
 
     for (let i = 0; i < playersNames.length; i++) {
-        globals.ctx.fillText(playersNames[i], 220, rowYCoordinate);
+        globals.ctx.fillText(playersNames[i], 241, rowYCoordinate);
 
         rowYCoordinate += 20;
     }
     
     // |||||||| SCORE
     globals.ctx.font = "12px emulogic";
+    globals.ctx.fillStyle = "white";
     globals.ctx.fillText("SCORE", 367, 78);
 
     globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "rgb(212 212 212)";
 
     const scores = [
         1000000,
@@ -300,6 +344,7 @@ function renderHighScoresMenuTxt() {
 
     globals.ctx.textAlign = "center";
     globals.ctx.direction = "ltr";
+    globals.ctx.fillStyle = "white";
     globals.ctx.fillText("PRESS ESCAPE (esc) TO RETURN TO THE MAIN MENU", canvasWidthDividedBy2, 321);
 }
 
