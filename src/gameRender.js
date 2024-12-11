@@ -25,6 +25,10 @@ export default function render() {
             drawGame();
             break;
         
+        case Game.OVER:
+            drawGameOver();
+            break;
+        
         default:
             console.error("Error: Invalid game state");
     }
@@ -72,7 +76,7 @@ function renderMainMenuTxt() {
 
     // |||||||||||| GAME TITLE
     globals.ctx.font = "18px emulogic";
-    globals.ctx.strokeStyle = "rgb(222 249 219)";
+    globals.ctx.strokeStyle = "white";
     globals.ctx.strokeText("CHAOS WITHIN", canvasWidthDividedBy2, 37.15);
     globals.ctx.font = "24px emulogic";
     globals.ctx.strokeText("CHAOS BEYOND", canvasWidthDividedBy2, 80);
@@ -85,25 +89,19 @@ function renderMainMenuButtons() {
     // |||||||||||| "NEW GAME" BUTTON
     globals.ctx.fillStyle = "rgb(0 0 0 / 0.5)";
     globals.ctx.fillRect(97, 125, 60, 60);
-    globals.ctx.strokeStyle = "rgb(222 249 219)";
+    globals.ctx.strokeStyle = "white";
     globals.ctx.strokeRect(97, 125, 60, 60);
     
     // |||||||||||| "STORY" BUTTON
-    globals.ctx.fillStyle = "rgb(0 0 0 / 0.5)";
     globals.ctx.fillRect(97, 231, 60, 60);
-    globals.ctx.strokeStyle = "rgb(222 249 219)";
     globals.ctx.strokeRect(97, 231, 60, 60);
     
     // |||||||||||| "HIGH SCORES" BUTTON
-    globals.ctx.fillStyle = "rgb(0 0 0 / 0.5)";
     globals.ctx.fillRect(291.5, 125, 60, 60);
-    globals.ctx.strokeStyle = "rgb(222 249 219)";
     globals.ctx.strokeRect(291.5, 125, 60, 60);
     
     // |||||||||||| "CONTROLS" BUTTON
-    globals.ctx.fillStyle = "rgb(0 0 0 / 0.5)";
     globals.ctx.fillRect(291.5, 231, 60, 60);
-    globals.ctx.strokeStyle = "rgb(222 249 219)";
     globals.ctx.strokeRect(291.5, 231, 60, 60);
 }
 
@@ -453,4 +451,54 @@ function renderScreenSprites() {
 
         renderScreenSprite(sprite);
     }
+}
+
+function drawGameOver() {
+    enlargeCanvasForMenus();
+
+    globals.ctx.fillStyle = "black";
+    globals.ctx.fillRect(0, 0, 597, 341);
+
+    renderGameOverTxt();
+    renderGameOverSprite();
+}
+
+function renderGameOverTxt() {
+    const canvasWidthDividedBy2 = globals.canvas.width / 2;
+    globals.ctx.textAlign = "center";
+    
+    globals.ctx.font = "30px emulogic";
+    globals.ctx.fillStyle = "white";
+    globals.ctx.fillText("GAME     OVER", canvasWidthDividedBy2, 95);
+    
+    globals.ctx.font = "13px emulogic";
+    globals.ctx.fillStyle = "white";
+    globals.ctx.fillText("WHAT DO YOU WANT TO DO NOW?", canvasWidthDividedBy2, 192);
+    
+    globals.ctx.font = "10px emulogic";
+    globals.ctx.fillStyle = "rgb(212 212 212)";
+    globals.ctx.fillText("CHECK HIGH SCORES TABLE", canvasWidthDividedBy2, 235);
+    
+    globals.ctx.fillStyle = "rgb(212 212 212 / 0.5)";
+    globals.ctx.fillText("RETURN TO THE MAIN MENU", canvasWidthDividedBy2, 265);
+}
+
+function renderGameOverSprite() {
+    const skull = globals.gameOverSprite;
+
+    // |||||||||||| CALCULATE POSITION OF THE SPRITE IN THE SPRITESHEET
+    const xTile = skull.imageSet.xInit + skull.frames.frameCounter * skull.imageSet.xGridSize + skull.imageSet.xOffset;
+    const yTile = skull.imageSet.yInit + skull.state * skull.imageSet.yGridSize + skull.imageSet.yOffset;
+
+    const xPos = Math.floor(skull.xPos);
+    const yPos = Math.floor(skull.yPos);
+
+    // |||||||||||| DRAW THE SPRITE'S (NEW) FRAME IN THE DESIRED POSITION
+    globals.ctx.drawImage(
+        globals.tileSets[Tile.SIZE_OTHERS],                               // THE IMAGE FILE
+        xTile, yTile,                                                     // THE SOURCE X & Y POSITION
+        skull.imageSet.xSize, skull.imageSet.ySize,                       // THE SOURCE WIDTH & HEIGHT
+        xPos, yPos,                                                       // THE DESTINATION X & Y POSITION
+        skull.imageSet.xDestinationSize, skull.imageSet.yDestinationSize  // THE DESTINATION WIDTH & HEIGHT
+    );
 }

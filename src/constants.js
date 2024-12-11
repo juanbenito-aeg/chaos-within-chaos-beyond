@@ -73,6 +73,7 @@ const SpriteID = {
     SPACE_KEY: 23,
     A_LETTER_KEY: 24,
     S_LETTER_KEY: 25,
+    SKULL: 26,
 };
 
 // |||||||||||| SPRITE STATE IDENTIFIER (DIRECTION)

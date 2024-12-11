@@ -61,7 +61,7 @@ function loadHandler() {
         console.log("Assets finished loading");
 
         // |||||||| SHOW [-]
-        globals.gameState = Game.MAIN_MENU;
+        globals.gameState = Game.OVER;
     }
 }
 
@@ -111,6 +111,9 @@ function initSprites() {
     // initHellBatHandToHand();
     initPotionGreen();
     // initPotionBlue();
+
+    // |||||||||||| INITIALIZATION OF THE "GAME OVER" SCREEN SPRITES
+    initSkull();
 }
 
 function initMainMenuBackgroundImg() {
@@ -125,7 +128,7 @@ function initMainMenuBackgroundImg() {
 }
 
 function initStoryMenuBackgroundImg() {
-    const imageSet = new ImageSet(605, 1432, 597, 341, 597, 358, 74, 0, -1, -1);
+    const imageSet = new ImageSet(601, 1432, 597, 341, 601, 358, 74, 0, -1, -1);
 
     const frames = new Frames(1);
 
@@ -136,7 +139,7 @@ function initStoryMenuBackgroundImg() {
 }
 
 function initControlsMenuBackgroundImg() {
-    const imageSet = new ImageSet(1209, 1432, 597, 341, 597, 358, 74, 0, -1, -1);
+    const imageSet = new ImageSet(1204, 1432, 597, 341, 602, 358, 74, 0, -1, -1);
 
     const frames = new Frames(1);
 
@@ -410,6 +413,17 @@ function initPotionBlue() {
 
     // |||||||||||| ADD POTION (BLUE) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(potionBlue);
+}
+
+function initSkull() {
+    const imageSet = new ImageSet(153, 1780, 120, 162, 153, 178, 32, 14, 80, 122);
+
+    const frames = new Frames(1);
+
+    const skull = new Sprite(SpriteID.SKULL, State.STILL, 186, 20, imageSet, frames);
+
+    // |||||||||||| ASSIGN SKULL TO ITS CORRESPONDING VARIABLE
+    globals.gameOverSprite = skull;
 }
 
 // |||||||||||| EXPORTS

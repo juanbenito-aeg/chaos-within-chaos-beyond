@@ -51,6 +51,9 @@ export default {
     // |||||||||||| ARRAY WITH THE SCREEN SPRITES' DATA
     screenSprites: [],
 
+    // |||||||||||| "GAME OVER" SCREEN SPRITE'S DATA
+    gameOverSprite: {},
+
     // |||||||||||| PLAYER'S LIFE POINTS, STARTING IN 3 AND RANGING FROM 1 TO 5 (REPRESENTED BY X.G FACE'S DIFFERENT FRAMES)
     lifePoints: 3,
 
