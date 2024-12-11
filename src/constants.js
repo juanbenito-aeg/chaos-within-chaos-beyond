@@ -5,8 +5,9 @@ const Game = {
     MAIN_MENU: 1,
     STORY_MENU: 2,
     CONTROLS_MENU: 3,
-    PLAYING: 4,
-    OVER: 5,
+    HIGH_SCORES_MENU: 4,
+    PLAYING: 5,
+    OVER: 6,
 };
 
 // |||||||||||| FPS (FRAMES PER SECOND)
@@ -74,6 +75,7 @@ const SpriteID = {
     A_LETTER_KEY: 24,
     S_LETTER_KEY: 25,
     SKULL: 26,
+    BACKGROUND_IMG_HIGH_SCORES_MENU: 27,
 };
 
 // |||||||||||| SPRITE STATE IDENTIFIER (DIRECTION)

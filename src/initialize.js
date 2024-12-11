@@ -61,7 +61,7 @@ function loadHandler() {
         console.log("Assets finished loading");
 
         // |||||||| SHOW [-]
-        globals.gameState = Game.OVER;
+        globals.gameState = Game.HIGH_SCORES_MENU;
     }
 }
 
@@ -76,6 +76,7 @@ function initSprites() {
     // |||||||||||| INITIALIZATION OF THE MENUS BACKGROUND IMAGES SPRITES
     initMainMenuBackgroundImg();
     initStoryMenuBackgroundImg();
+    initHighScoresMenuBackgroundImg();
     initControlsMenuBackgroundImg();
     
     // |||||||||||| INITIALIZATION OF THE SCREEN BACKGROUND IMAGES SPRITES
@@ -136,6 +137,17 @@ function initStoryMenuBackgroundImg() {
 
     // |||||||||||| ADD THE STORY MENU'S BACKGROUND IMAGE TO ITS CORRESPONDING SPRITES ARRAY
     globals.menusBackgroundImgsSprites.push(storyMenuBackgroundImg);
+}
+
+function initHighScoresMenuBackgroundImg() {
+    const imageSet = new ImageSet(601, 1074, 597, 341, 601, 358, 110, 10, -1, -1);
+
+    const frames = new Frames(1);
+
+    const highScoresMenuBackgroundImg = new Sprite(SpriteID.BACKGROUND_IMG_HIGH_SCORES_MENU, State.STILL, 0, 0, imageSet, frames);
+
+    // |||||||||||| ADD THE HIGH SCORES MENU'S BACKGROUND IMAGE TO ITS CORRESPONDING SPRITES ARRAY
+    globals.menusBackgroundImgsSprites.push(highScoresMenuBackgroundImg);
 }
 
 function initControlsMenuBackgroundImg() {

@@ -17,6 +17,10 @@ export default function render() {
             drawStoryMenu();
             break;
         
+        case Game.HIGH_SCORES_MENU:
+            drawHighScoresMenu();
+            break;
+
         case Game.CONTROLS_MENU:
             drawControlsMenu();
             break;
@@ -186,10 +190,123 @@ function renderStoryMenuTxt() {
     globals.ctx.fillText("PRESS ESCAPE (esc) TO RETURN TO THE MAIN MENU", canvasWidthDividedBy2, 324);
 }
 
+function drawHighScoresMenu() {
+    enlargeCanvasForMenus();
+
+    const highScoresMenuBackgroundImg = globals.menusBackgroundImgsSprites[2];
+    renderNMenuBackgroundImg(highScoresMenuBackgroundImg);
+
+    renderHighScoresMenuTxt();
+    // renderMainMenuButtons();
+    // renderMainMenuSprites();
+}
+
+function renderHighScoresMenuTxt() {
+    const canvasWidthDividedBy2 = globals.canvas.width / 2;
+    globals.ctx.textAlign = "center";
+    
+    globals.ctx.font = "22px emulogic";
+    globals.ctx.strokeStyle = "white";
+    globals.ctx.strokeText("HIGH SCORES", canvasWidthDividedBy2, 40);
+    
+    // |||||||||||| COLUMNS DRAWING
+    globals.ctx.textAlign = "start";
+    globals.ctx.fillStyle = "white";
+    
+    // |||||||| RANK
+    globals.ctx.font = "12px emulogic";
+    globals.ctx.fillText("RANK", 80, 78);
+
+    globals.ctx.direction = "rtl";
+    globals.ctx.font = "8px emulogic";
+    
+    let rowYCoordinate = 106;
+
+    for (let i = 1; i <= 10; i++) {
+        let ordinalNumSuffix = "TH";
+
+        switch (i) {
+            case 1:
+                ordinalNumSuffix = "ST";
+                break;
+
+            case 2:
+                ordinalNumSuffix = "ND";
+                break;
+            
+            case 3:
+                ordinalNumSuffix = "RD";
+                break;
+        }
+
+        globals.ctx.fillText(i + ordinalNumSuffix, 128, rowYCoordinate);
+
+        rowYCoordinate += 20;
+    }
+
+    // |||||||| NAME
+    globals.ctx.font = "12px emulogic";
+    globals.ctx.fillText("NAME", 220, 78);
+
+    globals.ctx.font = "8px emulogic";
+
+    const playersNames = [
+        "AAA",
+        "BBB",
+        "CCC",
+        "DDD",
+        "EEE",
+        "FFF",
+        "GGG",
+        "HHH",
+        "III",
+        "JJJ",
+    ];
+
+    rowYCoordinate = 106;
+
+    for (let i = 0; i < playersNames.length; i++) {
+        globals.ctx.fillText(playersNames[i], 220, rowYCoordinate);
+
+        rowYCoordinate += 20;
+    }
+    
+    // |||||||| SCORE
+    globals.ctx.font = "12px emulogic";
+    globals.ctx.fillText("SCORE", 367, 78);
+
+    globals.ctx.font = "8px emulogic";
+
+    const scores = [
+        1000000,
+        900000,
+        800000,
+        700000,
+        600000,
+        500000,
+        400000,
+        300000,
+        200000,
+        100000,
+    ];
+
+    rowYCoordinate = 106;
+
+    for (let i = 0; i < scores.length; i++) {
+        globals.ctx.fillText(scores[i], 367, rowYCoordinate);
+
+        rowYCoordinate += 20;
+    }
+
+    globals.ctx.textAlign = "center";
+    globals.ctx.direction = "ltr";
+    globals.ctx.fillText("PRESS ESCAPE (esc) TO RETURN TO THE MAIN MENU", canvasWidthDividedBy2, 321);
+}
+
 function drawControlsMenu() {
     enlargeCanvasForMenus();
 
-    const controlsMenuBackgroundImg = globals.menusBackgroundImgsSprites[2];
+    const controlsMenuBackgroundImg = globals.menusBackgroundImgsSprites[3];
     renderNMenuBackgroundImg(controlsMenuBackgroundImg);
 
     renderControlsMenuTxt();
