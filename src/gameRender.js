@@ -121,7 +121,7 @@ function renderMainMenuButtons() {
     globals.ctx.strokeRect(291.5, 221, 60, 60);
 
     // |||||||||||| DEFINITION OF THE CURRENT SELECTION & A "SIGN" TO RECOGNIZE IT
-    const currentSelection = "NEW GAME";
+    let currentSelection = "NEW GAME";
 
     globals.ctx.font = "7px emulogic";
     globals.ctx.fillStyle = "rgb(212 212 212)";
@@ -628,21 +628,35 @@ function drawGameOver() {
 function renderGameOverTxt() {
     const canvasWidthDividedBy2 = globals.canvas.width / 2;
     globals.ctx.textAlign = "center";
+    globals.ctx.fillStyle = "white";
     
     globals.ctx.font = "30px emulogic";
-    globals.ctx.fillStyle = "white";
     globals.ctx.fillText("GAME     OVER", canvasWidthDividedBy2, 95);
     
     globals.ctx.font = "13px emulogic";
-    globals.ctx.fillStyle = "white";
     globals.ctx.fillText("WHAT DO YOU WANT TO DO NOW?", canvasWidthDividedBy2, 192);
     
-    globals.ctx.font = "10px emulogic";
-    globals.ctx.fillStyle = "rgb(212 212 212)";
-    globals.ctx.fillText("CHECK HIGH SCORES TABLE", canvasWidthDividedBy2, 235);
+    const menuActions = [
+        "CHECK HIGH SCORES TABLE",
+        "RETURN TO THE MAIN MENU",
+    ];
     
-    globals.ctx.fillStyle = "rgb(212 212 212 / 0.5)";
-    globals.ctx.fillText("RETURN TO THE MAIN MENU", canvasWidthDividedBy2, 265);
+    let currentSelection = menuActions[0];
+    let rowYCoordinate = 235;
+    
+    globals.ctx.font = "10px emulogic";
+
+    for (let i = 0; i < menuActions.length; i++) {
+        globals.ctx.fillStyle = "rgb(212 212 212 / 0.5)";
+        
+        if (currentSelection === menuActions[i]) {
+            globals.ctx.fillStyle = "rgb(212 212 212)";    
+        }
+
+        globals.ctx.fillText(menuActions[i], canvasWidthDividedBy2, rowYCoordinate);
+
+        rowYCoordinate += 30;
+    }
 }
 
 function renderGameOverSprite() {
