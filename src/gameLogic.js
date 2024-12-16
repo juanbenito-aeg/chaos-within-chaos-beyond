@@ -189,12 +189,34 @@ function updateScreenSprite(sprite) {
 }
 
 function updatePlayer(sprite) {
-    sprite.xPos = 0;
-    sprite.yPos = 190;
+    readKeyboardAndAssignState(sprite);
 
-    sprite.frames.frameCounter = 0;
+    // |||||||||||| STATES MACHINE
+    switch (sprite.state) {
+        case State.LEFT:
+            // |||||||| LEFTWARD MOVEMENT -> NEGATIVE VELOCITY
+            sprite.physics.vx = -sprite.physics.vLimit;
+            sprite.physics.vy = 0;
+            break;
+        
+        case State.RIGHT:
+            // |||||||| RIGHTWARD MOVEMENT -> POSITIVE VELOCITY
+            sprite.physics.vx = sprite.physics.vLimit;
+            sprite.physics.vy = 0;
+            break;
+        
+        default:
+            // |||||||| STILL STATES
+            sprite.physics.vx = 0;
+            sprite.physics.vy = 0;
+            break;
+    }
 
-    sprite.state = State.RIGHT;
+    // |||||||||||| CALCULATE THE DISTANCE IT MOVES
+    sprite.xPos += sprite.physics.vx * globals.deltaTime;
+    sprite.yPos += sprite.physics.vy * globals.deltaTime;
+
+    updateAnimationFrame(sprite);
 }
 
 function updateChaoticHumanBow(sprite) {
@@ -250,4 +272,45 @@ function updatePotionGreen(sprite) {
 function updatePotionBlue(sprite) {
     sprite.xPos = 206;
     sprite.yPos = 48;
+}
+
+function updateAnimationFrame(sprite) {
+    switch (sprite.state) {
+        case State.UP_STILL:
+        case State.LEFT_STILL:
+        case State.DOWN_STILL:
+        case State.RIGHT_STILL:
+        case State.LEFT_JUMP:
+        case State.RIGHT_JUMP:
+            sprite.frames.frameCounter = 0;
+            sprite.frames.frameChangeCounter = 0;
+            break;
+
+        default:
+            sprite.frames.frameChangeCounter++;
+        
+            // |||||||||||| CHANGE FRAME WHEN THE ANIMATION LAG REACHES "speed"
+            if (sprite.frames.frameChangeCounter === sprite.frames.speed) {
+                // |||||||| CHANGE FRAME & RESET THE FRAME CHANGE COUNTER
+                sprite.frames.frameCounter++;
+                sprite.frames.frameChangeCounter = 0;
+            }
+        
+            // |||||||||||| IF THE LAST FRAME HAS BEEN REACHED, RESTART COUNTER (CYCLIC ANIMATION)
+            if (sprite.frames.frameCounter === sprite.frames.framesPerState) {
+                sprite.frames.frameCounter = 0;
+            }
+
+            break;
+    }
+}
+
+function readKeyboardAndAssignState(sprite) {
+    sprite.state = (globals.action.jump && (sprite.state === State.LEFT))  ? State.LEFT_JUMP :
+                   (globals.action.jump && (sprite.state === State.RIGHT)) ? State.RIGHT_JUMP :
+                   globals.action.moveLeft                                 ? State.LEFT :
+                   globals.action.moveRight                                ? State.RIGHT :
+                   (sprite.state === State.LEFT)                           ? State.LEFT_STILL :
+                   (sprite.state === State.RIGHT)                          ? State.RIGHT_STILL :
+                   sprite.state;
 }

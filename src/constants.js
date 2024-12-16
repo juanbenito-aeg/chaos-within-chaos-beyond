@@ -92,6 +92,12 @@ const State = {
     DOWN_ATTACK: 6,
     RIGHT_ATTACK: 7,
     AWAKENING: 8,
+    UP_STILL: 9,
+    LEFT_STILL: 10,
+    DOWN_STILL: 11,
+    RIGHT_STILL: 12,
+    LEFT_JUMP: 13,
+    RIGHT_JUMP: 14,
 
     // |||||||| CHAOTIC HUMAN (BOW)
     DOWN_2: 0,
