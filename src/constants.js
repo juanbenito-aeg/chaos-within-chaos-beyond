@@ -116,5 +116,12 @@ const State = {
     STILL: 0,
 };
 
+// |||||||||||| KEYBOARD KEY CODES
+const Key = {
+    JUMP: 32,    
+    LEFT: 37,    
+    RIGHT: 39,    
+};
+
 // |||||||||||| EXPORTS
-export { Game, FPS, SpriteID, State, Tile, Block };
+export { Game, FPS, SpriteID, State, Tile, Block, Key };

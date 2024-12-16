@@ -1,5 +1,8 @@
+- Continuar:
+    - Movement (VI) | Jump: "CONSTANTES"
+
 - Aclarar dudas:
-    - ¿Puedo programar salto sin sprites específicos para tal movimiento?
+    - /
 
 - A realizar próximamente:
     - Animar símbolo de ira con partículas o similares
@@ -13,4 +16,4 @@
     - Para retrasar disparos sucesivos, usar temporizadores
 
 - Cómo calcular dirección en la que mover un sprite mientras persigue a otro:
-    - 
+    - /

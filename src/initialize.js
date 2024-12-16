@@ -4,6 +4,8 @@ import Sprite from "./Sprite.js";
 import ImageSet from "./ImageSet.js";
 import Frames from "./Frames.js";
 import { Level, level1 } from "./Level.js";
+import Physics from "./Physics.js";
+import { keydownHandler, keyupHandler } from "./events.js";
 
 // |||||||||||| INITIALIZES THE HTML ELEMENTS
 function initHTMLElements() {
@@ -28,6 +30,19 @@ function initVars() {
 
     // |||||||| INITIALIZE THE GAME STATE
     globals.gameState = Game.LOADING;
+
+    // |||||||| INITIALIZE THE STATE OF THE ACTIONS
+    globals.action = {
+        jump: false,
+        moveLeft: false,
+        moveRight: false,
+    };
+}
+
+function initEvents() {
+    // |||||||||||| ADD THE KEYBOARD EVENT LISTENERS
+    window.addEventListener("keydown", keydownHandler, false);
+    window.addEventListener("keyup", keyupHandler, false);
 }
 
 // |||||||||||| ASSETS LOADING: TILEMAPS, IMAGES, SOUNDS
@@ -61,7 +76,7 @@ function loadHandler() {
         console.log("Assets finished loading");
 
         // |||||||| SHOW [-]
-        globals.gameState = Game.MAIN_MENU;
+        globals.gameState = Game.PLAYING;
     }
 }
 
@@ -439,4 +454,4 @@ function initSkull() {
 }
 
 // |||||||||||| EXPORTS
-export { initHTMLElements, loadAssets, initVars, initSprites, initLevel };
+export { initHTMLElements, loadAssets, initVars, initSprites, initLevel, initEvents };

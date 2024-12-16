@@ -59,4 +59,7 @@ export default {
 
     // |||||||||||| X.G'S RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
     rageLevel: 0,
+
+    // |||||||||||| OBJECT THAT HOLDS THE STATES OF THE KEYBOARD KEYS
+    action: {},
 };
