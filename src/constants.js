@@ -122,7 +122,7 @@ const State = {
     // |||||||| MAGICAL ORB, POTION (GREEN & BLUE), BACKGROUND IMAGES, ICONS, THE ERUDITE (HUD), RAGE BAR (CONTAINER & CONTENT)
     STILL: 0,
 
-    // |||||||| MAGICAL ORB
+    // |||||||| ALL
     OFF: -1,
 };
 

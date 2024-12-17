@@ -22,9 +22,6 @@ export default function update() {
         case Game.PLAYING:
             playGame();
             break;
-        
-        default:
-            console.error("Error: Invalid game state");
     }
 }
 
@@ -77,10 +74,6 @@ function updateControlsMenuSprite(sprite) {
         // |||||||||||| "S" LETTER KEY
         case SpriteID.S_LETTER_KEY:
             updateSLetterKey(sprite);
-            break;
-
-        // |||||||||||| OTHERS
-        default:
             break;
     }
 }
@@ -238,9 +231,9 @@ function updatePlayer(sprite) {
     sprite.yPos += sprite.physics.vy * globals.deltaTime;
 
     // |||||||||||| COLLISION WITH THE GROUND (WHICH LATER WILL BE MOVED TO A SPECIFIC FILE FOR THE GAME'S COLLISIONS)
-    if (sprite.yPos > 190) {
+    if (sprite.yPos > 186) {
         sprite.physics.isOnGround = true;
-        sprite.yPos = 190;
+        sprite.yPos = 186;
         sprite.physics.vy = 0;
     }
 

@@ -351,14 +351,14 @@ function initRageBarContent() {
 }
 
 function initPlayer() {
-    const imageSet = new ImageSet(1399, 320, 63.6, 60, 63.6, 64, 0, 4, 43.6, 40);
+    const imageSet = new ImageSet(2036, 0, 59, 62, 63.6, 64, 4.6, 2, 43, 46);
 
     // |||||||||||| ANIMATION DATA CREATION: 9 (OR LESS IN THIS CASE) FRAMES PER STATE & ANIMATION SPEED
     const frames = new Frames(9, 4);
 
     const physics = new Physics(40, 0, 1, -140);
 
-    const player = new Sprite(SpriteID.PLAYER, State.RIGHT_STILL, 0, 190, imageSet, frames, physics);
+    const player = new Sprite(SpriteID.PLAYER, State.RIGHT_STILL, 0, 186, imageSet, frames, physics);
 
     // |||||||||||| ADD PLAYER TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(player);

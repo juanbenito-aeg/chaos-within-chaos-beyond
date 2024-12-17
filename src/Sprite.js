@@ -1,5 +1,5 @@
 // |||||||||||| MANAGES SPRITES
-export default class Sprite {
+class Sprite {
     constructor(id, state, xPos, yPos, imageSet, frames, physics) {
         this.id             = id;           // SPRITE TYPE
         this.state          = state;        // SPRITE'S ANIMATION STATE
@@ -7,6 +7,6 @@ export default class Sprite {
         this.yPos           = yPos;         // Y POSITION IN CANVAS
         this.imageSet       = imageSet;     // SPRITE'S IMAGES DATA
         this.frames         = frames;       // ANIMATION FRAMES DATA
-        this.physics         = physics;     // PHYSICS DATA
+        this.physics        = physics;      // PHYSICS DATA
     }
 }
