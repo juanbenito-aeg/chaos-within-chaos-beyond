@@ -130,8 +130,13 @@ const State = {
 const Key = {
     JUMP: 32,    
     LEFT: 37,    
-    RIGHT: 39,    
+    RIGHT: 39,
+    A: 65,    
+    S: 83,    
 };
 
+// |||||||||||| ACCELERATION
+const GRAVITY = 150;
+
 // |||||||||||| EXPORTS
-export { Game, FPS, SpriteID, State, Tile, Block, Key };
+export { Game, FPS, SpriteID, State, Tile, Block, Key, GRAVITY };

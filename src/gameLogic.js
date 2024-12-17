@@ -202,30 +202,47 @@ function updatePlayer(sprite) {
 
     readKeyboardAndAssignState(sprite);
 
-    // |||||||||||| STATES MACHINE
-    switch (sprite.state) {
-        case State.LEFT:
-            // |||||||| LEFTWARD MOVEMENT -> NEGATIVE VELOCITY
-            sprite.physics.vx = -sprite.physics.vLimit;
-            sprite.physics.vy = 0;
-            break;
-        
-        case State.RIGHT:
-            // |||||||| RIGHTWARD MOVEMENT -> POSITIVE VELOCITY
-            sprite.physics.vx = sprite.physics.vLimit;
-            sprite.physics.vy = 0;
-            break;
-        
-        default:
-            // |||||||| STILL STATES
-            sprite.physics.vx = 0;
-            sprite.physics.vy = 0;
-            break;
+    // |||||||||||| HORIZONTAL MOVEMENT
+
+    const isStateLeftOrLeftJump = (sprite.state === State.LEFT) || (sprite.state === State.LEFT_JUMP);
+    const isStateRightOrRightJump = (sprite.state === State.RIGHT) || (sprite.state === State.RIGHT_JUMP);
+
+    if (isStateLeftOrLeftJump && globals.action.moveLeft) {
+        sprite.physics.vx = -sprite.physics.vLimit;        
+    } else if (isStateRightOrRightJump && globals.action.moveRight) {
+        sprite.physics.vx = sprite.physics.vLimit;        
+    } else {
+        sprite.physics.vx = 0;
     }
 
-    // |||||||||||| CALCULATE THE DISTANCE IT MOVES
+    // |||||||| CALCULATE THE DISTANCE IT MOVES
     sprite.xPos += sprite.physics.vx * globals.deltaTime;
+
+    // |||||||||||| VERTICAL MOVEMENT
+
+    // |||||||| ACCELERATION IN THE Y AXIS IS THE GRAVITY
+    sprite.physics.ay = GRAVITY;
+
+    if (!sprite.physics.isOnGround) {
+        sprite.physics.vy += sprite.physics.ay * globals.deltaTime;
+    } else {
+        if (globals.action.jump) {
+            sprite.physics.isOnGround = false;
+
+            // |||||||| ASSIGN INITIAL JUMP VELOCITY
+            sprite.physics.vy += sprite.physics.jumpForce;
+        }
+    }
+
+    // |||||||| CALCULATE THE DISTANCE IT MOVES
     sprite.yPos += sprite.physics.vy * globals.deltaTime;
+
+    // |||||||||||| COLLISION WITH THE GROUND (WHICH LATER WILL BE MOVED TO A SPECIFIC FILE FOR THE GAME'S COLLISIONS)
+    if (sprite.yPos > 190) {
+        sprite.physics.isOnGround = true;
+        sprite.yPos = 190;
+        sprite.physics.vy = 0;
+    }
 
     updateAnimationFrame(sprite);
 }
@@ -313,6 +330,34 @@ function updateAnimationFrame(sprite) {
             sprite.frames.frameChangeCounter = 0;
             break;
 
+        case State.UP_ATTACK:
+        case State.LEFT_ATTACK:
+        case State.DOWN_ATTACK:
+        case State.RIGHT_ATTACK:
+            sprite.frames.frameChangeCounter++;
+        
+            // |||||||||||| CHANGE FRAME WHEN THE ANIMATION LAG REACHES "speed"
+            if (sprite.frames.frameChangeCounter === sprite.frames.speed) {
+                // |||||||| CHANGE FRAME & RESET THE FRAME CHANGE COUNTER
+                sprite.frames.frameCounter++;
+                sprite.frames.frameChangeCounter = 0;
+            }
+        
+            // |||||||||||| IF THE LAST FRAME HAS BEEN REACHED, RESTART COUNTER (CYCLIC ANIMATION)
+            if (sprite.frames.frameCounter === 5) {
+                switch (sprite.state) {
+                    case State.LEFT_ATTACK:
+                        sprite.state = State.LEFT_STILL;
+                        break;
+                    
+                    case State.RIGHT_ATTACK:
+                        sprite.state = State.RIGHT_STILL;
+                        break;
+                }
+            }
+
+            break;
+
         default:
             sprite.frames.frameChangeCounter++;
         
@@ -333,11 +378,25 @@ function updateAnimationFrame(sprite) {
 }
 
 function readKeyboardAndAssignState(sprite) {
-    sprite.state = (globals.action.jump && (sprite.state === State.LEFT))  ? State.LEFT_JUMP :
-                   (globals.action.jump && (sprite.state === State.RIGHT)) ? State.RIGHT_JUMP :
-                   globals.action.moveLeft                                 ? State.LEFT :
-                   globals.action.moveRight                                ? State.RIGHT :
-                   (sprite.state === State.LEFT)                           ? State.LEFT_STILL :
-                   (sprite.state === State.RIGHT)                          ? State.RIGHT_STILL :
-                   sprite.state;
+    const isStateLeftOrLeftStill = (sprite.state === State.LEFT) || (sprite.state === State.LEFT_STILL);
+    const isStateRightOrRightStill = (sprite.state === State.RIGHT) || (sprite.state === State.RIGHT_STILL);
+    
+    const isStateLeftOrLeftJump = (sprite.state === State.LEFT) || (sprite.state === State.LEFT_JUMP);
+    const isStateRightOrRightJump = (sprite.state === State.RIGHT) || (sprite.state === State.RIGHT_JUMP);
+
+    if (sprite.physics.isOnGround) {
+        sprite.state = globals.action.jump && (sprite.state === State.LEFT_STILL)  ? State.LEFT_JUMP :
+                       globals.action.jump && (sprite.state === State.RIGHT_STILL) ? State.RIGHT_JUMP :
+                       globals.action.moveLeft                                     ? State.LEFT :
+                       globals.action.moveRight                                    ? State.RIGHT :
+                       globals.action.attackHandToHand && isStateLeftOrLeftStill   ? State.LEFT_ATTACK :
+                       globals.action.attackHandToHand && isStateRightOrRightStill ? State.RIGHT_ATTACK :
+                       isStateLeftOrLeftJump                                       ? State.LEFT_STILL : 
+                       isStateRightOrRightJump                                     ? State.RIGHT_STILL : 
+                       sprite.state;
+    } else {
+        sprite.state = globals.action.moveLeft || (sprite.state === State.LEFT)   ? State.LEFT_JUMP :
+                       globals.action.moveRight || (sprite.state === State.RIGHT) ? State.RIGHT_JUMP :
+                       sprite.state;
+    }
 }
