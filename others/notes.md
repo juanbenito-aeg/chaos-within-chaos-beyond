@@ -1,8 +1,8 @@
-- Continuar por...:
-    - /
+- TODOS:
+    - Movimiento hell bat acid
 
 - Aclarar dudas:
-    - /
+    - ¿Por qué no funciona el timer a la hora de lanzar los orbes mágicos?
 
 - Disparos:
     - El orbe no se añade al array "sprites" (es decir, no se crea) desde el principio del juego, sino cuando se pulsa la tecla correspondiente ("S" en mi caso)
