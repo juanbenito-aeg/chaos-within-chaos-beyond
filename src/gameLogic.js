@@ -291,11 +291,15 @@ function updateHellBatHandToHand(sprite) {
 function updatePotionGreen(sprite) {
     sprite.xPos = 306;
     sprite.yPos = 48;
+
+    // sprite.state = State.OFF;
 }
 
 function updatePotionBlue(sprite) {
     sprite.xPos = 206;
     sprite.yPos = 48;
+
+    // sprite.state = State.OFF;
 }
 
 function updateMagicalOrb(sprite) {
@@ -417,5 +421,17 @@ function readKeyboardAndAssignState(sprite) {
         sprite.state = globals.action.moveLeft || (sprite.state === State.LEFT)   ? State.LEFT_JUMP :
                        globals.action.moveRight || (sprite.state === State.RIGHT) ? State.RIGHT_JUMP :
                        sprite.state;
+    }
+}
+
+function updateDirection(sprite) {
+    // |||||||||||| INCREMENT TIME FOR DIRECTION CHANGE
+    sprite.directionChangeCounter += globals.deltaTime;
+
+    if (sprite.directionChangeCounter > sprite.maxTimeToChangeDirection) {
+        // |||||||||||| RESET THE COUNTER
+        sprite.directionChangeCounter = 0;
+
+        sprite.physics.vx = -sprite.physics.vx;
     }
 }

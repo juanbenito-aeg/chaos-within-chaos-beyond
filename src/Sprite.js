@@ -10,3 +10,15 @@ class Sprite {
         this.physics        = physics;      // PHYSICS DATA
     }
 }
+
+// |||||||||||| HELL BAT (ACID) CLASS
+class HellBatAcid extends Sprite {
+    constructor(id, state, xPos, yPos, imageSet, frames, physics, maxTimeToChangeDirection) {
+        super(id, state, xPos, yPos, imageSet, frames, physics);
+
+        this.directionChangeCounter     = 0;                            // COUNTER FOR DIRECTION CHANGE (SECONDS)
+        this.maxTimeToChangeDirection   = maxTimeToChangeDirection;     // MAXIMUM TIME FOR DIRECTION CHANGE (SECONDS)
+    }
+}
+
+export { Sprite as default, HellBatAcid };

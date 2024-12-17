@@ -1,6 +1,6 @@
 import globals from "./globals.js";
 import { Game, FPS, SpriteID, State } from "./constants.js";
-import Sprite from "./Sprite.js";
+import { default as Sprite, HellBatAcid } from "./Sprite.js";
 import ImageSet from "./ImageSet.js";
 import Frames from "./Frames.js";
 import { Level, level1 } from "./Level.js";
