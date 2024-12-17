@@ -1,5 +1,6 @@
 export default class Timer {
-    constructor(value) {
-        this.value = value;
+    constructor(value, timeChangeValue) {
+        this.value    = value;
+        this.isActive = false;
     }
 }

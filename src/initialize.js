@@ -6,6 +6,7 @@ import Frames from "./Frames.js";
 import { Level, level1 } from "./Level.js";
 import Physics from "./Physics.js";
 import { keydownHandler, keyupHandler } from "./events.js";
+import Timer from "./Timer.js";
 
 // |||||||||||| INITIALIZES THE HTML ELEMENTS
 function initHTMLElements() {
@@ -39,6 +40,10 @@ function initVars() {
         attackHandToHand: false,
         throwMagicalOrb: false,
     };
+}
+
+function initTimers() {
+    globals.nextOrbThrowDelay = new Timer(5);
 }
 
 function initEvents() {
@@ -448,16 +453,28 @@ function initPotionBlue() {
 
 function initMagicalOrb() {
     const player = globals.screenSprites[0];
-    const xPos = player.xPos + player.imageSet.xSize;
-    const yPos = player.yPos;
+    
+    let magicalOrbXPos;
+    let magicalOrbYPos = player.yPos + (player.imageSet.yDestinationSize / 3);
+    
+    let vLimit;
 
-    const imageSet = new ImageSet(572, 507, 31.8, 31.7, 31.8, 31.7, 0, 0, 31.8, 31.7);
+    if (player.state === State.LEFT_ATTACK_MAGICAL_ORB) {
+        magicalOrbXPos = player.xPos;
+        vLimit = -210;
+    } else {
+        magicalOrbXPos = player.xPos + player.imageSet.xDestinationSize;
+        vLimit = 210;
+    }
 
-    const frames = new Frames(4, 2);
+    const imageSet = new ImageSet(572, 507, 31.8, 31.7, 31.8, 31.7, 0, 0, 18.8, 18.7);
 
-    const physics = new Physics(200);
+    const frames = new Frames(4, 1);
 
-    const magicalOrb = new Sprite(SpriteID.MAGICAL_ORB, State.STILL, xPos, yPos, imageSet, frames, physics);
+    const physics = new Physics(vLimit);
+    physics.vx = vLimit;
+
+    const magicalOrb = new Sprite(SpriteID.MAGICAL_ORB, State.STILL, magicalOrbXPos, magicalOrbYPos, imageSet, frames, physics);
 
     // |||||||||||| ADD MAGICAL ORB TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(magicalOrb);
@@ -475,4 +492,4 @@ function initSkull() {
 }
 
 // |||||||||||| EXPORTS
-export { initHTMLElements, loadAssets, initVars, initSprites, initLevel, initEvents, initMagicalOrb };
+export { initHTMLElements, loadAssets, initVars, initSprites, initLevel, initEvents, initMagicalOrb, initTimers };

@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { initHTMLElements, loadAssets, initSprites, initVars, initLevel, initEvents } from "./initialize.js";
+import { initHTMLElements, loadAssets, initSprites, initVars, initLevel, initEvents, initTimers } from "./initialize.js";
 import update from "./gameLogic.js";
 import render from "./gameRender.js";
 
@@ -14,6 +14,8 @@ function init() {
     // |||||||| INITIALIZATION OF THE GAME'S VARIABLES
     initVars();
     
+    initTimers();
+
     initEvents();
 
     // |||||||| LOAD ALL ASSETS: TILEMAPS, IMAGES, SOUNDS

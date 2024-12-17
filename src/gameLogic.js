@@ -189,10 +189,6 @@ function updateScreenSprite(sprite) {
 }
 
 function updatePlayer(sprite) {
-    if (globals.action.throwMagicalOrb) {
-        initMagicalOrb();
-    }
-
     readKeyboardAndAssignState(sprite);
 
     // |||||||||||| HORIZONTAL MOVEMENT
@@ -238,6 +234,13 @@ function updatePlayer(sprite) {
     }
 
     updateAnimationFrame(sprite);
+
+    if (((sprite.state === State.LEFT_ATTACK_MAGICAL_ORB) || (sprite.state === State.RIGHT_ATTACK_MAGICAL_ORB)) && sprite.frames.frameCounter === 3) {
+        if (!globals.nextOrbThrowDelay.isActive) {
+            initMagicalOrb();
+            globals.nextOrbThrowDelay.isActive = true;
+        }
+    }
 }
 
 function updateChaoticHumanBow(sprite) {
@@ -296,19 +299,16 @@ function updatePotionBlue(sprite) {
 }
 
 function updateMagicalOrb(sprite) {
-    const player = globals.screenSprites[0];
-
-    const isStateOfPlayerAnyLeft = (player.state === State.LEFT) || (player.state === State.LEFT_STILL) || (player.state === State.LEFT_JUMP)
-
-    if (isStateOfPlayerAnyLeft) {
-        sprite.physics.vx = -sprite.physics.vLimit;
-    } else { // isStateOfPlayerAnyRight
-        sprite.physics.vx = sprite.physics.vLimit;
-    }
-
     sprite.xPos += sprite.physics.vx * globals.deltaTime;
 
     updateAnimationFrame(sprite);
+
+    if (globals.nextOrbThrowDelay.isActive && globals.nextOrbThrowDelay.value > 0) {
+        globals.nextOrbThrowDelay.value -= globals.deltaTime;
+    } else if (globals.nextOrbThrowDelay.value <= 0) {
+        globals.nextOrbThrowDelay.value = 5;
+        globals.nextOrbThrowDelay.isActive = false;
+    }
 }
 
 function updateAnimationFrame(sprite) {
@@ -323,10 +323,10 @@ function updateAnimationFrame(sprite) {
             sprite.frames.frameChangeCounter = 0;
             break;
 
-        case State.UP_ATTACK:
-        case State.LEFT_ATTACK:
-        case State.DOWN_ATTACK:
-        case State.RIGHT_ATTACK:
+        case State.UP_ATTACK_HAND_TO_HAND:
+        case State.LEFT_ATTACK_HAND_TO_HAND:
+        case State.DOWN_ATTACK_HAND_TO_HAND:
+        case State.RIGHT_ATTACK_HAND_TO_HAND:
             sprite.frames.frameChangeCounter++;
         
             // |||||||||||| CHANGE FRAME WHEN THE ANIMATION LAG REACHES "speed"
@@ -336,14 +336,38 @@ function updateAnimationFrame(sprite) {
                 sprite.frames.frameChangeCounter = 0;
             }
         
-            // |||||||||||| IF THE LAST FRAME HAS BEEN REACHED, RESTART COUNTER (CYCLIC ANIMATION)
             if (sprite.frames.frameCounter === 5) {
                 switch (sprite.state) {
-                    case State.LEFT_ATTACK:
+                    case State.LEFT_ATTACK_HAND_TO_HAND:
                         sprite.state = State.LEFT_STILL;
                         break;
                     
-                    case State.RIGHT_ATTACK:
+                    case State.RIGHT_ATTACK_HAND_TO_HAND:
+                        sprite.state = State.RIGHT_STILL;
+                        break;
+                }
+            }
+
+            break;
+        
+        case State.LEFT_ATTACK_MAGICAL_ORB:
+        case State.RIGHT_ATTACK_MAGICAL_ORB:
+            sprite.frames.frameChangeCounter++;
+        
+            // |||||||||||| CHANGE FRAME WHEN THE ANIMATION LAG REACHES "speed"
+            if (sprite.frames.frameChangeCounter === sprite.frames.speed) {
+                // |||||||| CHANGE FRAME & RESET THE FRAME CHANGE COUNTER
+                sprite.frames.frameCounter++;
+                sprite.frames.frameChangeCounter = 0;
+            }
+        
+            if (sprite.frames.frameCounter === 4) {
+                switch (sprite.state) {
+                    case State.LEFT_ATTACK_MAGICAL_ORB:
+                        sprite.state = State.LEFT_STILL;
+                        break;
+                    
+                    case State.RIGHT_ATTACK_MAGICAL_ORB:
                         sprite.state = State.RIGHT_STILL;
                         break;
                 }
@@ -382,8 +406,10 @@ function readKeyboardAndAssignState(sprite) {
                        globals.action.jump && (sprite.state === State.RIGHT_STILL) ? State.RIGHT_JUMP :
                        globals.action.moveLeft                                     ? State.LEFT :
                        globals.action.moveRight                                    ? State.RIGHT :
-                       globals.action.attackHandToHand && isStateLeftOrLeftStill   ? State.LEFT_ATTACK :
-                       globals.action.attackHandToHand && isStateRightOrRightStill ? State.RIGHT_ATTACK :
+                       globals.action.attackHandToHand && isStateLeftOrLeftStill   ? State.LEFT_ATTACK_HAND_TO_HAND :
+                       globals.action.attackHandToHand && isStateRightOrRightStill ? State.RIGHT_ATTACK_HAND_TO_HAND :
+                       globals.action.throwMagicalOrb && isStateLeftOrLeftStill    ? State.LEFT_ATTACK_MAGICAL_ORB :
+                       globals.action.throwMagicalOrb && isStateRightOrRightStill  ? State.RIGHT_ATTACK_MAGICAL_ORB :
                        isStateLeftOrLeftJump                                       ? State.LEFT_STILL : 
                        isStateRightOrRightJump                                     ? State.RIGHT_STILL : 
                        sprite.state;
