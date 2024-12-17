@@ -36,6 +36,8 @@ function initVars() {
         jump: false,
         moveLeft: false,
         moveRight: false,
+        attackHandToHand: false,
+        throwMagicalOrb: false,
     };
 }
 
@@ -444,6 +446,23 @@ function initPotionBlue() {
     globals.screenSprites.push(potionBlue);
 }
 
+function initMagicalOrb() {
+    const player = globals.screenSprites[0];
+    const xPos = player.xPos + player.imageSet.xSize;
+    const yPos = player.yPos;
+
+    const imageSet = new ImageSet(572, 507, 31.8, 31.7, 31.8, 31.7, 0, 0, 31.8, 31.7);
+
+    const frames = new Frames(4, 2);
+
+    const physics = new Physics(200);
+
+    const magicalOrb = new Sprite(SpriteID.MAGICAL_ORB, State.STILL, xPos, yPos, imageSet, frames, physics);
+
+    // |||||||||||| ADD MAGICAL ORB TO ITS CORRESPONDING SPRITES ARRAY
+    globals.screenSprites.push(magicalOrb);
+}
+
 function initSkull() {
     const imageSet = new ImageSet(153, 1780, 120, 162, 153, 178, 32, 14, 80, 122);
 
@@ -456,4 +475,4 @@ function initSkull() {
 }
 
 // |||||||||||| EXPORTS
-export { initHTMLElements, loadAssets, initVars, initSprites, initLevel, initEvents };
+export { initHTMLElements, loadAssets, initVars, initSprites, initLevel, initEvents, initMagicalOrb };

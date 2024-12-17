@@ -14,6 +14,14 @@ function keydownHandler(event) {
         case Key.RIGHT:
             globals.action.moveRight = true;
             break;
+        
+        case Key.A:
+            globals.action.attackHandToHand = true;
+            break;
+        
+        case Key.S:
+            globals.action.throwMagicalOrb = true;
+            break;
     }
 }
 
@@ -29,6 +37,14 @@ function keyupHandler(event) {
         
         case Key.RIGHT:
             globals.action.moveRight = false;
+            break;
+
+        case Key.A:
+            globals.action.attackHandToHand = false;
+            break;
+        
+        case Key.S:
+            globals.action.throwMagicalOrb = false;
             break;
     }
 }

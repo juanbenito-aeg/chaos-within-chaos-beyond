@@ -1,5 +1,6 @@
 import globals from "./globals.js";
-import { Game, SpriteID, State } from "./constants.js";
+import { Game, SpriteID, State, GRAVITY } from "./constants.js";
+import { initMagicalOrb } from "./initialize.js";
 
 export default function update() {
     // |||||||||||| CHANGE WHAT THE GAME IS DOING BASED ON THE GAME STATE
@@ -134,7 +135,12 @@ function updateScreenSprites() {
     for (let i = 0; i < globals.screenSprites.length; i++) {
         const sprite = globals.screenSprites[i];
 
-        updateScreenSprite(sprite);
+        if (sprite.state === State.OFF) {
+            const indexOfSpriteToDelete = globals.screenSprites.indexOf(sprite);
+            globals.screenSprites.splice(indexOfSpriteToDelete, 1);
+        } else {
+            updateScreenSprite(sprite);
+        }
     }
 }
 
@@ -181,14 +187,19 @@ function updateScreenSprite(sprite) {
         case SpriteID.POTION_BLUE:
             updatePotionBlue(sprite);
             break;
-
-        // |||||||||||| OTHERS
-        default:
+        
+        // |||||||||||| MAGICAL ORB
+        case SpriteID.MAGICAL_ORB:
+            updateMagicalOrb(sprite);
             break;
     }
 }
 
 function updatePlayer(sprite) {
+    if (globals.action.throwMagicalOrb) {
+        initMagicalOrb();
+    }
+
     readKeyboardAndAssignState(sprite);
 
     // |||||||||||| STATES MACHINE
@@ -272,6 +283,22 @@ function updatePotionGreen(sprite) {
 function updatePotionBlue(sprite) {
     sprite.xPos = 206;
     sprite.yPos = 48;
+}
+
+function updateMagicalOrb(sprite) {
+    const player = globals.screenSprites[0];
+
+    const isStateOfPlayerAnyLeft = (player.state === State.LEFT) || (player.state === State.LEFT_STILL) || (player.state === State.LEFT_JUMP)
+
+    if (isStateOfPlayerAnyLeft) {
+        sprite.physics.vx = -sprite.physics.vLimit;
+    } else { // isStateOfPlayerAnyRight
+        sprite.physics.vx = sprite.physics.vLimit;
+    }
+
+    sprite.xPos += sprite.physics.vx * globals.deltaTime;
+
+    updateAnimationFrame(sprite);
 }
 
 function updateAnimationFrame(sprite) {
