@@ -1,5 +1,5 @@
 - TODOS:
-    - Movimiento hell bat acid
+    - /
 
 - Aclarar dudas:
     - ¿Por qué no funciona el timer a la hora de lanzar los orbes mágicos?
