@@ -1,15 +1,8 @@
 - TODOS:
-    - /
+    - Hacer que se rendericen los sprites correspondientes en cada sección de la cueva aun inicializando la totalidad de los utilizados en el juego (para no tener que "hardcodear" los índices del player y los chaotic human bow en las funciones init de los orbes y las flechas)
 
 - Aclarar dudas:
-    - ¿Por qué no funciona el timer a la hora de lanzar los orbes mágicos?
-
-- Disparos:
-    - El orbe no se añade al array "sprites" (es decir, no se crea) desde el principio del juego, sino cuando se pulsa la tecla correspondiente ("S" en mi caso)
-    - Cómo borrar un orbe tras ser lanzado:
-        - Se le asignará el estado "OFF" (de valor -1)
-        - Se eliminará en la función "updateSprites()", tras hacer una comprobación del estado actual del sprite
-    - Para retrasar disparos sucesivos, usar temporizadores
+    - /
 
 - A realizar próximamente:
     - Animar símbolo de ira con partículas o similares
