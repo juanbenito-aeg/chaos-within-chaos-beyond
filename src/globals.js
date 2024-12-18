@@ -65,4 +65,7 @@ export default {
 
     // |||||||||||| TIMING OF THE DELAY BETWEEN SUCCESSIVE MAGICAL ORB THROWS (1 ORB/5 SECONDS)
     nextOrbThrowDelay: {},
+    
+    // |||||||||||| TIMING OF THE DELAY BETWEEN SUCCESSIVE ARROW SHOTS
+    nextArrowShotDelay: {},
 };

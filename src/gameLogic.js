@@ -244,10 +244,17 @@ function updatePlayer(sprite) {
 }
 
 function updateChaoticHumanBow(sprite) {
-    sprite.xPos = 275;
-    sprite.yPos = 24.85;
-
-    sprite.frames.frameCounter = 0;
+    if (globals.nextArrowShotDelay.value <= 0) {
+        updateAnimationFrame(sprite);
+    } else {
+        globals.nextArrowShotDelay.timeChangeCounter += globals.deltaTime;
+    
+        if (globals.nextArrowShotDelay.timeChangeCounter > globals.nextArrowShotDelay.timeChangeValue) {
+            globals.nextArrowShotDelay.value--;
+    
+            globals.nextArrowShotDelay.timeChangeCounter = 0;
+        }
+    }
 
     sprite.state = State.LEFT_ATTACK_2;
 }
@@ -387,6 +394,22 @@ function updateAnimationFrame(sprite) {
                         sprite.state = State.RIGHT_STILL;
                         break;
                 }
+            }
+
+            break;
+
+        case State.LEFT_ATTACK_2:
+        case State.RIGHT_ATTACK_2:
+            sprite.frames.frameChangeCounter++;
+        
+            if (sprite.frames.frameChangeCounter === sprite.frames.speed) {
+                sprite.frames.frameCounter++;
+                sprite.frames.frameChangeCounter = 0;
+            }
+        
+            if (sprite.frames.frameCounter === sprite.frames.framesPerState) {
+                sprite.frames.frameCounter = 0;
+                globals.nextArrowShotDelay.value = 5;
             }
 
             break;

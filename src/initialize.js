@@ -44,7 +44,8 @@ function initVars() {
 }
 
 function initTimers() {
-    globals.nextOrbThrowDelay = new Timer(5);
+    globals.nextOrbThrowDelay = new Timer(5, 1);
+    globals.nextArrowShotDelay = new Timer(5, 1);
 }
 
 function initEvents() {
@@ -373,10 +374,10 @@ function initPlayer() {
 function initChaoticHumanBow() {
     const imageSet = new ImageSet(1151, 0, 48, 64, 64, 63, 4, 0, 30, 46);
 
-    // |||||||||||| 3 FRAMES PER STATE
-    const frames = new Frames(3);
+    // |||||||||||| ANIMATION DATA CREATION: 3 FRAMES PER STATE & ANIMATION SPEED
+    const frames = new Frames(3, 6);
 
-    const chaoticHumanBow = new Sprite(SpriteID.CHAOTIC_HUMAN_BOW, State.DOWN_2, 0, 0, imageSet, frames);
+    const chaoticHumanBow = new Sprite(SpriteID.CHAOTIC_HUMAN_BOW, State.LEFT_ATTACK_2, 275, 23, imageSet, frames);
 
     // |||||||||||| ADD CHAOTIC HUMAN (BOW) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(chaoticHumanBow);
