@@ -369,9 +369,7 @@ function updateAnimationFrame(sprite) {
         case State.RIGHT_ATTACK_HAND_TO_HAND:
             sprite.frames.frameChangeCounter++;
         
-            // |||||||||||| CHANGE FRAME WHEN THE ANIMATION LAG REACHES "speed"
             if (sprite.frames.frameChangeCounter === sprite.frames.speed) {
-                // |||||||| CHANGE FRAME & RESET THE FRAME CHANGE COUNTER
                 sprite.frames.frameCounter++;
                 sprite.frames.frameChangeCounter = 0;
             }
@@ -394,9 +392,7 @@ function updateAnimationFrame(sprite) {
         case State.RIGHT_ATTACK_MAGICAL_ORB:
             sprite.frames.frameChangeCounter++;
         
-            // |||||||||||| CHANGE FRAME WHEN THE ANIMATION LAG REACHES "speed"
             if (sprite.frames.frameChangeCounter === sprite.frames.speed) {
-                // |||||||| CHANGE FRAME & RESET THE FRAME CHANGE COUNTER
                 sprite.frames.frameCounter++;
                 sprite.frames.frameChangeCounter = 0;
             }
