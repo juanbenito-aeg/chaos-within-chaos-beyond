@@ -1,6 +1,6 @@
 import globals from "./globals.js";
 import { Game, FPS, SpriteID, State } from "./constants.js";
-import { default as Sprite, HellBatAcid } from "./Sprite.js";
+import { default as Sprite, ChaoticHumanSword } from "./Sprite.js";
 import ImageSet from "./ImageSet.js";
 import Frames from "./Frames.js";
 import { Level, level1 } from "./Level.js";
@@ -386,10 +386,12 @@ function initChaoticHumanBow() {
 function initChaoticHumanSword() {
     const imageSet = new ImageSet(576, 0, 60, 62.5, 64, 62.5, 0, 0, 44, 46.5);
 
-    // |||||||||||| 9 (OR LESS IN THIS CASE) FRAMES PER STATE
-    const frames = new Frames(9);
+    // |||||||||||| ANIMATION DATA CREATION: 9 (OR LESS IN THIS CASE) FRAMES PER STATE & ANIMATION SPEED
+    const frames = new Frames(9, 3);
 
-    const chaoticHumanSword = new Sprite(SpriteID.CHAOTIC_HUMAN_SWORD, State.DOWN_3, 0, 0, imageSet, frames);
+    const physics = new Physics(20);
+
+    const chaoticHumanSword = new ChaoticHumanSword(SpriteID.CHAOTIC_HUMAN_SWORD, State.LEFT_3, 225, 21, imageSet, frames, physics, 3);
 
     // |||||||||||| ADD CHAOTIC HUMAN (SWORD) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(chaoticHumanSword);

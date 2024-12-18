@@ -256,16 +256,28 @@ function updateChaoticHumanBow(sprite) {
         }
     }
 
-    sprite.state = State.LEFT_ATTACK_2;
+    // sprite.state = State.OFF;
 }
 
 function updateChaoticHumanSword(sprite) {
-    sprite.xPos = 200;
-    sprite.yPos = 20.85;
+    // |||||||||||| STATES MACHINE
+    switch (sprite.state) {
+        case State.LEFT_3:
+            sprite.physics.vx = -sprite.physics.vLimit;
+            break;
+        
+        case State.RIGHT_3:
+            sprite.physics.vx = sprite.physics.vLimit;
+            break;
+    }
 
-    sprite.frames.frameCounter = 4;
+    // |||||||||||| CALCULATE THE DISTANCE IT MOVES
+    sprite.xPos += sprite.physics.vx * globals.deltaTime;
 
-    sprite.state = State.UP_3;
+    updateAnimationFrame(sprite);
+
+    // |||||||||||| DIRECTION CHANGE
+    updateDirection(sprite);
 }
 
 function updateFastWorm(sprite) {
@@ -467,6 +479,12 @@ function updateDirection(sprite) {
         // |||||||||||| RESET THE COUNTER
         sprite.directionChangeCounter = 0;
 
-        sprite.physics.vx = -sprite.physics.vx;
+        swapDirection(sprite);
     }
 }
+
+function swapDirection(sprite) {
+    sprite.state = (sprite.state === State.LEFT_3) ? State.RIGHT_3 : State.LEFT_3;
+}
+
+export { setHellBatAcidPosition };

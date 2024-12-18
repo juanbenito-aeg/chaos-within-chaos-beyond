@@ -11,14 +11,14 @@ class Sprite {
     }
 }
 
-// |||||||||||| HELL BAT (ACID) CLASS
-class HellBatAcid extends Sprite {
-    constructor(id, state, xPos, yPos, imageSet, frames, physics, maxTimeToChangeDirection) {
+// |||||||||||| CHAOTIC HUMAN (SWORD) CLASS
+class ChaoticHumanSword extends Sprite {
+    constructor (id, state, xPos, yPos, imageSet, frames, physics, maxTimeToChangeDirection) {
         super(id, state, xPos, yPos, imageSet, frames, physics);
 
-        this.directionChangeCounter     = 0;                            // COUNTER FOR DIRECTION CHANGE (SECONDS)
-        this.maxTimeToChangeDirection   = maxTimeToChangeDirection;     // MAXIMUM TIME FOR DIRECTION CHANGE (SECONDS)
+        this.directionChangeCounter   = 0;                          // COUNTER FOR DIRECTION CHANGE (SECONDS)
+        this.maxTimeToChangeDirection = maxTimeToChangeDirection;   // MAXIMUM TIME FOR DIRECTION CHANGE (SECONDS)
     }
 }
 
-export { Sprite as default, HellBatAcid };
+export { Sprite as default, ChaoticHumanSword };
