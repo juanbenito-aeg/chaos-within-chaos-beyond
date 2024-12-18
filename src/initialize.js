@@ -133,7 +133,7 @@ function initSprites() {
     // initChaoticHumanSword();
     initFastWorm();
     initHellBatAcid();
-    // initHellBatHandToHand();
+    initHellBatHandToHand();
     initPotionGreen();
     // initPotionBlue();
 
@@ -418,7 +418,7 @@ function initHellBatAcid() {
     const frames = new Frames(6, 7);
 
     // |||||||||||| INITIAL VALUES FOR "Physics"
-    const omega = 0.5;
+    const omega = 1;
     const initAngle = 90 * Math.PI / 180;
     const xRotCenter = 65;
     const yRotCenter = 30;
@@ -435,12 +435,21 @@ function initHellBatAcid() {
 }
 
 function initHellBatHandToHand() {
-    const imageSet = new ImageSet(1334, 0, 33, 37, 46, 59, 8, 21, 33, 37);
+    const imageSet = new ImageSet(1334, 0, 33, 39, 46, 59, 8, 19, 33, 39);
 
-    // |||||||||||| 3 FRAMES PER STATE
-    const frames = new Frames(3);
+    // |||||||||||| ANIMATION DATA CREATION: 3 FRAMES PER STATE & ANIMATION SPEED
+    const frames = new Frames(3, 7);
 
-    const hellBatHandToHand = new Sprite(SpriteID.HELL_BAT_HAND_TO_HAND, State.DOWN_3, 0, 0, imageSet, frames);
+    // |||||||||||| INITIAL VALUES FOR "Physics"
+    const vLimit = 60;
+    const omega = 5;
+    const initAngle = 90 * Math.PI / 180;
+    const yRef = 27.5;
+
+    const physics = new Physics(vLimit, 0, 1, 0, omega, initAngle, 100, 100, yRef);
+    physics.vx = vLimit;
+
+    const hellBatHandToHand = new Sprite(SpriteID.HELL_BAT_HAND_TO_HAND, State.DOWN_3, 0, 0, imageSet, frames, physics);
 
     // |||||||||||| ADD HELL BAT (HAND-TO-HAND) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(hellBatHandToHand);

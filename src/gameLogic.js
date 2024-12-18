@@ -325,12 +325,20 @@ function setHellBatAcidPosition(sprite) {
 }
 
 function updateHellBatHandToHand(sprite) {
-    sprite.xPos = 100;
-    sprite.yPos = 18;
+    const amplitude = 9;
 
-    sprite.frames.frameCounter = 0;
+    if ((sprite.xPos + sprite.imageSet.xDestinationSize) > globals.canvas.width) {
+        sprite.physics.vx = -sprite.physics.vLimit;
+    } else if (sprite.xPos < 0) {
+        sprite.physics.vx = sprite.physics.vLimit;
+    }
 
-    sprite.state = State.DOWN_3;
+    sprite.physics.angle += sprite.physics.omega * globals.deltaTime;
+
+    sprite.xPos += sprite.physics.vx * globals.deltaTime;
+    sprite.yPos = sprite.physics.yRef + amplitude * Math.sin(sprite.physics.angle);
+
+    updateAnimationFrame(sprite);
 }
 
 function updatePotionGreen(sprite) {
