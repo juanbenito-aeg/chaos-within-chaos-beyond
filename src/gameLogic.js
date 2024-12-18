@@ -334,10 +334,14 @@ function updatePotionBlue(sprite) {
 
 function updateMagicalOrb(sprite) {
     sprite.xPos += sprite.physics.vx * globals.deltaTime;
-
+    
     updateAnimationFrame(sprite);
 
-    if (globals.nextOrbThrowDelay.value > 0) {
+    if ((globals.nextOrbThrowDelay.value <= 0) && ((sprite.xPos <= (0 - sprite.imageSet.xDestinationSize)) || (sprite.xPos >= globals.canvas.width))) {
+        globals.nextOrbThrowDelay.timeChangeCounter = 0;
+        globals.nextOrbThrowDelay.value = 5;
+        sprite.state = State.OFF;
+    } else if (globals.nextOrbThrowDelay.value > 0) {
         globals.nextOrbThrowDelay.timeChangeCounter += globals.deltaTime;
     
         if (globals.nextOrbThrowDelay.timeChangeCounter > globals.nextOrbThrowDelay.timeChangeValue) {
@@ -345,9 +349,6 @@ function updateMagicalOrb(sprite) {
     
             globals.nextOrbThrowDelay.timeChangeCounter = 0;
         }
-    } else {
-        globals.nextOrbThrowDelay.timeChangeCounter = 0;
-        globals.nextOrbThrowDelay.value = 5;
     }
 }
 
@@ -375,6 +376,8 @@ function updateAnimationFrame(sprite) {
             }
         
             if (sprite.frames.frameCounter === 5) {
+                sprite.frames.frameCounter = 0;
+
                 switch (sprite.state) {
                     case State.LEFT_ATTACK_HAND_TO_HAND:
                         sprite.state = State.LEFT_STILL;
@@ -398,6 +401,8 @@ function updateAnimationFrame(sprite) {
             }
         
             if (sprite.frames.frameCounter === 4) {
+                sprite.frames.frameCounter = 0;
+
                 switch (sprite.state) {
                     case State.LEFT_ATTACK_MAGICAL_ORB:
                         sprite.state = State.LEFT_STILL;
