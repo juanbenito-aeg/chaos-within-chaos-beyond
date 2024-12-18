@@ -63,7 +63,7 @@ export default {
     // |||||||||||| OBJECT THAT HOLDS THE STATES OF THE KEYBOARD KEYS
     action: {},
 
-    // |||||||||||| TIMING OF THE DELAY BETWEEN SUCCESSIVE MAGICAL ORB THROWS (1 ORB/5 SECONDS)
+    // |||||||||||| TIMING OF THE DELAY BETWEEN SUCCESSIVE MAGICAL ORB THROWS
     nextOrbThrowDelay: {},
     
     // |||||||||||| TIMING OF THE DELAY BETWEEN SUCCESSIVE ARROW SHOTS
