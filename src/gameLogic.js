@@ -1,6 +1,6 @@
 import globals from "./globals.js";
 import { Game, SpriteID, State, GRAVITY } from "./constants.js";
-import { initMagicalOrb } from "./initialize.js";
+import { initMagicalOrb, initArrow } from "./initialize.js";
 
 export default function update() {
     // |||||||||||| CHANGE WHAT THE GAME IS DOING BASED ON THE GAME STATE
@@ -185,6 +185,11 @@ function updateScreenSprite(sprite) {
         case SpriteID.MAGICAL_ORB:
             updateMagicalOrb(sprite);
             break;
+        
+        // |||||||||||| ARROW
+        case SpriteID.ARROW:
+            updateArrow(sprite);
+            break;
     }
 }
 
@@ -245,6 +250,10 @@ function updatePlayer(sprite) {
 function updateChaoticHumanBow(sprite) {
     if (globals.nextArrowShotDelay.value <= 0) {
         updateAnimationFrame(sprite);
+
+        if ((sprite.frames.frameChangeCounter === 5) && (sprite.frames.frameCounter === 2)) {
+            initArrow();
+        }
     } else {
         globals.nextArrowShotDelay.timeChangeCounter += globals.deltaTime;
     
@@ -372,6 +381,14 @@ function updateMagicalOrb(sprite) {
     
             globals.nextOrbThrowDelay.timeChangeCounter = 0;
         }
+    }
+}
+
+function updateArrow(sprite) {
+    sprite.xPos += sprite.physics.vx * globals.deltaTime;
+
+    if ((sprite.xPos <= (0 - sprite.imageSet.xDestinationSize)) || (sprite.xPos >= globals.canvas.width)) {
+        sprite.state = State.OFF;
     }
 }
 

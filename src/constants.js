@@ -77,6 +77,7 @@ const SpriteID = {
     SKULL: 26,
     BACKGROUND_IMG_HIGH_SCORES_MENU: 27,
     MAGICAL_ORB: 28,
+    ARROW: 29,
 };
 
 // |||||||||||| SPRITE STATE IDENTIFIER (DIRECTION)
@@ -126,6 +127,10 @@ const State = {
     LEFT_DEAD: 5,
     DOWN_DEAD: 6,
     RIGHT_DEAD: 7,
+
+    // |||||||| ARROW
+    LEFT_4: 0, 
+    RIGHT_4: 1, 
 
     // |||||||| MAGICAL ORB, POTION (GREEN & BLUE), BACKGROUND IMAGES, ICONS, THE ERUDITE (HUD), RAGE BAR (CONTAINER & CONTENT)
     STILL: 0,

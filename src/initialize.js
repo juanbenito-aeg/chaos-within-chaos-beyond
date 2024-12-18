@@ -133,7 +133,7 @@ function initSprites() {
     // initChaoticHumanSword();
     initFastWorm();
     initHellBatAcid();
-    initHellBatHandToHand();
+    // initHellBatHandToHand();
     initPotionGreen();
     // initPotionBlue();
 
@@ -506,6 +506,40 @@ function initMagicalOrb() {
     globals.screenSprites.push(magicalOrb);
 }
 
+function initArrow() {
+    const chaoticHumanBow = globals.screenSprites[1];
+    
+    let state;
+
+    let xPos;
+    let yPos = chaoticHumanBow.yPos + (chaoticHumanBow.imageSet.yDestinationSize / 3.75);
+    
+    let vLimit;
+
+    if (chaoticHumanBow.state === State.LEFT_ATTACK_2) {
+        state = State.LEFT_4;
+        xPos = chaoticHumanBow.xPos;
+        vLimit = -210;
+    } else {
+        state = State.RIGHT_4;
+        xPos = chaoticHumanBow.xPos + chaoticHumanBow.imageSet.xDestinationSize;
+        vLimit = 210;
+    }
+
+    const imageSet = new ImageSet(580, 564, 16, 7, 20, 14.1, 0, 2, 16, 7);
+
+    // |||||||||||| ANIMATION DATA CREATION: 1 FRAME PER STATE & ANIMATION SPEED
+    const frames = new Frames(1, 1);
+
+    const physics = new Physics(vLimit);
+    physics.vx = vLimit;
+
+    const arrow = new Sprite(SpriteID.ARROW, state, xPos, yPos, imageSet, frames, physics);
+
+    // |||||||||||| ADD ARROW TO ITS CORRESPONDING SPRITES ARRAY
+    globals.screenSprites.push(arrow);
+}
+
 function initSkull() {
     const imageSet = new ImageSet(153, 1780, 120, 162, 153, 178, 32, 14, 80, 122);
 
@@ -518,4 +552,4 @@ function initSkull() {
 }
 
 // |||||||||||| EXPORTS
-export { initHTMLElements, loadAssets, initVars, initSprites, initLevel, initEvents, initMagicalOrb, initTimers };
+export { initHTMLElements, loadAssets, initVars, initSprites, initLevel, initEvents, initMagicalOrb, initTimers, initArrow };
