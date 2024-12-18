@@ -7,6 +7,7 @@ import { Level, level1 } from "./Level.js";
 import Physics from "./Physics.js";
 import { keydownHandler, keyupHandler } from "./events.js";
 import Timer from "./Timer.js";
+import { setHellBatAcidPosition } from "./gameLogic.js";
 
 // |||||||||||| INITIALIZES THE HTML ELEMENTS
 function initHTMLElements() {
@@ -406,12 +407,23 @@ function initFastWorm() {
 }
 
 function initHellBatAcid() {
-    const imageSet = new ImageSet(0, 590, 92, 91, 122, 118, 30, 27, 50, 49);
+    const imageSet = new ImageSet(1952, 1180, 92, 90, 122, 118, 30, 28, 52, 50);
 
-    // |||||||||||| 7 FRAMES PER STATE
-    const frames = new Frames(7);
+    // |||||||||||| ANIMATION DATA CREATION: 6 (OR LESS IN THIS CASE) FRAMES PER STATE & ANIMATION SPEED
+    const frames = new Frames(6, 7);
 
-    const hellBatAcid = new Sprite(SpriteID.HELL_BAT_ACID, State.UP, 0, 0, imageSet, frames);
+    // |||||||||||| INITIAL VALUES FOR "Physics"
+    const omega = 0.5;
+    const initAngle = 90 * Math.PI / 180;
+    const xRotCenter = 65;
+    const yRotCenter = 30;
+
+    const physics = new Physics(60, 0, 1, 0, omega, initAngle, xRotCenter, yRotCenter);
+
+    const hellBatAcid = new Sprite(SpriteID.HELL_BAT_ACID, State.DOWN, 0, 0, imageSet, frames, physics);
+
+    // |||||||||||| POSITION THE SPRITE
+    setHellBatAcidPosition(hellBatAcid);
 
     // |||||||||||| ADD HELL BAT (ACID) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(hellBatAcid);

@@ -271,12 +271,24 @@ function updateFastWorm(sprite) {
 }
 
 function updateHellBatAcid(sprite) {
-    sprite.xPos = 30;
-    sprite.yPos = 18;
+    // |||||||||||| UPDATE TURNING ANGLE
+    sprite.physics.angle += sprite.physics.omega * globals.deltaTime;
 
-    sprite.frames.frameCounter = 2;
+    // |||||||||||| CALCULATE NEW POSITION
+    setHellBatAcidPosition(sprite);
 
-    sprite.state = State.DOWN;
+    updateAnimationFrame(sprite);
+}
+
+function setHellBatAcidPosition(sprite) {
+    // |||||||||||| SEMI-MAJOR AXIS OF THE ELLIPSE
+    const aRadius = 60;
+    
+    // |||||||||||| SEMI-MINOR AXIS OF THE ELLIPSE
+    const bRadius = 20;
+
+    sprite.xPos = sprite.physics.xRotCenter + aRadius * Math.cos(sprite.physics.angle);
+    sprite.yPos = sprite.physics.yRotCenter + bRadius * Math.sin(sprite.physics.angle);
 }
 
 function updateHellBatHandToHand(sprite) {

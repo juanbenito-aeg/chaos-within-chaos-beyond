@@ -81,7 +81,7 @@ const SpriteID = {
 
 // |||||||||||| SPRITE STATE IDENTIFIER (DIRECTION)
 const State = {
-    // |||||||| PLAYER (1), FAST WORM, HELL BAT (ACID)
+    // |||||||| PLAYER (1), FAST WORM, HELL BAT (ACID | 1)
     UP: 0,
     LEFT: 1,
     DOWN: 2,
@@ -120,6 +120,12 @@ const State = {
 
     // |||||||| CHAOTIC HUMAN (SWORD | 2)
     DYING: 4,
+
+    // |||||||| HELL BAT (ACID | 2)
+    UP_DEAD: 4,
+    LEFT_DEAD: 5,
+    DOWN_DEAD: 6,
+    RIGHT_DEAD: 7,
 
     // |||||||| MAGICAL ORB, POTION (GREEN & BLUE), BACKGROUND IMAGES, ICONS, THE ERUDITE (HUD), RAGE BAR (CONTAINER & CONTENT)
     STILL: 0,
