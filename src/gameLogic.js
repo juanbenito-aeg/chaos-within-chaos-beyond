@@ -280,12 +280,27 @@ function updateChaoticHumanSword(sprite) {
 }
 
 function updateFastWorm(sprite) {
-    sprite.xPos = 390;
-    sprite.yPos = 124;
+    const player = globals.screenSprites[0];
+    
+    const vpVectorX = sprite.xPos - player.xPos;        
+    const vpVectorY = sprite.yPos - player.yPos;
+    
+    const uvVectorX = vpVectorX / Math.sqrt((vpVectorX ** 2) + (vpVectorY ** 2));
+    const uvVectorY = vpVectorY / Math.sqrt((vpVectorX ** 2) + (vpVectorY ** 2));
 
-    sprite.frames.frameCounter = 0;
+    sprite.physics.vx = -sprite.physics.vLimit * uvVectorX;
+    sprite.physics.vy = -sprite.physics.vLimit * uvVectorY;
+    
+    if (vpVectorX > 0) {
+        sprite.state = State.LEFT;
+    } else {
+        sprite.state = State.RIGHT;
+    }
 
-    sprite.state = State.LEFT;
+    sprite.xPos += sprite.physics.vx * globals.deltaTime;
+    sprite.yPos += sprite.physics.vy * globals.deltaTime;
+
+    updateAnimationFrame(sprite);
 }
 
 function updateHellBatAcid(sprite) {

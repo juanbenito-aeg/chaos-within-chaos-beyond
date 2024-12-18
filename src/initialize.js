@@ -398,12 +398,14 @@ function initChaoticHumanSword() {
 }
 
 function initFastWorm() {
-    const imageSet = new ImageSet(899, 505, 42.15, 58, 64.15, 63.1, 0, 6, 28.15, 44);
+    const imageSet = new ImageSet(899, 505, 48, 55, 64.15, 63.1, 6, 6, 33, 40);
 
-    // |||||||||||| 6 FRAMES PER STATE
-    const frames = new Frames(6);
+    // |||||||||||| ANIMATION DATA CREATION: 6 FRAMES PER STATE & ANIMATION SPEED
+    const frames = new Frames(6, 3);
 
-    const fastWorm = new Sprite(SpriteID.FAST_WORM, State.UP, 0, 0, imageSet, frames);
+    const physics = new Physics(20);
+
+    const fastWorm = new Sprite(SpriteID.FAST_WORM, State.LEFT, 390, 124, imageSet, frames, physics);
 
     // |||||||||||| ADD FAST WORM TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(fastWorm);
