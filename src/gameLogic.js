@@ -258,6 +258,8 @@ function updateChaoticHumanBow(sprite) {
 
         if ((sprite.frames.frameChangeCounter === 5) && (sprite.frames.frameCounter === 2)) {
             initArrow();
+            globals.nextArrowShotDelay.timeChangeCounter = 0;
+            globals.nextArrowShotDelay.value = 5;
         }
     } else {
         globals.nextArrowShotDelay.timeChangeCounter += globals.deltaTime;
@@ -496,7 +498,6 @@ function updateAnimationFrame(sprite) {
         
             if (sprite.frames.frameCounter === sprite.frames.framesPerState) {
                 sprite.frames.frameCounter = 0;
-                globals.nextArrowShotDelay.value = 5;
             }
 
             break;
