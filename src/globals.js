@@ -68,4 +68,7 @@ export default {
     
     // |||||||||||| TIMING OF THE DELAY BETWEEN SUCCESSIVE ARROW SHOTS
     nextArrowShotDelay: {},
+    
+    // |||||||||||| TIMING OF THE DELAY BETWEEN SUCCESSIVE ACID DROPS
+    nextAcidDropDelay: {},
 };

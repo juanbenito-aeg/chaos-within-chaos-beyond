@@ -46,6 +46,7 @@ function initVars() {
 function initTimers() {
     globals.nextOrbThrowDelay = new Timer(5, 1);
     globals.nextArrowShotDelay = new Timer(5, 1);
+    globals.nextAcidDropDelay = new Timer(5, 1);
 }
 
 function initEvents() {
@@ -540,6 +541,27 @@ function initArrow() {
     globals.screenSprites.push(arrow);
 }
 
+function initAcid() {
+    const hellBatAcid = globals.screenSprites[3];
+    
+    const xPos = hellBatAcid.xPos + (hellBatAcid.imageSet.xDestinationSize / 3.35);
+    const yPos = hellBatAcid.yPos + (hellBatAcid.imageSet.yDestinationSize / 2.5);
+    
+    const vLimit = 180;
+
+    const imageSet = new ImageSet(570, 440, 19, 35, 30, 40, 7, 2, 4, 20);
+
+    const frames = new Frames(4, 3);
+
+    const physics = new Physics(vLimit);
+    physics.vy = vLimit;
+
+    const acid = new Sprite(SpriteID.ACID, State.STILL, xPos, yPos, imageSet, frames, physics);
+
+    // |||||||||||| ADD ACID TO ITS CORRESPONDING SPRITES ARRAY
+    globals.screenSprites.push(acid);
+}
+
 function initSkull() {
     const imageSet = new ImageSet(153, 1780, 120, 162, 153, 178, 32, 14, 80, 122);
 
@@ -552,4 +574,4 @@ function initSkull() {
 }
 
 // |||||||||||| EXPORTS
-export { initHTMLElements, loadAssets, initVars, initSprites, initLevel, initEvents, initMagicalOrb, initTimers, initArrow };
+export { initHTMLElements, loadAssets, initVars, initSprites, initLevel, initEvents, initMagicalOrb, initTimers, initArrow, initAcid };

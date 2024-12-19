@@ -1,6 +1,6 @@
 import globals from "./globals.js";
 import { Game, SpriteID, State, GRAVITY } from "./constants.js";
-import { initMagicalOrb, initArrow } from "./initialize.js";
+import { initMagicalOrb, initArrow, initAcid } from "./initialize.js";
 
 export default function update() {
     // |||||||||||| CHANGE WHAT THE GAME IS DOING BASED ON THE GAME STATE
@@ -190,6 +190,11 @@ function updateScreenSprite(sprite) {
         case SpriteID.ARROW:
             updateArrow(sprite);
             break;
+        
+        // |||||||||||| ACID
+        case SpriteID.ACID:
+            updateAcid(sprite);
+            break;
     }
 }
 
@@ -320,6 +325,20 @@ function updateHellBatAcid(sprite) {
     setHellBatAcidPosition(sprite);
 
     updateAnimationFrame(sprite);
+
+    if (globals.nextAcidDropDelay.value <= 0) {
+        initAcid();
+        globals.nextAcidDropDelay.timeChangeCounter = 0;   
+        globals.nextAcidDropDelay.value = 5;   
+    } else {
+        globals.nextAcidDropDelay.timeChangeCounter += globals.deltaTime;
+    
+        if (globals.nextAcidDropDelay.timeChangeCounter > globals.nextAcidDropDelay.timeChangeValue) {
+            globals.nextAcidDropDelay.value--;
+    
+            globals.nextAcidDropDelay.timeChangeCounter = 0;
+        }
+    }
 }
 
 function setHellBatAcidPosition(sprite) {
@@ -387,7 +406,17 @@ function updateMagicalOrb(sprite) {
 function updateArrow(sprite) {
     sprite.xPos += sprite.physics.vx * globals.deltaTime;
 
-    if ((sprite.xPos <= (0 - sprite.imageSet.xDestinationSize)) || (sprite.xPos >= globals.canvas.width)) {
+    if ((globals.nextArrowShotDelay.value <= 0) && ((sprite.xPos <= (0 - sprite.imageSet.xDestinationSize)) || (sprite.xPos >= globals.canvas.width))) {
+        sprite.state = State.OFF;
+    }
+}
+
+function updateAcid(sprite) {
+    sprite.yPos += sprite.physics.vy * globals.deltaTime;
+
+    updateAnimationFrame(sprite);
+
+    if ((globals.nextAcidDropDelay.value <= 0) && (sprite.yPos >= globals.canvas.height)) {
         sprite.state = State.OFF;
     }
 }
