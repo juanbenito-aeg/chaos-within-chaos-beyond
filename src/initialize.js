@@ -441,10 +441,10 @@ function initHellBatHandToHand() {
     const frames = new Frames(3, 7);
 
     // |||||||||||| INITIAL VALUES FOR "Physics"
-    const vLimit = 60;
-    const omega = 5;
+    const vLimit = 50;
+    const omega = 2.5;
     const initAngle = 90 * Math.PI / 180;
-    const yRef = 27.5;
+    const yRef = globals.canvas.height / 2.15;
 
     const physics = new Physics(vLimit, 0, 1, 0, omega, initAngle, 100, 100, yRef);
     physics.vx = vLimit;

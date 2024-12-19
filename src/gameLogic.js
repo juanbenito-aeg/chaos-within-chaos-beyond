@@ -334,7 +334,7 @@ function setHellBatAcidPosition(sprite) {
 }
 
 function updateHellBatHandToHand(sprite) {
-    const amplitude = 9;
+    const amplitude = 80;
 
     if ((sprite.xPos + sprite.imageSet.xDestinationSize) > globals.canvas.width) {
         sprite.physics.vx = -sprite.physics.vLimit;
