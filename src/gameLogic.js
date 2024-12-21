@@ -298,25 +298,36 @@ function updateChaoticHumanSword(sprite) {
 function updateFastWorm(sprite) {
     const player = globals.screenSprites[0];
     
-    const vpVectorX = sprite.xPos - player.xPos;        
-    const vpVectorY = sprite.yPos - player.yPos;
-    
-    const uvVectorX = vpVectorX / Math.sqrt((vpVectorX ** 2) + (vpVectorY ** 2));
-    const uvVectorY = vpVectorY / Math.sqrt((vpVectorX ** 2) + (vpVectorY ** 2));
+    const vpVectorX = player.xPos - sprite.xPos;        
+    const vpVectorY = player.yPos - sprite.yPos;
+    const vpVectorLength = Math.sqrt((vpVectorX ** 2) + (vpVectorY ** 2));
+    const MIN_DISTANCE_TO_START_CHASE = 200;
 
-    sprite.physics.vx = -sprite.physics.vLimit * uvVectorX;
-    sprite.physics.vy = -sprite.physics.vLimit * uvVectorY;
+    if (vpVectorLength >= 7.5 && vpVectorLength <= MIN_DISTANCE_TO_START_CHASE) {
+        if (vpVectorX < 0) {
+            sprite.state = State.LEFT;
+        } else {
+            sprite.state = State.RIGHT;
+        }
+
+        const uvVectorX = vpVectorX / vpVectorLength;
+        const uvVectorY = vpVectorY / vpVectorLength;
     
-    if (vpVectorX > 0) {
-        sprite.state = State.LEFT;
+        sprite.physics.vx = sprite.physics.vLimit * uvVectorX;
+        sprite.physics.vy = sprite.physics.vLimit * uvVectorY;
     } else {
-        sprite.state = State.RIGHT;
+        sprite.physics.vx = 0;
+        sprite.physics.vy = 0;
     }
 
     sprite.xPos += sprite.physics.vx * globals.deltaTime;
     sprite.yPos += sprite.physics.vy * globals.deltaTime;
 
-    updateAnimationFrame(sprite);
+    if (vpVectorLength > MIN_DISTANCE_TO_START_CHASE) {
+        sprite.frames.frameCounter = 0;
+    } else {
+        updateAnimationFrame(sprite);
+    }
 }
 
 function updateHellBatAcid(sprite) {
