@@ -8,6 +8,8 @@ import Physics from "./Physics.js";
 import { keydownHandler, keyupHandler } from "./events.js";
 import Timer from "./Timer.js";
 import { setHellBatAcidPosition } from "./gameLogic.js";
+import HitBox from "./HitBox.js";
+import Collisions from "./Collisions.js";
 
 // |||||||||||| INITIALIZES THE HTML ELEMENTS
 function initHTMLElements() {
@@ -32,6 +34,9 @@ function initVars() {
 
     // |||||||| INITIALIZE THE GAME STATE
     globals.gameState = Game.LOADING;
+
+    // |||||||| INITIALIZE THE PLAYER'S LIFE POINTS
+    globals.lifePoints = 3;
 
     // |||||||| INITIALIZE THE STATE OF THE ACTIONS
     globals.action = {
@@ -366,7 +371,11 @@ function initPlayer() {
 
     const physics = new Physics(40, 0, 1, -140);
 
-    const player = new Sprite(SpriteID.PLAYER, State.RIGHT_STILL, 0, 186, imageSet, frames, physics);
+    const hitBox = new HitBox(40, 37, 2, 2);
+
+    const collisions = new Collisions();
+
+    const player = new Sprite(SpriteID.PLAYER, State.RIGHT_STILL, 0, 186, imageSet, frames, physics, hitBox, collisions);
 
     // |||||||||||| ADD PLAYER TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(player);
@@ -378,7 +387,11 @@ function initChaoticHumanBow() {
     // |||||||||||| ANIMATION DATA CREATION: 3 FRAMES PER STATE & ANIMATION SPEED
     const frames = new Frames(3, 6);
 
-    const chaoticHumanBow = new Sprite(SpriteID.CHAOTIC_HUMAN_BOW, State.LEFT_ATTACK_2, 275, 23, imageSet, frames);
+    const hitBox = new HitBox(7.9, 36, 15.5, 5);
+
+    const collisions = new Collisions();
+
+    const chaoticHumanBow = new Sprite(SpriteID.CHAOTIC_HUMAN_BOW, State.LEFT_ATTACK_2, 275, 23, imageSet, frames, null, hitBox, collisions);
 
     // |||||||||||| ADD CHAOTIC HUMAN (BOW) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(chaoticHumanBow);
@@ -392,7 +405,11 @@ function initChaoticHumanSword() {
 
     const physics = new Physics(20);
 
-    const chaoticHumanSword = new ChaoticHumanSword(SpriteID.CHAOTIC_HUMAN_SWORD, State.LEFT_3, 225, 21, imageSet, frames, physics, 3);
+    const hitBox = new HitBox(40, 38, 3, 5.5);
+
+    const collisions = new Collisions();
+
+    const chaoticHumanSword = new ChaoticHumanSword(SpriteID.CHAOTIC_HUMAN_SWORD, State.LEFT_3, 225, 21, imageSet, frames, physics, 3, hitBox, collisions);
 
     // |||||||||||| ADD CHAOTIC HUMAN (SWORD) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(chaoticHumanSword);
@@ -406,7 +423,11 @@ function initFastWorm() {
 
     const physics = new Physics(20);
 
-    const fastWorm = new Sprite(SpriteID.FAST_WORM, State.LEFT, 390, 124, imageSet, frames, physics);
+    const hitBox = new HitBox(24, 33, 5.5, 4.5);
+
+    const collisions = new Collisions();
+
+    const fastWorm = new Sprite(SpriteID.FAST_WORM, State.LEFT, 390, 124, imageSet, frames, physics, hitBox, collisions);
 
     // |||||||||||| ADD FAST WORM TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(fastWorm);
@@ -426,7 +447,11 @@ function initHellBatAcid() {
 
     const physics = new Physics(60, 0, 1, 0, omega, initAngle, xRotCenter, yRotCenter);
 
-    const hellBatAcid = new Sprite(SpriteID.HELL_BAT_ACID, State.DOWN, 0, 0, imageSet, frames, physics);
+    const hitBox = new HitBox(32, 27, 1, 12);
+
+    const collisions = new Collisions();
+
+    const hellBatAcid = new Sprite(SpriteID.HELL_BAT_ACID, State.DOWN, 0, 0, imageSet, frames, physics, hitBox, collisions);
 
     // |||||||||||| POSITION THE SPRITE
     setHellBatAcidPosition(hellBatAcid);
@@ -450,7 +475,11 @@ function initHellBatHandToHand() {
     const physics = new Physics(vLimit, 0, 1, 0, omega, initAngle, 100, 100, yRef);
     physics.vx = vLimit;
 
-    const hellBatHandToHand = new Sprite(SpriteID.HELL_BAT_HAND_TO_HAND, State.DOWN_3, 0, 0, imageSet, frames, physics);
+    const hitBox = new HitBox(32, 21, 1, 2);
+
+    const collisions = new Collisions();
+
+    const hellBatHandToHand = new Sprite(SpriteID.HELL_BAT_HAND_TO_HAND, State.DOWN_3, 0, 0, imageSet, frames, physics, hitBox, collisions);
 
     // |||||||||||| ADD HELL BAT (HAND-TO-HAND) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(hellBatHandToHand);
@@ -461,7 +490,11 @@ function initPotionGreen() {
 
     const frames = new Frames(1);
 
-    const potionGreen = new Sprite(SpriteID.POTION_GREEN, State.STILL, 0, 0, imageSet, frames);
+    const hitBox = new HitBox(14, 16, 0, 0);
+
+    const collisions = new Collisions();
+
+    const potionGreen = new Sprite(SpriteID.POTION_GREEN, State.STILL, 0, 0, imageSet, frames, null, hitBox, collisions);
 
     // |||||||||||| ADD POTION (GREEN) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(potionGreen);
@@ -472,7 +505,11 @@ function initPotionBlue() {
 
     const frames = new Frames(1);
 
-    const potionBlue = new Sprite(SpriteID.POTION_BLUE, State.STILL, 0, 0, imageSet, frames);
+    const hitBox = new HitBox(14, 16, 0, 0);
+
+    const collisions = new Collisions();
+
+    const potionBlue = new Sprite(SpriteID.POTION_BLUE, State.STILL, 0, 0, imageSet, frames, null, hitBox, collisions);
 
     // |||||||||||| ADD POTION (BLUE) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(potionBlue);
@@ -501,7 +538,11 @@ function initMagicalOrb() {
     const physics = new Physics(vLimit);
     physics.vx = vLimit;
 
-    const magicalOrb = new Sprite(SpriteID.MAGICAL_ORB, State.STILL, magicalOrbXPos, magicalOrbYPos, imageSet, frames, physics);
+    const hitBox = new HitBox(17.5, 18, 1, 1);
+
+    const collisions = new Collisions();
+
+    const magicalOrb = new Sprite(SpriteID.MAGICAL_ORB, State.STILL, magicalOrbXPos, magicalOrbYPos, imageSet, frames, physics, hitBox, collisions);
 
     // |||||||||||| ADD MAGICAL ORB TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(magicalOrb);
@@ -527,7 +568,7 @@ function initArrow() {
         vLimit = 210;
     }
 
-    const imageSet = new ImageSet(580, 564, 16, 7, 20, 14.1, 0, 2, 16, 7);
+    const imageSet = new ImageSet(580, 564, 16, 7, 20, 14.1, 0, 0, 16, 7);
 
     // |||||||||||| ANIMATION DATA CREATION: 1 FRAME PER STATE & ANIMATION SPEED
     const frames = new Frames(1, 1);
@@ -535,7 +576,11 @@ function initArrow() {
     const physics = new Physics(vLimit);
     physics.vx = vLimit;
 
-    const arrow = new Sprite(SpriteID.ARROW, state, xPos, yPos, imageSet, frames, physics);
+    const hitBox = new HitBox(16, 7, 0, 0);
+
+    const collisions = new Collisions();
+
+    const arrow = new Sprite(SpriteID.ARROW, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
 
     // |||||||||||| ADD ARROW TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(arrow);
@@ -556,7 +601,11 @@ function initAcid() {
     const physics = new Physics(vLimit);
     physics.vy = vLimit;
 
-    const acid = new Sprite(SpriteID.ACID, State.STILL, xPos, yPos, imageSet, frames, physics);
+    const hitBox = new HitBox(4, 18, 0, 2);
+
+    const collisions = new Collisions();
+
+    const acid = new Sprite(SpriteID.ACID, State.STILL, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
 
     // |||||||||||| ADD ACID TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(acid);

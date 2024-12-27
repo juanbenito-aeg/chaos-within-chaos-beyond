@@ -575,12 +575,15 @@ function renderRageLevel() {
     }
 }
 
-function drawSpriteRectangle(sprite, destinationWidth, destinationHeight) {
-    const x1 = Math.floor(sprite.xPos);
-    const y1 = Math.floor(sprite.yPos);
+function renderScreenSprites() {
+    for (let i = 0; i < globals.screenSprites.length; i++) {
+        const sprite = globals.screenSprites[i];
 
-    globals.ctx.fillStyle = "green";
-    globals.ctx.fillRect(x1, y1, destinationWidth, destinationHeight);
+        renderScreenSprite(sprite);
+
+        // |||||||||||| TEST: DRAWS THE HITBOX
+        drawHitBox(sprite);
+    }
 }
 
 function renderScreenSprite(sprite) {
@@ -604,12 +607,22 @@ function renderScreenSprite(sprite) {
     );
 }
 
-function renderScreenSprites() {
-    for (let i = 0; i < globals.screenSprites.length; i++) {
-        const sprite = globals.screenSprites[i];
+function drawSpriteRectangle(sprite, destinationWidth, destinationHeight) {
+    const x1 = Math.floor(sprite.xPos);
+    const y1 = Math.floor(sprite.yPos);
 
-        renderScreenSprite(sprite);
-    }
+    globals.ctx.fillStyle = "green";
+    globals.ctx.fillRect(x1, y1, destinationWidth, destinationHeight);
+}
+
+function drawHitBox(sprite) {
+    const x1 = Math.floor(sprite.xPos) + Math.floor(sprite.hitBox.xOffset);
+    const y1 = Math.floor(sprite.yPos) + Math.floor(sprite.hitBox.yOffset);
+    const w1 = sprite.hitBox.xSize;
+    const h1 = sprite.hitBox.ySize;
+
+    globals.ctx.strokeStyle = "white";
+    globals.ctx.strokeRect(x1, y1, w1, h1);
 }
 
 function drawGameOver() {

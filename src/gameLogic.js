@@ -1,6 +1,7 @@
 import globals from "./globals.js";
 import { Game, SpriteID, State, GRAVITY } from "./constants.js";
 import { initMagicalOrb, initArrow, initAcid } from "./initialize.js";
+import detectCollisions from "./collisionsLogic.js";
 
 export default function update() {
     // |||||||||||| CHANGE WHAT THE GAME IS DOING BASED ON THE GAME STATE
@@ -109,15 +110,12 @@ function updateSLetterKey(sprite) {
 function playGame() {
     updateHUD();
     updateScreenSprites();
+    detectCollisions();
+    updateLifePoints();
 }
 
 function updateHUD() {
-    updateLifePoints();
     updateRageLevel();
-}
-
-function updateLifePoints() {
-    globals.lifePoints = 1;
 }
 
 function updateRageLevel() {
@@ -431,6 +429,32 @@ function updateAcid(sprite) {
 
     if ((globals.nextAcidDropDelay.value <= 0) && (sprite.yPos >= globals.canvas.height)) {
         sprite.state = State.OFF;
+    }
+}
+
+function updateLifePoints() {
+    const enemiesAndHarmfulElements = [
+        SpriteID.CHAOTIC_HUMAN_BOW,
+        SpriteID.ARROW,
+        SpriteID.CHAOTIC_HUMAN_SWORD,
+        SpriteID.FAST_WORM,
+        SpriteID.HELL_BAT_ACID,
+        SpriteID.ACID,
+        SpriteID.HELL_BAT_HAND_TO_HAND,
+    ];
+
+    for (let i = 1; i < globals.screenSprites.length; i++) {
+        const sprite = globals.screenSprites[i];
+
+        if (sprite.collisions.isCollidingWithPlayer) {
+            if ((globals.lifePoints > 1) && enemiesAndHarmfulElements.includes(sprite.id)) {
+                globals.lifePoints--;
+            } else if ((globals.lifePoints < 5) && (sprite.id === SpriteID.POTION_GREEN)) {
+                globals.lifePoints++;
+            } else if ((globals.lifePoints < 4) && (sprite.id === SpriteID.POTION_BLUE)) {
+                globals.lifePoints += 2;
+            }
+        }
     }
 }
 
