@@ -96,7 +96,7 @@ function loadHandler() {
 }
 
 function initLevel() {
-    const imageSet = new ImageSet(0, 0, 16, 16, 16, 16, 0, 0);
+    const imageSet = new ImageSet(0, 0, 16, 16, 16, 16, 0, 0, 16, 16);
 
     // |||||||||||| CREATE AND SAVE THE CAVE SECTION (LEVEL)
     globals.level = new Level(level1, imageSet);
@@ -371,11 +371,11 @@ function initPlayer() {
 
     const physics = new Physics(40, 0, 1, -140);
 
-    const hitBox = new HitBox(40, 37, 2, 2);
+    const hitBox = new HitBox(13, 34, 15, 5);
 
     const collisions = new Collisions();
 
-    const player = new Sprite(SpriteID.PLAYER, State.RIGHT_STILL, 0, 186, imageSet, frames, physics, hitBox, collisions);
+    const player = new Sprite(SpriteID.PLAYER, State.RIGHT_STILL, 0, 184, imageSet, frames, physics, hitBox, collisions);
 
     // |||||||||||| ADD PLAYER TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(player);

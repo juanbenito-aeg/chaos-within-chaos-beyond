@@ -220,25 +220,26 @@ function updatePlayer(sprite) {
     // |||||||| ACCELERATION IN THE Y AXIS IS THE GRAVITY
     sprite.physics.ay = GRAVITY;
 
-    if (!sprite.physics.isOnGround) {
-        sprite.physics.vy += sprite.physics.ay * globals.deltaTime;
+    if (sprite.collisions.isCollidingWithObstacleOnTheBottom) {
+        sprite.physics.isOnGround = true;
     } else {
-        if (globals.action.jump) {
-            sprite.physics.isOnGround = false;
+        sprite.physics.isOnGround = false;
+    }
 
-            // |||||||| ASSIGN INITIAL JUMP VELOCITY
-            sprite.physics.vy += sprite.physics.jumpForce;
-        }
+    sprite.physics.vy += sprite.physics.ay * globals.deltaTime;
+
+    if (sprite.physics.isOnGround && globals.action.jump) {
+        sprite.physics.isOnGround = false;
+    
+        // |||||||| ASSIGN INITIAL JUMP VELOCITY
+        sprite.physics.vy += sprite.physics.jumpForce;
     }
 
     // |||||||| CALCULATE THE DISTANCE IT MOVES
-    sprite.yPos += sprite.physics.vy * globals.deltaTime;
-
-    // |||||||||||| COLLISION WITH THE GROUND (WHICH LATER WILL BE MOVED TO A SPECIFIC FILE FOR THE GAME'S COLLISIONS)
-    if (sprite.yPos > 186) {
-        sprite.physics.isOnGround = true;
-        sprite.yPos = 186;
-        sprite.physics.vy = 0;
+    if (sprite.physics.vy > 0) {
+        sprite.yPos += Math.max(sprite.physics.vy * globals.deltaTime, 1);
+    } else {
+        sprite.yPos += sprite.physics.vy * globals.deltaTime;
     }
 
     updateAnimationFrame(sprite);
