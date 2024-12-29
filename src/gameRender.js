@@ -374,8 +374,6 @@ function renderControlsMenuTxt() {
     globals.ctx.fillStyle = "rgb(212 212 212)";
 
     const movementControlsDividedIntoLines = [
-        "GO UP USING CHAIN",
-        "GO DOWN USING CHAIN",
         "MOVE LEFTWARDS",
         "MOVE RIGHTWARDS",
         "JUMP",
@@ -392,7 +390,7 @@ function renderControlsMenuTxt() {
     globals.ctx.textAlign = "center";
     globals.ctx.font = "12px emulogic";
     globals.ctx.fillStyle = "white";
-    globals.ctx.fillText("ATTACK", canvasWidthDividedBy2, 225);
+    globals.ctx.fillText("ATTACK", canvasWidthDividedBy2, 180);
 
     globals.ctx.textAlign = "start";
     globals.ctx.font = "7px emulogic";
@@ -403,7 +401,7 @@ function renderControlsMenuTxt() {
         "THROW MAGICAL ORB THROUGH THE HAMMER",
     ];
 
-    let attackControlsLineYCoordinate = 249;
+    let attackControlsLineYCoordinate = 206;
 
     for (let i = 0; i < attackControlsDividedIntoLines.length; i++) {
         globals.ctx.fillText(attackControlsDividedIntoLines[i], 18, attackControlsLineYCoordinate);
