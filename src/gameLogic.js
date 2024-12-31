@@ -269,8 +269,6 @@ function updateChaoticHumanBow(sprite) {
             globals.nextArrowShotDelay.timeChangeCounter = 0;
         }
     }
-
-    // sprite.state = State.OFF;
 }
 
 function updateChaoticHumanSword(sprite) {
@@ -310,17 +308,26 @@ function updateFastWorm(sprite) {
         }
 
         const uvVectorX = vpVectorX / vpVectorLength;
-        const uvVectorY = vpVectorY / vpVectorLength;
-    
-        sprite.physics.vx = sprite.physics.vLimit * uvVectorX;
-        sprite.physics.vy = sprite.physics.vLimit * uvVectorY;
+
+        sprite.physics.vx = sprite.physics.vLimit * uvVectorX;        
     } else {
         sprite.physics.vx = 0;
-        sprite.physics.vy = 0;
     }
 
+    // |||||||||||| CALCULATE THE DISTANCE IT MOVES (X AXIS)
     sprite.xPos += sprite.physics.vx * globals.deltaTime;
-    sprite.yPos += sprite.physics.vy * globals.deltaTime;
+
+    // |||||||||||| ACCELERATION IN THE Y AXIS IS THE GRAVITY
+    sprite.physics.ay = GRAVITY;
+
+    sprite.physics.vy += sprite.physics.ay * globals.deltaTime;
+
+    // |||||||||||| CALCULATE THE DISTANCE IT MOVES (Y AXIS)
+    if (sprite.physics.vy > 0) {
+        sprite.yPos += Math.max(sprite.physics.vy * globals.deltaTime, 1);
+    } else {
+        sprite.yPos += sprite.physics.vy * globals.deltaTime;
+    }
 
     if (vpVectorLength > MIN_DISTANCE_TO_START_CHASE) {
         sprite.frames.frameCounter = 0;
@@ -384,15 +391,11 @@ function updateHellBatHandToHand(sprite) {
 function updatePotionGreen(sprite) {
     sprite.xPos = 306;
     sprite.yPos = 48;
-
-    // sprite.state = State.OFF;
 }
 
 function updatePotionBlue(sprite) {
     sprite.xPos = 206;
     sprite.yPos = 48;
-
-    // sprite.state = State.OFF;
 }
 
 function updateMagicalOrb(sprite) {

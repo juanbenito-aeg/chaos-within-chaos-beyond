@@ -8,11 +8,12 @@ export default function detectCollisions() {
         detectCollisionBetweenPlayerAndSprite(sprite);
     }
 
-    // |||||||||||| CALCULATE PLAYER'S COLLISION WITH THE MAP'S BOUNDARIES
+    // |||||||||||| CALCULATE PLAYER'S COLLISION WITH THE MAP'S BOUNDARIES & OBSTACLES
     detectCollisionBetweenPlayerAndMapBoundaries();
-
-    // |||||||||||| CALCULATE PLAYER'S COLLISION WITH THE MAP'S OBSTACLES
     detectCollisionBetweenPlayerAndMapObstacles();
+
+    // |||||||||||| CALCULATE FAST WORMS' COLLISION WITH THE MAP'S OBSTACLES
+    detectCollisionBetweenFastWormAndMapObstacles();
 }
 
 function detectCollisionBetweenPlayerAndSprite(sprite) {
@@ -66,6 +67,289 @@ function rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2) {
     return isOverlap;
 }
 
+function detectCollisionBetweenFastWormAndMapObstacles() {
+    const fastWorm = globals.screenSprites[3];
+    
+    let xPos;
+    let yPos;
+    let isCollidingOnPos1;
+    let isCollidingOnPos2;
+    let isCollidingOnPos3;
+    let isCollidingOnPos4;
+    let isCollidingOnPos5;
+    let isCollidingOnPos6;
+
+    const brickSize = globals.level.imageSet.xGridSize;
+
+    // |||||||||||| OBSTACLES' IDS
+    const obstaclesIDs = [
+        Block.DARK_BROWN_BLOCK,
+        Block.DARK_BROWN_SLOPE_UPWARDS_1,
+        Block.DARK_BROWN_SLOPE_UPWARDS_2,
+        Block.DARK_BROWN_SLOPE_DOWNWARDS_1,
+        Block.DARK_BROWN_SLOPE_DOWNWARDS_2,
+        Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_1,
+        Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_2,
+        Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_1,
+        Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_2,
+        Block.SPIKES_FLOOR,
+        Block.SPIKES_CEILING,        
+        Block.SPIKES_LEFTWARDS,
+        Block.SPIKES_RIGHTWARDS,
+        Block.GRAY_BLOCK,
+    ];
+
+    // |||||||||||| RESET COLLISION STATE
+    fastWorm.collisions.isCollidingWithObstacleOnTheTop      = false;
+    fastWorm.collisions.isCollidingWithObstacleOnTheLeft     = false;
+    fastWorm.collisions.isCollidingWithObstacleOnTheBottom   = false;
+    fastWorm.collisions.isCollidingWithObstacleOnTheRight    = false;
+
+    // |||||||||||| COLLISIONS (6 POSSIBLE SPOTS)
+    // 6--------------------1
+    // ----------------------
+    // ----------------------
+    // ----------------------
+    // 5--------------------2
+    // ----------------------
+    // ----------------------
+    // 4--------------------3
+
+    let overlapX;
+    let overlapY;
+
+    // |||||||||||| CALCULATE COLLISIONS ON THE 6 SPOTS
+    if (fastWorm.physics.vx > 0) { // RIGHTWARDS MOVEMENT
+        // |||||||| SPOT 6
+        xPos = fastWorm.xPos + fastWorm.hitBox.xOffset;
+        yPos = fastWorm.yPos + fastWorm.hitBox.yOffset;
+        for (let i = 0; i < obstaclesIDs.length; i++) {
+            isCollidingOnPos6 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+            
+            if (isCollidingOnPos6) {
+                // |||| CALCULATE OVERLAP ON Y
+                overlapY = brickSize - (Math.floor(yPos) % brickSize);
+    
+                // |||| COLLISION ON Y AXIS
+                fastWorm.yPos += overlapY;
+                fastWorm.physics.vy = 0;
+            }
+        }
+
+        // |||||||| SPOT 4
+        xPos = fastWorm.xPos + fastWorm.hitBox.xOffset;
+        yPos = fastWorm.yPos + fastWorm.hitBox.yOffset + fastWorm.hitBox.ySize - 1;
+        for (let i = 0; i < obstaclesIDs.length; i++) {
+            isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+            
+            if (isCollidingOnPos4) {
+                // |||| CALCULATE OVERLAP ON Y
+                overlapY = (Math.floor(yPos) % brickSize) + 1;
+    
+                // |||| COLLISION ON Y AXIS
+                fastWorm.yPos -= overlapY;
+                fastWorm.physics.vy = 0;
+            }
+        }
+
+        // |||||||| SPOT 2
+        xPos = fastWorm.xPos + fastWorm.hitBox.xOffset + fastWorm.hitBox.xSize - 1;
+        yPos = fastWorm.yPos + fastWorm.hitBox.yOffset + brickSize;
+        for (let i = 0; i < obstaclesIDs.length; i++) {
+            isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+            
+            if (isCollidingOnPos2) {
+                // |||| CALCULATE OVERLAP ON X
+                overlapX = (Math.floor(xPos) % brickSize) + 1;
+    
+                // |||| COLLISION ON X AXIS
+                fastWorm.xPos -= overlapX;
+                fastWorm.physics.vx = 0;
+            }
+        }
+
+        // |||||||| SPOT 1
+        xPos = fastWorm.xPos + fastWorm.hitBox.xOffset + fastWorm.hitBox.xSize - 1;
+        yPos = fastWorm.yPos + fastWorm.hitBox.yOffset;
+        for (let i = 0; i < obstaclesIDs.length; i++) {
+            isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+            
+            if (isCollidingOnPos1) {
+                // |||| CALCULATE OVERLAP ON X & Y
+                overlapX = (Math.floor(xPos) % brickSize) + 1;
+                overlapY = brickSize - (Math.floor(yPos) % brickSize);
+    
+                if (overlapX <= overlapY) {
+                    // |||| COLLISION ON X AXIS
+                    fastWorm.xPos -= overlapX;
+                    fastWorm.physics.vx = 0;
+                } else {
+                    // |||| COLLISION ON Y AXIS
+                    fastWorm.yPos += overlapY;
+                    if (fastWorm.physics.vy < 0) {                    
+                        fastWorm.physics.vy = 0;
+                    } 
+                }
+            }
+        }
+
+        // |||||||| SPOT 3
+        xPos = fastWorm.xPos + fastWorm.hitBox.xOffset + fastWorm.hitBox.xSize - 1;
+        yPos = fastWorm.yPos + fastWorm.hitBox.yOffset + fastWorm.hitBox.ySize - 1;
+        for (let i = 0; i < obstaclesIDs.length; i++) {
+            isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+            
+            if (isCollidingOnPos3) {
+                // |||| CALCULATE OVERLAP ON X & Y
+                overlapX = (Math.floor(xPos) % brickSize) + 1;
+                overlapY = (Math.floor(yPos) % brickSize) + 1;
+    
+                if (overlapX <= overlapY) {
+                    // |||| COLLISION ON X AXIS
+                    fastWorm.xPos -= overlapX;
+                    fastWorm.physics.vx = 0;
+                } else {
+                    // |||| COLLISION ON Y AXIS
+                    fastWorm.yPos -= overlapY;
+                    if (fastWorm.physics.vy < 0) {                    
+                        fastWorm.physics.vy = 0;
+                    }
+                }
+            }
+        }
+    } else if (fastWorm.physics.vx < 0) { // LEFTWARDS MOVEMENT
+        // |||||||| SPOT 1
+        xPos = fastWorm.xPos + fastWorm.hitBox.xOffset + fastWorm.hitBox.xSize - 1;
+        yPos = fastWorm.yPos + fastWorm.hitBox.yOffset;
+        for (let i = 0; i < obstaclesIDs.length; i++) {
+            isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+            
+            if (isCollidingOnPos1) {
+                // |||| CALCULATE OVERLAP ON Y
+                overlapY = brickSize - (Math.floor(yPos) % brickSize);
+    
+                // |||| COLLISION ON Y AXIS
+                fastWorm.yPos += overlapY;
+                fastWorm.physics.vy = 0;
+            }
+        }
+
+        // |||||||| SPOT 3
+        xPos = fastWorm.xPos + fastWorm.hitBox.xOffset + fastWorm.hitBox.xSize - 1;
+        yPos = fastWorm.yPos + fastWorm.hitBox.yOffset + fastWorm.hitBox.ySize - 1;
+        for (let i = 0; i < obstaclesIDs.length; i++) {
+            isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+            
+            if (isCollidingOnPos3) {
+                // |||| CALCULATE OVERLAP ON Y
+                overlapY = (Math.floor(yPos) % brickSize) + 1;
+    
+                // |||| COLLISION ON Y AXIS
+                fastWorm.yPos -= overlapY;
+                fastWorm.physics.vy = 0;
+            }
+        }
+
+        // |||||||| SPOT 5
+        xPos = fastWorm.xPos + fastWorm.hitBox.xOffset;
+        yPos = fastWorm.yPos + fastWorm.hitBox.yOffset + brickSize;
+        for (let i = 0; i < obstaclesIDs.length; i++) {
+            isCollidingOnPos5 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+            
+            if (isCollidingOnPos5) {
+                // |||| CALCULATE OVERLAP ON X
+                overlapX = brickSize - (Math.floor(xPos) % brickSize);
+    
+                // |||| COLLISION ON X AXIS
+                fastWorm.xPos += overlapX;
+                fastWorm.physics.vx = 0;
+            }
+        }
+
+        // |||||||| SPOT 6
+        xPos = fastWorm.xPos + fastWorm.hitBox.xOffset;
+        yPos = fastWorm.yPos + fastWorm.hitBox.yOffset;
+        for (let i = 0; i < obstaclesIDs.length; i++) {
+            isCollidingOnPos6 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+            
+            if (isCollidingOnPos6) {
+                // |||| CALCULATE OVERLAP ON X & Y
+                overlapX = brickSize - (Math.floor(xPos) % brickSize);
+                overlapY = brickSize - (Math.floor(yPos) % brickSize);
+    
+                if (overlapX <= overlapY) {
+                    // |||| COLLISION ON X AXIS
+                    fastWorm.xPos += overlapX;
+                    fastWorm.physics.vx = 0;
+                } else {
+                    // |||| COLLISION ON Y AXIS
+                    fastWorm.yPos += overlapY;
+                    if (fastWorm.physics.vy < 0) {                    
+                        fastWorm.physics.vy = 0;
+                    } 
+                }
+            }
+        }
+
+        // |||||||| SPOT 4
+        xPos = fastWorm.xPos + fastWorm.hitBox.xOffset;
+        yPos = fastWorm.yPos + fastWorm.hitBox.yOffset + fastWorm.hitBox.ySize - 1;
+        for (let i = 0; i < obstaclesIDs.length; i++) {
+            isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+            
+            if (isCollidingOnPos4) {
+                // |||| CALCULATE OVERLAP ON X & Y
+                overlapX = brickSize - (Math.floor(xPos) % brickSize);
+                overlapY = (Math.floor(yPos) % brickSize) + 1;
+    
+                if (overlapX <= overlapY) {
+                    // |||| COLLISION ON X AXIS
+                    fastWorm.xPos += overlapX;
+                    fastWorm.physics.vx = 0;
+                } else {
+                    // |||| COLLISION ON Y AXIS
+                    fastWorm.yPos -= overlapY;
+                    if (fastWorm.physics.vy < 0) {                    
+                        fastWorm.physics.vy = 0;
+                    }
+                }
+            }
+        }
+    } else { // STATIC
+        // |||||||| SPOT 4
+        xPos = fastWorm.xPos + fastWorm.hitBox.xOffset;
+        yPos = fastWorm.yPos + fastWorm.hitBox.yOffset + fastWorm.hitBox.ySize - 1;
+        for (let i = 0; i < obstaclesIDs.length; i++) {
+            isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+            
+            if (isCollidingOnPos4) {
+                // |||| CALCULATE OVERLAP ON Y
+                overlapY = (Math.floor(yPos) % brickSize) + 1;
+    
+                // |||| COLLISION ON Y AXIS
+                fastWorm.yPos -= overlapY;
+                fastWorm.physics.vy = 0;
+            }
+        }
+
+        // |||||||| SPOT 3
+        xPos = fastWorm.xPos + fastWorm.hitBox.xOffset + fastWorm.hitBox.xSize - 1;
+        yPos = fastWorm.yPos + fastWorm.hitBox.yOffset + fastWorm.hitBox.ySize - 1;
+        for (let i = 0; i < obstaclesIDs.length; i++) {
+            isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+            
+            if (isCollidingOnPos3) {
+                // |||| CALCULATE OVERLAP ON Y
+                overlapY = (Math.floor(yPos) % brickSize) + 1;
+    
+                // |||| COLLISION ON Y AXIS
+                fastWorm.yPos -= overlapY;
+                fastWorm.physics.vy = 0;
+            }
+        }
+    }
+}
+
 function detectCollisionBetweenPlayerAndMapBoundaries() {
     const player = globals.screenSprites[0];
     
@@ -102,8 +386,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_1,
         Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_2,
         Block.SPIKES_FLOOR,
-        Block.SPIKES_CEILING,
-        Block.SPIKES_CEILING,
+        Block.SPIKES_CEILING,        
         Block.SPIKES_LEFTWARDS,
         Block.SPIKES_RIGHTWARDS,
         Block.GRAY_BLOCK,
@@ -329,7 +612,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                 }
             }
         }
-    } else if (player.physics.vx === 0) { // STATIC
+    } else { // STATIC
         // |||||||| SPOT 6
         xPos = player.xPos + player.hitBox.xOffset;
         yPos = player.yPos + player.hitBox.yOffset;

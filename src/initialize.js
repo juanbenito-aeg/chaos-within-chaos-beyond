@@ -133,12 +133,12 @@ function initSprites() {
     // |||||||||||| INITIALIZATION OF THE SCREEN SPRITES
     initPlayer();
     initChaoticHumanBow();
-    // initChaoticHumanSword();
+    initChaoticHumanSword();
     initFastWorm();
     initHellBatAcid();
-    // initHellBatHandToHand();
+    initHellBatHandToHand();
     initPotionGreen();
-    // initPotionBlue();
+    initPotionBlue();
 
     // |||||||||||| INITIALIZATION OF THE "GAME OVER" SCREEN SPRITES
     initSkull();
