@@ -71,4 +71,7 @@ export default {
     
     // |||||||||||| TIMING OF THE DELAY BETWEEN SUCCESSIVE ACID DROPS
     nextAcidDropDelay: {},
+    
+    // |||||||||||| TIMING OF THE LEEWAY GIVEN TO X.G WHEN HE IS ATTACKED (IN ORDER TO MAKE IT POSSIBLE FOR THE PLAYER TO ESCAPE) 
+    afterAttackLeeway: {},
 };

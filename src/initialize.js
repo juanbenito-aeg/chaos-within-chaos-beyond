@@ -52,6 +52,7 @@ function initTimers() {
     globals.nextOrbThrowDelay = new Timer(5, 1);
     globals.nextArrowShotDelay = new Timer(5, 1);
     globals.nextAcidDropDelay = new Timer(5, 1);
+    globals.afterAttackLeeway = new Timer(0, 1);
 }
 
 function initEvents() {
@@ -348,7 +349,7 @@ function initPlayer() {
 
     const collisions = new Collisions();
 
-    const player = new Sprite(SpriteID.PLAYER, State.RIGHT_STILL, 0, 184, imageSet, frames, physics, hitBox, collisions);
+    const player = new Sprite(SpriteID.PLAYER, State.RIGHT_STILL, 40, 184, imageSet, frames, physics, hitBox, collisions);
 
     // |||||||||||| ADD PLAYER TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(player);
@@ -560,7 +561,7 @@ function initArrow() {
 }
 
 function initAcid() {
-    const hellBatAcid = globals.screenSprites[3];
+    const hellBatAcid = globals.screenSprites[4];
     
     const xPos = hellBatAcid.xPos + (hellBatAcid.imageSet.xDestinationSize / 3.35);
     const yPos = hellBatAcid.yPos + (hellBatAcid.imageSet.yDestinationSize / 2.5);

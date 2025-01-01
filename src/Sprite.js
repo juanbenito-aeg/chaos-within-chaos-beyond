@@ -1,6 +1,6 @@
 // |||||||||||| MANAGES SPRITES
 class Sprite {
-    constructor(id, state, xPos, yPos, imageSet, frames, physics = null, hitBox, collisions) {
+    constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions) {
         this.id             = id;           // SPRITE TYPE
         this.state          = state;        // SPRITE'S ANIMATION STATE
         this.xPos           = xPos;         // X POSITION IN CANVAS

@@ -42,16 +42,6 @@ function updateControlsMenuSprite(sprite) {
     const type = sprite.id;
 
     switch (type) {
-        // |||||||||||| "UP ARROW" KEY
-        case SpriteID.UP_ARROW_KEY:
-            updateUpArrowKey(sprite);
-            break;
-        
-        // |||||||||||| "DOWN ARROW" KEY
-        case SpriteID.DOWN_ARROW_KEY:
-            updateDownArrowKey(sprite);
-            break;
-
         // |||||||||||| "LEFT ARROW" KEY
         case SpriteID.LEFT_ARROW_KEY:
             updateLeftArrowKey(sprite);
@@ -77,14 +67,6 @@ function updateControlsMenuSprite(sprite) {
             updateSLetterKey(sprite);
             break;
     }
-}
-
-function updateUpArrowKey(sprite) {
-    sprite.frames.frameCounter = 0;
-}
-
-function updateDownArrowKey(sprite) {
-    sprite.frames.frameCounter = 0;
 }
 
 function updateLeftArrowKey(sprite) {
@@ -451,13 +433,24 @@ function updateLifePoints() {
         const sprite = globals.screenSprites[i];
 
         if (sprite.collisions.isCollidingWithPlayer) {
-            if ((globals.lifePoints > 1) && enemiesAndHarmfulElements.includes(sprite.id)) {
+            if ((globals.afterAttackLeeway.value === 0) && (globals.lifePoints > 1) && enemiesAndHarmfulElements.includes(sprite.id)) {
+                globals.afterAttackLeeway.value = 3;
                 globals.lifePoints--;
             } else if ((globals.lifePoints < 5) && (sprite.id === SpriteID.POTION_GREEN)) {
                 globals.lifePoints++;
             } else if ((globals.lifePoints < 4) && (sprite.id === SpriteID.POTION_BLUE)) {
                 globals.lifePoints += 2;
             }
+        }
+    }
+
+    if (globals.afterAttackLeeway.value > 0) {
+        globals.afterAttackLeeway.timeChangeCounter += globals.deltaTime;
+
+        if (globals.afterAttackLeeway.timeChangeCounter > globals.afterAttackLeeway.timeChangeValue) {
+            globals.afterAttackLeeway.value--;
+
+            globals.afterAttackLeeway.timeChangeCounter = 0;
         }
     }
 }
