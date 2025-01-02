@@ -362,13 +362,15 @@ function initChaoticHumanBow() {
     // |||||||||||| ANIMATION DATA CREATION: 3 FRAMES PER STATE & ANIMATION SPEED
     const frames = new Frames(3, 6);
 
+    const physics = new Physics(-1);
+
     const hitBox = new HitBox(7.9, 36, 15.5, 5);
 
     const collisions = new Collisions();
 
     const afterAttackLeeway = new Timer(0, 1);
 
-    const chaoticHumanBow = new Sprite(SpriteID.CHAOTIC_HUMAN_BOW, State.LEFT_ATTACK_2, 275, 23, imageSet, frames, null, hitBox, collisions, 2, afterAttackLeeway);
+    const chaoticHumanBow = new Sprite(SpriteID.CHAOTIC_HUMAN_BOW, State.LEFT_ATTACK_2, 275, 23, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
 
     // |||||||||||| ADD CHAOTIC HUMAN (BOW) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(chaoticHumanBow);
@@ -534,66 +536,78 @@ function initMagicalOrb() {
 }
 
 function initArrow() {
-    const chaoticHumanBow = globals.screenSprites[1];
-    
-    let state;
+    for (let i = 1; i < globals.screenSprites.length; i++) {
+        if (globals.screenSprites[i].id === SpriteID.CHAOTIC_HUMAN_BOW) {
+            const chaoticHumanBow = globals.screenSprites[i];
+            
+            let state;
+        
+            let xPos;
+            let yPos = chaoticHumanBow.yPos + (chaoticHumanBow.imageSet.yDestinationSize / 3.75);
+            
+            let vLimit;
+        
+            if (chaoticHumanBow.state === State.LEFT_ATTACK_2) {
+                state = State.LEFT_4;
+                xPos = chaoticHumanBow.xPos;
+                vLimit = -210;
+            } else {
+                state = State.RIGHT_4;
+                xPos = chaoticHumanBow.xPos + chaoticHumanBow.imageSet.xDestinationSize;
+                vLimit = 210;
+            }
+        
+            const imageSet = new ImageSet(580, 564, 16, 7, 20, 14.1, 0, 0, 16, 7);
+        
+            // |||||||||||| ANIMATION DATA CREATION: 1 FRAME PER STATE & ANIMATION SPEED
+            const frames = new Frames(1, 1);
+        
+            const physics = new Physics(vLimit);
+            physics.vx = vLimit;
+        
+            const hitBox = new HitBox(16, 7, 0, 0);
+        
+            const collisions = new Collisions();
+        
+            const arrow = new Sprite(SpriteID.ARROW, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
+        
+            // |||||||||||| ADD ARROW TO ITS CORRESPONDING SPRITES ARRAY
+            globals.screenSprites.push(arrow);
 
-    let xPos;
-    let yPos = chaoticHumanBow.yPos + (chaoticHumanBow.imageSet.yDestinationSize / 3.75);
-    
-    let vLimit;
-
-    if (chaoticHumanBow.state === State.LEFT_ATTACK_2) {
-        state = State.LEFT_4;
-        xPos = chaoticHumanBow.xPos;
-        vLimit = -210;
-    } else {
-        state = State.RIGHT_4;
-        xPos = chaoticHumanBow.xPos + chaoticHumanBow.imageSet.xDestinationSize;
-        vLimit = 210;
+            break;
+        }
     }
-
-    const imageSet = new ImageSet(580, 564, 16, 7, 20, 14.1, 0, 0, 16, 7);
-
-    // |||||||||||| ANIMATION DATA CREATION: 1 FRAME PER STATE & ANIMATION SPEED
-    const frames = new Frames(1, 1);
-
-    const physics = new Physics(vLimit);
-    physics.vx = vLimit;
-
-    const hitBox = new HitBox(16, 7, 0, 0);
-
-    const collisions = new Collisions();
-
-    const arrow = new Sprite(SpriteID.ARROW, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
-
-    // |||||||||||| ADD ARROW TO ITS CORRESPONDING SPRITES ARRAY
-    globals.screenSprites.push(arrow);
 }
 
 function initAcid() {
-    const hellBatAcid = globals.screenSprites[4];
-    
-    const xPos = hellBatAcid.xPos + (hellBatAcid.imageSet.xDestinationSize / 3.35);
-    const yPos = hellBatAcid.yPos + (hellBatAcid.imageSet.yDestinationSize / 2.5);
-    
-    const vLimit = 180;
+    for (let i = 1; i < globals.screenSprites.length; i++) {
+        if (globals.screenSprites[i].id === SpriteID.HELL_BAT_ACID) {
+            const hellBatAcid = globals.screenSprites[i];
+            
+            const xPos = hellBatAcid.xPos + (hellBatAcid.imageSet.xDestinationSize / 3.35);
+            const yPos = hellBatAcid.yPos + (hellBatAcid.imageSet.yDestinationSize / 2.5);
+            
+            const vLimit = 180;
+        
+            const imageSet = new ImageSet(570, 440, 19, 35, 30, 40, 7, 2, 4, 20);
+        
+            const frames = new Frames(4, 3);
+        
+            const physics = new Physics(vLimit);
+            physics.vy = vLimit;
+        
+            const hitBox = new HitBox(4, 18, 0, 2);
+        
+            const collisions = new Collisions();
+        
+            const acid = new Sprite(SpriteID.ACID, State.STILL, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
+        
+            // |||||||||||| ADD ACID TO ITS CORRESPONDING SPRITES ARRAY
+            globals.screenSprites.push(acid);
 
-    const imageSet = new ImageSet(570, 440, 19, 35, 30, 40, 7, 2, 4, 20);
-
-    const frames = new Frames(4, 3);
-
-    const physics = new Physics(vLimit);
-    physics.vy = vLimit;
-
-    const hitBox = new HitBox(4, 18, 0, 2);
-
-    const collisions = new Collisions();
-
-    const acid = new Sprite(SpriteID.ACID, State.STILL, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
-
-    // |||||||||||| ADD ACID TO ITS CORRESPONDING SPRITES ARRAY
-    globals.screenSprites.push(acid);
+            break;
+        }
+    }
 }
 
 function initSkull() {

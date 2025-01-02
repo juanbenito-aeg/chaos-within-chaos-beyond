@@ -234,12 +234,23 @@ function updatePlayer(sprite) {
 }
 
 function updateChaoticHumanBow(sprite) {
-    if (globals.nextArrowShotDelay.value <= 0) {
+    // |||||||||||| ACCELERATION IN THE Y AXIS IS THE GRAVITY
+    sprite.physics.ay = GRAVITY;
+
+    sprite.physics.vy += sprite.physics.ay * globals.deltaTime;
+
+    // |||||||||||| CALCULATE THE DISTANCE IT MOVES (Y AXIS)
+    if (sprite.physics.vy > 0) {
+        sprite.yPos += Math.max(sprite.physics.vy * globals.deltaTime, 1);
+    } else {
+        sprite.yPos += sprite.physics.vy * globals.deltaTime;
+    }
+
+    if (globals.nextArrowShotDelay.value === 0) {
         updateAnimationFrame(sprite);
 
         if ((sprite.frames.frameChangeCounter === 5) && (sprite.frames.frameCounter === 2)) {
             initArrow();
-            globals.nextArrowShotDelay.timeChangeCounter = 0;
             globals.nextArrowShotDelay.value = 5;
         }
     } else {
