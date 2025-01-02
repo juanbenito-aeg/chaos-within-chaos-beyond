@@ -1,11 +1,13 @@
 import globals from "./globals.js";
-import { Block, State } from "./constants.js";
+import { Block, SpriteID, State } from "./constants.js";
 
 export default function detectCollisions() {
     // |||||||||||| CALCULATE PLAYER'S COLLISION WITH EACH OF THE OTHER SPRITES
     for (let i = 1; i < globals.screenSprites.length; i++) {
         const sprite = globals.screenSprites[i];
+        
         detectCollisionBetweenPlayerAndSprite(sprite);
+        detectCollisionBetweenMagicalOrbAndSprite(sprite);
     }
 
     // |||||||||||| CALCULATE PLAYER'S COLLISION WITH THE MAP'S BOUNDARIES & OBSTACLES
@@ -50,6 +52,37 @@ function detectCollisionBetweenPlayerAndSprite(sprite) {
 
     if (isOverlap) {
         sprite.collisions.isCollidingWithPlayer = true;
+    }
+}
+
+function detectCollisionBetweenMagicalOrbAndSprite(sprite1) {
+    // |||||||||||| RESET COLLISION STATE
+    sprite1.collisions.isCollidingWithMagicalOrb = false;
+
+    for (let i = 1; i < globals.screenSprites.length; i++) {
+        if (globals.screenSprites[i].id === SpriteID.MAGICAL_ORB) {
+            const magicalOrb = globals.screenSprites[i];
+            
+            // |||||||||||| THE MAGICAL ORB'S DATA
+            const x1 = magicalOrb.xPos + magicalOrb.hitBox.xOffset;
+            const y1 = magicalOrb.yPos + magicalOrb.hitBox.yOffset;
+            const w1 = magicalOrb.hitBox.xSize;
+            const h1 = magicalOrb.hitBox.ySize;
+            
+            // |||||||||||| THE OTHER SPRITE'S DATA
+            const x2 = sprite1.xPos + sprite1.hitBox.xOffset;
+            const y2 = sprite1.yPos + sprite1.hitBox.yOffset;
+            const w2 = sprite1.hitBox.xSize;
+            const h2 = sprite1.hitBox.ySize;
+        
+            const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
+        
+            if (isOverlap) {
+                sprite1.collisions.isCollidingWithMagicalOrb = true;
+            }
+
+            break;
+        }
     }
 }
 

@@ -35,9 +35,6 @@ function initVars() {
     // |||||||| INITIALIZE THE GAME STATE
     globals.gameState = Game.LOADING;
 
-    // |||||||| INITIALIZE THE PLAYER'S LIFE POINTS
-    globals.lifePoints = 3;
-
     // |||||||| INITIALIZE THE STATE OF THE ACTIONS
     globals.action = {
         jump: false,
@@ -52,7 +49,6 @@ function initTimers() {
     globals.nextOrbThrowDelay = new Timer(5, 1);
     globals.nextArrowShotDelay = new Timer(5, 1);
     globals.nextAcidDropDelay = new Timer(5, 1);
-    globals.afterAttackLeeway = new Timer(0, 1);
 }
 
 function initEvents() {
@@ -349,7 +345,12 @@ function initPlayer() {
 
     const collisions = new Collisions();
 
-    const player = new Sprite(SpriteID.PLAYER, State.RIGHT_STILL, 40, 184, imageSet, frames, physics, hitBox, collisions);
+    // |||||||||||| PLAYER'S LIFE POINTS, STARTING IN 3 AND RANGING FROM 1 TO 5 (REPRESENTED BY X.G FACE'S DIFFERENT FRAMES)
+    const lifePoints = 3;
+
+    const afterAttackLeeway = new Timer(0, 1);
+
+    const player = new Sprite(SpriteID.PLAYER, State.RIGHT_STILL, 40, 184, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
 
     // |||||||||||| ADD PLAYER TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(player);
@@ -365,7 +366,9 @@ function initChaoticHumanBow() {
 
     const collisions = new Collisions();
 
-    const chaoticHumanBow = new Sprite(SpriteID.CHAOTIC_HUMAN_BOW, State.LEFT_ATTACK_2, 275, 23, imageSet, frames, null, hitBox, collisions);
+    const afterAttackLeeway = new Timer(0, 1);
+
+    const chaoticHumanBow = new Sprite(SpriteID.CHAOTIC_HUMAN_BOW, State.LEFT_ATTACK_2, 275, 23, imageSet, frames, null, hitBox, collisions, 2, afterAttackLeeway);
 
     // |||||||||||| ADD CHAOTIC HUMAN (BOW) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(chaoticHumanBow);
@@ -383,7 +386,9 @@ function initChaoticHumanSword() {
 
     const collisions = new Collisions();
 
-    const chaoticHumanSword = new ChaoticHumanSword(SpriteID.CHAOTIC_HUMAN_SWORD, State.LEFT_3, 225, 21, imageSet, frames, physics, 3, hitBox, collisions);
+    const afterAttackLeeway = new Timer(0, 1);
+
+    const chaoticHumanSword = new ChaoticHumanSword(SpriteID.CHAOTIC_HUMAN_SWORD, State.LEFT_3, 225, 21, imageSet, frames, physics, 3, hitBox, collisions, 2, afterAttackLeeway);
 
     // |||||||||||| ADD CHAOTIC HUMAN (SWORD) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(chaoticHumanSword);
@@ -401,7 +406,9 @@ function initFastWorm() {
 
     const collisions = new Collisions();
 
-    const fastWorm = new Sprite(SpriteID.FAST_WORM, State.LEFT, 390, 124, imageSet, frames, physics, hitBox, collisions);
+    const afterAttackLeeway = new Timer(0, 1);
+
+    const fastWorm = new Sprite(SpriteID.FAST_WORM, State.LEFT, 390, 124, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
 
     // |||||||||||| ADD FAST WORM TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(fastWorm);
@@ -425,7 +432,9 @@ function initHellBatAcid() {
 
     const collisions = new Collisions();
 
-    const hellBatAcid = new Sprite(SpriteID.HELL_BAT_ACID, State.DOWN, 0, 0, imageSet, frames, physics, hitBox, collisions);
+    const afterAttackLeeway = new Timer(0, 1);
+
+    const hellBatAcid = new Sprite(SpriteID.HELL_BAT_ACID, State.DOWN, 0, 0, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
 
     // |||||||||||| POSITION THE SPRITE
     setHellBatAcidPosition(hellBatAcid);
@@ -453,7 +462,9 @@ function initHellBatHandToHand() {
 
     const collisions = new Collisions();
 
-    const hellBatHandToHand = new Sprite(SpriteID.HELL_BAT_HAND_TO_HAND, State.DOWN_3, 0, 0, imageSet, frames, physics, hitBox, collisions);
+    const afterAttackLeeway = new Timer(0, 1);
+
+    const hellBatHandToHand = new Sprite(SpriteID.HELL_BAT_HAND_TO_HAND, State.DOWN_3, 0, 0, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
 
     // |||||||||||| ADD HELL BAT (HAND-TO-HAND) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(hellBatHandToHand);

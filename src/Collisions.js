@@ -1,4 +1,5 @@
 export default class Collisions {
+    isCollidingWithMagicalOrb               = false;     // INDICATES WHETHER THERE HAS BEEN A COLLISION WITH A MAGICAL ORB
     isCollidingWithPlayer                   = false;     // INDICATES WHETHER THERE HAS BEEN A COLLISION WITH THE PLAYER
     isCollidingWithObstacleOnTheTop         = false;     // INDICATES WHETHER THERE HAS BEEN A COLLISION WITH AN OBSTACLE LOCATED ON THE TOP
     isCollidingWithObstacleOnTheLeft        = false;     // INDICATES WHETHER THERE HAS BEEN A COLLISION WITH AN OBSTACLE LOCATED ON THE LEFT

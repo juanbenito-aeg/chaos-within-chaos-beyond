@@ -526,7 +526,9 @@ function renderHUD() {
 function renderLifePoints() {
     const theEruditeFace = globals.HUDSprites[0];
 
-    const xTile = theEruditeFace.imageSet.xInit + (globals.lifePoints - 1) * theEruditeFace.imageSet.xGridSize + theEruditeFace.imageSet.xOffset;
+    const player = globals.screenSprites[0];
+
+    const xTile = theEruditeFace.imageSet.xInit + (player.lifePoints - 1) * theEruditeFace.imageSet.xGridSize + theEruditeFace.imageSet.xOffset;
     const yTile = theEruditeFace.imageSet.yInit + theEruditeFace.state * theEruditeFace.imageSet.yGridSize + theEruditeFace.imageSet.yOffset;
 
     const xPos = Math.floor(theEruditeFace.xPos);

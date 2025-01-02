@@ -419,38 +419,72 @@ function updateAcid(sprite) {
 }
 
 function updateLifePoints() {
-    const enemiesAndHarmfulElements = [
+    const player = globals.screenSprites[0];
+
+    const enemies = [
         SpriteID.CHAOTIC_HUMAN_BOW,
-        SpriteID.ARROW,
         SpriteID.CHAOTIC_HUMAN_SWORD,
         SpriteID.FAST_WORM,
         SpriteID.HELL_BAT_ACID,
-        SpriteID.ACID,
         SpriteID.HELL_BAT_HAND_TO_HAND,
+    ];
+    
+    const harmfulElements = [
+        SpriteID.ARROW,
+        SpriteID.ACID,
     ];
 
     for (let i = 1; i < globals.screenSprites.length; i++) {
         const sprite = globals.screenSprites[i];
 
-        if (sprite.collisions.isCollidingWithPlayer) {
-            if ((globals.afterAttackLeeway.value === 0) && (globals.lifePoints > 1) && enemiesAndHarmfulElements.includes(sprite.id)) {
-                globals.afterAttackLeeway.value = 3;
-                globals.lifePoints--;
-            } else if ((globals.lifePoints < 5) && (sprite.id === SpriteID.POTION_GREEN)) {
-                globals.lifePoints++;
-            } else if ((globals.lifePoints < 4) && (sprite.id === SpriteID.POTION_BLUE)) {
-                globals.lifePoints += 2;
+        if (sprite.collisions.isCollidingWithMagicalOrb && enemies.includes(sprite.id) && (sprite.afterAttackLeeway.value === 0)) {
+            sprite.lifePoints--;
+                
+            if (sprite.lifePoints === 0) {
+                sprite.state = State.OFF;
+            } else {
+                sprite.afterAttackLeeway.value = 3;
+            }
+        } else if (sprite.collisions.isCollidingWithPlayer) {
+            if (enemies.includes(sprite.id)) {
+                const isHandToHandAttackEffective = ((player.state === State.LEFT_ATTACK_HAND_TO_HAND) && (sprite.xPos <= player.xPos)) || ((player.state === State.RIGHT_ATTACK_HAND_TO_HAND) && (sprite.xPos > player.xPos));
+
+                if (isHandToHandAttackEffective && (sprite.afterAttackLeeway.value === 0)) {
+                    sprite.lifePoints--;
+                    
+                    if (sprite.lifePoints === 0) {
+                        sprite.state = State.OFF;
+                    } else {
+                        sprite.afterAttackLeeway.value = 3;
+                    }
+                } else if ((player.lifePoints > 1) && (player.afterAttackLeeway.value === 0)) {
+                    player.lifePoints--;
+                    player.afterAttackLeeway.value = 3;
+                }
+            } else if (harmfulElements.includes(sprite.id) && (player.afterAttackLeeway.value === 0) && (player.lifePoints > 1)) {
+                player.lifePoints--;
+                player.afterAttackLeeway.value = 3;
+            } else if ((sprite.id === SpriteID.POTION_GREEN) && (player.lifePoints < 5)) {
+                player.lifePoints++;
+            } else if ((sprite.id === SpriteID.POTION_BLUE) && (player.lifePoints < 4)) {
+                player.lifePoints += 2;
             }
         }
     }
 
-    if (globals.afterAttackLeeway.value > 0) {
-        globals.afterAttackLeeway.timeChangeCounter += globals.deltaTime;
+    for (let i = 0; i < globals.screenSprites.length; i++) {
+        const sprite = globals.screenSprites[i];
 
-        if (globals.afterAttackLeeway.timeChangeCounter > globals.afterAttackLeeway.timeChangeValue) {
-            globals.afterAttackLeeway.value--;
-
-            globals.afterAttackLeeway.timeChangeCounter = 0;
+        if ((sprite.id === player.id) || enemies.includes(sprite.id)) {
+            if (sprite.afterAttackLeeway.value > 0) {
+                sprite.afterAttackLeeway.timeChangeCounter += globals.deltaTime;
+        
+                if (sprite.afterAttackLeeway.timeChangeCounter > sprite.afterAttackLeeway.timeChangeValue) {
+                    sprite.afterAttackLeeway.value--;
+        
+                    sprite.afterAttackLeeway.timeChangeCounter = 0;
+                }
+            }
         }
     }
 }
