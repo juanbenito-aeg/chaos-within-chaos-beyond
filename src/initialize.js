@@ -384,7 +384,7 @@ function initChaoticHumanSword() {
 
     const physics = new Physics(20);
 
-    const hitBox = new HitBox(40, 38, 3, 5.5);
+    const hitBox = new HitBox(26, 38, 4, 5.5);
 
     const collisions = new Collisions();
 

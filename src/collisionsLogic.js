@@ -16,6 +16,9 @@ export default function detectCollisions() {
 
     // |||||||||||| CALCULATE CHAOTIC HUMANS' (BOW) COLLISION WITH THE MAP'S OBSTACLES
     detectCollisionBetweenChaoticHumanBowAndMapObstacles();
+    
+    // |||||||||||| CALCULATE CHAOTIC HUMANS' (SWORD) COLLISION WITH THE MAP'S OBSTACLES
+    detectCollisionBetweenChaoticHumanSwordAndMapObstacles();
 
     // |||||||||||| CALCULATE FAST WORMS' COLLISION WITH THE MAP'S OBSTACLES
     detectCollisionBetweenFastWormAndMapObstacles();
@@ -28,18 +31,6 @@ function detectCollisionBetweenPlayerAndSprite(sprite) {
     const player = globals.screenSprites[0];
 
     // |||||||||||| PLAYER'S DATA
-    
-    if (player.state === State.RIGHT_ATTACK_HAND_TO_HAND) {
-        player.hitBox.xSize = 28;
-        player.hitBox.xOffset = 15;
-    } else if (player.state === State.LEFT_ATTACK_HAND_TO_HAND) {
-        player.hitBox.xSize = 28;
-        player.hitBox.xOffset = 0;
-    } else {
-        player.hitBox.xSize = 13;
-        player.hitBox.xOffset = 15;
-    }
-
     const x1 = player.xPos + player.hitBox.xOffset;
     const y1 = player.yPos + player.hitBox.yOffset;
     const w1 = player.hitBox.xSize;
@@ -504,6 +495,218 @@ function detectCollisionBetweenChaoticHumanBowAndMapObstacles() {
                     chaoticHumanBow.physics.vy = 0;
                 }
             }
+        }
+    }
+}
+
+function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
+    for (let i = 1; i < globals.screenSprites.length; i++) {
+        if (globals.screenSprites[i].id === SpriteID.CHAOTIC_HUMAN_SWORD) {
+            const chaoticHumanSword = globals.screenSprites[i];
+
+            let xPos;
+            let yPos;
+            let isCollidingOnPos1;
+            let isCollidingOnPos2;
+            let isCollidingOnPos3;
+            let isCollidingOnPos4;
+            let isCollidingOnPos5;
+            let isCollidingOnPos6;
+
+            const brickSize = globals.level.imageSet.xGridSize;
+        
+            // |||||||||||| OBSTACLES' IDS
+            const obstaclesIDs = [
+                Block.DARK_BROWN_BLOCK,
+                Block.DARK_BROWN_SLOPE_UPWARDS_1,
+                Block.DARK_BROWN_SLOPE_UPWARDS_2,
+                Block.DARK_BROWN_SLOPE_DOWNWARDS_1,
+                Block.DARK_BROWN_SLOPE_DOWNWARDS_2,
+                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_1,
+                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_2,
+                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_1,
+                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_2,
+                Block.SPIKES_FLOOR,
+                Block.SPIKES_CEILING,        
+                Block.SPIKES_LEFTWARDS,
+                Block.SPIKES_RIGHTWARDS,
+                Block.GRAY_BLOCK,
+            ];
+        
+            // |||||||||||| RESET COLLISION STATE
+            chaoticHumanSword.collisions.isCollidingWithObstacleOnTheLeft   = false;
+            chaoticHumanSword.collisions.isCollidingWithObstacleOnTheBottom   = false;
+            chaoticHumanSword.collisions.isCollidingWithObstacleOnTheRight   = false;
+        
+            // |||||||||||| COLLISIONS (6 POSSIBLE SPOTS)
+            // 6--------------------1
+            // ----------------------
+            // ----------------------
+            // ----------------------
+            // 5--------------------2
+            // ----------------------
+            // ----------------------
+            // 4--------------------3
+        
+            let overlapX;
+            let overlapY;
+
+            // |||||||||||| CALCULATE COLLISIONS ON THE 6 SPOTS
+            if (chaoticHumanSword.physics.vx > 0) { // RIGHTWARDS MOVEMENT
+                // |||||||| SPOT 4
+                xPos = chaoticHumanSword.xPos + chaoticHumanSword.hitBox.xOffset;
+                yPos = chaoticHumanSword.yPos + chaoticHumanSword.hitBox.yOffset + chaoticHumanSword.hitBox.ySize - 1;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos4) {
+                        // |||| CALCULATE OVERLAP ON Y
+                        overlapY = (Math.floor(yPos) % brickSize) + 1;
+            
+                        // |||| COLLISION ON Y AXIS
+                        chaoticHumanSword.yPos -= overlapY;
+                        chaoticHumanSword.physics.vy = 0;
+                    }
+                }
+                
+                // |||||||| SPOT 2
+                xPos = chaoticHumanSword.xPos + chaoticHumanSword.hitBox.xOffset + chaoticHumanSword.hitBox.xSize - 1;
+                yPos = chaoticHumanSword.yPos + chaoticHumanSword.hitBox.yOffset + brickSize;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos2) {
+                        // |||| CALCULATE OVERLAP ON X
+                        overlapX = (Math.floor(xPos) % brickSize) + 1;
+            
+                        // |||| COLLISION ON X AXIS
+                        chaoticHumanSword.collisions.isCollidingWithObstacleOnTheRight = true;
+                        chaoticHumanSword.xPos -= overlapX;
+                        chaoticHumanSword.physics.vx = 0;
+                    }
+                }
+        
+                // |||||||| SPOT 1
+                xPos = chaoticHumanSword.xPos + chaoticHumanSword.hitBox.xOffset + chaoticHumanSword.hitBox.xSize - 1;
+                yPos = chaoticHumanSword.yPos + chaoticHumanSword.hitBox.yOffset;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos1) {
+                        // |||| CALCULATE OVERLAP ON X
+                        overlapX = (Math.floor(xPos) % brickSize) + 1;
+            
+                        // |||| COLLISION ON X AXIS
+                        chaoticHumanSword.collisions.isCollidingWithObstacleOnTheRight = true;
+                        chaoticHumanSword.xPos -= overlapX;
+                        chaoticHumanSword.physics.vx = 0;
+                    }
+                }
+
+                // |||||||| SPOT 3
+                xPos = chaoticHumanSword.xPos + chaoticHumanSword.hitBox.xOffset + chaoticHumanSword.hitBox.xSize - 1;
+                yPos = chaoticHumanSword.yPos + chaoticHumanSword.hitBox.yOffset + chaoticHumanSword.hitBox.ySize - 1;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos3) {
+                        // |||| CALCULATE OVERLAP ON X & Y
+                        overlapX = (Math.floor(xPos) % brickSize) + 1;
+                        overlapY = (Math.floor(yPos) % brickSize) + 1;
+            
+                        if (overlapX <= overlapY) {
+                            // |||| COLLISION ON X AXIS
+                            chaoticHumanSword.collisions.isCollidingWithObstacleOnTheRight = true;
+                            chaoticHumanSword.xPos -= overlapX;
+                            chaoticHumanSword.physics.vx = 0;
+                        } else {
+                            // |||| COLLISION ON Y AXIS
+                            chaoticHumanSword.yPos -= overlapY;
+                            if (chaoticHumanSword.physics.vy < 0) {                    
+                                chaoticHumanSword.physics.vy = 0;
+                            }
+                        }
+                    }
+                }
+            } else if (chaoticHumanSword.physics.vx < 0) { // LEFTWARDS MOVEMENT
+                // |||||||| SPOT 3
+                xPos = chaoticHumanSword.xPos + chaoticHumanSword.hitBox.xOffset + chaoticHumanSword.hitBox.xSize - 1;
+                yPos = chaoticHumanSword.yPos + chaoticHumanSword.hitBox.yOffset + chaoticHumanSword.hitBox.ySize - 1;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos3) {
+                        // |||| CALCULATE OVERLAP ON Y
+                        overlapY = (Math.floor(yPos) % brickSize) + 1;
+            
+                        // |||| COLLISION ON Y AXIS
+                        chaoticHumanSword.yPos -= overlapY;
+                        chaoticHumanSword.physics.vy = 0;
+                    }
+                }
+                
+                // |||||||| SPOT 5
+                xPos = chaoticHumanSword.xPos + chaoticHumanSword.hitBox.xOffset;
+                yPos = chaoticHumanSword.yPos + chaoticHumanSword.hitBox.yOffset + brickSize;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos5 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos5) {
+                        // |||| CALCULATE OVERLAP ON X
+                        overlapX = brickSize - (Math.floor(xPos) % brickSize);
+            
+                        // |||| COLLISION ON X AXIS
+                        chaoticHumanSword.collisions.isCollidingWithObstacleOnTheLeft = true;
+                        chaoticHumanSword.xPos += overlapX;
+                        chaoticHumanSword.physics.vx = 0;
+                    }
+                }
+        
+                // |||||||| SPOT 6
+                xPos = chaoticHumanSword.xPos + chaoticHumanSword.hitBox.xOffset;
+                yPos = chaoticHumanSword.yPos + chaoticHumanSword.hitBox.yOffset;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos6 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos6) {
+                        // |||| CALCULATE OVERLAP ON X
+                        overlapX = brickSize - (Math.floor(xPos) % brickSize);
+            
+                        // |||| COLLISION ON X AXIS
+                        chaoticHumanSword.collisions.isCollidingWithObstacleOnTheLeft = true;
+                        chaoticHumanSword.xPos += overlapX;
+                        chaoticHumanSword.physics.vx = 0;
+                    }
+                }
+
+                // |||||||| SPOT 4
+                xPos = chaoticHumanSword.xPos + chaoticHumanSword.hitBox.xOffset;
+                yPos = chaoticHumanSword.yPos + chaoticHumanSword.hitBox.yOffset + chaoticHumanSword.hitBox.ySize - 1;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos4) {
+                        // |||| CALCULATE OVERLAP ON X & Y
+                        overlapX = brickSize - (Math.floor(xPos) % brickSize);
+                        overlapY = (Math.floor(yPos) % brickSize) + 1;
+            
+                        if (overlapX <= overlapY) {
+                            // |||| COLLISION ON X AXIS
+                            chaoticHumanSword.collisions.isCollidingWithObstacleOnTheLeft = true;
+                            chaoticHumanSword.xPos += overlapX;
+                            chaoticHumanSword.physics.vx = 0;
+                        } else {
+                            // |||| COLLISION ON Y AXIS
+                            chaoticHumanSword.yPos -= overlapY;
+                            if (chaoticHumanSword.physics.vy < 0) {                    
+                                chaoticHumanSword.physics.vy = 0;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            break;
         }
     }
 }

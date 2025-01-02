@@ -231,6 +231,17 @@ function updatePlayer(sprite) {
             initMagicalOrb();
         }
     }
+
+    if (sprite.state === State.RIGHT_ATTACK_HAND_TO_HAND) {
+        sprite.hitBox.xSize = 28;
+        sprite.hitBox.xOffset = 15;
+    } else if (sprite.state === State.LEFT_ATTACK_HAND_TO_HAND) {
+        sprite.hitBox.xSize = 28;
+        sprite.hitBox.xOffset = 0;
+    } else {
+        sprite.hitBox.xSize = 13;
+        sprite.hitBox.xOffset = 15;
+    }
 }
 
 function updateChaoticHumanBow(sprite) {
@@ -276,13 +287,38 @@ function updateChaoticHumanSword(sprite) {
             break;
     }
 
-    // |||||||||||| CALCULATE THE DISTANCE IT MOVES
+    // |||||||||||| CALCULATE THE DISTANCE IT MOVES (X AXIS)
     sprite.xPos += sprite.physics.vx * globals.deltaTime;
 
+    // |||||||||||| ACCELERATION IN THE Y AXIS IS THE GRAVITY
+    sprite.physics.ay = GRAVITY;
+
+    sprite.physics.vy += sprite.physics.ay * globals.deltaTime;
+
+    // |||||||||||| CALCULATE THE DISTANCE IT MOVES (Y AXIS)
+    if (sprite.physics.vy > 0) {
+        sprite.yPos += Math.max(sprite.physics.vy * globals.deltaTime, 1);
+    } else {
+        sprite.yPos += sprite.physics.vy * globals.deltaTime;
+    }
+    
     updateAnimationFrame(sprite);
 
     // |||||||||||| DIRECTION CHANGE
-    updateDirection(sprite);
+    if (sprite.collisions.isCollidingWithObstacleOnTheLeft || sprite.collisions.isCollidingWithObstacleOnTheRight) {
+        sprite.directionChangeCounter = 0;
+        swapDirection(sprite);
+    } else {
+        updateDirection(sprite);
+    }
+
+    if (sprite.state === State.RIGHT_3) {
+        sprite.hitBox.xSize = 27;
+        sprite.hitBox.xOffset = 15;
+    } else {
+        sprite.hitBox.xSize = 26;
+        sprite.hitBox.xOffset = 4;
+    }
 }
 
 function updateFastWorm(sprite) {
