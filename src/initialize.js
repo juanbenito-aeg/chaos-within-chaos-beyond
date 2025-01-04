@@ -1,15 +1,24 @@
-import globals from "./globals.js";
-import { Game, FPS, SpriteID, State } from "./constants.js";
-import { default as Sprite, ChaoticHumanSword } from "./Sprite.js";
+import Sprite from "./sprites/Sprite.js";
+import InGameSprite from "./sprites/InGameSprite.js";
+import Player from "./sprites/Player.js";
+import MagicalOrb from "./sprites/MagicalOrb.js";
+import ChaoticHumanBow from "./sprites/ChaoticHumanBow.js";
+import Arrow from "./sprites/Arrow.js";
+import ChaoticHumanSword from "./sprites/ChaoticHumanSword.js";
+import FastWorm from "./sprites/FastWorm.js";
+import HellBatAcid from "./sprites/HellBatAcid.js";
+import Acid from "./sprites/Acid.js";
+import HellBatHandToHand from "./sprites/HellBatHandToHand.js";
 import ImageSet from "./ImageSet.js";
 import Frames from "./Frames.js";
-import { Level, level1 } from "./Level.js";
 import Physics from "./Physics.js";
-import { keydownHandler, keyupHandler } from "./events.js";
-import Timer from "./Timer.js";
-import { setHellBatAcidPosition } from "./gameLogic.js";
 import HitBox from "./HitBox.js";
 import Collisions from "./Collisions.js";
+import Timer from "./Timer.js";
+import globals from "./globals.js";
+import { Level, level1 } from "./Level.js";
+import { Game, FPS, SpriteID, State } from "./constants.js";
+import { keydownHandler, keyupHandler } from "./events.js";
 
 // |||||||||||| INITIALIZES THE HTML ELEMENTS
 function initHTMLElements() {
@@ -350,7 +359,7 @@ function initPlayer() {
 
     const afterAttackLeeway = new Timer(0, 1);
 
-    const player = new Sprite(SpriteID.PLAYER, State.RIGHT_STILL, 40, 184, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
+    const player = new Player(SpriteID.PLAYER, State.RIGHT_STILL, 40, 184, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
 
     // |||||||||||| ADD PLAYER TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(player);
@@ -370,7 +379,7 @@ function initChaoticHumanBow() {
 
     const afterAttackLeeway = new Timer(0, 1);
 
-    const chaoticHumanBow = new Sprite(SpriteID.CHAOTIC_HUMAN_BOW, State.LEFT_ATTACK_2, 275, 23, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
+    const chaoticHumanBow = new ChaoticHumanBow(SpriteID.CHAOTIC_HUMAN_BOW, State.LEFT_ATTACK_2, 275, 23, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
 
     // |||||||||||| ADD CHAOTIC HUMAN (BOW) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(chaoticHumanBow);
@@ -410,7 +419,7 @@ function initFastWorm() {
 
     const afterAttackLeeway = new Timer(0, 1);
 
-    const fastWorm = new Sprite(SpriteID.FAST_WORM, State.LEFT, 390, 124, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
+    const fastWorm = new FastWorm(SpriteID.FAST_WORM, State.LEFT, 390, 124, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
 
     // |||||||||||| ADD FAST WORM TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(fastWorm);
@@ -436,10 +445,10 @@ function initHellBatAcid() {
 
     const afterAttackLeeway = new Timer(0, 1);
 
-    const hellBatAcid = new Sprite(SpriteID.HELL_BAT_ACID, State.DOWN, 0, 0, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
+    const hellBatAcid = new HellBatAcid(SpriteID.HELL_BAT_ACID, State.DOWN, 0, 0, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
 
     // |||||||||||| POSITION THE SPRITE
-    setHellBatAcidPosition(hellBatAcid);
+    hellBatAcid.setPosition();
 
     // |||||||||||| ADD HELL BAT (ACID) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(hellBatAcid);
@@ -466,7 +475,7 @@ function initHellBatHandToHand() {
 
     const afterAttackLeeway = new Timer(0, 1);
 
-    const hellBatHandToHand = new Sprite(SpriteID.HELL_BAT_HAND_TO_HAND, State.DOWN_3, 0, 0, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
+    const hellBatHandToHand = new HellBatHandToHand(SpriteID.HELL_BAT_HAND_TO_HAND, State.DOWN_3, 0, 0, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
 
     // |||||||||||| ADD HELL BAT (HAND-TO-HAND) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(hellBatHandToHand);
@@ -481,7 +490,7 @@ function initPotionGreen() {
 
     const collisions = new Collisions();
 
-    const potionGreen = new Sprite(SpriteID.POTION_GREEN, State.STILL, 0, 0, imageSet, frames, null, hitBox, collisions);
+    const potionGreen = new InGameSprite(SpriteID.POTION_GREEN, State.STILL, 306, 48, imageSet, frames, null, hitBox, collisions);
 
     // |||||||||||| ADD POTION (GREEN) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(potionGreen);
@@ -496,7 +505,7 @@ function initPotionBlue() {
 
     const collisions = new Collisions();
 
-    const potionBlue = new Sprite(SpriteID.POTION_BLUE, State.STILL, 0, 0, imageSet, frames, null, hitBox, collisions);
+    const potionBlue = new InGameSprite(SpriteID.POTION_BLUE, State.STILL, 206, 48, imageSet, frames, null, hitBox, collisions);
 
     // |||||||||||| ADD POTION (BLUE) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(potionBlue);
@@ -529,7 +538,7 @@ function initMagicalOrb() {
 
     const collisions = new Collisions();
 
-    const magicalOrb = new Sprite(SpriteID.MAGICAL_ORB, State.STILL, magicalOrbXPos, magicalOrbYPos, imageSet, frames, physics, hitBox, collisions);
+    const magicalOrb = new MagicalOrb(SpriteID.MAGICAL_ORB, State.STILL, magicalOrbXPos, magicalOrbYPos, imageSet, frames, physics, hitBox, collisions);
 
     // |||||||||||| ADD MAGICAL ORB TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(magicalOrb);
@@ -569,7 +578,7 @@ function initArrow() {
         
             const collisions = new Collisions();
         
-            const arrow = new Sprite(SpriteID.ARROW, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
+            const arrow = new Arrow(SpriteID.ARROW, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
         
             // |||||||||||| ADD ARROW TO ITS CORRESPONDING SPRITES ARRAY
             globals.screenSprites.push(arrow);
@@ -600,7 +609,7 @@ function initAcid() {
         
             const collisions = new Collisions();
         
-            const acid = new Sprite(SpriteID.ACID, State.STILL, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
+            const acid = new Acid(SpriteID.ACID, State.STILL, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
         
             // |||||||||||| ADD ACID TO ITS CORRESPONDING SPRITES ARRAY
             globals.screenSprites.push(acid);
