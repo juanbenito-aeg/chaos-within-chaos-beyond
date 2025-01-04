@@ -8,12 +8,6 @@ export default class HellBatHandToHand extends Character {
 
     update() {
         const amplitude = 80;
-        
-        if ((this.xPos + this.imageSet.xDestinationSize) > globals.canvas.width) {
-            this.physics.vx = -this.physics.vLimit;
-        } else if (this.xPos < 0) {
-            this.physics.vx = this.physics.vLimit;
-        }
     
         this.physics.angle += this.physics.omega * globals.deltaTime;
     

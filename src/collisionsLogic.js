@@ -22,6 +22,9 @@ export default function detectCollisions() {
 
     // |||||||||||| CALCULATE FAST WORMS' COLLISION WITH THE MAP'S OBSTACLES
     detectCollisionBetweenFastWormAndMapObstacles();
+    
+    // |||||||||||| CALCULATE HELL BATS' (HAND TO HAND) COLLISION WITH THE CANVAS' BOUNDARIES
+    detectCollisionBetweenHellBatHandToHandAndCanvasBoundaries();
 }
 
 function detectCollisionBetweenPlayerAndSprite(sprite) {
@@ -995,6 +998,22 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                 }
             }
             
+            break;
+        }
+    }
+}
+
+function detectCollisionBetweenHellBatHandToHandAndCanvasBoundaries() {
+    for (let i = 1; i < globals.screenSprites.length; i++) {
+        if (globals.screenSprites[i].id === SpriteID.HELL_BAT_HAND_TO_HAND) {
+            const hellBatHandToHand = globals.screenSprites[i];
+            
+            if ((hellBatHandToHand.xPos + hellBatHandToHand.imageSet.xDestinationSize) > globals.canvas.width) {
+                hellBatHandToHand.physics.vx = -hellBatHandToHand.physics.vLimit;
+            } else if (hellBatHandToHand.xPos < 0) {
+                hellBatHandToHand.physics.vx = hellBatHandToHand.physics.vLimit;
+            }
+
             break;
         }
     }
