@@ -137,6 +137,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         Block.SPIKES_LEFTWARDS,
         Block.SPIKES_RIGHTWARDS,
         Block.GRAY_BLOCK,
+        Block.LAVA,
     ];
 
     // |||||||||||| RESET COLLISION STATE
@@ -167,6 +168,13 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
             isCollidingOnPos6 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
             
             if (isCollidingOnPos6) {
+                /*
+                if ((obstaclesIDs[i] === Block.SPIKES_CEILING) && (player.afterAttackLeeway.value === 0)) {
+                    player.lifePoints--;
+                    player.afterAttackLeeway.value = 3;
+                }
+                */
+
                 // |||| CALCULATE OVERLAP ON Y
                 overlapY = brickSize - (Math.floor(yPos) % brickSize);
     
@@ -183,6 +191,15 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
             isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
             
             if (isCollidingOnPos4) {
+                /*
+                if ((obstaclesIDs[i] === Block.SPIKES_FLOOR) && (player.afterAttackLeeway.value === 0)) {
+                    player.lifePoints--;
+                    player.afterAttackLeeway.value = 3;
+                } else if (obstaclesIDs[i] === Block.LAVA) {
+                    player.lifePoints = 0;
+                }
+                */
+
                 // |||| CALCULATE OVERLAP ON Y
                 overlapY = (Math.floor(yPos) % brickSize) + 1;
     
@@ -200,6 +217,13 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
             isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
             
             if (isCollidingOnPos2) {
+                /*
+                if ((obstaclesIDs[i] === Block.SPIKES_LEFTWARDS) && (player.afterAttackLeeway.value === 0)) {
+                    player.lifePoints--;
+                    player.afterAttackLeeway.value = 3;
+                }
+                */
+
                 // |||| CALCULATE OVERLAP ON X
                 overlapX = (Math.floor(xPos) % brickSize) + 1;
     
@@ -221,10 +245,24 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                 overlapY = brickSize - (Math.floor(yPos) % brickSize);
     
                 if (overlapX <= overlapY) {
+                    /*
+                    if ((obstaclesIDs[i] === Block.SPIKES_LEFTWARDS) && (player.afterAttackLeeway.value === 0)) {
+                        player.lifePoints--;
+                        player.afterAttackLeeway.value = 3;
+                    }
+                    */
+
                     // |||| COLLISION ON X AXIS
                     player.xPos -= overlapX;
                     player.physics.vx = 0;
                 } else {
+                    /*
+                    if ((obstaclesIDs[i] === Block.SPIKES_CEILING) && (player.afterAttackLeeway.value === 0)) {
+                        player.lifePoints--;
+                        player.afterAttackLeeway.value = 3;
+                    }
+                    */
+
                     // |||| COLLISION ON Y AXIS
                     player.yPos += overlapY;
                     if (player.physics.vy < 0) {                    
@@ -246,10 +284,26 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                 overlapY = (Math.floor(yPos) % brickSize) + 1;
     
                 if (overlapX <= overlapY) {
+                    /*
+                    if ((obstaclesIDs[i] === Block.SPIKES_LEFTWARDS) && (player.afterAttackLeeway.value === 0)) {
+                        player.lifePoints--;
+                        player.afterAttackLeeway.value = 3;
+                    }
+                    */
+                    
                     // |||| COLLISION ON X AXIS
                     player.xPos -= overlapX;
                     player.physics.vx = 0;
                 } else {
+                    /*
+                    if ((obstaclesIDs[i] === Block.SPIKES_FLOOR) && (player.afterAttackLeeway.value === 0)) {
+                        player.lifePoints--;
+                        player.afterAttackLeeway.value = 3;
+                    } else if (obstaclesIDs[i] === Block.LAVA) {
+                        player.lifePoints = 0;
+                    }
+                    */
+                    
                     // |||| COLLISION ON Y AXIS
                     player.collisions.isCollidingWithObstacleOnTheBottom = true;
                     player.yPos -= overlapY;
@@ -267,6 +321,13 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
             isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
             
             if (isCollidingOnPos1) {
+                /*
+                if ((obstaclesIDs[i] === Block.SPIKES_CEILING) && (player.afterAttackLeeway.value === 0)) {
+                    player.lifePoints--;
+                    player.afterAttackLeeway.value = 3;
+                }
+                */
+
                 // |||| CALCULATE OVERLAP ON Y
                 overlapY = brickSize - (Math.floor(yPos) % brickSize);
     
@@ -283,6 +344,15 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
             isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
             
             if (isCollidingOnPos3) {
+                /*
+                if ((obstaclesIDs[i] === Block.SPIKES_FLOOR) && (player.afterAttackLeeway.value === 0)) {
+                    player.lifePoints--;
+                    player.afterAttackLeeway.value = 3;
+                } else if (obstaclesIDs[i] === Block.LAVA) {
+                    player.lifePoints = 0;
+                }
+                */
+                
                 // |||| CALCULATE OVERLAP ON Y
                 overlapY = (Math.floor(yPos) % brickSize) + 1;
     
@@ -300,6 +370,13 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
             isCollidingOnPos5 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
             
             if (isCollidingOnPos5) {
+                /*
+                if ((obstaclesIDs[i] === Block.SPIKES_RIGHTWARDS) && (player.afterAttackLeeway.value === 0)) {
+                    player.lifePoints--;
+                    player.afterAttackLeeway.value = 3;
+                }
+                */
+
                 // |||| CALCULATE OVERLAP ON X
                 overlapX = brickSize - (Math.floor(xPos) % brickSize);
     
@@ -321,10 +398,24 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                 overlapY = brickSize - (Math.floor(yPos) % brickSize);
     
                 if (overlapX <= overlapY) {
+                    /*
+                    if ((obstaclesIDs[i] === Block.SPIKES_RIGHTWARDS) && (player.afterAttackLeeway.value === 0)) {
+                        player.lifePoints--;
+                        player.afterAttackLeeway.value = 3;
+                    }
+                    */
+
                     // |||| COLLISION ON X AXIS
                     player.xPos += overlapX;
                     player.physics.vx = 0;
                 } else {
+                    /*
+                    if ((obstaclesIDs[i] === Block.SPIKES_CEILING) && (player.afterAttackLeeway.value === 0)) {
+                        player.lifePoints--;
+                        player.afterAttackLeeway.value = 3;
+                    }
+                    */
+
                     // |||| COLLISION ON Y AXIS
                     player.yPos += overlapY;
                     if (player.physics.vy < 0) {                    
@@ -346,10 +437,26 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                 overlapY = (Math.floor(yPos) % brickSize) + 1;
     
                 if (overlapX <= overlapY) {
+                    /*
+                    if ((obstaclesIDs[i] === Block.SPIKES_RIGHTWARDS) && (player.afterAttackLeeway.value === 0)) {
+                        player.lifePoints--;
+                        player.afterAttackLeeway.value = 3;
+                    }
+                    */
+
                     // |||| COLLISION ON X AXIS
                     player.xPos += overlapX;
                     player.physics.vx = 0;
                 } else {
+                    /*
+                    if ((obstaclesIDs[i] === Block.SPIKES_FLOOR) && (player.afterAttackLeeway.value === 0)) {
+                        player.lifePoints--;
+                        player.afterAttackLeeway.value = 3;
+                    } else if (obstaclesIDs[i] === Block.LAVA) {
+                        player.lifePoints = 0;
+                    }
+                    */
+
                     // |||| COLLISION ON Y AXIS
                     player.collisions.isCollidingWithObstacleOnTheBottom = true;
                     player.yPos -= overlapY;
@@ -367,6 +474,13 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
             isCollidingOnPos6 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
             
             if (isCollidingOnPos6) {
+                /*
+                if ((obstaclesIDs[i] === Block.SPIKES_CEILING) && (player.afterAttackLeeway.value === 0)) {
+                    player.lifePoints--;
+                    player.afterAttackLeeway.value = 3;
+                }
+                */
+
                 // |||| CALCULATE OVERLAP ON Y
                 overlapY = brickSize - (Math.floor(yPos) % brickSize);
     
@@ -383,6 +497,15 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
             isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
             
             if (isCollidingOnPos4) {
+                /*
+                if ((obstaclesIDs[i] === Block.SPIKES_FLOOR) && (player.afterAttackLeeway.value === 0)) {
+                    player.lifePoints--;
+                    player.afterAttackLeeway.value = 3;
+                } else if (obstaclesIDs[i] === Block.LAVA) {
+                    player.lifePoints = 0;
+                }
+                */
+
                 // |||| CALCULATE OVERLAP ON Y
                 overlapY = (Math.floor(yPos) % brickSize) + 1;
     
@@ -400,6 +523,13 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
             isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
             
             if (isCollidingOnPos1) {
+                /*
+                if ((obstaclesIDs[i] === Block.SPIKES_CEILING) && (player.afterAttackLeeway.value === 0)) {
+                    player.lifePoints--;
+                    player.afterAttackLeeway.value = 3;
+                }
+                */
+
                 // |||| CALCULATE OVERLAP ON Y
                 overlapY = brickSize - (Math.floor(yPos) % brickSize);
     
@@ -416,6 +546,15 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
             isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
             
             if (isCollidingOnPos3) {
+                /*
+                if ((obstaclesIDs[i] === Block.SPIKES_FLOOR) && (player.afterAttackLeeway.value === 0)) {
+                    player.lifePoints--;
+                    player.afterAttackLeeway.value = 3;
+                } else if (obstaclesIDs[i] === Block.LAVA) {
+                    player.lifePoints = 0;
+                }
+                */
+
                 // |||| CALCULATE OVERLAP ON Y
                 overlapY = (Math.floor(yPos) % brickSize) + 1;
     
