@@ -673,6 +673,7 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                 Block.SPIKES_LEFTWARDS,
                 Block.SPIKES_RIGHTWARDS,
                 Block.GRAY_BLOCK,
+                Block.LAVA,
             ];
         
             // |||||||||||| RESET COLLISION STATE
@@ -702,6 +703,10 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                     isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos4) {
+                        if (obstaclesIDs[i] === Block.LAVA) {
+                            chaoticHumanSword.state = State.OFF;
+                        }
+
                         // |||| CALCULATE OVERLAP ON Y
                         overlapY = (Math.floor(yPos) % brickSize) + 1;
             
@@ -762,6 +767,10 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                             chaoticHumanSword.xPos -= overlapX;
                             chaoticHumanSword.physics.vx = 0;
                         } else {
+                            if (obstaclesIDs[i] === Block.LAVA) {
+                                chaoticHumanSword.state = State.OFF;
+                            }
+
                             // |||| COLLISION ON Y AXIS
                             chaoticHumanSword.yPos -= overlapY;
                             if (chaoticHumanSword.physics.vy < 0) {                    
@@ -778,6 +787,10 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                     isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos3) {
+                        if (obstaclesIDs[i] === Block.LAVA) {
+                            chaoticHumanSword.state = State.OFF;
+                        }
+
                         // |||| CALCULATE OVERLAP ON Y
                         overlapY = (Math.floor(yPos) % brickSize) + 1;
             
@@ -838,6 +851,10 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                             chaoticHumanSword.xPos += overlapX;
                             chaoticHumanSword.physics.vx = 0;
                         } else {
+                            if (obstaclesIDs[i] === Block.LAVA) {
+                                chaoticHumanSword.state = State.OFF;
+                            }
+
                             // |||| COLLISION ON Y AXIS
                             chaoticHumanSword.yPos -= overlapY;
                             if (chaoticHumanSword.physics.vy < 0) {                    
@@ -885,6 +902,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                 Block.SPIKES_LEFTWARDS,
                 Block.SPIKES_RIGHTWARDS,
                 Block.GRAY_BLOCK,
+                Block.LAVA,
             ];
         
             // |||||||||||| RESET COLLISION STATE
@@ -931,6 +949,10 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                     isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos4) {
+                        if (obstaclesIDs[i] === Block.LAVA) {
+                            fastWorm.state = State.OFF;
+                        }
+
                         // |||| CALCULATE OVERLAP ON Y
                         overlapY = (Math.floor(yPos) % brickSize) + 1;
             
@@ -997,6 +1019,10 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                             fastWorm.xPos -= overlapX;
                             fastWorm.physics.vx = 0;
                         } else {
+                            if (obstaclesIDs[i] === Block.LAVA) {
+                                fastWorm.state = State.OFF;
+                            }
+
                             // |||| COLLISION ON Y AXIS
                             fastWorm.yPos -= overlapY;
                             if (fastWorm.physics.vy < 0) {                    
@@ -1029,6 +1055,10 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                     isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos3) {
+                        if (obstaclesIDs[i] === Block.LAVA) {
+                            fastWorm.state = State.OFF;
+                        }
+
                         // |||| CALCULATE OVERLAP ON Y
                         overlapY = (Math.floor(yPos) % brickSize) + 1;
             
@@ -1095,6 +1125,10 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                             fastWorm.xPos += overlapX;
                             fastWorm.physics.vx = 0;
                         } else {
+                            if (obstaclesIDs[i] === Block.LAVA) {
+                                fastWorm.state = State.OFF;
+                            }
+
                             // |||| COLLISION ON Y AXIS
                             fastWorm.yPos -= overlapY;
                             if (fastWorm.physics.vy < 0) {                    
@@ -1111,6 +1145,10 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                     isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos4) {
+                        if (obstaclesIDs[i] === Block.LAVA) {
+                            fastWorm.state = State.OFF;
+                        }
+
                         // |||| CALCULATE OVERLAP ON Y
                         overlapY = (Math.floor(yPos) % brickSize) + 1;
             
@@ -1127,6 +1165,10 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                     isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos3) {
+                        if (obstaclesIDs[i] === Block.LAVA) {
+                            fastWorm.state = State.OFF;
+                        }
+
                         // |||| CALCULATE OVERLAP ON Y
                         overlapY = (Math.floor(yPos) % brickSize) + 1;
             
