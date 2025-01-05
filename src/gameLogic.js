@@ -85,14 +85,9 @@ function updateSLetterKey(sprite) {
 }
 
 function playGame() {
-    updateRageLevel();
     updateScreenSprites();
     detectCollisions();
     updateLifePoints();
-}
-
-function updateRageLevel() {
-    globals.rageLevel = 50;
 }
 
 function updateScreenSprites() {

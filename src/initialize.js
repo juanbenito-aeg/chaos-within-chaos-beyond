@@ -354,12 +354,15 @@ function initPlayer() {
 
     const collisions = new Collisions();
 
-    // |||||||||||| PLAYER'S LIFE POINTS, STARTING IN 3 AND RANGING FROM 1 TO 5 (REPRESENTED BY X.G FACE'S DIFFERENT FRAMES)
+    // |||||||||||| LIFE POINTS, STARTING IN 3 AND RANGING FROM 1 TO 5 (REPRESENTED BY X.G FACE'S DIFFERENT FRAMES)
     const lifePoints = 3;
 
     const afterAttackLeeway = new Timer(0, 1);
+    
+    // |||||||||||| RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
+    const rageLevel = 0;
 
-    const player = new Player(SpriteID.PLAYER, State.RIGHT_STILL, 40, 184, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
+    const player = new Player(SpriteID.PLAYER, State.RIGHT_STILL, 40, 184, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, rageLevel);
 
     // |||||||||||| ADD PLAYER TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(player);

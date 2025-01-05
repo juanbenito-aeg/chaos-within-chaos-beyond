@@ -561,7 +561,8 @@ function renderRageLevel() {
                 break;
             
             case SpriteID.RAGE_BAR_CONTENT:
-                spriteSourceAndDestinationWidth = sprite.imageSet.xSize * (globals.rageLevel / 100);
+                const player = globals.screenSprites[0];
+                spriteSourceAndDestinationWidth = sprite.imageSet.xSize * (player.rageLevel / 100);
                 break;
         }
 
