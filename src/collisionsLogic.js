@@ -109,6 +109,9 @@ function detectCollisionBetweenPlayerAndMapBoundaries() {
 
 function detectCollisionBetweenPlayerAndMapObstacles() {
     const player = globals.screenSprites[0];
+    /*
+    const playerLifePtsBeforeChecks = player.lifePoints;
+    */
 
     let xPos;
     let yPos;
@@ -565,6 +568,14 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
             }
         }
     }
+
+    /*
+    // |||||||||||| IF THE PLAYER HAS LOST LIFE POINTS, UPDATE THE TIMER USED TO INCREASE THEIR RAGE LEVEL
+    if (player.lifePoints !== playerLifePtsBeforeChecks) {
+        globals.nextRagePtUpDelay.value = player.lifePoints;
+        globals.nextRagePtUpDelay.timeChangeCounter = 0;
+    }
+    */
 }
 
 function detectCollisionBetweenChaoticHumanBowAndMapObstacles() {

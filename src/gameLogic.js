@@ -105,6 +105,7 @@ function updateScreenSprites() {
 
 function updateLifePoints() {
     const player = globals.screenSprites[0];
+    const playerLifePtsBeforeChecks = player.lifePoints;
 
     const enemies = [
         SpriteID.CHAOTIC_HUMAN_BOW,
@@ -151,12 +152,32 @@ function updateLifePoints() {
                 player.afterAttackLeeway.value = 3;
             } else if ((sprite.id === SpriteID.POTION_GREEN) && (player.lifePoints < 5)) {
                 player.lifePoints++;
+
+                player.rageLevel -= 10;
+                if (player.rageLevel < 0) {
+                    player.rageLevel = 0;
+                }
+                
+                // |||||||||||| ONCE USED, MAKE THE POTION DISAPPEAR
                 sprite.state = State.OFF;
             } else if ((sprite.id === SpriteID.POTION_BLUE) && (player.lifePoints < 4)) {
                 player.lifePoints += 2;
+
+                player.rageLevel -= 20;
+                if (player.rageLevel < 0) {
+                    player.rageLevel = 0;
+                }
+
+                // |||||||||||| ONCE USED, MAKE THE POTION DISAPPEAR
                 sprite.state = State.OFF;
             }
         }
+    }
+
+    // |||||||||||| IF THE PLAYER HAS EITHER LOST OR EARNED LIFE POINTS, UPDATE THE TIMER USED TO INCREASE THEIR RAGE LEVEL
+    if (player.lifePoints !== playerLifePtsBeforeChecks) {
+        globals.nextRagePtUpDelay.value = player.lifePoints;
+        globals.nextRagePtUpDelay.timeChangeCounter = 0;
     }
 
     for (let i = 0; i < globals.screenSprites.length; i++) {

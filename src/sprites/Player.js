@@ -10,7 +10,49 @@ export default class Player extends Character {
         this.rageLevel = rageLevel;
     }
 
+    #updateRageLevel() {
+        if ((globals.nextRagePtUpDelay.value === 0) && (this.rageLevel < 100)) {
+            this.rageLevel++;
+            globals.nextRagePtUpDelay.value = this.lifePoints;
+        } else {
+            globals.nextRagePtUpDelay.timeChangeCounter += globals.deltaTime;
+
+            if (globals.nextRagePtUpDelay.timeChangeCounter > globals.nextRagePtUpDelay.timeChangeValue) {
+                globals.nextRagePtUpDelay.value--;
+                globals.nextRagePtUpDelay.timeChangeCounter = 0;
+            }
+        }
+    }
+
+    #readKeyboardAndAssignState() {
+        const isStateLeftOrLeftStill = (this.state === State.LEFT) || (this.state === State.LEFT_STILL);
+        const isStateRightOrRightStill = (this.state === State.RIGHT) || (this.state === State.RIGHT_STILL);
+        
+        const isStateLeftOrLeftJump = (this.state === State.LEFT) || (this.state === State.LEFT_JUMP);
+        const isStateRightOrRightJump = (this.state === State.RIGHT) || (this.state === State.RIGHT_JUMP);
+
+        if (this.physics.isOnGround) {
+            this.state = globals.action.jump && (this.state === State.LEFT_STILL)    ? State.LEFT_JUMP :
+                         globals.action.jump && (this.state === State.RIGHT_STILL)   ? State.RIGHT_JUMP :
+                         globals.action.moveLeft                                     ? State.LEFT :
+                         globals.action.moveRight                                    ? State.RIGHT :
+                         globals.action.attackHandToHand && isStateLeftOrLeftStill   ? State.LEFT_ATTACK_HAND_TO_HAND :
+                         globals.action.attackHandToHand && isStateRightOrRightStill ? State.RIGHT_ATTACK_HAND_TO_HAND :
+                         globals.action.throwMagicalOrb && isStateLeftOrLeftStill    ? State.LEFT_ATTACK_MAGICAL_ORB :
+                         globals.action.throwMagicalOrb && isStateRightOrRightStill  ? State.RIGHT_ATTACK_MAGICAL_ORB :
+                         isStateLeftOrLeftJump                                       ? State.LEFT_STILL : 
+                         isStateRightOrRightJump                                     ? State.RIGHT_STILL : 
+                         this.state;
+        } else {
+            this.state = globals.action.moveLeft || (this.state === State.LEFT)   ? State.LEFT_JUMP :
+                         globals.action.moveRight || (this.state === State.RIGHT) ? State.RIGHT_JUMP :
+                         this.state;
+        }
+    }
+
     update() {
+        this.#updateRageLevel();
+
         this.#readKeyboardAndAssignState();
 
         // |||||||||||| HORIZONTAL MOVEMENT
@@ -73,32 +115,6 @@ export default class Player extends Character {
         } else {
             this.hitBox.xSize = 13;
             this.hitBox.xOffset = 15;
-        }
-    }
-
-    #readKeyboardAndAssignState() {
-        const isStateLeftOrLeftStill = (this.state === State.LEFT) || (this.state === State.LEFT_STILL);
-        const isStateRightOrRightStill = (this.state === State.RIGHT) || (this.state === State.RIGHT_STILL);
-        
-        const isStateLeftOrLeftJump = (this.state === State.LEFT) || (this.state === State.LEFT_JUMP);
-        const isStateRightOrRightJump = (this.state === State.RIGHT) || (this.state === State.RIGHT_JUMP);
-
-        if (this.physics.isOnGround) {
-            this.state = globals.action.jump && (this.state === State.LEFT_STILL)    ? State.LEFT_JUMP :
-                         globals.action.jump && (this.state === State.RIGHT_STILL)   ? State.RIGHT_JUMP :
-                         globals.action.moveLeft                                     ? State.LEFT :
-                         globals.action.moveRight                                    ? State.RIGHT :
-                         globals.action.attackHandToHand && isStateLeftOrLeftStill   ? State.LEFT_ATTACK_HAND_TO_HAND :
-                         globals.action.attackHandToHand && isStateRightOrRightStill ? State.RIGHT_ATTACK_HAND_TO_HAND :
-                         globals.action.throwMagicalOrb && isStateLeftOrLeftStill    ? State.LEFT_ATTACK_MAGICAL_ORB :
-                         globals.action.throwMagicalOrb && isStateRightOrRightStill  ? State.RIGHT_ATTACK_MAGICAL_ORB :
-                         isStateLeftOrLeftJump                                       ? State.LEFT_STILL : 
-                         isStateRightOrRightJump                                     ? State.RIGHT_STILL : 
-                         this.state;
-        } else {
-            this.state = globals.action.moveLeft || (this.state === State.LEFT)   ? State.LEFT_JUMP :
-                         globals.action.moveRight || (this.state === State.RIGHT) ? State.RIGHT_JUMP :
-                         this.state;
         }
     }
 }

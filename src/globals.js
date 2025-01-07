@@ -65,4 +65,6 @@ export default {
     
     // |||||||||||| TIMING OF THE DELAY BETWEEN SUCCESSIVE ACID DROPS
     nextAcidDropDelay: {},
+
+    nextRagePtUpDelay: {},
 };
