@@ -1,5 +1,6 @@
-import { Key } from "./constants.js";
 import globals from "./globals.js";
+import { Key } from "./constants.js";
+import { isPlayerAttackCanceledDueToRageBeingOverN } from "./gameLogic.js";
 
 function keydownHandler(event) {
     switch (event.keyCode) {
@@ -16,11 +17,15 @@ function keydownHandler(event) {
             break;
         
         case Key.A:
-            globals.action.attackHandToHand = true;
+            if (!isPlayerAttackCanceledDueToRageBeingOverN()) {
+                globals.action.attackHandToHand = true;
+            }
             break;
         
         case Key.S:
-            globals.action.throwMagicalOrb = true;
+            if (!isPlayerAttackCanceledDueToRageBeingOverN()) {
+                globals.action.throwMagicalOrb = true;
+            }
             break;
     }
 }

@@ -4,10 +4,10 @@ import { State, GRAVITY } from "../constants.js";
 import { initMagicalOrb } from "../initialize.js";
 
 export default class Player extends Character {
-    constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, rageLevel) {
+    constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway) {
         super(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
 
-        this.rageLevel = rageLevel;
+        this.rageLevel = 0; // RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
     }
 
     #updateRageLevel() {

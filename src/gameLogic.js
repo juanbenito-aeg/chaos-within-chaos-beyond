@@ -196,3 +196,29 @@ function updateLifePoints() {
         }
     }
 }
+
+function isPlayerAttackCanceledDueToRageBeingOverN() {
+    const player = globals.screenSprites[0];
+
+    if (player.rageLevel >= 25) {
+        // |||||||||||| THE HIGHER THE RAGE LEVEL, THE LOWER THE UPPER LIMIT OF THE RANDOM NUMBER
+        let randomNumUpperLimit;
+    
+        if (player.rageLevel >= 85) {
+            randomNumUpperLimit = 3;
+        } else if (player.rageLevel >= 55) {
+            randomNumUpperLimit = 6;
+        } else {
+            randomNumUpperLimit = 9;
+        }
+    
+        const randomNumBetween1AndN = Math.floor(Math.random() * randomNumUpperLimit) + 1;
+    
+        // |||||||||||| IF A 1 IS GOTTEN, THE ATTACK THE PLAYER HAS TRIED TO EXECUTE PRESSING THE CORRESPONDING KEY WON'T MATERIALIZE
+        const isPlayerAttackCanceled = randomNumBetween1AndN === 1;
+
+        return isPlayerAttackCanceled;
+    }
+}
+
+export { isPlayerAttackCanceledDueToRageBeingOverN };

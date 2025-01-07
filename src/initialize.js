@@ -360,10 +360,7 @@ function initPlayer() {
 
     const afterAttackLeeway = new Timer(0, 1);
     
-    // |||||||||||| RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
-    const rageLevel = 0;
-
-    const player = new Player(SpriteID.PLAYER, State.RIGHT_STILL, 40, 184, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, rageLevel);
+    const player = new Player(SpriteID.PLAYER, State.RIGHT_STILL, 40, 184, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
 
     // |||||||||||| ADD PLAYER TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(player);
