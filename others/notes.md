@@ -1,6 +1,10 @@
-- TODOS:
-    - Solucionar X.G desaparece al atacar
+- TODOS: 
+    - Hacer métodos privados de player públicos
+    - Crear atributos de colisiones específicos a determinados sprites en sus clases
+        - Mover consecuencias/efectos de colisiones con ciertos bloques a funciones update (isCollidingWithLavaBlock a update de fastWorm, player y chaoticHumanSword)
     - Solucionar colisiones gusano
+        - Cambiar tanto atributos numéricos de ImageSet como atributos numéricos de HitBox y hacerlos enteros para TODOS los sprites en initialize.js
+    - Solucionar X.G desaparece al atacar
     - Buscar background img para cave sect 2 y hacer mapa para el nivel
     - Programar los efectos adversos de tener más de "x" puntos de ira
 
