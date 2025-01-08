@@ -10,7 +10,7 @@ export default class Player extends Character {
         this.rageLevel = 0; // RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
     }
 
-    #updateRageLevel() {
+    updateRageLevel() {
         if ((globals.nextRagePtUpDelay.value === 0) && (this.rageLevel < 100)) {
             this.rageLevel++;
             globals.nextRagePtUpDelay.value = this.lifePoints;
@@ -24,7 +24,7 @@ export default class Player extends Character {
         }
     }
 
-    #readKeyboardAndAssignState() {
+    readKeyboardAndAssignState() {
         const isStateLeftOrLeftStill = (this.state === State.LEFT) || (this.state === State.LEFT_STILL);
         const isStateRightOrRightStill = (this.state === State.RIGHT) || (this.state === State.RIGHT_STILL);
         
@@ -51,9 +51,9 @@ export default class Player extends Character {
     }
 
     update() {
-        this.#updateRageLevel();
+        this.updateRageLevel();
 
-        this.#readKeyboardAndAssignState();
+        this.readKeyboardAndAssignState();
 
         // |||||||||||| HORIZONTAL MOVEMENT
 

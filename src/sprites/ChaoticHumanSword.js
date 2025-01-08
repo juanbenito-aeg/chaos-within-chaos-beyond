@@ -10,11 +10,11 @@ export default class ChaoticHumanSword extends Character {
         this.maxTimeToChangeDirection = maxTimeToChangeDirection; // MAXIMUM TIME FOR DIRECTION CHANGE (SECONDS)
     }
 
-    #swapDirection() {
+    swapDirection() {
         this.state = (this.state === State.LEFT_3) ? State.RIGHT_3 : State.LEFT_3;
     }
 
-    #updateDirection() {
+    updateDirection() {
         // |||||||||||| INCREMENT TIME FOR DIRECTION CHANGE
         this.directionChangeCounter += globals.deltaTime;
     
@@ -22,7 +22,7 @@ export default class ChaoticHumanSword extends Character {
             // |||||||||||| RESET THE COUNTER
             this.directionChangeCounter = 0;
     
-            this.#swapDirection();
+            this.swapDirection();
         }
     }
 
@@ -58,9 +58,9 @@ export default class ChaoticHumanSword extends Character {
         // |||||||||||| DIRECTION CHANGE
         if (this.collisions.isCollidingWithObstacleOnTheLeft || this.collisions.isCollidingWithObstacleOnTheRight) {
             this.directionChangeCounter = 0;
-            this.#swapDirection();
+            this.swapDirection();
         } else {
-            this.#updateDirection();
+            this.updateDirection();
         }
 
         if (this.state === State.RIGHT_3) {
