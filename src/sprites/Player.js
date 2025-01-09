@@ -111,8 +111,8 @@ export default class Player extends Character {
             this.hitBox.xSize = 28;
             this.hitBox.xOffset = 0;
         } else {
-            this.hitBox.xSize = 13;
-            this.hitBox.xOffset = 15;
+            this.hitBox.xSize = 12;
+            this.hitBox.xOffset = 16;
         }
 
         // |||||||||||| UPDATE LIFE POINTS

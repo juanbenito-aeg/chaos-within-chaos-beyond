@@ -596,7 +596,7 @@ function renderScreenSprite(sprite) {
     const yPos = Math.floor(sprite.yPos);
 
     // |||||||||||| TEST
-    // drawSpriteRectangle(sprite, sprite.imageSet.xDestinationSize, sprite.imageSet.yDestinationSize);
+    drawSpriteRectangle(sprite, sprite.imageSet.xDestinationSize, sprite.imageSet.yDestinationSize);
 
     // |||||||||||| DRAW THE SPRITE'S (NEW) FRAME IN THE DESIRED POSITION
     globals.ctx.drawImage(

@@ -344,14 +344,14 @@ function initRageBarContent() {
 }
 
 function initPlayer() {
-    const imageSet = new ImageSet(2036, 0, 59, 62, 63.6, 64, 4.6, 2, 43, 46);
+    const imageSet = new ImageSet(2048, 0, 59, 62, 64, 64, 3, 2, 43, 46);
 
     // |||||||||||| ANIMATION DATA CREATION: 9 (OR LESS IN THIS CASE) FRAMES PER STATE & ANIMATION SPEED
     const frames = new Frames(9, 4);
 
     const physics = new Physics(40, 0, 1, -140);
 
-    const hitBox = new HitBox(13, 34, 15, 5);
+    const hitBox = new HitBox(12, 34, 16, 5);
 
     const collisions = new Collisions();
 
@@ -374,7 +374,7 @@ function initChaoticHumanBow() {
 
     const physics = new Physics(-1);
 
-    const hitBox = new HitBox(7.9, 36, 15.5, 5);
+    const hitBox = new HitBox(8, 36, 15, 5);
 
     const collisions = new Collisions();
 
