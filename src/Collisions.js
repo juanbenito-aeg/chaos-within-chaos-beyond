@@ -1,8 +1,10 @@
 export default class Collisions {
-    isCollidingWithMagicalOrb               = false;     // INDICATES WHETHER THERE HAS BEEN A COLLISION WITH A MAGICAL ORB
-    isCollidingWithPlayer                   = false;     // INDICATES WHETHER THERE HAS BEEN A COLLISION WITH THE PLAYER
-    isCollidingWithObstacleOnTheTop         = false;     // INDICATES WHETHER THERE HAS BEEN A COLLISION WITH AN OBSTACLE LOCATED ON THE TOP
-    isCollidingWithObstacleOnTheLeft        = false;     // INDICATES WHETHER THERE HAS BEEN A COLLISION WITH AN OBSTACLE LOCATED ON THE LEFT
-    isCollidingWithObstacleOnTheBottom      = false;     // INDICATES WHETHER THERE HAS BEEN A COLLISION WITH AN OBSTACLE LOCATED ON THE BOTTOM
-    isCollidingWithObstacleOnTheRight       = false;     // INDICATES WHETHER THERE HAS BEEN A COLLISION WITH AN OBSTACLE LOCATED ON THE RIGHT
+    isCollidingWithObstacleOnTheTop    = false;
+    isCollidingWithObstacleOnTheLeft   = false;
+    isCollidingWithObstacleOnTheBottom = false;
+    isCollidingWithObstacleOnTheRight  = false;
+    isCollidingWithPlayer              = false;
+    isCollidingWithMagicalOrb          = false;
+    isCollidingWithSpikes              = false;
+    isCollidingWithLava                = false;
 }

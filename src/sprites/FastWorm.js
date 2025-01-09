@@ -49,5 +49,10 @@ export default class FastWorm extends Character {
         } else {
             this.updateAnimationFrame();
         }
+
+        // |||||||||||| CHECK CHARACTER'S POSSIBLE DEATH
+        if (this.collisions.isCollidingWithSpikes || this.collisions.isCollidingWithLava) {
+            this.state = State.OFF;
+        }
     }
 }

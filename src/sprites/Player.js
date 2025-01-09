@@ -51,8 +51,6 @@ export default class Player extends Character {
     }
 
     update() {
-        this.updateRageLevel();
-
         this.readKeyboardAndAssignState();
 
         // |||||||||||| HORIZONTAL MOVEMENT
@@ -116,5 +114,24 @@ export default class Player extends Character {
             this.hitBox.xSize = 13;
             this.hitBox.xOffset = 15;
         }
+
+        // |||||||||||| UPDATE LIFE POINTS
+        
+        const playerLifePtsBeforeChecks = this.lifePoints;
+
+        if (this.collisions.isCollidingWithSpikes && (this.afterAttackLeeway.value === 0)) {
+            this.lifePoints--;
+            this.afterAttackLeeway.value = 3;
+        } else if (this.collisions.isCollidingWithLava) {
+            this.lifePoints = 0;
+        }
+
+        // |||||||| IF THE PLAYER HAS LOST LIFE POINTS, UPDATE THE TIMER USED TO INCREASE THEIR RAGE LEVEL
+        if (this.lifePoints !== playerLifePtsBeforeChecks) {
+            globals.nextRagePtUpDelay.value = this.lifePoints;
+            globals.nextRagePtUpDelay.timeChangeCounter = 0;
+        }
+    
+        this.updateRageLevel();
     }
 }

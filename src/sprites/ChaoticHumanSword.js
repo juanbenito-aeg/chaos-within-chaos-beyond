@@ -70,5 +70,10 @@ export default class ChaoticHumanSword extends Character {
             this.hitBox.xSize = 26;
             this.hitBox.xOffset = 4;
         }
+
+        // |||||||||||| CHECK CHARACTER'S POSSIBLE DEATH
+        if (this.collisions.isCollidingWithSpikes || this.collisions.isCollidingWithLava) {
+            this.state = State.OFF;
+        }
     }
 }
