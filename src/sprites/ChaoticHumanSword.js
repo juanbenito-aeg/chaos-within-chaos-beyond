@@ -64,11 +64,11 @@ export default class ChaoticHumanSword extends Character {
         }
 
         if (this.state === State.RIGHT_3) {
-            this.hitBox.xSize = 27;
-            this.hitBox.xOffset = 15;
+            this.hitBox.xSize = 25;
+            this.hitBox.xOffset = 17;
         } else {
             this.hitBox.xSize = 26;
-            this.hitBox.xOffset = 4;
+            this.hitBox.xOffset = 2;
         }
 
         // |||||||||||| CHECK CHARACTER'S POSSIBLE DEATH

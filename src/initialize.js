@@ -387,14 +387,14 @@ function initChaoticHumanBow() {
 }
 
 function initChaoticHumanSword() {
-    const imageSet = new ImageSet(576, 0, 60, 62.5, 64, 62.5, 0, 0, 44, 46.5);
+    const imageSet = new ImageSet(576, 0, 56, 53, 64, 64, 3, 10, 44, 41);
 
     // |||||||||||| ANIMATION DATA CREATION: 9 (OR LESS IN THIS CASE) FRAMES PER STATE & ANIMATION SPEED
     const frames = new Frames(9, 3);
 
     const physics = new Physics(20);
 
-    const hitBox = new HitBox(26, 38, 4, 5.5);
+    const hitBox = new HitBox(26, 40, 2, 1);
 
     const collisions = new Collisions();
 
@@ -407,14 +407,14 @@ function initChaoticHumanSword() {
 }
 
 function initFastWorm() {
-    const imageSet = new ImageSet(899, 505, 48, 55, 64.15, 63.1, 6, 6, 33, 40);
+    const imageSet = new ImageSet(896, 512, 43, 49, 64, 64, 12, 0, 33, 39);
 
     // |||||||||||| ANIMATION DATA CREATION: 6 FRAMES PER STATE & ANIMATION SPEED
     const frames = new Frames(6, 3);
 
     const physics = new Physics(20);
 
-    const hitBox = new HitBox(24, 33, 5.5, 4.5);
+    const hitBox = new HitBox(23, 36, 4, 1);
 
     const collisions = new Collisions();
 
@@ -440,7 +440,7 @@ function initHellBatAcid() {
 
     const physics = new Physics(60, 0, 1, 0, omega, initAngle, xRotCenter, yRotCenter);
 
-    const hitBox = new HitBox(32, 27, 1, 12);
+    const hitBox = new HitBox(34, 27, 1, 12);
 
     const collisions = new Collisions();
 
@@ -483,7 +483,7 @@ function initHellBatHandToHand() {
 }
 
 function initPotionGreen() {
-    const imageSet = new ImageSet(733, 510, 28, 30, 33.25, 30, 0, 0, 14, 16);
+    const imageSet = new ImageSet(748, 510, 28, 30, 34, 30, 0, 0, 14, 16);
 
     const frames = new Frames(1);
 
@@ -498,7 +498,7 @@ function initPotionGreen() {
 }
 
 function initPotionBlue() {
-    const imageSet = new ImageSet(699.75, 510, 28, 30, 33.25, 30, 1, 0, 14, 16);
+    const imageSet = new ImageSet(714, 510, 28, 30, 34, 30, 0, 0, 14, 16);
 
     const frames = new Frames(1);
 
@@ -528,14 +528,14 @@ function initMagicalOrb() {
         vLimit = 210;
     }
 
-    const imageSet = new ImageSet(572, 507, 31.8, 31.7, 31.8, 31.7, 0, 0, 18.8, 18.7);
+    const imageSet = new ImageSet(576, 512, 32, 32, 32, 32, 0, 0, 19, 19);
 
     const frames = new Frames(4, 1);
 
     const physics = new Physics(vLimit);
     physics.vx = vLimit;
 
-    const hitBox = new HitBox(17.5, 18, 1, 1);
+    const hitBox = new HitBox(19, 19, 0, 0);
 
     const collisions = new Collisions();
 
@@ -567,7 +567,7 @@ function initArrow() {
                 vLimit = 210;
             }
         
-            const imageSet = new ImageSet(580, 564, 16, 7, 20, 14.1, 0, 0, 16, 7);
+            const imageSet = new ImageSet(580, 555, 16, 7, 20, 15, 0, 0, 16, 7);
         
             // |||||||||||| ANIMATION DATA CREATION: 1 FRAME PER STATE & ANIMATION SPEED
             const frames = new Frames(1, 1);
@@ -606,7 +606,7 @@ function initAcid() {
             const physics = new Physics(vLimit);
             physics.vy = vLimit;
         
-            const hitBox = new HitBox(4, 18, 0, 2);
+            const hitBox = new HitBox(4, 20, 0, 0);
         
             const collisions = new Collisions();
         
