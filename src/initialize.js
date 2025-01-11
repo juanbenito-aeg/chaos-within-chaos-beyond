@@ -407,20 +407,20 @@ function initChaoticHumanSword() {
 }
 
 function initFastWorm() {
-    const imageSet = new ImageSet(896, 512, 43, 49, 64, 64, 12, 0, 33, 39);
+    const imageSet = new ImageSet(896, 512, 43, 49, 64, 64, 12, 0, 27, 33);
 
     // |||||||||||| ANIMATION DATA CREATION: 6 FRAMES PER STATE & ANIMATION SPEED
-    const frames = new Frames(6, 3);
+    const frames = new Frames(6, 4);
 
     const physics = new Physics(20);
 
-    const hitBox = new HitBox(23, 36, 4, 1);
+    const hitBox = new HitBox(13, 28, 5, 3);
 
     const collisions = new Collisions();
 
     const afterAttackLeeway = new Timer(0, 1);
 
-    const fastWorm = new FastWorm(SpriteID.FAST_WORM, State.LEFT, 390, 124, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
+    const fastWorm = new FastWorm(SpriteID.FAST_WORM, State.LEFT, 390, 129, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
 
     // |||||||||||| ADD FAST WORM TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(fastWorm);

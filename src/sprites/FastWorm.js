@@ -15,16 +15,35 @@ export default class FastWorm extends Character {
         const vpVectorLength = Math.sqrt((vpVectorX ** 2) + (vpVectorY ** 2));
         const MIN_DISTANCE_TO_START_CHASE = 200;
 
-        if (vpVectorLength >= 7.5 && vpVectorLength <= MIN_DISTANCE_TO_START_CHASE) {
+        let distanceLimitToStopApproachingPlayer;
+        if (vpVectorX < 0) {
+            distanceLimitToStopApproachingPlayer = 20;
+        } else {
+            distanceLimitToStopApproachingPlayer = 1;
+        }
+
+        if ((vpVectorLength >= distanceLimitToStopApproachingPlayer) && (vpVectorLength <= MIN_DISTANCE_TO_START_CHASE)) {
             if (vpVectorX < 0) {
                 this.state = State.LEFT;
+
+                this.hitBox.xSize = 13;
+                this.hitBox.xOffset = 5;
+                this.hitBox.yOffset = 3;
             } else {
                 this.state = State.RIGHT;
+                
+                this.hitBox.xSize = 14;
+                this.hitBox.xOffset = 7;
+                this.hitBox.yOffset = 1;
             }
 
             const uvVectorX = vpVectorX / vpVectorLength;
-
-            this.physics.vx = this.physics.vLimit * uvVectorX;        
+            this.physics.vx = this.physics.vLimit * uvVectorX;
+            
+            if (this.collisions.isCollidingWithSlope) {
+                const uvVectorY = vpVectorY / vpVectorLength;
+                this.physics.vy = this.physics.vLimit * uvVectorY;
+            }
         } else {
             this.physics.vx = 0;
         }
@@ -38,11 +57,7 @@ export default class FastWorm extends Character {
         this.physics.vy += this.physics.ay * globals.deltaTime;
 
         // |||||||||||| CALCULATE THE DISTANCE IT MOVES (Y AXIS)
-        if (this.physics.vy > 0) {
-            this.yPos += Math.max(this.physics.vy * globals.deltaTime, 1);
-        } else {
-            this.yPos += this.physics.vy * globals.deltaTime;
-        }
+        this.yPos += this.physics.vy * globals.deltaTime;
 
         if (vpVectorLength > MIN_DISTANCE_TO_START_CHASE) {
             this.frames.frameCounter = 0;
