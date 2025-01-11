@@ -57,7 +57,11 @@ export default class FastWorm extends Character {
         this.physics.vy += this.physics.ay * globals.deltaTime;
 
         // |||||||||||| CALCULATE THE DISTANCE IT MOVES (Y AXIS)
-        this.yPos += this.physics.vy * globals.deltaTime;
+        if ((this.physics.vy > 0) && (!this.collisions.isCollidingWithSlope)) {
+            this.yPos += Math.max(this.physics.vy * globals.deltaTime, 1);
+        } else {
+            this.yPos += this.physics.vy * globals.deltaTime;
+        }
 
         if (vpVectorLength > MIN_DISTANCE_TO_START_CHASE) {
             this.frames.frameCounter = 0;

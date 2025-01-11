@@ -150,7 +150,7 @@ function updateLifePoints() {
             } else if (harmfulElements.includes(sprite.id) && (player.afterAttackLeeway.value === 0) && (player.lifePoints > 1)) {
                 player.lifePoints--;
                 player.afterAttackLeeway.value = 3;
-            } else if ((sprite.id === SpriteID.POTION_GREEN) && (player.hitBox.xSize === 13) && (player.lifePoints < 5)) {
+            } else if ((sprite.id === SpriteID.POTION_GREEN) && (player.hitBox.xSize !== 28) && (player.lifePoints < 5)) {
                 player.lifePoints++;
 
                 player.rageLevel -= 10;
@@ -160,7 +160,7 @@ function updateLifePoints() {
                 
                 // |||||||||||| ONCE USED, MAKE THE POTION DISAPPEAR
                 sprite.state = State.OFF;
-            } else if ((sprite.id === SpriteID.POTION_BLUE) && (player.hitBox.xSize === 13) && (player.lifePoints < 4)) {
+            } else if ((sprite.id === SpriteID.POTION_BLUE) && (player.hitBox.xSize !== 28) && (player.lifePoints < 4)) {
                 player.lifePoints += 2;
 
                 player.rageLevel -= 20;

@@ -617,12 +617,59 @@ function drawSpriteRectangle(sprite, destinationWidth, destinationHeight) {
 }
 
 function drawHitBox(sprite) {
-    const x1 = Math.floor(sprite.xPos) + Math.floor(sprite.hitBox.xOffset);
-    const y1 = Math.floor(sprite.yPos) + Math.floor(sprite.hitBox.yOffset);
-    const w1 = sprite.hitBox.xSize;
-    const h1 = sprite.hitBox.ySize;
-
     globals.ctx.strokeStyle = "white";
+    
+    let x1;
+    let y1;
+    let w1;
+    let h1;
+    
+    let x2;
+    let y2;
+    let w2;
+    let h2;
+
+    if (sprite.id !== SpriteID.MAGICAL_ORB) {
+        x1 = sprite.xPos + sprite.hitBox.xOffset;
+        y1 = sprite.yPos + sprite.hitBox.yOffset;
+        w1 = sprite.hitBox.xSize;
+        h1 = sprite.hitBox.ySize;
+    }
+
+    if (sprite.collisions.isCollidingWithObstacleOnTheTop || sprite.collisions.isCollidingWithObstacleOnTheLeft || sprite.collisions.isCollidingWithObstacleOnTheBottom || sprite.collisions.isCollidingWithObstacleOnTheRight) {
+        globals.ctx.strokeStyle = "yellow";
+    }
+
+    if (sprite.collisions.isCollidingWithPlayer && (sprite.id !== SpriteID.POTION_GREEN) && (sprite.id !== SpriteID.POTION_BLUE)) {
+        const player = globals.screenSprites[0];
+
+        x2 = player.xPos + player.hitBox.xOffset;
+        y2 = player.yPos + player.hitBox.yOffset;
+        w2 = player.hitBox.xSize;
+        h2 = player.hitBox.ySize;
+
+        globals.ctx.strokeStyle = "red";
+
+        globals.ctx.strokeRect(x2, y2, w2, h2);
+    }
+    
+    if (sprite.collisions.isCollidingWithMagicalOrb && (sprite.id !== SpriteID.POTION_GREEN) && (sprite.id !== SpriteID.POTION_BLUE)) {
+        for (let i = 1; i < globals.screenSprites.length; i++) {
+            if (globals.screenSprites[i].id === SpriteID.MAGICAL_ORB) {
+                const magicalOrb = globals.screenSprites[i];
+                
+                x2 = magicalOrb.xPos + magicalOrb.hitBox.xOffset;
+                y2 = magicalOrb.yPos + magicalOrb.hitBox.yOffset;
+                w2 = magicalOrb.hitBox.xSize;
+                h2 = magicalOrb.hitBox.ySize;
+    
+                globals.ctx.strokeStyle = "blue";
+
+                globals.ctx.strokeRect(x2, y2, w2, h2);
+            }
+        }
+    }
+
     globals.ctx.strokeRect(x1, y1, w1, h1);
 }
 

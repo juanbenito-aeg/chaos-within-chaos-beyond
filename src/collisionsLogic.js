@@ -7,7 +7,10 @@ export default function detectCollisions() {
         const sprite = globals.screenSprites[i];
         
         detectCollisionBetweenPlayerAndSprite(sprite);
-        detectCollisionBetweenMagicalOrbAndSprite(sprite);
+
+        if (sprite.id !== SpriteID.MAGICAL_ORB) {
+            detectCollisionBetweenMagicalOrbAndSprite(sprite);
+        }
     }
 
     // |||||||||||| CALCULATE PLAYER'S COLLISION WITH THE MAP'S BOUNDARIES & OBSTACLES
@@ -100,10 +103,16 @@ function rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2) {
 function detectCollisionBetweenPlayerAndMapBoundaries() {
     const player = globals.screenSprites[0];
     
+    // |||||||||||| RESET COLLISION STATE
+    player.collisions.isCollidingWithObstacleOnTheLeft   = false;
+    player.collisions.isCollidingWithObstacleOnTheRight  = false;
+
     if ((player.xPos + player.hitBox.xOffset + player.hitBox.xSize) > globals.canvas.width) {
         player.xPos = globals.canvas.width - player.hitBox.xOffset - player.hitBox.xSize;
+        player.collisions.isCollidingWithObstacleOnTheRight = true;
     } else if ((player.xPos + player.hitBox.xOffset) < 0) {
         player.xPos = -player.hitBox.xOffset;
+        player.collisions.isCollidingWithObstacleOnTheLeft = true;
     }
 }
 
@@ -197,6 +206,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                 overlapY = brickSize - (Math.floor(yPos) % brickSize);
     
                 // |||| COLLISION ON Y AXIS
+                player.collisions.isCollidingWithObstacleOnTheTop = true;
                 player.yPos += overlapY;
                 player.physics.vy = 0;
             }
@@ -261,6 +271,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                     overlapX = (Math.floor(xPos) % brickSize) + 1;
         
                     // |||| COLLISION ON X AXIS
+                    player.collisions.isCollidingWithObstacleOnTheRight = true;
                     player.xPos -= overlapX;
                     player.physics.vx = 0;
                 }
@@ -284,10 +295,12 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
     
                 if (overlapX <= overlapY) {
                     // |||| COLLISION ON X AXIS
+                    player.collisions.isCollidingWithObstacleOnTheRight = true;
                     player.xPos -= overlapX;
                     player.physics.vx = 0;
                 } else {
                     // |||| COLLISION ON Y AXIS
+                    player.collisions.isCollidingWithObstacleOnTheTop = true;
                     player.yPos += overlapY;
                     if (player.physics.vy < 0) {                    
                         player.physics.vy = 0;
@@ -333,6 +346,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                 } else if (!player.collisions.isCollidingWithSlope) {
                     if (overlapX <= overlapY) {
                         // |||| COLLISION ON X AXIS
+                        player.collisions.isCollidingWithObstacleOnTheRight = true;
                         player.xPos -= overlapX;
                         player.physics.vx = 0;
                     } else {
@@ -362,6 +376,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                 overlapY = brickSize - (Math.floor(yPos) % brickSize);
     
                 // |||| COLLISION ON Y AXIS
+                player.collisions.isCollidingWithObstacleOnTheTop = true;
                 player.yPos += overlapY;
                 player.physics.vy = 0;
             }
@@ -426,6 +441,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                     overlapX = brickSize - (Math.floor(xPos) % brickSize);
         
                     // |||| COLLISION ON X AXIS
+                    player.collisions.isCollidingWithObstacleOnTheLeft = true;
                     player.xPos += overlapX;
                     player.physics.vx = 0;
                 }
@@ -449,10 +465,12 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
     
                 if (overlapX <= overlapY) {
                     // |||| COLLISION ON X AXIS
+                    player.collisions.isCollidingWithObstacleOnTheLeft = true;
                     player.xPos += overlapX;
                     player.physics.vx = 0;
                 } else {
                     // |||| COLLISION ON Y AXIS
+                    player.collisions.isCollidingWithObstacleOnTheTop = true;
                     player.yPos += overlapY;
                     if (player.physics.vy < 0) {                    
                         player.physics.vy = 0;
@@ -498,6 +516,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                 } else if (!player.collisions.isCollidingWithSlope) {
                     if (overlapX <= overlapY) {
                         // |||| COLLISION ON X AXIS
+                        player.collisions.isCollidingWithObstacleOnTheLeft = true;
                         player.xPos += overlapX;
                         player.physics.vx = 0;
                     } else {
@@ -527,6 +546,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                 overlapY = brickSize - (Math.floor(yPos) % brickSize);
     
                 // |||| COLLISION ON Y AXIS
+                player.collisions.isCollidingWithObstacleOnTheTop = true;
                 player.yPos += overlapY;
                 player.physics.vy = 0;
             }
@@ -590,6 +610,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                 overlapY = brickSize - (Math.floor(yPos) % brickSize);
     
                 // |||| COLLISION ON Y AXIS
+                player.collisions.isCollidingWithObstacleOnTheTop = true;
                 player.yPos += overlapY;
                 player.physics.vy = 0;
             }
@@ -655,10 +676,10 @@ function detectCollisionBetweenChaoticHumanBowAndMapObstacles() {
             // |||||||||||| OBSTACLES' IDS
             const obstaclesIDs = [
                 Block.DARK_BROWN_BLOCK,
-                Block.DARK_BROWN_SLOPE_UPWARDS_1,
-                Block.DARK_BROWN_SLOPE_UPWARDS_2,
-                Block.DARK_BROWN_SLOPE_DOWNWARDS_1,
-                Block.DARK_BROWN_SLOPE_DOWNWARDS_2,
+                // Block.DARK_BROWN_SLOPE_UPWARDS_1,
+                // Block.DARK_BROWN_SLOPE_UPWARDS_2,
+                // Block.DARK_BROWN_SLOPE_DOWNWARDS_1,
+                // Block.DARK_BROWN_SLOPE_DOWNWARDS_2,
                 Block.GRAY_BLOCK,
             ];
         
@@ -690,6 +711,7 @@ function detectCollisionBetweenChaoticHumanBowAndMapObstacles() {
                     overlapY = (Math.floor(yPos) % brickSize) + 1;
         
                     // |||| COLLISION ON Y AXIS
+                    chaoticHumanBow.collisions.isCollidingWithObstacleOnTheBottom = true;
                     chaoticHumanBow.yPos -= overlapY;
                     chaoticHumanBow.physics.vy = 0;
                 }
@@ -706,6 +728,7 @@ function detectCollisionBetweenChaoticHumanBowAndMapObstacles() {
                     overlapY = (Math.floor(yPos) % brickSize) + 1;
         
                     // |||| COLLISION ON Y AXIS
+                    chaoticHumanBow.collisions.isCollidingWithObstacleOnTheBottom = true;
                     chaoticHumanBow.yPos -= overlapY;
                     chaoticHumanBow.physics.vy = 0;
                 }
@@ -733,10 +756,10 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
             // |||||||||||| OBSTACLES' IDS
             const obstaclesIDs = [
                 Block.DARK_BROWN_BLOCK,
-                Block.DARK_BROWN_SLOPE_UPWARDS_1,
-                Block.DARK_BROWN_SLOPE_UPWARDS_2,
-                Block.DARK_BROWN_SLOPE_DOWNWARDS_1,
-                Block.DARK_BROWN_SLOPE_DOWNWARDS_2,
+                // Block.DARK_BROWN_SLOPE_UPWARDS_1,
+                // Block.DARK_BROWN_SLOPE_UPWARDS_2,
+                // Block.DARK_BROWN_SLOPE_DOWNWARDS_1,
+                // Block.DARK_BROWN_SLOPE_DOWNWARDS_2,
                 Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_1,
                 Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_2,
                 Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_1,
@@ -788,6 +811,7 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                         overlapY = (Math.floor(yPos) % brickSize) + 1;
             
                         // |||| COLLISION ON Y AXIS
+                        chaoticHumanSword.collisions.isCollidingWithObstacleOnTheBottom = true;
                         chaoticHumanSword.yPos -= overlapY;
                         chaoticHumanSword.physics.vy = 0;
                     }
@@ -859,6 +883,7 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                             chaoticHumanSword.physics.vx = 0;
                         } else {
                             // |||| COLLISION ON Y AXIS
+                            chaoticHumanSword.collisions.isCollidingWithObstacleOnTheBottom = true;
                             chaoticHumanSword.yPos -= overlapY;
                             if (chaoticHumanSword.physics.vy < 0) {                    
                                 chaoticHumanSword.physics.vy = 0;
@@ -884,6 +909,7 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                         overlapY = (Math.floor(yPos) % brickSize) + 1;
             
                         // |||| COLLISION ON Y AXIS
+                        chaoticHumanSword.collisions.isCollidingWithObstacleOnTheBottom = true;
                         chaoticHumanSword.yPos -= overlapY;
                         chaoticHumanSword.physics.vy = 0;
                     }
@@ -955,6 +981,7 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                             chaoticHumanSword.physics.vx = 0;
                         } else {
                             // |||| COLLISION ON Y AXIS
+                            chaoticHumanSword.collisions.isCollidingWithObstacleOnTheBottom = true;
                             chaoticHumanSword.yPos -= overlapY;
                             if (chaoticHumanSword.physics.vy < 0) {                    
                                 chaoticHumanSword.physics.vy = 0;
@@ -1101,6 +1128,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                             overlapX = (Math.floor(xPos) % brickSize) + 1;
                 
                             // |||| COLLISION ON X AXIS
+                            fastWorm.collisions.isCollidingWithObstacleOnTheRight = true;
                             fastWorm.xPos -= overlapX;
                             fastWorm.physics.vx = 0;
                         }
@@ -1122,6 +1150,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                         overlapX = (Math.floor(xPos) % brickSize) + 1;
                         
                         // |||| COLLISION ON X AXIS
+                        fastWorm.collisions.isCollidingWithObstacleOnTheRight = true;
                         fastWorm.xPos -= overlapX;
                         fastWorm.physics.vx = 0;
                     }
@@ -1160,6 +1189,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                         } else if (!fastWorm.collisions.isCollidingWithSlope) {
                             if (overlapX <= overlapY) {
                                 // |||| COLLISION ON X AXIS
+                                fastWorm.collisions.isCollidingWithObstacleOnTheRight = true;
                                 fastWorm.xPos -= overlapX;
                                 fastWorm.physics.vx = 0;
                             } else {
@@ -1227,6 +1257,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                             overlapX = brickSize - (Math.floor(xPos) % brickSize);
                 
                             // |||| COLLISION ON X AXIS
+                            fastWorm.collisions.isCollidingWithObstacleOnTheLeft = true;
                             fastWorm.xPos += overlapX;
                             fastWorm.physics.vx = 0;
                         }
@@ -1248,6 +1279,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                         overlapX = brickSize - (Math.floor(xPos) % brickSize);
             
                         // |||| COLLISION ON X AXIS
+                        fastWorm.collisions.isCollidingWithObstacleOnTheLeft = true;
                         fastWorm.xPos += overlapX;
                         fastWorm.physics.vx = 0;
                     }
@@ -1286,6 +1318,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                         } else if (!fastWorm.collisions.isCollidingWithSlope) {
                             if (overlapX <= overlapY) {
                                 // |||| COLLISION ON X AXIS
+                                fastWorm.collisions.isCollidingWithObstacleOnTheLeft = true;
                                 fastWorm.xPos += overlapX;
                                 fastWorm.physics.vx = 0;
                             } else {
@@ -1387,10 +1420,16 @@ function detectCollisionBetweenHellBatHandToHandAndCanvasBoundaries() {
         if (globals.screenSprites[i].id === SpriteID.HELL_BAT_HAND_TO_HAND) {
             const hellBatHandToHand = globals.screenSprites[i];
             
+            // |||||||||||| RESET COLLISION STATE
+            hellBatHandToHand.collisions.isCollidingWithObstacleOnTheLeft   = false;
+            hellBatHandToHand.collisions.isCollidingWithObstacleOnTheRight  = false;
+
             if ((hellBatHandToHand.xPos + hellBatHandToHand.imageSet.xDestinationSize) > globals.canvas.width) {
                 hellBatHandToHand.physics.vx = -hellBatHandToHand.physics.vLimit;
+                hellBatHandToHand.collisions.isCollidingWithObstacleOnTheRight = true;
             } else if (hellBatHandToHand.xPos < 0) {
                 hellBatHandToHand.physics.vx = hellBatHandToHand.physics.vLimit;
+                hellBatHandToHand.collisions.isCollidingWithObstacleOnTheLeft = true;
             }
 
             break;
