@@ -7,4 +7,5 @@ export default class Collisions {
     isCollidingWithMagicalOrb          = false;
     isCollidingWithSpikes              = false;
     isCollidingWithLava                = false;
+    isCollidingWithSlope               = false;
 }
