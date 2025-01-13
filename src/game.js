@@ -1,7 +1,7 @@
 import globals from "./globals.js";
-import { initHTMLElements, loadAssets, initSprites, initVars, initLevel, initEvents, initTimers } from "./initialize.js";
 import update from "./gameLogic.js";
 import render from "./gameRender.js";
+import { initHTMLElements, loadAssets, initSprites, initVars, initLevel, initEvents, initTimers, initCamera } from "./initialize.js";
 
 // |||||||||||| GAME INITIALIZATION
 
@@ -20,6 +20,9 @@ function init() {
 
     // |||||||| LOAD ALL ASSETS: TILEMAPS, IMAGES, SOUNDS
     loadAssets();
+
+    // |||||||| INITIALIZATION OF THE CAMERA
+    initCamera();
 
     // |||||||| INITIALIZATION OF THE GAME'S MAP
     initLevel();

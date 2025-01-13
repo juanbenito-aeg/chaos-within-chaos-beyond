@@ -15,6 +15,7 @@ import Physics from "./Physics.js";
 import HitBox from "./HitBox.js";
 import Collisions from "./Collisions.js";
 import Timer from "./Timer.js";
+import Camera from "./Camera.js";
 import globals from "./globals.js";
 import { Level, level1 } from "./Level.js";
 import { Game, FPS, SpriteID, State } from "./constants.js";
@@ -99,6 +100,10 @@ function loadHandler() {
 
         globals.gameState = Game.PLAYING;
     }
+}
+
+function initCamera() {
+    globals.camera = new Camera(0, 0);
 }
 
 function initLevel() {
@@ -632,4 +637,16 @@ function initSkull() {
 }
 
 // |||||||||||| EXPORTS
-export { initHTMLElements, loadAssets, initVars, initSprites, initLevel, initEvents, initMagicalOrb, initTimers, initArrow, initAcid };
+export {
+    initHTMLElements,
+    loadAssets,
+    initVars,
+    initSprites,
+    initLevel,
+    initEvents,
+    initMagicalOrb,
+    initTimers,
+    initArrow,
+    initAcid,
+    initCamera,
+};

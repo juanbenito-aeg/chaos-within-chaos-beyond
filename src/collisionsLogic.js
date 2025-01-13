@@ -13,8 +13,7 @@ export default function detectCollisions() {
         }
     }
 
-    // |||||||||||| CALCULATE PLAYER'S COLLISION WITH THE MAP'S BOUNDARIES & OBSTACLES
-    detectCollisionBetweenPlayerAndMapBoundaries();
+    // |||||||||||| CALCULATE PLAYER'S COLLISION WITH THE MAP'S OBSTACLES
     detectCollisionBetweenPlayerAndMapObstacles();
 
     // |||||||||||| CALCULATE CHAOTIC HUMANS' (BOW) COLLISION WITH THE MAP'S OBSTACLES
@@ -98,22 +97,6 @@ function rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2) {
     }
 
     return isOverlap;
-}
-
-function detectCollisionBetweenPlayerAndMapBoundaries() {
-    const player = globals.screenSprites[0];
-    
-    // |||||||||||| RESET COLLISION STATE
-    player.collisions.isCollidingWithObstacleOnTheLeft   = false;
-    player.collisions.isCollidingWithObstacleOnTheRight  = false;
-
-    if ((player.xPos + player.hitBox.xOffset + player.hitBox.xSize) > globals.canvas.width) {
-        player.xPos = globals.canvas.width - player.hitBox.xOffset - player.hitBox.xSize;
-        player.collisions.isCollidingWithObstacleOnTheRight = true;
-    } else if ((player.xPos + player.hitBox.xOffset) < 0) {
-        player.xPos = -player.hitBox.xOffset;
-        player.collisions.isCollidingWithObstacleOnTheLeft = true;
-    }
 }
 
 function detectCollisionBetweenPlayerAndMapObstacles() {

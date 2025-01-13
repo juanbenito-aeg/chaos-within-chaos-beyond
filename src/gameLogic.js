@@ -85,8 +85,16 @@ function updateSLetterKey(sprite) {
 }
 
 function playGame() {
+    // |||||||||||| UPDATE SPRITES' PHYSICS
     updateScreenSprites();
+
+    // |||||||||||| COLLISIONS
     detectCollisions();
+
+    // |||||||||||| UPDATE THE CAMERA
+    updateCamera();
+
+    // |||||||||||| UPDATE GAME'S LOGIC
     updateLifePoints();
 }
 
@@ -101,6 +109,15 @@ function updateScreenSprites() {
             sprite.update();
         }
     }
+}
+
+function updateCamera() {
+    // |||||||||||| FOCUS THE CAMERA ON THE PLAYER
+    
+    const player = globals.screenSprites[0];
+        
+    globals.camera.x = Math.floor(player.xPos) + Math.floor((player.imageSet.xDestinationSize - globals.canvas.width) / 2);
+    globals.camera.y = Math.floor(player.yPos) + Math.floor((player.imageSet.yDestinationSize - globals.canvas.height) / 2);
 }
 
 function updateLifePoints() {

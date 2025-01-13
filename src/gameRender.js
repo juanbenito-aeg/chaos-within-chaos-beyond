@@ -445,9 +445,11 @@ function drawGame() {
     globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
 
     renderScreenBackgroundImg();
+    moveCamera();
     renderMap();
     renderHUD();
     renderScreenSprites();
+    restoreCamera();
 }
 
 // |||||||||||| DRAWS THE SCREEN BACKGROUND IMAGE
@@ -464,6 +466,17 @@ function renderScreenBackgroundImg() {
         0, 0,                                                                     // THE DESTINATION X & Y POSITION
         screenBackgroundImg.imageSet.xSize, screenBackgroundImg.imageSet.ySize    // THE DESTINATION WIDTH & HEIGHT
     );
+}
+
+function moveCamera() {
+    const xTranslation = -globals.camera.x;
+    const yTranslation = -globals.camera.y;
+ 
+    globals.ctx.translate(xTranslation, yTranslation);
+}
+
+function restoreCamera() {
+    globals.ctx.setTransform(1, 0, 0, 1, 0, 0);
 }
 
 // |||||||||||| DRAWS THE MAP
