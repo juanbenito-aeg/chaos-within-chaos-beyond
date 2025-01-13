@@ -1,7 +1,8 @@
 - TODOS:
-    - Añadir cuarto punto de colisión en izquierda y derecha para X.G
-    - Hacer que el gusano no tenga colisiones y pueda perseguir a X.G incluso volando (o quitar velocidad en y a gusano)
-    - Hacer que el hell bat hand to hand tenga colisiones en los cuatro lados y funcione como en un pinball
+    - Aclarar dudas:
+        - Cuentan los disparos del chaotic human bow y el hell bat acid para "EI - Gertaerak (1. Bertsioa)"?
+
+    - Hacer que el el ácido del hell bat desaparezca al chocar con tiles del mapa, e igual con orbe de X.G
     - Hacer que el chaotic human sword y el gusano no mueran al tocar pinchos
     
     - Programar los efectos adversos de tener más de "x" puntos de ira
