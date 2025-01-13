@@ -127,6 +127,8 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
     let isCollidingOnPos4;
     let isCollidingOnPos5;
     let isCollidingOnPos6;
+    let isCollidingOnPos7;
+    let isCollidingOnPos8;
 
     const brickSize = globals.level.imageSet.xGridSize;
 
@@ -160,12 +162,14 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
     player.collisions.isCollidingWithLava                = false;
     player.collisions.isCollidingWithSlope               = false;
 
-    // |||||||||||| COLLISIONS (6 POSSIBLE SPOTS)
+    // |||||||||||| COLLISIONS (8 POSSIBLE SPOTS)
     // 6--------------------1
     // ----------------------
     // ----------------------
-    // ----------------------
     // 5--------------------2
+    // ----------------------
+    // ----------------------
+    // 8--------------------7
     // ----------------------
     // ----------------------
     // 4--------------------3
@@ -189,7 +193,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         player.collisions.isCollidingWithSlope = true;
     }
 
-    // |||||||||||| CALCULATE COLLISIONS ON THE 6 SPOTS
+    // |||||||||||| CALCULATE COLLISIONS ON THE 8 SPOTS
     if (player.physics.vx > 0) { // RIGHTWARDS MOVEMENT
         // |||||||| SPOT 6
         xPos = player.xPos + player.hitBox.xOffset;
@@ -277,6 +281,31 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                 }
             }
         }
+        
+        // |||||||| SPOT 7
+        xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 1;
+        yPos = player.yPos + player.hitBox.yOffset + (brickSize * 2);
+        if (!(getMapTileID(xPos, yPos) === Block.DARK_BROWN_SLOPE_UPWARDS)) {
+            for (let i = 0; i < obstaclesIDs.length; i++) {
+                isCollidingOnPos7 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                
+                if (isCollidingOnPos7) {
+                    if (obstaclesIDs[i] === Block.SPIKES_LEFTWARDS) {
+                        player.collisions.isCollidingWithSpikes = true;
+                    }
+    
+                    if (!player.collisions.isCollidingWithSlope) {
+                        // |||| CALCULATE OVERLAP ON X
+                        overlapX = (Math.floor(xPos) % brickSize) + 1;
+            
+                        // |||| COLLISION ON X AXIS
+                        player.collisions.isCollidingWithObstacleOnTheRight = true;
+                        player.xPos -= overlapX;
+                        player.physics.vx = 0;
+                    }
+                }
+            }
+        }
 
         // |||||||| SPOT 1
         xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 1;
@@ -312,49 +341,51 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         // |||||||| SPOT 3
         xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 1;
         yPos = player.yPos + player.hitBox.yOffset + player.hitBox.ySize - 1;
-        for (let i = 0; i < obstaclesIDs.length; i++) {
-            isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
-            
-            if (isCollidingOnPos3) {
-                if ((obstaclesIDs[i] === Block.SPIKES_LEFTWARDS) || (obstaclesIDs[i] === Block.SPIKES_FLOOR)) {
-                    player.collisions.isCollidingWithSpikes = true;
-                } else if (obstaclesIDs[i] === Block.LAVA) {
-                    player.collisions.isCollidingWithLava = true;
-                }
-
-                // |||| CALCULATE OVERLAP ON X & Y
-                overlapX = (Math.floor(xPos) % brickSize) + 1;
-                overlapY = (Math.floor(yPos) % brickSize) + 1;
-
-                if (obstaclesIDs[i] === Block.DARK_BROWN_SLOPE_UPWARDS) {
-                    let overlapYToStopFalling = brickSize - (Math.floor(xPos) % brickSize);
-                    
-                    if ((!player.physics.isOnGround && (player.physics.vy > 0) && (overlapY >= overlapYToStopFalling)) || player.physics.isOnGround) {
-                        // |||| CALCULATE OVERLAP ON Y (1 - USED TO PUT THE SPRITE AGAINST THE BOTTOM SIDE OF THE SLOPE TILE)
-                        overlapY = brickSize - (Math.floor(yPos) % brickSize);
-                        
-                        player.yPos += overlapY;
-                        
-                        // |||| CALCULATE OVERLAP ON Y (2 - USED TO ADEQUATELY POSITION THE SPRITE ON THE SLOPE TILE)
-                        overlapY = overlapX;
-    
-                        // |||| COLLISION ON Y AXIS
-                        player.collisions.isCollidingWithObstacleOnTheBottom = true;
-                        player.yPos -= overlapY;
-                        player.physics.vy = 0;
+        if (!(getMapTileID(xPos, yPos) === Block.DARK_BROWN_SLOPE_DOWNWARDS)) {
+            for (let i = 0; i < obstaclesIDs.length; i++) {
+                isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                
+                if (isCollidingOnPos3) {
+                    if ((obstaclesIDs[i] === Block.SPIKES_LEFTWARDS) || (obstaclesIDs[i] === Block.SPIKES_FLOOR)) {
+                        player.collisions.isCollidingWithSpikes = true;
+                    } else if (obstaclesIDs[i] === Block.LAVA) {
+                        player.collisions.isCollidingWithLava = true;
                     }
-                } else if (!player.collisions.isCollidingWithSlope) {
-                    if (overlapX <= overlapY) {
-                        // |||| COLLISION ON X AXIS
-                        player.collisions.isCollidingWithObstacleOnTheRight = true;
-                        player.xPos -= overlapX;
-                        player.physics.vx = 0;
-                    } else {
-                        // |||| COLLISION ON Y AXIS
-                        player.collisions.isCollidingWithObstacleOnTheBottom = true;
-                        player.yPos -= overlapY;
-                        if (player.physics.vy < 0) {                    
+    
+                    // |||| CALCULATE OVERLAP ON X & Y
+                    overlapX = (Math.floor(xPos) % brickSize) + 1;
+                    overlapY = (Math.floor(yPos) % brickSize) + 1;
+    
+                    if (obstaclesIDs[i] === Block.DARK_BROWN_SLOPE_UPWARDS) {
+                        let overlapYToStopFalling = brickSize - (Math.floor(xPos) % brickSize);
+                        
+                        if ((!player.physics.isOnGround && (player.physics.vy > 0) && (overlapY >= overlapYToStopFalling)) || player.physics.isOnGround) {
+                            // |||| CALCULATE OVERLAP ON Y (1 - USED TO PUT THE SPRITE AGAINST THE BOTTOM SIDE OF THE SLOPE TILE)
+                            overlapY = brickSize - (Math.floor(yPos) % brickSize);
+                            
+                            player.yPos += overlapY;
+                            
+                            // |||| CALCULATE OVERLAP ON Y (2 - USED TO ADEQUATELY POSITION THE SPRITE ON THE SLOPE TILE)
+                            overlapY = overlapX;
+        
+                            // |||| COLLISION ON Y AXIS
+                            player.collisions.isCollidingWithObstacleOnTheBottom = true;
+                            player.yPos -= overlapY;
                             player.physics.vy = 0;
+                        }
+                    } else if (!player.collisions.isCollidingWithSlope) {
+                        if (overlapX <= overlapY) {
+                            // |||| COLLISION ON X AXIS
+                            player.collisions.isCollidingWithObstacleOnTheRight = true;
+                            player.xPos -= overlapX;
+                            player.physics.vx = 0;
+                        } else {
+                            // |||| COLLISION ON Y AXIS
+                            player.collisions.isCollidingWithObstacleOnTheBottom = true;
+                            player.yPos -= overlapY;
+                            if (player.physics.vy < 0) {                    
+                                player.physics.vy = 0;
+                            }
                         }
                     }
                 }
@@ -447,6 +478,31 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                 }
             }
         }
+        
+        // |||||||| SPOT 8
+        xPos = player.xPos + player.hitBox.xOffset;
+        yPos = player.yPos + player.hitBox.yOffset + (brickSize * 2);
+        if (!(getMapTileID(xPos, yPos) === Block.DARK_BROWN_SLOPE_DOWNWARDS)) {
+            for (let i = 0; i < obstaclesIDs.length; i++) {
+                isCollidingOnPos8 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                
+                if (isCollidingOnPos8) {
+                    if (obstaclesIDs[i] === Block.SPIKES_RIGHTWARDS) {
+                        player.collisions.isCollidingWithSpikes = true;
+                    }
+    
+                    if (!player.collisions.isCollidingWithSlope) {
+                        // |||| CALCULATE OVERLAP ON X
+                        overlapX = brickSize - (Math.floor(xPos) % brickSize);
+            
+                        // |||| COLLISION ON X AXIS
+                        player.collisions.isCollidingWithObstacleOnTheLeft = true;
+                        player.xPos += overlapX;
+                        player.physics.vx = 0;
+                    }
+                }
+            }
+        }
 
         // |||||||| SPOT 6
         xPos = player.xPos + player.hitBox.xOffset;
@@ -482,49 +538,51 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         // |||||||| SPOT 4
         xPos = player.xPos + player.hitBox.xOffset;
         yPos = player.yPos + player.hitBox.yOffset + player.hitBox.ySize - 1;
-        for (let i = 0; i < obstaclesIDs.length; i++) {
-            isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
-            
-            if (isCollidingOnPos4) {
-                if ((obstaclesIDs[i] === Block.SPIKES_RIGHTWARDS) || (obstaclesIDs[i] === Block.SPIKES_FLOOR)) {
-                    player.collisions.isCollidingWithSpikes = true;
-                } else if (obstaclesIDs[i] === Block.LAVA) {
-                    player.collisions.isCollidingWithLava = true;
-                }
+        if (!(getMapTileID(xPos, yPos) === Block.DARK_BROWN_SLOPE_UPWARDS)) {
+            for (let i = 0; i < obstaclesIDs.length; i++) {
+                isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                 
-                // |||| CALCULATE OVERLAP ON X & Y
-                overlapX = brickSize - (Math.floor(xPos) % brickSize);
-                overlapY = (Math.floor(yPos) % brickSize) + 1;
-
-                if (obstaclesIDs[i] === Block.DARK_BROWN_SLOPE_DOWNWARDS) {
-                    let overlapYToStopFalling = (Math.floor(xPos) % brickSize) + 1;
-                    
-                    if ((!player.physics.isOnGround && (player.physics.vy > 0) && (overlapY >= overlapYToStopFalling)) || player.physics.isOnGround) {
-                        // |||| CALCULATE OVERLAP ON Y (1 - USED TO PUT THE SPRITE AGAINST THE BOTTOM SIDE OF THE SLOPE TILE)
-                        overlapY = brickSize - (Math.floor(yPos) % brickSize);
-                        
-                        player.yPos += overlapY;
-                        
-                        // |||| CALCULATE OVERLAP ON Y (2 - USED TO ADEQUATELY POSITION THE SPRITE ON THE SLOPE TILE)
-                        overlapY = overlapX;
-    
-                        // |||| COLLISION ON Y AXIS
-                        player.collisions.isCollidingWithObstacleOnTheBottom = true;
-                        player.yPos -= overlapY;
-                        player.physics.vy = 0;
+                if (isCollidingOnPos4) {
+                    if ((obstaclesIDs[i] === Block.SPIKES_RIGHTWARDS) || (obstaclesIDs[i] === Block.SPIKES_FLOOR)) {
+                        player.collisions.isCollidingWithSpikes = true;
+                    } else if (obstaclesIDs[i] === Block.LAVA) {
+                        player.collisions.isCollidingWithLava = true;
                     }
-                } else if (!player.collisions.isCollidingWithSlope) {
-                    if (overlapX <= overlapY) {
-                        // |||| COLLISION ON X AXIS
-                        player.collisions.isCollidingWithObstacleOnTheLeft = true;
-                        player.xPos += overlapX;
-                        player.physics.vx = 0;
-                    } else {
-                        // |||| COLLISION ON Y AXIS
-                        player.collisions.isCollidingWithObstacleOnTheBottom = true;
-                        player.yPos -= overlapY;
-                        if (player.physics.vy < 0) {                    
+                    
+                    // |||| CALCULATE OVERLAP ON X & Y
+                    overlapX = brickSize - (Math.floor(xPos) % brickSize);
+                    overlapY = (Math.floor(yPos) % brickSize) + 1;
+    
+                    if (obstaclesIDs[i] === Block.DARK_BROWN_SLOPE_DOWNWARDS) {
+                        let overlapYToStopFalling = (Math.floor(xPos) % brickSize) + 1;
+                        
+                        if ((!player.physics.isOnGround && (player.physics.vy > 0) && (overlapY >= overlapYToStopFalling)) || player.physics.isOnGround) {
+                            // |||| CALCULATE OVERLAP ON Y (1 - USED TO PUT THE SPRITE AGAINST THE BOTTOM SIDE OF THE SLOPE TILE)
+                            overlapY = brickSize - (Math.floor(yPos) % brickSize);
+                            
+                            player.yPos += overlapY;
+                            
+                            // |||| CALCULATE OVERLAP ON Y (2 - USED TO ADEQUATELY POSITION THE SPRITE ON THE SLOPE TILE)
+                            overlapY = overlapX;
+        
+                            // |||| COLLISION ON Y AXIS
+                            player.collisions.isCollidingWithObstacleOnTheBottom = true;
+                            player.yPos -= overlapY;
                             player.physics.vy = 0;
+                        }
+                    } else if (!player.collisions.isCollidingWithSlope) {
+                        if (overlapX <= overlapY) {
+                            // |||| COLLISION ON X AXIS
+                            player.collisions.isCollidingWithObstacleOnTheLeft = true;
+                            player.xPos += overlapX;
+                            player.physics.vx = 0;
+                        } else {
+                            // |||| COLLISION ON Y AXIS
+                            player.collisions.isCollidingWithObstacleOnTheBottom = true;
+                            player.yPos -= overlapY;
+                            if (player.physics.vy < 0) {                    
+                                player.physics.vy = 0;
+                            }
                         }
                     }
                 }
