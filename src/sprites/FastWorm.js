@@ -39,11 +39,6 @@ export default class FastWorm extends Character {
 
             const uvVectorX = vpVectorX / vpVectorLength;
             this.physics.vx = this.physics.vLimit * uvVectorX;
-            
-            if (this.collisions.isCollidingWithSlope) {
-                const uvVectorY = vpVectorY / vpVectorLength;
-                this.physics.vy = this.physics.vLimit * uvVectorY;
-            }
         } else {
             this.physics.vx = 0;
         }
@@ -57,7 +52,7 @@ export default class FastWorm extends Character {
         this.physics.vy += this.physics.ay * globals.deltaTime;
 
         // |||||||||||| CALCULATE THE DISTANCE IT MOVES (Y AXIS)
-        if ((this.physics.vy > 0) && (!this.collisions.isCollidingWithSlope)) {
+        if (this.physics.vy > 0) {
             this.yPos += Math.max(this.physics.vy * globals.deltaTime, 1);
         } else {
             this.yPos += this.physics.vy * globals.deltaTime;

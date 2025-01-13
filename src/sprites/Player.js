@@ -44,8 +44,8 @@ export default class Player extends Character {
                          isStateRightOrRightJump                                     ? State.RIGHT_STILL : 
                          this.state;
         } else {
-            this.state = (globals.action.moveLeft || (this.state === State.LEFT)) && !this.collisions.isCollidingWithSlope   ? State.LEFT_JUMP :
-                         (globals.action.moveRight || (this.state === State.RIGHT)) && !this.collisions.isCollidingWithSlope ? State.RIGHT_JUMP :
+            this.state = (globals.action.moveLeft || (this.state === State.LEFT))   ? State.LEFT_JUMP :
+                         (globals.action.moveRight || (this.state === State.RIGHT)) ? State.RIGHT_JUMP :
                          this.state;
         }
     }
@@ -74,7 +74,7 @@ export default class Player extends Character {
         // |||||||| ACCELERATION IN THE Y AXIS IS THE GRAVITY
         this.physics.ay = GRAVITY;
 
-        if (this.collisions.isCollidingWithObstacleOnTheBottom || this.collisions.isCollidingWithSlope) {
+        if (this.collisions.isCollidingWithObstacleOnTheBottom) {
             this.physics.isOnGround = true;
         } else {
             this.physics.isOnGround = false;
