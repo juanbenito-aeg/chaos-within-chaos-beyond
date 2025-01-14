@@ -7,7 +7,7 @@ export default class MagicalOrb extends InGameSprite {
         super(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
     }
 
-    update() {
+    updatePhysics() {
         this.xPos += this.physics.vx * globals.deltaTime;
     
         this.updateAnimationFrame();

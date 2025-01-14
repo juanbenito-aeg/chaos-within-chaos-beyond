@@ -7,7 +7,7 @@ export default class Acid extends InGameSprite {
         super(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
     }
 
-    update() {
+    updatePhysics() {
         this.yPos += this.physics.vy * globals.deltaTime;
         
         this.updateAnimationFrame();

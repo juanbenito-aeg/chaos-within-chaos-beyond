@@ -68,5 +68,7 @@ export default class InGameSprite extends Sprite {
         }
     }
 
-    update() {}
+    updatePhysics() {}
+    
+    updateLogic() {}
 }

@@ -12,20 +12,6 @@ export default class Player extends Character {
         this.rageLevel                              = 0; // RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
     }
 
-    updateRageLevel() {
-        if ((globals.nextRagePtUpDelay.value === 0) && (this.rageLevel < 100)) {
-            this.rageLevel++;
-            globals.nextRagePtUpDelay.value = this.lifePoints;
-        } else {
-            globals.nextRagePtUpDelay.timeChangeCounter += globals.deltaTime;
-
-            if (globals.nextRagePtUpDelay.timeChangeCounter >= globals.nextRagePtUpDelay.timeChangeValue) {
-                globals.nextRagePtUpDelay.value--;
-                globals.nextRagePtUpDelay.timeChangeCounter = 0;
-            }
-        }
-    }
-
     readKeyboardAndAssignState() {
         const isStateLeftOrLeftStill = (this.state === State.LEFT) || (this.state === State.LEFT_STILL);
         const isStateRightOrRightStill = (this.state === State.RIGHT) || (this.state === State.RIGHT_STILL);
@@ -52,7 +38,21 @@ export default class Player extends Character {
         }
     }
 
-    update() {
+    updateRageLevel() {
+        if ((globals.nextRagePtUpDelay.value === 0) && (this.rageLevel < 100)) {
+            this.rageLevel++;
+            globals.nextRagePtUpDelay.value = this.lifePoints;
+        } else {
+            globals.nextRagePtUpDelay.timeChangeCounter += globals.deltaTime;
+
+            if (globals.nextRagePtUpDelay.timeChangeCounter >= globals.nextRagePtUpDelay.timeChangeValue) {
+                globals.nextRagePtUpDelay.value--;
+                globals.nextRagePtUpDelay.timeChangeCounter = 0;
+            }
+        }
+    }
+
+    updatePhysics() {
         this.readKeyboardAndAssignState();
 
         // |||||||||||| HORIZONTAL MOVEMENT
@@ -116,7 +116,9 @@ export default class Player extends Character {
             this.hitBox.xSize = 12;
             this.hitBox.xOffset = 16;
         }
+    }
 
+    updateLogic() {
         // |||||||||||| UPDATE LIFE POINTS & RAGE LEVEL
         
         const playerLifePtsBeforeChecks = this.lifePoints;
@@ -124,10 +126,13 @@ export default class Player extends Character {
         // |||||||| CONDITIONS THAT MAKE THE PLAYER LOSE LIFE POINTS
 
         // |||| COLLISION WITH HARMFUL TILES
+        
         if (this.collisions.isCollidingWithSpikes && (this.afterAttackLeeway.value === 0)) {
             this.lifePoints--;
             this.afterAttackLeeway.value = 3;
-        } else if (this.collisions.isCollidingWithLava) {
+        }
+        
+        if (this.collisions.isCollidingWithLava) {
             this.lifePoints = 0;
         }
 
@@ -157,7 +162,17 @@ export default class Player extends Character {
         }
         
         // |||| COLLISION WITH HARMFUL ELEMENTS
-        if ((this.afterAttackLeeway.value === 0) && (this.collisions.isCollidingWithAcid || this.collisions.isCollidingWithArrow)) {
+        
+        if (this.collisions.isCollidingWithAcid && (this.afterAttackLeeway.value === 0)) {
+            this.collisions.isCollidingWithAcid = false;
+            
+            this.lifePoints--;
+            this.afterAttackLeeway.value = 3;
+        }
+        
+        if (this.collisions.isCollidingWithArrow && (this.afterAttackLeeway.value === 0)) {
+            this.collisions.isCollidingWithArrow = false;
+            
             this.lifePoints--;
             this.afterAttackLeeway.value = 3;
         }
@@ -174,6 +189,8 @@ export default class Player extends Character {
         // |||||||| CONDITIONS THAT MAKE THE PLAYER EARN LIFE POINTS & LOSE RAGE
         if (this.hitBox.xSize !== 28) {
             if (this.collisions.isCollidingWithGreenPotion) {
+                this.collisions.isCollidingWithGreenPotion = false;
+                
                 this.lifePoints++;
                 if (this.lifePoints > 5) {
                     this.lifePoints = 5;
@@ -183,7 +200,11 @@ export default class Player extends Character {
                 if (this.rageLevel < 0) {
                     this.rageLevel = 0;
                 }
-            } else if (this.collisions.isCollidingWithBluePotion) {
+            }
+            
+            if (this.collisions.isCollidingWithBluePotion) {
+                this.collisions.isCollidingWithBluePotion = false;
+
                 this.lifePoints += 2;
                 if (this.lifePoints > 5) {
                     this.lifePoints = 5;

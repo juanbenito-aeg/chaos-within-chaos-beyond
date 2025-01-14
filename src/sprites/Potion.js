@@ -6,7 +6,7 @@ export default class Potion extends InGameSprite {
         super(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
     }
 
-    update() {
+    updateLogic() {
         if (this.collisions.isCollidingWithPlayer) {
             this.state = State.OFF;
         }

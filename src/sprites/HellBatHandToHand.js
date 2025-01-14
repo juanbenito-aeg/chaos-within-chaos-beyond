@@ -6,7 +6,7 @@ export default class HellBatHandToHand extends Character {
         super(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
     }
 
-    update() {
+    updatePhysics() {
         const amplitude = 80;
     
         this.physics.angle += this.physics.omega * globals.deltaTime;
@@ -15,7 +15,9 @@ export default class HellBatHandToHand extends Character {
         this.yPos = this.physics.yRef + amplitude * Math.sin(this.physics.angle);
     
         this.updateAnimationFrame();
+    }
 
+    updateLogic() {
         // |||||||||||| UPDATE LIFE POINTS
         if (this.collisions.isCollidingWithPlayer) {
             const player = globals.screenSprites[0];
@@ -29,7 +31,9 @@ export default class HellBatHandToHand extends Character {
                     this.afterAttackLeeway.value = 3;
                 }
             }
-        } else if (this.collisions.isCollidingWithMagicalOrb && (this.afterAttackLeeway.value === 0)) {
+        }
+        
+        if (this.collisions.isCollidingWithMagicalOrb && (this.afterAttackLeeway.value === 0)) {
             this.lifePoints--;
 
             if (this.lifePoints === 0) {

@@ -18,7 +18,7 @@ export default class HellBatAcid extends Character {
         this.yPos = this.physics.yRotCenter + bRadius * Math.sin(this.physics.angle);
     }
 
-    update() {
+    updatePhysics() {
         // |||||||||||| UPDATE TURNING ANGLE
         this.physics.angle += this.physics.omega * globals.deltaTime;
 
@@ -40,7 +40,9 @@ export default class HellBatAcid extends Character {
                 globals.nextAcidDropDelay.timeChangeCounter = 0;
             }
         }
+    }
 
+    updateLogic() {
         // |||||||||||| UPDATE LIFE POINTS
         if (this.collisions.isCollidingWithPlayer) {
             const player = globals.screenSprites[0];
@@ -54,7 +56,9 @@ export default class HellBatAcid extends Character {
                     this.afterAttackLeeway.value = 3;
                 }
             }
-        } else if (this.collisions.isCollidingWithMagicalOrb && (this.afterAttackLeeway.value === 0)) {
+        }
+        
+        if (this.collisions.isCollidingWithMagicalOrb && (this.afterAttackLeeway.value === 0)) {
             this.lifePoints--;
 
             if (this.lifePoints === 0) {

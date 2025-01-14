@@ -31,15 +31,9 @@ export default function detectCollisions() {
 
 function detectCollisionBetweenPlayerAndSprite(sprite) {
     const player = globals.screenSprites[0];
-
+    
     // |||||||||||| RESET COLLISION STATE
-    
-    sprite.collisions.isCollidingWithPlayer         = false;
-    
-    player.collisions.isCollidingWithAcid           = false;
-    player.collisions.isCollidingWithArrow          = false;
-    player.collisions.isCollidingWithGreenPotion    = false;
-    player.collisions.isCollidingWithBluePotion     = false;
+    sprite.collisions.isCollidingWithPlayer = false;
 
     // |||||||||||| PLAYER'S DATA
     const x1 = player.xPos + player.hitBox.xOffset;
@@ -58,22 +52,20 @@ function detectCollisionBetweenPlayerAndSprite(sprite) {
     if (isOverlap) {
         sprite.collisions.isCollidingWithPlayer = true;
 
-        switch (sprite.id) {
-            case SpriteID.ACID:
-                player.collisions.isCollidingWithAcid = true;
-                break;            
-            
-            case SpriteID.ARROW:
-                player.collisions.isCollidingWithArrow = true;
-                break;            
-            
-            case SpriteID.POTION_GREEN:
-                player.collisions.isCollidingWithGreenPotion = true;
-                break;            
-            
-            case SpriteID.POTION_BLUE:
-                player.collisions.isCollidingWithBluePotion = true;
-                break;            
+        if (sprite.id === SpriteID.ACID) {
+            player.collisions.isCollidingWithAcid = true;
+        }
+        
+        if (sprite.id === SpriteID.ARROW) {
+            player.collisions.isCollidingWithArrow = true;
+        }
+        
+        if (sprite.id === SpriteID.POTION_GREEN) {
+            player.collisions.isCollidingWithGreenPotion = true;
+        }
+        
+        if (sprite.id === SpriteID.POTION_BLUE) {
+            player.collisions.isCollidingWithBluePotion = true;
         }
     }
 }

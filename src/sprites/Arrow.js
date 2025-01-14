@@ -7,7 +7,7 @@ export default class Arrow extends InGameSprite {
         super(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
     }
 
-    update() {
+    updatePhysics() {
         this.xPos += this.physics.vx * globals.deltaTime;
         
         if ((globals.nextArrowShotDelay.value <= 0) && ((this.xPos <= (0 - this.imageSet.xDestinationSize)) || (this.xPos >= globals.canvas.width))) {

@@ -8,7 +8,7 @@ export default class ChaoticHumanBow extends Character {
         super(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
     }
 
-    update() {
+    updatePhysics() {
         // |||||||||||| ACCELERATION IN THE Y AXIS IS THE GRAVITY
         this.physics.ay = GRAVITY;
 
@@ -37,7 +37,9 @@ export default class ChaoticHumanBow extends Character {
                 globals.nextArrowShotDelay.timeChangeCounter = 0;
             }
         }
+    }
 
+    updateLogic() {
         // |||||||||||| UPDATE LIFE POINTS
         if (this.collisions.isCollidingWithPlayer) {
             const player = globals.screenSprites[0];
@@ -51,7 +53,9 @@ export default class ChaoticHumanBow extends Character {
                     this.afterAttackLeeway.value = 3;
                 }
             }
-        } else if (this.collisions.isCollidingWithMagicalOrb && (this.afterAttackLeeway.value === 0)) {
+        }
+        
+        if (this.collisions.isCollidingWithMagicalOrb && (this.afterAttackLeeway.value === 0)) {
             this.lifePoints--;
 
             if (this.lifePoints === 0) {

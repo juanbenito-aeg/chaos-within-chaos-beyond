@@ -26,7 +26,7 @@ export default class ChaoticHumanSword extends Character {
         }
     }
 
-    update() {
+    updatePhysics() {
         // |||||||||||| STATES MACHINE
         switch (this.state) {
             case State.LEFT_3:
@@ -70,7 +70,9 @@ export default class ChaoticHumanSword extends Character {
             this.hitBox.xSize = 26;
             this.hitBox.xOffset = 2;
         }
+    }
 
+    updateLogic() {
         // |||||||||||| UPDATE LIFE POINTS
 
         // |||||||| COLLISION WITH HARMFUL TILES
@@ -91,7 +93,9 @@ export default class ChaoticHumanSword extends Character {
                     this.afterAttackLeeway.value = 3;
                 }
             }
-        } else if (this.collisions.isCollidingWithMagicalOrb && (this.afterAttackLeeway.value === 0)) {
+        }
+        
+        if (this.collisions.isCollidingWithMagicalOrb && (this.afterAttackLeeway.value === 0)) {
             this.lifePoints--;
 
             if (this.lifePoints === 0) {

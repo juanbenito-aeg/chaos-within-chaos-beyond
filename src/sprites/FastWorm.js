@@ -7,7 +7,7 @@ export default class FastWorm extends Character {
         super(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
     }
 
-    update() {
+    updatePhysics() {
         const player = globals.screenSprites[0];
     
         const vpVectorX = player.xPos - this.xPos;        
@@ -63,7 +63,9 @@ export default class FastWorm extends Character {
         } else {
             this.updateAnimationFrame();
         }
+    }
 
+    updateLogic() {
         // |||||||||||| UPDATE LIFE POINTS
         
         // |||||||| COLLISION WITH HARMFUL TILES
@@ -84,7 +86,9 @@ export default class FastWorm extends Character {
                     this.afterAttackLeeway.value = 3;
                 }
             }
-        } else if (this.collisions.isCollidingWithMagicalOrb && (this.afterAttackLeeway.value === 0)) {
+        }
+        
+        if (this.collisions.isCollidingWithMagicalOrb && (this.afterAttackLeeway.value === 0)) {
             this.lifePoints--;
 
             if (this.lifePoints === 0) {
