@@ -1,5 +1,4 @@
 import Sprite from "./sprites/Sprite.js";
-import InGameSprite from "./sprites/InGameSprite.js";
 import Player from "./sprites/Player.js";
 import MagicalOrb from "./sprites/MagicalOrb.js";
 import ChaoticHumanBow from "./sprites/ChaoticHumanBow.js";
@@ -9,6 +8,7 @@ import FastWorm from "./sprites/FastWorm.js";
 import HellBatAcid from "./sprites/HellBatAcid.js";
 import Acid from "./sprites/Acid.js";
 import HellBatHandToHand from "./sprites/HellBatHandToHand.js";
+import Potion from "./sprites/Potion.js";
 import ImageSet from "./ImageSet.js";
 import Frames from "./Frames.js";
 import Physics from "./Physics.js";
@@ -496,7 +496,7 @@ function initPotionGreen() {
 
     const collisions = new Collisions();
 
-    const potionGreen = new InGameSprite(SpriteID.POTION_GREEN, State.STILL, 306, 48, imageSet, frames, null, hitBox, collisions);
+    const potionGreen = new Potion(SpriteID.POTION_GREEN, State.STILL, 306, 48, imageSet, frames, null, hitBox, collisions);
 
     // |||||||||||| ADD POTION (GREEN) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(potionGreen);
@@ -511,7 +511,7 @@ function initPotionBlue() {
 
     const collisions = new Collisions();
 
-    const potionBlue = new InGameSprite(SpriteID.POTION_BLUE, State.STILL, 206, 48, imageSet, frames, null, hitBox, collisions);
+    const potionBlue = new Potion(SpriteID.POTION_BLUE, State.STILL, 206, 48, imageSet, frames, null, hitBox, collisions);
 
     // |||||||||||| ADD POTION (BLUE) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(potionBlue);

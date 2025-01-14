@@ -1,13 +1,15 @@
 import Character from "./Character.js";
 import globals from "../globals.js";
-import { State, GRAVITY } from "../constants.js";
+import { SpriteID, State, GRAVITY } from "../constants.js";
 import { initMagicalOrb } from "../initialize.js";
 
 export default class Player extends Character {
     constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway) {
         super(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
 
-        this.rageLevel = 0; // RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
+        this.isLeftwardsHandToHandAttackEffective   = false;
+        this.isRightwardsHandToHandAttackEffective  = false;
+        this.rageLevel                              = 0; // RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
     }
 
     updateRageLevel() {
@@ -17,7 +19,7 @@ export default class Player extends Character {
         } else {
             globals.nextRagePtUpDelay.timeChangeCounter += globals.deltaTime;
 
-            if (globals.nextRagePtUpDelay.timeChangeCounter > globals.nextRagePtUpDelay.timeChangeValue) {
+            if (globals.nextRagePtUpDelay.timeChangeCounter >= globals.nextRagePtUpDelay.timeChangeValue) {
                 globals.nextRagePtUpDelay.value--;
                 globals.nextRagePtUpDelay.timeChangeCounter = 0;
             }
@@ -115,10 +117,13 @@ export default class Player extends Character {
             this.hitBox.xOffset = 16;
         }
 
-        // |||||||||||| UPDATE LIFE POINTS
+        // |||||||||||| UPDATE LIFE POINTS & RAGE LEVEL
         
         const playerLifePtsBeforeChecks = this.lifePoints;
 
+        // |||||||| CONDITIONS THAT MAKE THE PLAYER LOSE LIFE POINTS
+
+        // |||| COLLISION WITH HARMFUL TILES
         if (this.collisions.isCollidingWithSpikes && (this.afterAttackLeeway.value === 0)) {
             this.lifePoints--;
             this.afterAttackLeeway.value = 3;
@@ -126,7 +131,72 @@ export default class Player extends Character {
             this.lifePoints = 0;
         }
 
-        // |||||||| IF THE PLAYER HAS LOST LIFE POINTS, UPDATE THE TIMER USED TO INCREASE THEIR RAGE LEVEL
+        // |||| COLLISION WITH ENEMIES
+        
+        const enemies = [
+            SpriteID.CHAOTIC_HUMAN_BOW,
+            SpriteID.CHAOTIC_HUMAN_SWORD,
+            SpriteID.FAST_WORM,
+            SpriteID.HELL_BAT_ACID,
+            SpriteID.HELL_BAT_HAND_TO_HAND,
+        ];
+
+        for (let i = 1; i < globals.screenSprites.length; i++) {
+            const sprite = globals.screenSprites[i];
+    
+            if (sprite.collisions.isCollidingWithPlayer && enemies.includes(sprite.id)) {
+                this.isLeftwardsHandToHandAttackEffective = ((this.state === State.LEFT_ATTACK_HAND_TO_HAND) && ((sprite.xPos + sprite.hitBox.xOffset + sprite.hitBox.xSize) <= (this.xPos + this.hitBox.xOffset + (this.hitBox.xSize / 2))));
+
+                this.isRightwardsHandToHandAttackEffective = ((this.state === State.RIGHT_ATTACK_HAND_TO_HAND) && ((sprite.xPos + sprite.hitBox.xOffset) >= (this.xPos + this.hitBox.xOffset + (this.hitBox.xSize / 2))));
+
+                if ((!this.isLeftwardsHandToHandAttackEffective || !this.isRightwardsHandToHandAttackEffective) && (this.afterAttackLeeway.value === 0)) {
+                    this.lifePoints--;
+                    this.afterAttackLeeway.value = 3;
+                }
+            }
+        }
+        
+        // |||| COLLISION WITH HARMFUL ELEMENTS
+        if ((this.afterAttackLeeway.value === 0) && (this.collisions.isCollidingWithAcid || this.collisions.isCollidingWithArrow)) {
+            this.lifePoints--;
+            this.afterAttackLeeway.value = 3;
+        }
+
+        if (this.afterAttackLeeway.value > 0) {
+            this.afterAttackLeeway.timeChangeCounter += globals.deltaTime;
+    
+            if (this.afterAttackLeeway.timeChangeCounter >= this.afterAttackLeeway.timeChangeValue) {
+                this.afterAttackLeeway.value--;
+                this.afterAttackLeeway.timeChangeCounter = 0;
+            }
+        }
+
+        // |||||||| CONDITIONS THAT MAKE THE PLAYER EARN LIFE POINTS & LOSE RAGE
+        if (this.hitBox.xSize !== 28) {
+            if (this.collisions.isCollidingWithGreenPotion) {
+                this.lifePoints++;
+                if (this.lifePoints > 5) {
+                    this.lifePoints = 5;
+                }
+
+                this.rageLevel -= 10;
+                if (this.rageLevel < 0) {
+                    this.rageLevel = 0;
+                }
+            } else if (this.collisions.isCollidingWithBluePotion) {
+                this.lifePoints += 2;
+                if (this.lifePoints > 5) {
+                    this.lifePoints = 5;
+                }
+
+                this.rageLevel -= 20;
+                if (this.rageLevel < 0) {
+                    this.rageLevel = 0;
+                }
+            }
+        }
+
+        // |||||||||||| IF THE PLAYER HAS EITHER LOST OR EARNED LIFE POINTS, UPDATE THE TIMER USED TO INCREASE THEIR RAGE LEVEL
         if (this.lifePoints !== playerLifePtsBeforeChecks) {
             globals.nextRagePtUpDelay.value = this.lifePoints;
             globals.nextRagePtUpDelay.timeChangeCounter = 0;

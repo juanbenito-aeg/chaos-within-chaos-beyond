@@ -71,9 +71,43 @@ export default class ChaoticHumanSword extends Character {
             this.hitBox.xOffset = 2;
         }
 
-        // |||||||||||| CHECK CHARACTER'S POSSIBLE DEATH
-        if (this.collisions.isCollidingWithSpikes || this.collisions.isCollidingWithLava) {
+        // |||||||||||| UPDATE LIFE POINTS
+
+        // |||||||| COLLISION WITH HARMFUL TILES
+        if (this.collisions.isCollidingWithLava) {
             this.state = State.OFF;
+        }
+
+        // |||||||| COLLISION WITH PLAYER & THEIR MAGICAL ORBS
+        if (this.collisions.isCollidingWithPlayer) {
+            const player = globals.screenSprites[0];
+            
+            if ((player.isLeftwardsHandToHandAttackEffective || player.isRightwardsHandToHandAttackEffective) && (this.afterAttackLeeway.value === 0)) {
+                this.lifePoints--;
+
+                if (this.lifePoints === 0) {
+                    this.state = State.OFF;
+                } else {
+                    this.afterAttackLeeway.value = 3;
+                }
+            }
+        } else if (this.collisions.isCollidingWithMagicalOrb && (this.afterAttackLeeway.value === 0)) {
+            this.lifePoints--;
+
+            if (this.lifePoints === 0) {
+                this.state = State.OFF;
+            } else {
+                this.afterAttackLeeway.value = 3;
+            }
+        }
+
+        if (this.afterAttackLeeway.value > 0) {
+            this.afterAttackLeeway.timeChangeCounter += globals.deltaTime;
+    
+            if (this.afterAttackLeeway.timeChangeCounter >= this.afterAttackLeeway.timeChangeValue) {
+                this.afterAttackLeeway.value--;
+                this.afterAttackLeeway.timeChangeCounter = 0;
+            }
         }
     }
 }

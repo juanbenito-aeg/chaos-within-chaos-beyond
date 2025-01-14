@@ -37,5 +37,37 @@ export default class ChaoticHumanBow extends Character {
                 globals.nextArrowShotDelay.timeChangeCounter = 0;
             }
         }
+
+        // |||||||||||| UPDATE LIFE POINTS
+        if (this.collisions.isCollidingWithPlayer) {
+            const player = globals.screenSprites[0];
+            
+            if ((player.isLeftwardsHandToHandAttackEffective || player.isRightwardsHandToHandAttackEffective) && (this.afterAttackLeeway.value === 0)) {
+                this.lifePoints--;
+
+                if (this.lifePoints === 0) {
+                    this.state = State.OFF;
+                } else {
+                    this.afterAttackLeeway.value = 3;
+                }
+            }
+        } else if (this.collisions.isCollidingWithMagicalOrb && (this.afterAttackLeeway.value === 0)) {
+            this.lifePoints--;
+
+            if (this.lifePoints === 0) {
+                this.state = State.OFF;
+            } else {
+                this.afterAttackLeeway.value = 3;
+            }
+        }
+
+        if (this.afterAttackLeeway.value > 0) {
+            this.afterAttackLeeway.timeChangeCounter += globals.deltaTime;
+    
+            if (this.afterAttackLeeway.timeChangeCounter >= this.afterAttackLeeway.timeChangeValue) {
+                this.afterAttackLeeway.value--;
+                this.afterAttackLeeway.timeChangeCounter = 0;
+            }
+        }
     }
 }

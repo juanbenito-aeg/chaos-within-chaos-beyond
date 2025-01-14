@@ -30,10 +30,16 @@ export default function detectCollisions() {
 }
 
 function detectCollisionBetweenPlayerAndSprite(sprite) {
-    // |||||||||||| RESET COLLISION STATE
-    sprite.collisions.isCollidingWithPlayer = false;
-
     const player = globals.screenSprites[0];
+
+    // |||||||||||| RESET COLLISION STATE
+    
+    sprite.collisions.isCollidingWithPlayer         = false;
+    
+    player.collisions.isCollidingWithAcid           = false;
+    player.collisions.isCollidingWithArrow          = false;
+    player.collisions.isCollidingWithGreenPotion    = false;
+    player.collisions.isCollidingWithBluePotion     = false;
 
     // |||||||||||| PLAYER'S DATA
     const x1 = player.xPos + player.hitBox.xOffset;
@@ -51,6 +57,24 @@ function detectCollisionBetweenPlayerAndSprite(sprite) {
 
     if (isOverlap) {
         sprite.collisions.isCollidingWithPlayer = true;
+
+        switch (sprite.id) {
+            case SpriteID.ACID:
+                player.collisions.isCollidingWithAcid = true;
+                break;            
+            
+            case SpriteID.ARROW:
+                player.collisions.isCollidingWithArrow = true;
+                break;            
+            
+            case SpriteID.POTION_GREEN:
+                player.collisions.isCollidingWithGreenPotion = true;
+                break;            
+            
+            case SpriteID.POTION_BLUE:
+                player.collisions.isCollidingWithBluePotion = true;
+                break;            
+        }
     }
 }
 
@@ -821,7 +845,6 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
             chaoticHumanSword.collisions.isCollidingWithObstacleOnTheLeft   = false;
             chaoticHumanSword.collisions.isCollidingWithObstacleOnTheBottom = false;
             chaoticHumanSword.collisions.isCollidingWithObstacleOnTheRight  = false;
-            chaoticHumanSword.collisions.isCollidingWithSpikes              = false;
             chaoticHumanSword.collisions.isCollidingWithLava                = false;
         
             // |||||||||||| COLLISIONS (6 POSSIBLE SPOTS)
@@ -846,9 +869,7 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                     isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos4) {
-                        if (obstaclesIDs[i] === Block.SPIKES_FLOOR) {
-                            chaoticHumanSword.collisions.isCollidingWithSpikes = true;
-                        } else if (obstaclesIDs[i] === Block.LAVA) {
+                        if (obstaclesIDs[i] === Block.LAVA) {
                             chaoticHumanSword.collisions.isCollidingWithLava = true;
                         }
 
@@ -869,10 +890,6 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                     isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos2) {
-                        if (obstaclesIDs[i] === Block.SPIKES_LEFTWARDS) {
-                            chaoticHumanSword.collisions.isCollidingWithSpikes = true;
-                        }
-
                         // |||| CALCULATE OVERLAP ON X
                         overlapX = (Math.floor(xPos) % brickSize) + 1;
             
@@ -890,10 +907,6 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                     isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos1) {
-                        if (obstaclesIDs[i] === Block.SPIKES_LEFTWARDS) {
-                            chaoticHumanSword.collisions.isCollidingWithSpikes = true;
-                        }
-
                         // |||| CALCULATE OVERLAP ON X
                         overlapX = (Math.floor(xPos) % brickSize) + 1;
             
@@ -911,9 +924,7 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                     isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos3) {
-                        if ((obstaclesIDs[i] === Block.SPIKES_LEFTWARDS) || (obstaclesIDs[i] === Block.SPIKES_FLOOR)) {
-                            chaoticHumanSword.collisions.isCollidingWithSpikes = true;
-                        } else if (obstaclesIDs[i] === Block.LAVA) {
+                        if (obstaclesIDs[i] === Block.LAVA) {
                             chaoticHumanSword.collisions.isCollidingWithLava = true;
                         }
 
@@ -944,9 +955,7 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                     isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos3) {
-                        if (obstaclesIDs[i] === Block.SPIKES_FLOOR) {
-                            chaoticHumanSword.collisions.isCollidingWithSpikes = true;
-                        } else if (obstaclesIDs[i] === Block.LAVA) {
+                        if (obstaclesIDs[i] === Block.LAVA) {
                             chaoticHumanSword.collisions.isCollidingWithLava = true;
                         }
 
@@ -967,10 +976,6 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                     isCollidingOnPos5 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos5) {
-                        if (obstaclesIDs[i] === Block.SPIKES_RIGHTWARDS) {
-                            chaoticHumanSword.collisions.isCollidingWithSpikes = true;
-                        }
-
                         // |||| CALCULATE OVERLAP ON X
                         overlapX = brickSize - (Math.floor(xPos) % brickSize);
             
@@ -988,10 +993,6 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                     isCollidingOnPos6 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos6) {
-                        if (obstaclesIDs[i] === Block.SPIKES_RIGHTWARDS) {
-                            chaoticHumanSword.collisions.isCollidingWithSpikes = true;
-                        }
-
                         // |||| CALCULATE OVERLAP ON X
                         overlapX = brickSize - (Math.floor(xPos) % brickSize);
             
@@ -1009,9 +1010,7 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                     isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos4) {
-                        if ((obstaclesIDs[i] === Block.SPIKES_RIGHTWARDS) || (obstaclesIDs[i] === Block.SPIKES_FLOOR)) {
-                            chaoticHumanSword.collisions.isCollidingWithSpikes = true;
-                        } else if (obstaclesIDs[i] === Block.LAVA) {
+                        if (obstaclesIDs[i] === Block.LAVA) {
                             chaoticHumanSword.collisions.isCollidingWithLava = true;
                         }
 
@@ -1083,7 +1082,6 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
             fastWorm.collisions.isCollidingWithObstacleOnTheLeft   = false;
             fastWorm.collisions.isCollidingWithObstacleOnTheBottom = false;
             fastWorm.collisions.isCollidingWithObstacleOnTheRight  = false;
-            fastWorm.collisions.isCollidingWithSpikes              = false;
             fastWorm.collisions.isCollidingWithLava                = false;
             fastWorm.collisions.isCollidingWithSlope               = false;
         
@@ -1125,9 +1123,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                     isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos4) {
-                        if (obstaclesIDs[i] === Block.SPIKES_FLOOR) {
-                            fastWorm.collisions.isCollidingWithSpikes = true;
-                        } else if (obstaclesIDs[i] === Block.LAVA) {
+                        if (obstaclesIDs[i] === Block.LAVA) {
                             fastWorm.collisions.isCollidingWithLava = true;
                         }
 
@@ -1165,10 +1161,6 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                         isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                         
                         if (isCollidingOnPos2) {
-                            if (obstaclesIDs[i] === Block.SPIKES_LEFTWARDS) {
-                                fastWorm.collisions.isCollidingWithSpikes = true;
-                            }
-    
                             if (!fastWorm.collisions.isCollidingWithSlope) {
                                 // |||| CALCULATE OVERLAP ON X
                                 overlapX = (Math.floor(xPos) % brickSize) + 1;
@@ -1189,10 +1181,6 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                     isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos1) {
-                        if (obstaclesIDs[i] === Block.SPIKES_LEFTWARDS) {
-                            fastWorm.collisions.isCollidingWithSpikes = true;
-                        }
-
                         // |||| CALCULATE OVERLAP ON X
                         overlapX = (Math.floor(xPos) % brickSize) + 1;
                         
@@ -1211,9 +1199,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                         isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                         
                         if (isCollidingOnPos3) {
-                            if ((obstaclesIDs[i] === Block.SPIKES_LEFTWARDS) || (obstaclesIDs[i] === Block.SPIKES_FLOOR)) {
-                                fastWorm.collisions.isCollidingWithSpikes = true;
-                            } else if (obstaclesIDs[i] === Block.LAVA) {
+                            if (obstaclesIDs[i] === Block.LAVA) {
                                 fastWorm.collisions.isCollidingWithLava = true;
                             }
     
@@ -1258,9 +1244,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                     isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos3) {
-                        if (obstaclesIDs[i] === Block.SPIKES_FLOOR) {
-                            fastWorm.collisions.isCollidingWithSpikes = true;
-                        } else if (obstaclesIDs[i] === Block.LAVA) {
+                        if (obstaclesIDs[i] === Block.LAVA) {
                             fastWorm.collisions.isCollidingWithLava = true;
                         }
 
@@ -1298,10 +1282,6 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                         isCollidingOnPos5 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                         
                         if (isCollidingOnPos5) {
-                            if (obstaclesIDs[i] === Block.SPIKES_RIGHTWARDS) {
-                                fastWorm.collisions.isCollidingWithSpikes = true;
-                            }
-    
                             if (!fastWorm.collisions.isCollidingWithSlope) {
                                 // |||| CALCULATE OVERLAP ON X
                                 overlapX = brickSize - (Math.floor(xPos) % brickSize);
@@ -1322,10 +1302,6 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                     isCollidingOnPos6 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos6) {
-                        if (obstaclesIDs[i] === Block.SPIKES_RIGHTWARDS) {
-                            fastWorm.collisions.isCollidingWithSpikes = true;
-                        }
-
                         // |||| CALCULATE OVERLAP ON X
                         overlapX = brickSize - (Math.floor(xPos) % brickSize);
             
@@ -1344,9 +1320,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                         isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                         
                         if (isCollidingOnPos4) {
-                            if ((obstaclesIDs[i] === Block.SPIKES_RIGHTWARDS) || (obstaclesIDs[i] === Block.SPIKES_FLOOR)) {
-                                fastWorm.collisions.isCollidingWithSpikes = true;
-                            } else if (obstaclesIDs[i] === Block.LAVA) {
+                            if (obstaclesIDs[i] === Block.LAVA) {
                                 fastWorm.collisions.isCollidingWithLava = true;
                             }
     
@@ -1392,9 +1366,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                         isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                         
                         if (isCollidingOnPos4) {
-                            if (obstaclesIDs[i] === Block.SPIKES_FLOOR) {
-                                fastWorm.collisions.isCollidingWithSpikes = true;
-                            } else if (obstaclesIDs[i] === Block.LAVA) {
+                            if (obstaclesIDs[i] === Block.LAVA) {
                                 fastWorm.collisions.isCollidingWithLava = true;
                             }
     
@@ -1433,9 +1405,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                         isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                         
                         if (isCollidingOnPos3) {
-                            if (obstaclesIDs[i] === Block.SPIKES_FLOOR) {
-                                fastWorm.collisions.isCollidingWithSpikes = true;
-                            } else if (obstaclesIDs[i] === Block.LAVA) {
+                            if (obstaclesIDs[i] === Block.LAVA) {
                                 fastWorm.collisions.isCollidingWithLava = true;
                             }
     

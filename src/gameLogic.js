@@ -95,7 +95,9 @@ function playGame() {
     updateCamera();
 
     // |||||||||||| UPDATE GAME'S LOGIC
-    updateLifePoints();
+    // updateLifePoints();
+
+    // checkIfGameOver();
 }
 
 function updateScreenSprites() {
@@ -211,6 +213,14 @@ function updateLifePoints() {
                 }
             }
         }
+    }
+}
+
+function checkIfGameOver() {
+    const player = globals.screenSprites[0];
+
+    if (player.lifePoints === 0) {
+        globals.gameState = Game.OVER;
     }
 }
 
