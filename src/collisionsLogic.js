@@ -109,7 +109,7 @@ function detectCollisionBetweenMagicalOrbAndSprite(sprite1) {
         
             const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
         
-            if (isOverlap && (sprite1.id !== SpriteID.POTION_GREEN) && (sprite1.id !== SpriteID.POTION_BLUE)) {
+            if (isOverlap && (sprite1.id !== SpriteID.POTION_GREEN) && (sprite1.id !== SpriteID.POTION_BLUE) && (sprite1.id !== SpriteID.ACID) && (sprite1.id !== SpriteID.ARROW)) {
                 sprite1.collisions.isCollidingWithMagicalOrb = true;
                 magicalOrb.collisions.isCollidingWithEnemy = true;
             }

@@ -1,6 +1,7 @@
 import globals from "./globals.js";
 import detectCollisions from "./collisionsLogic.js";
 import { Game, SpriteID, State } from "./constants.js";
+import { updateEvents } from "./events.js";
 
 export default function update() {
     // |||||||||||| CHANGE WHAT THE GAME IS DOING BASED ON THE GAME STATE
@@ -97,6 +98,10 @@ function playGame() {
     // |||||||||||| UPDATE LOGIC
     updateScreenSpritesLogic();
 
+    // |||||||||||| UPDATE EVENTS
+    updateEvents();
+
+    // |||||||||||| CHECK IF THE PLAYER HAS DIED (IS GAME OVER)
     // checkIfGameOver();
 }
 
@@ -142,29 +147,3 @@ function checkIfGameOver() {
         globals.gameState = Game.OVER;
     }
 }
-
-function isPlayerAttackCanceledDueToRageBeingOverN() {
-    const player = globals.screenSprites[0];
-
-    if (player.rageLevel >= 25) {
-        // |||||||||||| THE HIGHER THE RAGE LEVEL, THE LOWER THE UPPER LIMIT OF THE RANDOM NUMBER
-        let randomNumUpperLimit;
-    
-        if (player.rageLevel >= 85) {
-            randomNumUpperLimit = 3;
-        } else if (player.rageLevel >= 55) {
-            randomNumUpperLimit = 6;
-        } else {
-            randomNumUpperLimit = 9;
-        }
-    
-        const randomNumBetween1AndN = Math.floor(Math.random() * randomNumUpperLimit) + 1;
-    
-        // |||||||||||| IF A 1 IS GOTTEN, THE ATTACK THE PLAYER HAS TRIED TO EXECUTE PRESSING THE CORRESPONDING KEY WON'T MATERIALIZE
-        const isPlayerAttackCanceled = randomNumBetween1AndN === 1;
-
-        return isPlayerAttackCanceled;
-    }
-}
-
-export { isPlayerAttackCanceledDueToRageBeingOverN };

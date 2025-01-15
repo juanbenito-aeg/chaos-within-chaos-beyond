@@ -9,7 +9,7 @@ export default class Player extends Character {
 
         this.isLeftwardsHandToHandAttackEffective   = false;
         this.isRightwardsHandToHandAttackEffective  = false;
-        this.rageLevel                              = 0; // RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
+        this.rageLevel                              = 100; // RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
     }
 
     readKeyboardAndAssignState() {
@@ -35,6 +35,12 @@ export default class Player extends Character {
             this.state = (globals.action.moveLeft || (this.state === State.LEFT))   ? State.LEFT_JUMP :
                          (globals.action.moveRight || (this.state === State.RIGHT)) ? State.RIGHT_JUMP :
                          this.state;
+        }
+
+        // |||||||||||| MANUALLY DISPATCH "keyup" EVENT FOR MAGICAL ORB THROWS IN CASE THEY HAVE BEEN PERFORMED RANDOMLY IN "events.js"
+        if (globals.action.throwMagicalOrb) {
+            const event = new KeyboardEvent("keyup", {keyCode: 83});    
+            window.dispatchEvent(event);
         }
     }
 
