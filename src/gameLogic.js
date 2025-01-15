@@ -118,8 +118,14 @@ function updateCamera() {
     
     const player = globals.screenSprites[0];
         
-    globals.camera.x = Math.floor(player.xPos) + Math.floor((player.imageSet.xDestinationSize - globals.canvas.width) / 2);
-    globals.camera.y = Math.floor(player.yPos) + Math.floor((player.imageSet.yDestinationSize - globals.canvas.height) / 2);
+    const level1Width = globals.level.data[0].length * 16;
+    const level1Height = globals.level.data.length * 16;
+    
+    const cameraX = Math.max(Math.floor(player.xPos) + Math.floor((player.imageSet.xDestinationSize - globals.canvas.width) / 2), 0);
+    globals.camera.x = Math.min(cameraX, level1Width - globals.canvas.width);
+
+    const cameraY = Math.max(Math.floor(player.yPos) + Math.floor((player.imageSet.yDestinationSize - globals.canvas.height) / 2), 0);
+    globals.camera.y = Math.min(cameraY, level1Height - globals.canvas.height);
 }
 
 function updateScreenSpritesLogic() {
