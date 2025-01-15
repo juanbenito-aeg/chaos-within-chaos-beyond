@@ -40,14 +40,18 @@ export default class ChaoticHumanBow extends Character {
     }
 
     updateLogic() {
-        // |||||||||||| UPDATE LIFE POINTS
+        // |||||||||||| UPDATE LIFE POINTS & SCORE
         if (this.collisions.isCollidingWithPlayer) {
             const player = globals.screenSprites[0];
             
             if ((player.isLeftwardsHandToHandAttackEffective || player.isRightwardsHandToHandAttackEffective) && (this.afterAttackLeeway.value === 0)) {
                 this.lifePoints--;
 
+                globals.score += 150;
+
                 if (this.lifePoints === 0) {
+                    globals.score += 150;
+                
                     this.state = State.OFF;
                 } else {
                     this.afterAttackLeeway.value = 3;
@@ -58,7 +62,11 @@ export default class ChaoticHumanBow extends Character {
         if (this.collisions.isCollidingWithMagicalOrb && (this.afterAttackLeeway.value === 0)) {
             this.lifePoints--;
 
+            globals.score += 100;
+
             if (this.lifePoints === 0) {
+                globals.score += 100;
+                
                 this.state = State.OFF;
             } else {
                 this.afterAttackLeeway.value = 3;

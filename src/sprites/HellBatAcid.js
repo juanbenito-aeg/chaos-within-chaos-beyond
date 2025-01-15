@@ -51,7 +51,11 @@ export default class HellBatAcid extends Character {
             if ((player.isLeftwardsHandToHandAttackEffective || player.isRightwardsHandToHandAttackEffective) && (this.afterAttackLeeway.value === 0)) {
                 this.lifePoints--;
 
+                globals.score += 150;
+
                 if (this.lifePoints === 0) {
+                    globals.score += 150;
+                
                     this.state = State.OFF;
                 } else {
                     this.afterAttackLeeway.value = 3;
@@ -62,7 +66,11 @@ export default class HellBatAcid extends Character {
         if (this.collisions.isCollidingWithMagicalOrb && (this.afterAttackLeeway.value === 0)) {
             this.lifePoints--;
 
+            globals.score += 100;
+
             if (this.lifePoints === 0) {
+                globals.score += 100;
+
                 this.state = State.OFF;
             } else {
                 this.afterAttackLeeway.value = 3;

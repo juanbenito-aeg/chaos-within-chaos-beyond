@@ -73,7 +73,7 @@ export default class ChaoticHumanSword extends Character {
     }
 
     updateLogic() {
-        // |||||||||||| UPDATE LIFE POINTS
+        // |||||||||||| UPDATE LIFE POINTS & SCORE
 
         // |||||||| COLLISION WITH HARMFUL TILES
         if (this.collisions.isCollidingWithLava) {
@@ -87,7 +87,11 @@ export default class ChaoticHumanSword extends Character {
             if ((player.isLeftwardsHandToHandAttackEffective || player.isRightwardsHandToHandAttackEffective) && (this.afterAttackLeeway.value === 0)) {
                 this.lifePoints--;
 
+                globals.score += 150;
+
                 if (this.lifePoints === 0) {
+                    globals.score += 150;
+
                     this.state = State.OFF;
                 } else {
                     this.afterAttackLeeway.value = 3;
@@ -98,7 +102,11 @@ export default class ChaoticHumanSword extends Character {
         if (this.collisions.isCollidingWithMagicalOrb && (this.afterAttackLeeway.value === 0)) {
             this.lifePoints--;
 
+            globals.score += 100;
+
             if (this.lifePoints === 0) {
+                globals.score += 100;
+
                 this.state = State.OFF;
             } else {
                 this.afterAttackLeeway.value = 3;

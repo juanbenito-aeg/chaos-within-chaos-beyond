@@ -129,7 +129,7 @@ export default class Player extends Character {
     }
 
     updateLogic() {
-        // |||||||||||| UPDATE LIFE POINTS & RAGE LEVEL
+        // |||||||||||| UPDATE LIFE POINTS, SCORE & RAGE LEVEL
         
         const playerLifePtsBeforeChecks = this.lifePoints;
 
@@ -147,7 +147,7 @@ export default class Player extends Character {
         }
 
         // |||| COLLISION WITH ENEMIES
-        
+
         const enemies = [
             SpriteID.CHAOTIC_HUMAN_BOW,
             SpriteID.CHAOTIC_HUMAN_SWORD,
@@ -158,7 +158,7 @@ export default class Player extends Character {
 
         for (let i = 1; i < globals.screenSprites.length; i++) {
             const sprite = globals.screenSprites[i];
-    
+
             if (sprite.collisions.isCollidingWithPlayer && enemies.includes(sprite.id)) {
                 this.isLeftwardsHandToHandAttackEffective = ((this.state === State.LEFT_ATTACK_HAND_TO_HAND) && ((sprite.xPos + sprite.hitBox.xOffset + sprite.hitBox.xSize) <= (this.xPos + this.hitBox.xOffset + (this.hitBox.xSize / 2))));
 
@@ -173,16 +173,12 @@ export default class Player extends Character {
         
         // |||| COLLISION WITH HARMFUL ELEMENTS
         
-        if (this.collisions.isCollidingWithAcid && (this.afterAttackLeeway.value === 0)) {
-            this.collisions.isCollidingWithAcid = false;
-            
+        if (this.collisions.isCollidingWithAcid && (this.afterAttackLeeway.value === 0)) {            
             this.lifePoints--;
             this.afterAttackLeeway.value = 3;
         }
         
         if (this.collisions.isCollidingWithArrow && (this.afterAttackLeeway.value === 0)) {
-            this.collisions.isCollidingWithArrow = false;
-            
             this.lifePoints--;
             this.afterAttackLeeway.value = 3;
         }
@@ -196,15 +192,15 @@ export default class Player extends Character {
             }
         }
 
-        // |||||||| CONDITIONS THAT MAKE THE PLAYER EARN LIFE POINTS & LOSE RAGE
+        // |||||||| CONDITIONS THAT MAKE THE PLAYER EARN LIFE POINTS & SCORE & LOSE RAGE
         if (this.hitBox.xSize !== 28) {
-            if (this.collisions.isCollidingWithGreenPotion) {
-                this.collisions.isCollidingWithGreenPotion = false;
-                
+            if (this.collisions.isCollidingWithGreenPotion) {                
                 this.lifePoints++;
                 if (this.lifePoints > 5) {
                     this.lifePoints = 5;
                 }
+
+                globals.score += 50;
 
                 this.rageLevel -= 10;
                 if (this.rageLevel < 0) {
@@ -213,12 +209,12 @@ export default class Player extends Character {
             }
             
             if (this.collisions.isCollidingWithBluePotion) {
-                this.collisions.isCollidingWithBluePotion = false;
-
                 this.lifePoints += 2;
                 if (this.lifePoints > 5) {
                     this.lifePoints = 5;
                 }
+
+                globals.score += 75;
 
                 this.rageLevel -= 20;
                 if (this.rageLevel < 0) {

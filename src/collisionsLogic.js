@@ -2,6 +2,14 @@ import globals from "./globals.js";
 import { Block, SpriteID, State } from "./constants.js";
 
 export default function detectCollisions() {
+    const player = globals.screenSprites[0];
+
+    // |||||||||||| RESET COLLISION STATE
+    player.collisions.isCollidingWithAcid = false;
+    player.collisions.isCollidingWithArrow = false;
+    player.collisions.isCollidingWithGreenPotion = false;
+    player.collisions.isCollidingWithBluePotion = false;
+
     // |||||||||||| CALCULATE PLAYER'S & HIS MAGICAL ORBS' COLLISION WITH THE OTHER SPRITES
     for (let i = 1; i < globals.screenSprites.length; i++) {
         const sprite = globals.screenSprites[i];
