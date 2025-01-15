@@ -8,6 +8,35 @@ export default class FastWorm extends Character {
     }
 
     updatePhysics() {
+        // |||||||||||| RANDOMLY MODIFY THE FAST WORM'S VELOCITY
+
+        const Velocity = {
+            LOW: 20,
+            INTERMEDIATE: 40,
+            HIGH: 60,
+        };
+
+        const randomNumBetween1AndN = Math.floor(Math.random() * 25) + 1;
+
+        // |||||||| IF A 1 IS GOTTEN, CHANGE VELOCITY OF THE FAST WORM'S MOVEMENT
+        if (randomNumBetween1AndN === 1) {
+            const nextVelocityIndicator = Math.floor(Math.random() * 3) + 1;
+
+            switch (nextVelocityIndicator) {
+                case 1:
+                    this.physics.vLimit = Velocity.LOW;
+                    break;
+                
+                case 2:
+                    this.physics.vLimit = Velocity.INTERMEDIATE;
+                    break;
+                
+                case 3:
+                    this.physics.vLimit = Velocity.HIGH;
+                    break;
+            }
+        }
+
         const player = globals.screenSprites[0];
     
         const vpVectorX = player.xPos - this.xPos;        
