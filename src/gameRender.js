@@ -509,23 +509,33 @@ function renderMap() {
 
 function renderHUD() {
     // |||||||||||| HARD-CODED DATA
-    const score = 1000;
-    const highScore = 10000;
+    const highScore = globals.score;
 
     // |||||||||||| DRAW SCORE
-    globals.ctxHUD.font = "8.5px emulogic";
+
+    globals.ctxHUD.font = "8px emulogic";
     globals.ctxHUD.fillStyle = "#d5dbc6";
-    globals.ctxHUD.fillText("SCORE", 13, 39.5);
+    globals.ctxHUD.fillText("SCORE", 29, 39.5);
+    
+    globals.ctxHUD.direction = "rtl";
+    globals.ctxHUD.font = "7.5px emulogic";
     globals.ctxHUD.fillStyle = "#e7ebdd";
-    globals.ctxHUD.fillText(score, 13, 54.5);
+    globals.ctxHUD.fillText(globals.score, 69, 54.5);
     
     // |||||||||||| DRAW HIGH SCORE
+
+    globals.ctxHUD.direction = "ltr";
+    globals.ctxHUD.font = "8px emulogic";
     globals.ctxHUD.fillStyle = "#d5dbc6";
-    globals.ctxHUD.fillText("HIGH SCORE", 81.5, 39.5);
+    globals.ctxHUD.fillText("HI-SCORE", 99, 39.5);
+
+    globals.ctxHUD.direction = "rtl";
+    globals.ctxHUD.font = "7.5px emulogic";
     globals.ctxHUD.fillStyle = "#e7ebdd";
-    globals.ctxHUD.fillText(highScore, 81.5, 54.5);
+    globals.ctxHUD.fillText(highScore, 163, 54.5);
     
     // |||||||||||| DRAW RAGE BAR'S SYMBOL
+    globals.ctxHUD.direction = "ltr";
     globals.ctxHUD.font = "20px emulogic";
     globals.ctxHUD.fillText("💢", 282.5, 49.5);
 

@@ -54,6 +54,8 @@ export default {
     // |||||||||||| "GAME OVER" SCREEN SPRITE'S DATA
     gameOverSprite: {},
 
+    score: 0,
+
     // |||||||||||| OBJECT THAT HOLDS THE STATES OF THE KEYBOARD KEYS
     action: {},
 
