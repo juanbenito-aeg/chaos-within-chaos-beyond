@@ -1,5 +1,6 @@
 import Character from "./Character.js";
 import globals from "../globals.js";
+import { State } from "../constants.js";
 import { initAcid } from "../initialize.js";
 
 export default class HellBatAcid extends Character {

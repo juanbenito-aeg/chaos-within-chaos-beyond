@@ -1,6 +1,6 @@
 import Character from "./Character.js";
 import globals from "../globals.js";
-import { GRAVITY } from "../constants.js";
+import { State, GRAVITY } from "../constants.js";
 import { initArrow } from "../initialize.js";
 
 export default class ChaoticHumanBow extends Character {

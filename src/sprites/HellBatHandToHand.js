@@ -1,6 +1,7 @@
 import Character from "./Character.js";
 import globals from "../globals.js";
-
+import { State } from "../constants.js";
+ 
 export default class HellBatHandToHand extends Character {
     constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway) {
         super(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);

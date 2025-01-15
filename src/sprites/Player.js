@@ -100,9 +100,19 @@ export default class Player extends Character {
 
         this.updateAnimationFrame();
 
-        if (((this.state === State.LEFT_ATTACK_MAGICAL_ORB) || (this.state === State.RIGHT_ATTACK_MAGICAL_ORB)) && this.frames.frameCounter === 3) {
-            if ((globals.nextOrbThrowDelay.timeChangeCounter === 0) && (globals.nextOrbThrowDelay.value === 5)) {
-                initMagicalOrb();
+        if (((this.state === State.LEFT_ATTACK_MAGICAL_ORB) || (this.state === State.RIGHT_ATTACK_MAGICAL_ORB)) && (this.frames.frameCounter === 3) && (globals.nextOrbThrowDelay.value === 0)) {
+            initMagicalOrb();
+            globals.nextOrbThrowDelay.timeChangeCounter = 0;
+            globals.nextOrbThrowDelay.value = 5;
+        }
+
+        if (globals.nextOrbThrowDelay.value > 0) {
+            globals.nextOrbThrowDelay.timeChangeCounter += globals.deltaTime;
+        
+            if (globals.nextOrbThrowDelay.timeChangeCounter >= globals.nextOrbThrowDelay.timeChangeValue) {
+                globals.nextOrbThrowDelay.value--;
+        
+                globals.nextOrbThrowDelay.timeChangeCounter = 0;
             }
         }
 

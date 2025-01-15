@@ -5,6 +5,7 @@ export default class Collisions {
     isCollidingWithObstacleOnTheRight   = false;
     isCollidingWithPlayer               = false;
     isCollidingWithMagicalOrb           = false;
+    isCollidingWithEnemy                = false;
     isCollidingWithAcid                 = false;
     isCollidingWithArrow                = false;
     isCollidingWithGreenPotion          = false;

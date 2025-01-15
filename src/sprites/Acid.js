@@ -11,8 +11,10 @@ export default class Acid extends InGameSprite {
         this.yPos += this.physics.vy * globals.deltaTime;
         
         this.updateAnimationFrame();
-    
-        if ((globals.nextAcidDropDelay.value <= 0) && (this.yPos >= globals.canvas.height)) {
+    }
+
+    updateLogic() {
+        if (this.collisions.isCollidingWithObstacleOnTheBottom || this.collisions.isCollidingWithPlayer) {
             this.state = State.OFF;
         }
     }

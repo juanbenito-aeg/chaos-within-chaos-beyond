@@ -57,6 +57,7 @@ function initVars() {
 
 function initTimers() {
     globals.nextOrbThrowDelay = new Timer(5, 1);
+    globals.nextOrbThrowDelay.value = 0;
     globals.nextArrowShotDelay = new Timer(5, 1);
     globals.nextAcidDropDelay = new Timer(5, 1);
     globals.nextRagePtUpDelay = new Timer(3, 1);

@@ -9,8 +9,10 @@ export default class Arrow extends InGameSprite {
 
     updatePhysics() {
         this.xPos += this.physics.vx * globals.deltaTime;
-        
-        if ((globals.nextArrowShotDelay.value <= 0) && ((this.xPos <= (0 - this.imageSet.xDestinationSize)) || (this.xPos >= globals.canvas.width))) {
+    }
+
+    updateLogic() {
+        if (this.collisions.isCollidingWithObstacleOnTheLeft || this.collisions.isCollidingWithObstacleOnTheRight || this.collisions.isCollidingWithPlayer) {
             this.state = State.OFF;
         }
     }

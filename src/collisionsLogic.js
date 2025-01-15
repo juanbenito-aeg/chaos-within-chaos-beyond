@@ -15,16 +15,25 @@ export default function detectCollisions() {
 
     // |||||||||||| CALCULATE PLAYER'S COLLISION WITH THE MAP'S OBSTACLES
     detectCollisionBetweenPlayerAndMapObstacles();
+    
+    // |||||||||||| CALCULATE MAGICAL ORBS' COLLISION WITH THE MAP'S OBSTACLES
+    detectCollisionBetweenMagicalOrbAndMapObstacles();
 
     // |||||||||||| CALCULATE CHAOTIC HUMANS' (BOW) COLLISION WITH THE MAP'S OBSTACLES
     detectCollisionBetweenChaoticHumanBowAndMapObstacles();
     
+    // |||||||||||| CALCULATE ARROWS' COLLISION WITH THE MAP'S OBSTACLES
+    detectCollisionBetweenArrowAndMapObstacles();
+
     // |||||||||||| CALCULATE CHAOTIC HUMANS' (SWORD) COLLISION WITH THE MAP'S OBSTACLES
     detectCollisionBetweenChaoticHumanSwordAndMapObstacles();
 
     // |||||||||||| CALCULATE FAST WORMS' COLLISION WITH THE MAP'S OBSTACLES
     detectCollisionBetweenFastWormAndMapObstacles();
     
+    // |||||||||||| CALCULATE ACID DROPS' COLLISION WITH THE MAP'S OBSTACLES
+    detectCollisionBetweenAcidAndMapObstacles();
+
     // |||||||||||| CALCULATE HELL BATS' (HAND TO HAND) COLLISION WITH THE CANVAS' BOUNDARIES
     detectCollisionBetweenHellBatHandToHandAndCanvasBoundaries();
 }
@@ -92,8 +101,9 @@ function detectCollisionBetweenMagicalOrbAndSprite(sprite1) {
         
             const isOverlap = rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2);
         
-            if (isOverlap) {
+            if (isOverlap && (sprite1.id !== SpriteID.POTION_GREEN) && (sprite1.id !== SpriteID.POTION_BLUE)) {
                 sprite1.collisions.isCollidingWithMagicalOrb = true;
+                magicalOrb.collisions.isCollidingWithEnemy = true;
             }
 
             break;
@@ -722,6 +732,126 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
     }
 }
 
+function detectCollisionBetweenMagicalOrbAndMapObstacles() {
+    for (let i = 1; i < globals.screenSprites.length; i++) {
+        if (globals.screenSprites[i].id === SpriteID.MAGICAL_ORB) {
+            const magicalOrb = globals.screenSprites[i];
+
+            let xPos;
+            let yPos;
+            let isCollidingOnPos1;
+            let isCollidingOnPos2;
+            let isCollidingOnPos3;
+            let isCollidingOnPos4;
+            let isCollidingOnPos5;
+            let isCollidingOnPos6;
+
+            const brickSize = globals.level.imageSet.xGridSize;
+        
+            // |||||||||||| OBSTACLES' IDS
+            const obstaclesIDs = [
+                Block.DARK_BROWN_BLOCK,
+                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_1,
+                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_2,
+                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_1,
+                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_2,
+                Block.SPIKES_FLOOR,
+                Block.SPIKES_CEILING,        
+                Block.SPIKES_LEFTWARDS,
+                Block.SPIKES_RIGHTWARDS,
+                Block.GRAY_BLOCK,
+                Block.DARK_BROWN_SLOPE_UPWARDS,
+                Block.DARK_BROWN_SLOPE_DOWNWARDS,
+            ];
+        
+            // |||||||||||| RESET COLLISION STATE
+            magicalOrb.collisions.isCollidingWithObstacleOnTheLeft   = false;
+            magicalOrb.collisions.isCollidingWithObstacleOnTheRight  = false;
+        
+            // |||||||||||| COLLISIONS (6 POSSIBLE SPOTS)
+            // 6--------------------1
+            // ----------------------
+            // ----------------------
+            // ----------------------
+            // 5--------------------2
+            // ----------------------
+            // ----------------------
+            // 4--------------------3
+
+            // |||||||||||| CALCULATE COLLISIONS ON THE 6 SPOTS
+            if (magicalOrb.physics.vx > 0) { // RIGHTWARDS MOVEMENT
+                // |||||||| SPOT 2
+                xPos = magicalOrb.xPos + magicalOrb.hitBox.xOffset + magicalOrb.hitBox.xSize - 1;
+                yPos = magicalOrb.yPos + magicalOrb.hitBox.yOffset + brickSize;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos2) {
+                        magicalOrb.collisions.isCollidingWithObstacleOnTheRight = true;
+                    }
+                }
+        
+                // |||||||| SPOT 1
+                xPos = magicalOrb.xPos + magicalOrb.hitBox.xOffset + magicalOrb.hitBox.xSize - 1;
+                yPos = magicalOrb.yPos + magicalOrb.hitBox.yOffset;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos1) {
+                        magicalOrb.collisions.isCollidingWithObstacleOnTheRight = true;
+                    }
+                }
+
+                // |||||||| SPOT 3
+                xPos = magicalOrb.xPos + magicalOrb.hitBox.xOffset + magicalOrb.hitBox.xSize - 1;
+                yPos = magicalOrb.yPos + magicalOrb.hitBox.yOffset + magicalOrb.hitBox.ySize - 1;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos3) {
+                        magicalOrb.collisions.isCollidingWithObstacleOnTheRight = true;
+                    }
+                }
+            } else if (magicalOrb.physics.vx < 0) { // LEFTWARDS MOVEMENT
+                // |||||||| SPOT 5
+                xPos = magicalOrb.xPos + magicalOrb.hitBox.xOffset;
+                yPos = magicalOrb.yPos + magicalOrb.hitBox.yOffset + brickSize;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos5 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos5) {
+                        magicalOrb.collisions.isCollidingWithObstacleOnTheLeft = true;
+                    }
+                }
+        
+                // |||||||| SPOT 6
+                xPos = magicalOrb.xPos + magicalOrb.hitBox.xOffset;
+                yPos = magicalOrb.yPos + magicalOrb.hitBox.yOffset;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos6 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos6) {
+                        magicalOrb.collisions.isCollidingWithObstacleOnTheLeft = true;
+                    }
+                }
+
+                // |||||||| SPOT 4
+                xPos = magicalOrb.xPos + magicalOrb.hitBox.xOffset;
+                yPos = magicalOrb.yPos + magicalOrb.hitBox.yOffset + magicalOrb.hitBox.ySize - 1;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos4) {
+                        magicalOrb.collisions.isCollidingWithObstacleOnTheLeft = true;
+                    }
+                }
+            }
+            
+            break;
+        }
+    }
+}
+
 function detectCollisionBetweenChaoticHumanBowAndMapObstacles() {
     for (let i = 1; i < globals.screenSprites.length; i++) {
         if (globals.screenSprites[i].id === SpriteID.CHAOTIC_HUMAN_BOW) {
@@ -794,6 +924,100 @@ function detectCollisionBetweenChaoticHumanBowAndMapObstacles() {
                     chaoticHumanBow.physics.vy = 0;
                 }
             }
+        }
+    }
+}
+
+function detectCollisionBetweenArrowAndMapObstacles() {
+    for (let i = 1; i < globals.screenSprites.length; i++) {
+        if (globals.screenSprites[i].id === SpriteID.ARROW) {
+            const arrow = globals.screenSprites[i];
+
+            let xPos;
+            let yPos;
+            let isCollidingOnPos1;
+            let isCollidingOnPos2;
+            let isCollidingOnPos3;
+            let isCollidingOnPos4;
+        
+            // |||||||||||| OBSTACLES' IDS
+            const obstaclesIDs = [
+                Block.DARK_BROWN_BLOCK,
+                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_1,
+                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_2,
+                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_1,
+                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_2,
+                Block.SPIKES_FLOOR,
+                Block.SPIKES_CEILING,        
+                Block.SPIKES_LEFTWARDS,
+                Block.SPIKES_RIGHTWARDS,
+                Block.GRAY_BLOCK,
+                Block.DARK_BROWN_SLOPE_UPWARDS,
+                Block.DARK_BROWN_SLOPE_DOWNWARDS,
+            ];
+        
+            // |||||||||||| RESET COLLISION STATE
+            arrow.collisions.isCollidingWithObstacleOnTheLeft   = false;
+            arrow.collisions.isCollidingWithObstacleOnTheRight  = false;
+        
+            // |||||||||||| COLLISIONS (4 POSSIBLE SPOTS)
+            // 4--------------------1
+            // ----------------------
+            // ----------------------
+            // ----------------------
+            // ----------------------
+            // ----------------------
+            // ----------------------
+            // 3--------------------2
+
+            // |||||||||||| CALCULATE COLLISIONS ON THE 4 SPOTS
+            if (arrow.physics.vx > 0) { // RIGHTWARDS MOVEMENT
+                // |||||||| SPOT 1
+                xPos = arrow.xPos + arrow.hitBox.xOffset + arrow.hitBox.xSize - 1;
+                yPos = arrow.yPos + arrow.hitBox.yOffset;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos1) {
+                        arrow.collisions.isCollidingWithObstacleOnTheRight = true;
+                    }
+                }
+
+                // |||||||| SPOT 2
+                xPos = arrow.xPos + arrow.hitBox.xOffset + arrow.hitBox.xSize - 1;
+                yPos = arrow.yPos + arrow.hitBox.yOffset + arrow.hitBox.ySize - 1;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos2) {
+                        arrow.collisions.isCollidingWithObstacleOnTheRight = true;
+                    }
+                }
+            } else if (arrow.physics.vx < 0) { // LEFTWARDS MOVEMENT
+                // |||||||| SPOT 4
+                xPos = arrow.xPos + arrow.hitBox.xOffset;
+                yPos = arrow.yPos + arrow.hitBox.yOffset;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos4) {
+                        arrow.collisions.isCollidingWithObstacleOnTheLeft = true;
+                    }
+                }
+
+                // |||||||| SPOT 3
+                xPos = arrow.xPos + arrow.hitBox.xOffset;
+                yPos = arrow.yPos + arrow.hitBox.yOffset + arrow.hitBox.ySize - 1;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos3) {
+                        arrow.collisions.isCollidingWithObstacleOnTheLeft = true;
+                    }
+                }
+            }
+            
+            break;
         }
     }
 }
@@ -1426,6 +1650,74 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                             }
                         }
                     }
+                }
+            }
+            
+            break;
+        }
+    }
+}
+
+function detectCollisionBetweenAcidAndMapObstacles() {
+    for (let i = 1; i < globals.screenSprites.length; i++) {
+        if (globals.screenSprites[i].id === SpriteID.ACID) {
+            const acid = globals.screenSprites[i];
+
+            let xPos;
+            let yPos;
+            let isCollidingOnPos1;
+            let isCollidingOnPos2;
+        
+            // |||||||||||| OBSTACLES' IDS
+            const obstaclesIDs = [
+                Block.DARK_BROWN_BLOCK,
+                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_1,
+                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_2,
+                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_1,
+                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_2,
+                Block.SPIKES_FLOOR,
+                Block.SPIKES_CEILING,        
+                Block.SPIKES_LEFTWARDS,
+                Block.SPIKES_RIGHTWARDS,
+                Block.GRAY_BLOCK,
+                Block.DARK_BROWN_SLOPE_UPWARDS,
+                Block.DARK_BROWN_SLOPE_DOWNWARDS,
+            ];
+        
+            // |||||||||||| RESET COLLISION STATE
+            acid.collisions.isCollidingWithObstacleOnTheBottom = false;
+        
+            // |||||||||||| COLLISIONS (2 POSSIBLE SPOTS)
+            // ----------------------
+            // ----------------------
+            // ----------------------
+            // ----------------------
+            // ----------------------
+            // ----------------------
+            // ----------------------
+            // 2--------------------1
+
+            // |||||||||||| CALCULATE COLLISIONS ON THE 2 SPOTS
+
+            // |||||||| SPOT 1
+            xPos = acid.xPos + acid.hitBox.xOffset + acid.hitBox.xSize - 1;
+            yPos = acid.yPos + acid.hitBox.yOffset + acid.hitBox.ySize - 1;
+            for (let i = 0; i < obstaclesIDs.length; i++) {
+                isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                
+                if (isCollidingOnPos1) {
+                    acid.collisions.isCollidingWithObstacleOnTheBottom = true;
+                }
+            }
+
+            // |||||||| SPOT 2
+            xPos = acid.xPos + acid.hitBox.xOffset;
+            yPos = acid.yPos + acid.hitBox.yOffset + acid.hitBox.ySize - 1;
+            for (let i = 0; i < obstaclesIDs.length; i++) {
+                isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                
+                if (isCollidingOnPos2) {
+                    acid.collisions.isCollidingWithObstacleOnTheBottom = true;
                 }
             }
             
