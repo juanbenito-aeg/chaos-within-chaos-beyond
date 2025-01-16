@@ -1,3 +1,4 @@
+import Character from "./sprites/Character.js";
 import globals from "./globals.js";
 import { Game, SpriteID, Tile } from "./constants.js";
 
@@ -603,10 +604,16 @@ function renderScreenSprites() {
     for (let i = 0; i < globals.screenSprites.length; i++) {
         const sprite = globals.screenSprites[i];
 
-        renderScreenSprite(sprite);
+        if (sprite instanceof Character) {
+            if (sprite.isDrawn) {
+                renderScreenSprite(sprite);
+            }
+        } else {
+            renderScreenSprite(sprite);
+        }
 
         // |||||||||||| TEST: DRAWS THE HITBOX
-        drawHitBox(sprite);
+        // drawHitBox(sprite);
     }
 }
 

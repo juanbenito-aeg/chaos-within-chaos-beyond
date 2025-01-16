@@ -145,7 +145,7 @@ export default class Player extends Character {
         
         if (this.collisions.isCollidingWithSpikes && (this.afterAttackLeeway.value === 0)) {
             this.lifePoints--;
-            this.afterAttackLeeway.value = 3;
+            this.afterAttackLeeway.value = 4;
         }
         
         if (this.collisions.isCollidingWithLava) {
@@ -172,7 +172,7 @@ export default class Player extends Character {
 
                 if ((!this.isLeftwardsHandToHandAttackEffective && !this.isRightwardsHandToHandAttackEffective) && (this.afterAttackLeeway.value === 0)) {
                     this.lifePoints--;
-                    this.afterAttackLeeway.value = 3;
+                    this.afterAttackLeeway.value = 4;
                 }
             }
         }
@@ -181,12 +181,12 @@ export default class Player extends Character {
         
         if (this.collisions.isCollidingWithAcid && (this.afterAttackLeeway.value === 0)) {            
             this.lifePoints--;
-            this.afterAttackLeeway.value = 3;
+            this.afterAttackLeeway.value = 4;
         }
         
         if (this.collisions.isCollidingWithArrow && (this.afterAttackLeeway.value === 0)) {
             this.lifePoints--;
-            this.afterAttackLeeway.value = 3;
+            this.afterAttackLeeway.value = 4;
         }
 
         if (this.afterAttackLeeway.value > 0) {
@@ -195,6 +195,12 @@ export default class Player extends Character {
             if (this.afterAttackLeeway.timeChangeCounter >= this.afterAttackLeeway.timeChangeValue) {
                 this.afterAttackLeeway.value--;
                 this.afterAttackLeeway.timeChangeCounter = 0;
+            }
+
+            if (this.afterAttackLeeway.timeChangeCounter > 0.5) {
+                this.isDrawn = false;
+            } else {
+                this.isDrawn = true;                
             }
         }
 

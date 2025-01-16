@@ -117,7 +117,7 @@ export default class FastWorm extends Character {
 
                     this.state = State.OFF;
                 } else {
-                    this.afterAttackLeeway.value = 3;
+                    this.afterAttackLeeway.value = 4;
                 }
             }
         }
@@ -132,7 +132,7 @@ export default class FastWorm extends Character {
 
                 this.state = State.OFF;
             } else {
-                this.afterAttackLeeway.value = 3;
+                this.afterAttackLeeway.value = 4;
             }
         }
 
@@ -156,6 +156,12 @@ export default class FastWorm extends Character {
             if (this.afterAttackLeeway.timeChangeCounter >= this.afterAttackLeeway.timeChangeValue) {
                 this.afterAttackLeeway.value--;
                 this.afterAttackLeeway.timeChangeCounter = 0;
+            }
+
+            if (this.afterAttackLeeway.timeChangeCounter > 0.5) {
+                this.isDrawn = false;
+            } else {
+                this.isDrawn = true;                
             }
         }
     }
