@@ -116,8 +116,6 @@ function detectCollisionBetweenMagicalOrbAndSprite(sprite1) {
                 sprite1.collisions.isCollidingWithMagicalOrb = true;
                 magicalOrb.collisions.isCollidingWithEnemy = true;
             }
-
-            break;
         }
     }
 }
@@ -155,22 +153,16 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
     // |||||||||||| OBSTACLES' IDS
     const obstaclesIDs = [
         Block.DARK_BROWN_BLOCK,
-        // Block.DARK_BROWN_SLOPE_UPWARDS_1,
-        // Block.DARK_BROWN_SLOPE_UPWARDS_2,
-        // Block.DARK_BROWN_SLOPE_DOWNWARDS_1,
-        // Block.DARK_BROWN_SLOPE_DOWNWARDS_2,
-        Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_1,
-        Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_2,
-        Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_1,
-        Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_2,
         Block.SPIKES_FLOOR,
         Block.SPIKES_CEILING,        
         Block.SPIKES_LEFTWARDS,
         Block.SPIKES_RIGHTWARDS,
         Block.GRAY_BLOCK,
-        Block.LAVA,
+        Block.LAVA_1,
         Block.DARK_BROWN_SLOPE_UPWARDS,
         Block.DARK_BROWN_SLOPE_DOWNWARDS,
+        Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED,
+        Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED,
     ];
 
     // |||||||||||| RESET COLLISION STATE
@@ -245,7 +237,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
             if (isCollidingOnPos4) {
                 if (obstaclesIDs[i] === Block.SPIKES_FLOOR) {
                     player.collisions.isCollidingWithSpikes = true;
-                } else if (obstaclesIDs[i] === Block.LAVA) {
+                } else if (obstaclesIDs[i] === Block.LAVA_1) {
                     player.collisions.isCollidingWithLava = true;
                 }
 
@@ -368,7 +360,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                 if (isCollidingOnPos3) {
                     if ((obstaclesIDs[i] === Block.SPIKES_LEFTWARDS) || (obstaclesIDs[i] === Block.SPIKES_FLOOR)) {
                         player.collisions.isCollidingWithSpikes = true;
-                    } else if (obstaclesIDs[i] === Block.LAVA) {
+                    } else if (obstaclesIDs[i] === Block.LAVA_1) {
                         player.collisions.isCollidingWithLava = true;
                     }
     
@@ -442,7 +434,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
             if (isCollidingOnPos3) {
                 if (obstaclesIDs[i] === Block.SPIKES_FLOOR) {
                     player.collisions.isCollidingWithSpikes = true;
-                } else if (obstaclesIDs[i] === Block.LAVA) {
+                } else if (obstaclesIDs[i] === Block.LAVA_1) {
                     player.collisions.isCollidingWithLava = true;
                 }
 
@@ -565,7 +557,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                 if (isCollidingOnPos4) {
                     if ((obstaclesIDs[i] === Block.SPIKES_RIGHTWARDS) || (obstaclesIDs[i] === Block.SPIKES_FLOOR)) {
                         player.collisions.isCollidingWithSpikes = true;
-                    } else if (obstaclesIDs[i] === Block.LAVA) {
+                    } else if (obstaclesIDs[i] === Block.LAVA_1) {
                         player.collisions.isCollidingWithLava = true;
                     }
                     
@@ -640,7 +632,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                 if (isCollidingOnPos4) {
                     if (obstaclesIDs[i] === Block.SPIKES_FLOOR) {
                         player.collisions.isCollidingWithSpikes = true;
-                    } else if (obstaclesIDs[i] === Block.LAVA) {
+                    } else if (obstaclesIDs[i] === Block.LAVA_1) {
                         player.collisions.isCollidingWithLava = true;
                     }
     
@@ -706,7 +698,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                 if (isCollidingOnPos3) {
                     if (obstaclesIDs[i] === Block.SPIKES_FLOOR) {
                         player.collisions.isCollidingWithSpikes = true;
-                    } else if (obstaclesIDs[i] === Block.LAVA) {
+                    } else if (obstaclesIDs[i] === Block.LAVA_1) {
                         player.collisions.isCollidingWithLava = true;
                     }
     
@@ -762,10 +754,6 @@ function detectCollisionBetweenMagicalOrbAndMapObstacles() {
             // |||||||||||| OBSTACLES' IDS
             const obstaclesIDs = [
                 Block.DARK_BROWN_BLOCK,
-                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_1,
-                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_2,
-                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_1,
-                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_2,
                 Block.SPIKES_FLOOR,
                 Block.SPIKES_CEILING,        
                 Block.SPIKES_LEFTWARDS,
@@ -773,6 +761,8 @@ function detectCollisionBetweenMagicalOrbAndMapObstacles() {
                 Block.GRAY_BLOCK,
                 Block.DARK_BROWN_SLOPE_UPWARDS,
                 Block.DARK_BROWN_SLOPE_DOWNWARDS,
+                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED,
+                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED,
             ];
         
             // |||||||||||| RESET COLLISION STATE
@@ -857,8 +847,6 @@ function detectCollisionBetweenMagicalOrbAndMapObstacles() {
                     }
                 }
             }
-            
-            break;
         }
     }
 }
@@ -878,10 +866,6 @@ function detectCollisionBetweenChaoticHumanBowAndMapObstacles() {
             // |||||||||||| OBSTACLES' IDS
             const obstaclesIDs = [
                 Block.DARK_BROWN_BLOCK,
-                // Block.DARK_BROWN_SLOPE_UPWARDS_1,
-                // Block.DARK_BROWN_SLOPE_UPWARDS_2,
-                // Block.DARK_BROWN_SLOPE_DOWNWARDS_1,
-                // Block.DARK_BROWN_SLOPE_DOWNWARDS_2,
                 Block.GRAY_BLOCK,
             ];
         
@@ -954,10 +938,6 @@ function detectCollisionBetweenArrowAndMapObstacles() {
             // |||||||||||| OBSTACLES' IDS
             const obstaclesIDs = [
                 Block.DARK_BROWN_BLOCK,
-                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_1,
-                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_2,
-                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_1,
-                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_2,
                 Block.SPIKES_FLOOR,
                 Block.SPIKES_CEILING,        
                 Block.SPIKES_LEFTWARDS,
@@ -965,6 +945,8 @@ function detectCollisionBetweenArrowAndMapObstacles() {
                 Block.GRAY_BLOCK,
                 Block.DARK_BROWN_SLOPE_UPWARDS,
                 Block.DARK_BROWN_SLOPE_DOWNWARDS,
+                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED,
+                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED,
             ];
         
             // |||||||||||| RESET COLLISION STATE
@@ -1027,8 +1009,6 @@ function detectCollisionBetweenArrowAndMapObstacles() {
                     }
                 }
             }
-            
-            break;
         }
     }
 }
@@ -1052,20 +1032,14 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
             // |||||||||||| OBSTACLES' IDS
             const obstaclesIDs = [
                 Block.DARK_BROWN_BLOCK,
-                // Block.DARK_BROWN_SLOPE_UPWARDS_1,
-                // Block.DARK_BROWN_SLOPE_UPWARDS_2,
-                // Block.DARK_BROWN_SLOPE_DOWNWARDS_1,
-                // Block.DARK_BROWN_SLOPE_DOWNWARDS_2,
-                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_1,
-                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_2,
-                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_1,
-                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_2,
                 Block.SPIKES_FLOOR,
                 Block.SPIKES_CEILING,        
                 Block.SPIKES_LEFTWARDS,
                 Block.SPIKES_RIGHTWARDS,
                 Block.GRAY_BLOCK,
-                Block.LAVA,
+                Block.LAVA_1,
+                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED,
+                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED,
             ];
         
             // |||||||||||| RESET COLLISION STATE
@@ -1096,7 +1070,7 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                     isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos4) {
-                        if (obstaclesIDs[i] === Block.LAVA) {
+                        if (obstaclesIDs[i] === Block.LAVA_1) {
                             chaoticHumanSword.collisions.isCollidingWithLava = true;
                         }
 
@@ -1151,7 +1125,7 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                     isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos3) {
-                        if (obstaclesIDs[i] === Block.LAVA) {
+                        if (obstaclesIDs[i] === Block.LAVA_1) {
                             chaoticHumanSword.collisions.isCollidingWithLava = true;
                         }
 
@@ -1182,7 +1156,7 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                     isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos3) {
-                        if (obstaclesIDs[i] === Block.LAVA) {
+                        if (obstaclesIDs[i] === Block.LAVA_1) {
                             chaoticHumanSword.collisions.isCollidingWithLava = true;
                         }
 
@@ -1237,7 +1211,7 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                     isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos4) {
-                        if (obstaclesIDs[i] === Block.LAVA) {
+                        if (obstaclesIDs[i] === Block.LAVA_1) {
                             chaoticHumanSword.collisions.isCollidingWithLava = true;
                         }
 
@@ -1261,8 +1235,6 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
                     }
                 }
             }
-            
-            break;
         }
     }
 }
@@ -1286,22 +1258,16 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
             // |||||||||||| OBSTACLES' IDS
             const obstaclesIDs = [
                 Block.DARK_BROWN_BLOCK,
-                // Block.DARK_BROWN_SLOPE_UPWARDS_1,
-                // Block.DARK_BROWN_SLOPE_UPWARDS_2,
-                // Block.DARK_BROWN_SLOPE_DOWNWARDS_1,
-                // Block.DARK_BROWN_SLOPE_DOWNWARDS_2,
-                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_1,
-                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_2,
-                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_1,
-                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_2,
                 Block.SPIKES_FLOOR,
                 Block.SPIKES_CEILING,        
                 Block.SPIKES_LEFTWARDS,
                 Block.SPIKES_RIGHTWARDS,
                 Block.GRAY_BLOCK,
-                Block.LAVA,
+                Block.LAVA_1,
                 Block.DARK_BROWN_SLOPE_UPWARDS,
                 Block.DARK_BROWN_SLOPE_DOWNWARDS,
+                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED,
+                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED,
             ];
         
             // |||||||||||| RESET COLLISION STATE
@@ -1350,7 +1316,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                     isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos4) {
-                        if (obstaclesIDs[i] === Block.LAVA) {
+                        if (obstaclesIDs[i] === Block.LAVA_1) {
                             fastWorm.collisions.isCollidingWithLava = true;
                         }
 
@@ -1426,7 +1392,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                         isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                         
                         if (isCollidingOnPos3) {
-                            if (obstaclesIDs[i] === Block.LAVA) {
+                            if (obstaclesIDs[i] === Block.LAVA_1) {
                                 fastWorm.collisions.isCollidingWithLava = true;
                             }
     
@@ -1471,7 +1437,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                     isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos3) {
-                        if (obstaclesIDs[i] === Block.LAVA) {
+                        if (obstaclesIDs[i] === Block.LAVA_1) {
                             fastWorm.collisions.isCollidingWithLava = true;
                         }
 
@@ -1547,7 +1513,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                         isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                         
                         if (isCollidingOnPos4) {
-                            if (obstaclesIDs[i] === Block.LAVA) {
+                            if (obstaclesIDs[i] === Block.LAVA_1) {
                                 fastWorm.collisions.isCollidingWithLava = true;
                             }
     
@@ -1593,7 +1559,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                         isCollidingOnPos4 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                         
                         if (isCollidingOnPos4) {
-                            if (obstaclesIDs[i] === Block.LAVA) {
+                            if (obstaclesIDs[i] === Block.LAVA_1) {
                                 fastWorm.collisions.isCollidingWithLava = true;
                             }
     
@@ -1632,7 +1598,7 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                         isCollidingOnPos3 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                         
                         if (isCollidingOnPos3) {
-                            if (obstaclesIDs[i] === Block.LAVA) {
+                            if (obstaclesIDs[i] === Block.LAVA_1) {
                                 fastWorm.collisions.isCollidingWithLava = true;
                             }
     
@@ -1663,8 +1629,6 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                     }
                 }
             }
-            
-            break;
         }
     }
 }
@@ -1724,8 +1688,6 @@ function detectCollisionBetweenAcidAndMapObstacles() {
                     acid.collisions.isCollidingWithObstacleOnTheBottom = true;
                 }
             }
-            
-            break;
         }
     }
 }
@@ -1746,8 +1708,6 @@ function detectCollisionBetweenHellBatHandToHandAndCanvasBoundaries() {
                 hellBatHandToHand.physics.vx = hellBatHandToHand.physics.vLimit;
                 hellBatHandToHand.collisions.isCollidingWithObstacleOnTheLeft = true;
             }
-
-            break;
         }
     }
 }
