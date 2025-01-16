@@ -44,6 +44,9 @@ export default function detectCollisions() {
 
     // |||||||||||| CALCULATE HELL BATS' (HAND TO HAND) COLLISION WITH THE CANVAS' BOUNDARIES
     detectCollisionBetweenHellBatHandToHandAndCanvasBoundaries();
+
+    // |||||||||||| CALCULATE POTIONS' COLLISION WITH THE MAP'S OBSTACLES
+    detectCollisionBetweenPotionAndMapObstacles();
 }
 
 function detectCollisionBetweenPlayerAndSprite(sprite) {
@@ -1679,14 +1682,7 @@ function detectCollisionBetweenAcidAndMapObstacles() {
             // |||||||||||| OBSTACLES' IDS
             const obstaclesIDs = [
                 Block.DARK_BROWN_BLOCK,
-                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_1,
-                Block.DARK_BROWN_SLOPE_DOWNWARDS_REVERSED_2,
-                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_1,
-                Block.DARK_BROWN_SLOPE_UPWARDS_REVERSED_2,
                 Block.SPIKES_FLOOR,
-                Block.SPIKES_CEILING,        
-                Block.SPIKES_LEFTWARDS,
-                Block.SPIKES_RIGHTWARDS,
                 Block.GRAY_BLOCK,
                 Block.DARK_BROWN_SLOPE_UPWARDS,
                 Block.DARK_BROWN_SLOPE_DOWNWARDS,
@@ -1752,6 +1748,122 @@ function detectCollisionBetweenHellBatHandToHandAndCanvasBoundaries() {
             }
 
             break;
+        }
+    }
+}
+
+function detectCollisionBetweenPotionAndMapObstacles() {
+    for (let i = 1; i < globals.screenSprites.length; i++) {
+        if ((globals.screenSprites[i].id === SpriteID.POTION_GREEN) || (globals.screenSprites[i].id === SpriteID.POTION_BLUE)) {
+            const potion = globals.screenSprites[i];
+
+            let xPos;
+            let yPos;
+            let isCollidingOnPos1;
+            let isCollidingOnPos2;
+
+            const brickSize = globals.level.imageSet.xGridSize;
+        
+            // |||||||||||| OBSTACLES' IDS
+            const obstaclesIDs = [
+                Block.DARK_BROWN_BLOCK,
+                Block.SPIKES_FLOOR,
+                Block.GRAY_BLOCK,
+                Block.DARK_BROWN_SLOPE_UPWARDS,
+                Block.DARK_BROWN_SLOPE_DOWNWARDS,
+            ];
+        
+            // |||||||||||| RESET COLLISION STATE
+            potion.collisions.isCollidingWithObstacleOnTheBottom   = false;
+        
+            // |||||||||||| COLLISIONS (2 POSSIBLE SPOTS)
+            // ----------------------
+            // ----------------------
+            // ----------------------
+            // ----------------------
+            // ----------------------
+            // ----------------------
+            // ----------------------
+            // 1--------------------2
+        
+            let overlapX;
+            let overlapY;
+
+            // |||||||||||| CALCULATE COLLISIONS ON THE 2 SPOTS
+
+            // |||||||| SPOT 1
+            xPos = potion.xPos + potion.hitBox.xOffset;
+            yPos = potion.yPos + potion.hitBox.yOffset + potion.hitBox.ySize - 1;
+            for (let i = 0; i < obstaclesIDs.length; i++) {
+                isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                
+                if (isCollidingOnPos1) {
+                    // |||| CALCULATE OVERLAP ON X & Y
+                    overlapX = brickSize - (Math.floor(xPos) % brickSize);
+                    overlapY = (Math.floor(yPos) % brickSize) + 1;
+    
+                    if (obstaclesIDs[i] === Block.DARK_BROWN_SLOPE_DOWNWARDS) {
+                        let overlapYToStopFalling = (Math.floor(xPos) % brickSize) + 1;
+                        
+                        if ((!potion.collisions.isCollidingWithObstacleOnTheBottom && (potion.physics.vy > 0) && (overlapY >= overlapYToStopFalling)) || potion.collisions.isCollidingWithObstacleOnTheBottom) {
+                            // |||| CALCULATE OVERLAP ON Y (1 - USED TO PUT THE SPRITE AGAINST THE BOTTOM SIDE OF THE SLOPE TILE)
+                            overlapY = brickSize - (Math.floor(yPos) % brickSize);
+                            
+                            potion.yPos += overlapY;
+                            
+                            // |||| CALCULATE OVERLAP ON Y (2 - USED TO ADEQUATELY POSITION THE SPRITE ON THE SLOPE TILE)
+                            overlapY = overlapX - 1;
+
+                            // |||| COLLISION ON Y AXIS
+                            potion.collisions.isCollidingWithObstacleOnTheBottom = true;
+                            potion.yPos -= overlapY;
+                            potion.physics.vy = 0;
+                        }
+                    } else {
+                        // |||| COLLISION ON Y AXIS
+                        potion.collisions.isCollidingWithObstacleOnTheBottom = true;
+                        potion.yPos -= overlapY;
+                        potion.physics.vy = 0;
+                    }
+                }
+            }
+
+            // |||||||| SPOT 2
+            xPos = potion.xPos + potion.hitBox.xOffset + potion.hitBox.xSize - 1;
+            yPos = potion.yPos + potion.hitBox.yOffset + potion.hitBox.ySize - 1;
+            for (let i = 0; i < obstaclesIDs.length; i++) {
+                isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                
+                if (isCollidingOnPos2) {
+                    // |||| CALCULATE OVERLAP ON X & Y
+                    overlapX = (Math.floor(xPos) % brickSize) + 1;
+                    overlapY = (Math.floor(yPos) % brickSize) + 1;
+    
+                    if (obstaclesIDs[i] === Block.DARK_BROWN_SLOPE_UPWARDS) {
+                        let overlapYToStopFalling = brickSize - (Math.floor(xPos) % brickSize);
+                        
+                        if ((!potion.collisions.isCollidingWithObstacleOnTheBottom && (potion.physics.vy > 0) && (overlapY >= overlapYToStopFalling)) || potion.collisions.isCollidingWithObstacleOnTheBottom) {
+                            // |||| CALCULATE OVERLAP ON Y (1 - USED TO PUT THE SPRITE AGAINST THE BOTTOM SIDE OF THE SLOPE TILE)
+                            overlapY = brickSize - (Math.floor(yPos) % brickSize);
+                            
+                            potion.yPos += overlapY;
+                            
+                            // |||| CALCULATE OVERLAP ON Y (2 - USED TO ADEQUATELY POSITION THE SPRITE ON THE SLOPE TILE)
+                            overlapY = overlapX - 1;
+                     
+                            // |||| COLLISION ON Y AXIS
+                            potion.collisions.isCollidingWithObstacleOnTheBottom = true;
+                            potion.yPos -= overlapY;
+                            potion.physics.vy = 0;
+                        }
+                    } else {
+                        // |||| COLLISION ON Y AXIS
+                        potion.collisions.isCollidingWithObstacleOnTheBottom = true;
+                        potion.yPos -= overlapY;
+                        potion.physics.vy = 0;
+                    }
+                }
+            }
         }
     }
 }

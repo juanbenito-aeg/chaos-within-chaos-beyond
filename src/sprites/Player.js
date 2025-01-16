@@ -9,7 +9,7 @@ export default class Player extends Character {
 
         this.isLeftwardsHandToHandAttackEffective   = false;
         this.isRightwardsHandToHandAttackEffective  = false;
-        this.rageLevel                              = 100; // RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
+        this.rageLevel                              = 0; // RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
     }
 
     readKeyboardAndAssignState() {
@@ -170,7 +170,7 @@ export default class Player extends Character {
 
                 this.isRightwardsHandToHandAttackEffective = ((this.state === State.RIGHT_ATTACK_HAND_TO_HAND) && ((sprite.xPos + sprite.hitBox.xOffset) >= (this.xPos + this.hitBox.xOffset + (this.hitBox.xSize / 2))));
 
-                if ((!this.isLeftwardsHandToHandAttackEffective || !this.isRightwardsHandToHandAttackEffective) && (this.afterAttackLeeway.value === 0)) {
+                if ((!this.isLeftwardsHandToHandAttackEffective && !this.isRightwardsHandToHandAttackEffective) && (this.afterAttackLeeway.value === 0)) {
                     this.lifePoints--;
                     this.afterAttackLeeway.value = 3;
                 }

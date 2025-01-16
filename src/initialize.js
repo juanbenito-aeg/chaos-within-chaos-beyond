@@ -488,31 +488,51 @@ function initHellBatHandToHand() {
     globals.screenSprites.push(hellBatHandToHand);
 }
 
-function initPotionGreen() {
+function initPotionGreen(xPos = -1, yPos = -1) {
+    if (xPos === -1) {
+        xPos = 306;
+    }
+
+    if (yPos === -1) {
+        yPos = 48;
+    }
+
     const imageSet = new ImageSet(748, 510, 28, 30, 34, 30, 0, 0, 14, 16);
 
     const frames = new Frames(1);
+
+    const physics = new Physics(-1);
 
     const hitBox = new HitBox(14, 16, 0, 0);
 
     const collisions = new Collisions();
 
-    const potionGreen = new Potion(SpriteID.POTION_GREEN, State.STILL, 306, 48, imageSet, frames, null, hitBox, collisions);
+    const potionGreen = new Potion(SpriteID.POTION_GREEN, State.STILL, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
 
     // |||||||||||| ADD POTION (GREEN) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(potionGreen);
 }
 
-function initPotionBlue() {
+function initPotionBlue(xPos = -1, yPos = -1) {
+    if (xPos === -1) {
+        xPos = 206;
+    }
+
+    if (yPos === -1) {
+        yPos = 48;
+    }
+
     const imageSet = new ImageSet(714, 510, 28, 30, 34, 30, 0, 0, 14, 16);
 
     const frames = new Frames(1);
+
+    const physics = new Physics(-1);
 
     const hitBox = new HitBox(14, 16, 0, 0);
 
     const collisions = new Collisions();
 
-    const potionBlue = new Potion(SpriteID.POTION_BLUE, State.STILL, 206, 48, imageSet, frames, null, hitBox, collisions);
+    const potionBlue = new Potion(SpriteID.POTION_BLUE, State.STILL, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
 
     // |||||||||||| ADD POTION (BLUE) TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(potionBlue);
@@ -650,4 +670,6 @@ export {
     initArrow,
     initAcid,
     initCamera,
+    initPotionGreen,
+    initPotionBlue,
 };
