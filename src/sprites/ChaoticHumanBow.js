@@ -4,8 +4,10 @@ import { State, GRAVITY } from "../constants.js";
 import { initArrow, initPotionGreen, initPotionBlue } from "../initialize.js";
 
 export default class ChaoticHumanBow extends Character {
-    constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway) {
+    constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, nextArrowShotDelay) {
         super(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
+    
+        this.nextArrowShotDelay = nextArrowShotDelay;   // TIMING OF THE DELAY BETWEEN SUCCESSIVE ARROW SHOTS
     }
 
     updatePhysics() {
@@ -21,20 +23,22 @@ export default class ChaoticHumanBow extends Character {
             this.yPos += this.physics.vy * globals.deltaTime;
         }
 
-        if (globals.nextArrowShotDelay.value === 0) {
+        if (this.nextArrowShotDelay.value === 0) {
             this.updateAnimationFrame();
 
-            if ((this.frames.frameChangeCounter === 5) && (this.frames.frameCounter === 2)) {
-                initArrow();
-                globals.nextArrowShotDelay.value = 5;
+            if (this.frames.frameCounter === 2) {
+                initArrow(this);
+                this.nextArrowShotDelay.value = 5;
+
+                this.frames.frameCounter = 0;
             }
         } else {
-            globals.nextArrowShotDelay.timeChangeCounter += globals.deltaTime;
+            this.nextArrowShotDelay.timeChangeCounter += globals.deltaTime;
         
-            if (globals.nextArrowShotDelay.timeChangeCounter > globals.nextArrowShotDelay.timeChangeValue) {
-                globals.nextArrowShotDelay.value--;
+            if (this.nextArrowShotDelay.timeChangeCounter >= this.nextArrowShotDelay.timeChangeValue) {
+                this.nextArrowShotDelay.value--;
         
-                globals.nextArrowShotDelay.timeChangeCounter = 0;
+                this.nextArrowShotDelay.timeChangeCounter = 0;
             }
         }
     }

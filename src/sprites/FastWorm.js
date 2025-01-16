@@ -13,8 +13,8 @@ export default class FastWorm extends Character {
 
         const Velocity = {
             LOW: 20,
-            INTERMEDIATE: 40,
-            HIGH: 60,
+            INTERMEDIATE: 35,
+            HIGH: 50,
         };
 
         const randomNumBetween1AndN = Math.floor(Math.random() * 25) + 1;

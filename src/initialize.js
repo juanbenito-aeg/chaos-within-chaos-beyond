@@ -58,8 +58,7 @@ function initVars() {
 function initTimers() {
     globals.nextOrbThrowDelay = new Timer(5, 1);
     globals.nextOrbThrowDelay.value = 0;
-    globals.nextArrowShotDelay = new Timer(5, 1);
-    globals.nextAcidDropDelay = new Timer(5, 1);
+    
     globals.nextRagePtUpDelay = new Timer(3, 1);
 }
 
@@ -146,12 +145,12 @@ function initSprites() {
     // |||||||||||| INITIALIZATION OF THE SCREEN SPRITES
     initPlayer();
     initChaoticHumanBow();
-    initChaoticHumanSword();
+    // initChaoticHumanSword();
     initFastWorm();
     initHellBatAcid();
-    initHellBatHandToHand();
+    // initHellBatHandToHand();
     initPotionGreen();
-    initPotionBlue();
+    // initPotionBlue();
 
     // |||||||||||| INITIALIZATION OF THE "GAME OVER" SCREEN SPRITES
     initSkull();
@@ -366,7 +365,7 @@ function initPlayer() {
 
     const afterAttackLeeway = new Timer(0, 1);
     
-    const player = new Player(SpriteID.PLAYER, State.RIGHT_STILL, 16, 220, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
+    const player = new Player(SpriteID.PLAYER, State.RIGHT_STILL, 18, 220, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
 
     // |||||||||||| ADD PLAYER TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(player);
@@ -378,13 +377,33 @@ function initChaoticHumanBow() {
     const chaoticHumanBowSpritesAttributes = [
         {
             state: State.LEFT_ATTACK_2,
-            xPos: 277,
-            yPos: 25,
+            xPos: 293,
+            yPos: 55,
         },
         {
             state: State.RIGHT_ATTACK_2,
             xPos: 112,
-            yPos: 320,
+            yPos: 328,
+        },
+        {
+            state: State.LEFT_ATTACK_2,
+            xPos: 773,
+            yPos: 343,
+        },
+        {
+            state: State.LEFT_ATTACK_2,
+            xPos: 1461,
+            yPos: 168,
+        },
+        {
+            state: State.LEFT_ATTACK_2,
+            xPos: 1637,
+            yPos: 530,
+        },
+        {
+            state: State.LEFT_ATTACK_2,
+            xPos: 2325,
+            yPos: 854,
         },
     ];
 
@@ -412,7 +431,9 @@ function initChaoticHumanBow() {
 
         const afterAttackLeeway = new Timer(0, 1);
 
-        const chaoticHumanBow = new ChaoticHumanBow(SpriteID.CHAOTIC_HUMAN_BOW, currentSpriteState, currentSpriteXPos, currentSpriteYPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
+        const nextArrowShotDelay = new Timer(5, 1);
+
+        const chaoticHumanBow = new ChaoticHumanBow(SpriteID.CHAOTIC_HUMAN_BOW, currentSpriteState, currentSpriteXPos, currentSpriteYPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, nextArrowShotDelay);
      
         // |||||||||||| ADD CHAOTIC HUMAN (BOW) TO ITS CORRESPONDING SPRITES ARRAY
         globals.screenSprites.push(chaoticHumanBow);
@@ -420,72 +441,184 @@ function initChaoticHumanBow() {
 }
 
 function initChaoticHumanSword() {
-    const imageSet = new ImageSet(576, 0, 56, 53, 64, 64, 3, 10, 44, 41);
+    // |||||||||||| CREATE ALL THE SPRITES FOR THE CAVE'S SECOND SECTION (LEVEL)
 
-    // |||||||||||| ANIMATION DATA CREATION: 9 (OR LESS IN THIS CASE) FRAMES PER STATE & ANIMATION SPEED
-    const frames = new Frames(9, 3);
+    const chaoticHumanSwordSpritesAttributes = [
+        {
+            state: State.LEFT_3,
+            xPos: 250,
+            yPos: 60,
+        },
+    ];
 
-    const physics = new Physics(20);
+    for (let i = 0; i < chaoticHumanSwordSpritesAttributes.length; i++) {
+        const currentSpriteState = chaoticHumanSwordSpritesAttributes[i].state;
+        
+        const currentSpriteXPos = chaoticHumanSwordSpritesAttributes[i].xPos;
+        const currentSpriteYPos = chaoticHumanSwordSpritesAttributes[i].yPos;
+        
+        const imageSet = new ImageSet(576, 0, 56, 53, 64, 64, 3, 10, 44, 41);
 
-    const hitBox = new HitBox(26, 40, 2, 1);
+        // |||||||||||| ANIMATION DATA CREATION: 9 (OR LESS IN THIS CASE) FRAMES PER STATE & ANIMATION SPEED
+        const frames = new Frames(9, 3);
 
-    const collisions = new Collisions();
+        const physics = new Physics(20);
 
-    const afterAttackLeeway = new Timer(0, 1);
+        const maxTimeToChangeDirection = 3
 
-    const chaoticHumanSword = new ChaoticHumanSword(SpriteID.CHAOTIC_HUMAN_SWORD, State.LEFT_3, 225, 21, imageSet, frames, physics, 3, hitBox, collisions, 2, afterAttackLeeway);
+        const hitBox = new HitBox(26, 40, 2, 1);
 
-    // |||||||||||| ADD CHAOTIC HUMAN (SWORD) TO ITS CORRESPONDING SPRITES ARRAY
-    globals.screenSprites.push(chaoticHumanSword);
+        const collisions = new Collisions();
+
+        const lifePoints = 2;
+
+        const afterAttackLeeway = new Timer(0, 1);
+
+        const chaoticHumanSword = new ChaoticHumanSword(SpriteID.CHAOTIC_HUMAN_SWORD, currentSpriteState, currentSpriteXPos, currentSpriteYPos, imageSet, frames, physics, maxTimeToChangeDirection, hitBox, collisions, lifePoints, afterAttackLeeway);
+     
+        // |||||||||||| ADD CHAOTIC HUMAN (SWORD) TO ITS CORRESPONDING SPRITES ARRAY
+        globals.screenSprites.push(chaoticHumanSword);
+    }
 }
 
 function initFastWorm() {
-    const imageSet = new ImageSet(896, 512, 43, 49, 64, 64, 12, 0, 27, 33);
+    // |||||||||||| CREATE ALL THE SPRITES FOR THE CAVE'S FIRST SECTION (LEVEL)
 
-    // |||||||||||| ANIMATION DATA CREATION: 6 FRAMES PER STATE & ANIMATION SPEED
-    const frames = new Frames(6, 4);
+    const fastWormSpritesAttributes = [
+        {
+            state: State.LEFT,
+            xPos: 396,
+            yPos: 180,
+        },
+        {
+            state: State.RIGHT,
+            xPos: 157,
+            yPos: 483,
+        },
+        {
+            state: State.RIGHT,
+            xPos: 2012,
+            yPos: 990,
+        },
+    ];
 
-    const physics = new Physics(20);
+    for (let i = 0; i < fastWormSpritesAttributes.length; i++) {
+        const currentSpriteState = fastWormSpritesAttributes[i].state;
+        
+        const currentSpriteXPos = fastWormSpritesAttributes[i].xPos;
+        const currentSpriteYPos = fastWormSpritesAttributes[i].yPos;
+        
+        const imageSet = new ImageSet(896, 512, 43, 49, 64, 64, 12, 0, 27, 33);
 
-    const hitBox = new HitBox(13, 28, 5, 3);
+        // |||||||||||| ANIMATION DATA CREATION: 6 FRAMES PER STATE & ANIMATION SPEED
+        const frames = new Frames(6, 4);
 
-    const collisions = new Collisions();
+        const physics = new Physics(20);
 
-    const afterAttackLeeway = new Timer(0, 1);
+        const hitBox = new HitBox(13, 28, 5, 3);
 
-    const fastWorm = new FastWorm(SpriteID.FAST_WORM, State.LEFT, 390, 129, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
+        const collisions = new Collisions();
 
-    // |||||||||||| ADD FAST WORM TO ITS CORRESPONDING SPRITES ARRAY
-    globals.screenSprites.push(fastWorm);
+        const lifePoints = 2;
+
+        const afterAttackLeeway = new Timer(0, 1);
+
+        const fastWorm = new FastWorm(SpriteID.FAST_WORM, currentSpriteState, currentSpriteXPos, currentSpriteYPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
+     
+        // |||||||||||| ADD FAST WORM TO ITS CORRESPONDING SPRITES ARRAY
+        globals.screenSprites.push(fastWorm);
+    }
 }
 
 function initHellBatAcid() {
-    const imageSet = new ImageSet(1952, 1180, 92, 90, 122, 118, 30, 28, 52, 50);
+    // |||||||||||| CREATE ALL THE SPRITES FOR THE CAVE'S FIRST SECTION (LEVEL)
 
-    // |||||||||||| ANIMATION DATA CREATION: 6 (OR LESS IN THIS CASE) FRAMES PER STATE & ANIMATION SPEED
-    const frames = new Frames(6, 7);
+    const hellBatAcidSpritesAttributes = [
+        {
+            omega: 1,
+            xRotCenter: 94,
+            yRotCenter: 59,
+            aRadius: 60,
+            bRadius: 20,
+        },
+        {
+            omega: 3,
+            xRotCenter: 502,
+            yRotCenter: 450,
+            aRadius: 20,
+            bRadius: 10,
+        },
+        {
+            omega: 1,
+            xRotCenter: 998,
+            yRotCenter: 50,
+            aRadius: 60,
+            bRadius: 10,
+        },
+        {
+            omega: 1.5,
+            xRotCenter: 1300,
+            yRotCenter: 80,
+            aRadius: 110,
+            bRadius: 40,
+        },
+        {
+            omega: 1.25,
+            xRotCenter: 1734,
+            yRotCenter: 325,
+            aRadius: 50,
+            bRadius: 30,
+        },
+        {
+            omega: 1.25,
+            xRotCenter: 2183,
+            yRotCenter: 800,
+            aRadius: 95,
+            bRadius: 40,
+        },
+        {
+            omega: 1.75,
+            xRotCenter: 2286,
+            yRotCenter: 260,
+            aRadius: 41,
+            bRadius: 10,
+        },
+    ];
 
-    // |||||||||||| INITIAL VALUES FOR "Physics"
-    const omega = 1;
-    const initAngle = 90 * Math.PI / 180;
-    const xRotCenter = 65;
-    const yRotCenter = 30;
+    for (let i = 0; i < hellBatAcidSpritesAttributes.length; i++) {        
+        const imageSet = new ImageSet(1952, 1180, 92, 90, 122, 118, 30, 28, 52, 50);
 
-    const physics = new Physics(60, 0, 1, 0, omega, initAngle, xRotCenter, yRotCenter);
+        // |||||||||||| ANIMATION DATA CREATION: 6 (OR LESS IN THIS CASE) FRAMES PER STATE & ANIMATION SPEED
+        const frames = new Frames(6, 7);
 
-    const hitBox = new HitBox(34, 27, 1, 12);
+        // |||||||||||| INITIAL VALUES FOR "Physics"
+        const initAngle = 90 * Math.PI / 180;
+        const currentSpriteOmega = hellBatAcidSpritesAttributes[i].omega;
+        const currentSpriteXRotCenter = hellBatAcidSpritesAttributes[i].xRotCenter;
+        const currentSpriteYRotCenter = hellBatAcidSpritesAttributes[i].yRotCenter;
+        const currentSpriteARadius = hellBatAcidSpritesAttributes[i].aRadius;
+        const currentSpriteBRadius = hellBatAcidSpritesAttributes[i].bRadius;
 
-    const collisions = new Collisions();
+        const physics = new Physics(60, 0, 1, 0, currentSpriteOmega, initAngle, currentSpriteXRotCenter, currentSpriteYRotCenter, 0, currentSpriteARadius, currentSpriteBRadius);
 
-    const afterAttackLeeway = new Timer(0, 1);
+        const hitBox = new HitBox(34, 27, 1, 12);
 
-    const hellBatAcid = new HellBatAcid(SpriteID.HELL_BAT_ACID, State.DOWN, 0, 0, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
+        const collisions = new Collisions();
 
-    // |||||||||||| POSITION THE SPRITE
-    hellBatAcid.setPosition();
+        const lifePoints = 2;
 
-    // |||||||||||| ADD HELL BAT (ACID) TO ITS CORRESPONDING SPRITES ARRAY
-    globals.screenSprites.push(hellBatAcid);
+        const afterAttackLeeway = new Timer(0, 1);
+
+        const nextAcidDropDelay = new Timer(5, 1);
+
+        const hellBatAcid = new HellBatAcid(SpriteID.HELL_BAT_ACID, State.DOWN, -1, -1, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, nextAcidDropDelay);
+    
+        // |||||||||||| POSITION THE SPRITE
+        hellBatAcid.setPosition();
+
+        // |||||||||||| ADD HELL BAT (ACID) TO ITS CORRESPONDING SPRITES ARRAY
+        globals.screenSprites.push(hellBatAcid);
+    }
 }
 
 function initHellBatHandToHand() {
@@ -516,38 +649,66 @@ function initHellBatHandToHand() {
 }
 
 function initPotionGreen(xPos = -1, yPos = -1) {
-    if (xPos === -1) {
-        xPos = 306;
+    let numOfSpritesToCreate;
+    
+    const potionGreenSpritesAttributes = [
+        {
+            xPos: 337,
+            yPos: 80,
+        },
+        {
+            xPos: 209,
+            yPos: 435,
+        },
+        {
+            xPos: 689,
+            yPos: 80,
+        },
+        {
+            xPos: 2337,
+            yPos: 977,
+        },
+        {
+            xPos: 2337,
+            yPos: 675,
+        },
+    ];
+
+    if ((xPos === -1) && (yPos === -1)) {
+        numOfSpritesToCreate = potionGreenSpritesAttributes.length;
+    } else {
+        numOfSpritesToCreate = 1;
     }
 
-    if (yPos === -1) {
-        yPos = 48;
+    for (let i = 0; i < numOfSpritesToCreate; i++) {        
+        const currentSpriteXPos = potionGreenSpritesAttributes[i].xPos;
+        const currentSpriteYPos = potionGreenSpritesAttributes[i].yPos;
+        
+        const imageSet = new ImageSet(748, 510, 28, 30, 34, 30, 0, 0, 14, 16);
+
+        const frames = new Frames(1);
+
+        const physics = new Physics(-1);
+
+        const hitBox = new HitBox(14, 16, 0, 0);
+
+        const collisions = new Collisions();
+
+        const potionGreen = new Potion(SpriteID.POTION_GREEN, State.STILL, currentSpriteXPos, currentSpriteYPos, imageSet, frames, physics, hitBox, collisions);
+     
+        // |||||||||||| ADD POTION (GREEN) TO ITS CORRESPONDING SPRITES ARRAY
+        globals.screenSprites.push(potionGreen);
     }
-
-    const imageSet = new ImageSet(748, 510, 28, 30, 34, 30, 0, 0, 14, 16);
-
-    const frames = new Frames(1);
-
-    const physics = new Physics(-1);
-
-    const hitBox = new HitBox(14, 16, 0, 0);
-
-    const collisions = new Collisions();
-
-    const potionGreen = new Potion(SpriteID.POTION_GREEN, State.STILL, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
-
-    // |||||||||||| ADD POTION (GREEN) TO ITS CORRESPONDING SPRITES ARRAY
-    globals.screenSprites.push(potionGreen);
 }
 
 function initPotionBlue(xPos = -1, yPos = -1) {
-    if (xPos === -1) {
-        xPos = 206;
-    }
+    // if (xPos === -1) {
+    //     xPos = 209;
+    // }
 
-    if (yPos === -1) {
-        yPos = 48;
-    }
+    // if (yPos === -1) {
+    //     yPos = 80;
+    // }
 
     const imageSet = new ImageSet(714, 510, 28, 30, 34, 30, 0, 0, 14, 16);
 
@@ -598,75 +759,63 @@ function initMagicalOrb() {
     globals.screenSprites.push(magicalOrb);
 }
 
-function initArrow() {
-    for (let i = 1; i < globals.screenSprites.length; i++) {
-        if (globals.screenSprites[i].id === SpriteID.CHAOTIC_HUMAN_BOW) {
-            const chaoticHumanBow = globals.screenSprites[i];
-            
-            let state;
-        
-            let xPos;
-            let yPos = chaoticHumanBow.yPos + (chaoticHumanBow.imageSet.yDestinationSize / 3.75);
-            
-            let vLimit;
-        
-            if (chaoticHumanBow.state === State.LEFT_ATTACK_2) {
-                state = State.LEFT_4;
-                xPos = chaoticHumanBow.xPos;
-                vLimit = -210;
-            } else {
-                state = State.RIGHT_4;
-                xPos = chaoticHumanBow.xPos + chaoticHumanBow.imageSet.xDestinationSize;
-                vLimit = 210;
-            }
-        
-            const imageSet = new ImageSet(580, 555, 16, 7, 20, 15, 0, 0, 16, 7);
-        
-            // |||||||||||| ANIMATION DATA CREATION: 1 FRAME PER STATE & ANIMATION SPEED
-            const frames = new Frames(1, 1);
-        
-            const physics = new Physics(vLimit);
-            physics.vx = vLimit;
-        
-            const hitBox = new HitBox(16, 7, 0, 0);
-        
-            const collisions = new Collisions();
-        
-            const arrow = new Arrow(SpriteID.ARROW, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
-        
-            // |||||||||||| ADD ARROW TO ITS CORRESPONDING SPRITES ARRAY
-            globals.screenSprites.push(arrow);
-        }
+function initArrow(chaoticHumanBow) {
+    let state;
+
+    let xPos;
+    let yPos = chaoticHumanBow.yPos + (chaoticHumanBow.imageSet.yDestinationSize / 3.75);
+    
+    let vLimit;
+
+    if (chaoticHumanBow.state === State.LEFT_ATTACK_2) {
+        state = State.LEFT_4;
+        xPos = chaoticHumanBow.xPos;
+        vLimit = -210;
+    } else {
+        state = State.RIGHT_4;
+        xPos = chaoticHumanBow.xPos + chaoticHumanBow.imageSet.xDestinationSize;
+        vLimit = 210;
     }
+
+    const imageSet = new ImageSet(580, 555, 16, 7, 20, 15, 0, 0, 16, 7);
+
+    // |||||||||||| ANIMATION DATA CREATION: 1 FRAME PER STATE & ANIMATION SPEED
+    const frames = new Frames(1, 1);
+
+    const physics = new Physics(vLimit);
+    physics.vx = vLimit;
+
+    const hitBox = new HitBox(16, 7, 0, 0);
+
+    const collisions = new Collisions();
+
+    const arrow = new Arrow(SpriteID.ARROW, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
+
+    // |||||||||||| ADD ARROW TO ITS CORRESPONDING SPRITES ARRAY
+    globals.screenSprites.push(arrow);
 }
 
-function initAcid() {
-    for (let i = 1; i < globals.screenSprites.length; i++) {
-        if (globals.screenSprites[i].id === SpriteID.HELL_BAT_ACID) {
-            const hellBatAcid = globals.screenSprites[i];
-            
-            const xPos = hellBatAcid.xPos + (hellBatAcid.imageSet.xDestinationSize / 3.35);
-            const yPos = hellBatAcid.yPos + (hellBatAcid.imageSet.yDestinationSize / 2.5);
-            
-            const vLimit = 180;
-        
-            const imageSet = new ImageSet(570, 440, 19, 35, 30, 40, 7, 2, 4, 20);
-        
-            const frames = new Frames(4, 3);
-        
-            const physics = new Physics(vLimit);
-            physics.vy = vLimit;
-        
-            const hitBox = new HitBox(4, 20, 0, 0);
-        
-            const collisions = new Collisions();
-        
-            const acid = new Acid(SpriteID.ACID, State.STILL, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
-        
-            // |||||||||||| ADD ACID TO ITS CORRESPONDING SPRITES ARRAY
-            globals.screenSprites.push(acid);
-        }
-    }
+function initAcid(hellBatAcid) {    
+    const xPos = hellBatAcid.xPos + (hellBatAcid.imageSet.xDestinationSize / 3.35);
+    const yPos = hellBatAcid.yPos + (hellBatAcid.imageSet.yDestinationSize / 2.5);
+    
+    const vLimit = 180;
+
+    const imageSet = new ImageSet(570, 440, 19, 35, 30, 40, 7, 2, 4, 20);
+
+    const frames = new Frames(4, 3);
+
+    const physics = new Physics(vLimit);
+    physics.vy = vLimit;
+
+    const hitBox = new HitBox(4, 20, 0, 0);
+
+    const collisions = new Collisions();
+
+    const acid = new Acid(SpriteID.ACID, State.STILL, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
+
+    // |||||||||||| ADD ACID TO ITS CORRESPONDING SPRITES ARRAY
+    globals.screenSprites.push(acid);
 }
 
 function initSkull() {

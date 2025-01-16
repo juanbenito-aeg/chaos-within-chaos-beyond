@@ -1845,9 +1845,15 @@ function isCollidingWithObstacleAt(xPos, yPos, obstacleID) {
 function getMapTileID(xPos, yPos) {
     const brickSize = globals.level.imageSet.xGridSize;
     const levelData = globals.level.data;
+    const levelNumOfRows = levelData.length;
+    const levelNumOfCols = levelData[0].length;
 
-    const fil = Math.floor(yPos / brickSize);
+    const row = Math.floor(yPos / brickSize);
     const col = Math.floor(xPos / brickSize);
 
-    return levelData[fil][col];
+    if ((row < levelNumOfRows) && (col < levelNumOfCols)) {
+        return levelData[row][col];
+    } else {
+        return 0;
+    }
 }

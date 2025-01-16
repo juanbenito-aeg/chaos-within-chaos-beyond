@@ -61,12 +61,6 @@ export default {
 
     // |||||||||||| TIMING OF THE DELAY BETWEEN SUCCESSIVE MAGICAL ORB THROWS
     nextOrbThrowDelay: {},
-    
-    // |||||||||||| TIMING OF THE DELAY BETWEEN SUCCESSIVE ARROW SHOTS
-    nextArrowShotDelay: {},
-    
-    // |||||||||||| TIMING OF THE DELAY BETWEEN SUCCESSIVE ACID DROPS
-    nextAcidDropDelay: {},
 
     nextRagePtUpDelay: {},
 };
