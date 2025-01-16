@@ -366,30 +366,57 @@ function initPlayer() {
 
     const afterAttackLeeway = new Timer(0, 1);
     
-    const player = new Player(SpriteID.PLAYER, State.RIGHT_STILL, 40, 184, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
+    const player = new Player(SpriteID.PLAYER, State.RIGHT_STILL, 16, 220, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
 
     // |||||||||||| ADD PLAYER TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(player);
 }
 
 function initChaoticHumanBow() {
-    const imageSet = new ImageSet(1151, 0, 48, 64, 64, 63, 4, 0, 30, 46);
+    // |||||||||||| CREATE ALL THE SPRITES FOR THE CAVE'S FIRST SECTION (LEVEL)
 
-    // |||||||||||| ANIMATION DATA CREATION: 3 FRAMES PER STATE & ANIMATION SPEED
-    const frames = new Frames(3, 6);
+    const chaoticHumanBowSpritesAttributes = [
+        {
+            state: State.LEFT_ATTACK_2,
+            xPos: 277,
+            yPos: 25,
+        },
+        {
+            state: State.RIGHT_ATTACK_2,
+            xPos: 112,
+            yPos: 320,
+        },
+    ];
 
-    const physics = new Physics(-1);
+    for (let i = 0; i < chaoticHumanBowSpritesAttributes.length; i++) {
+        const currentSpriteState = chaoticHumanBowSpritesAttributes[i].state;
+        
+        const currentSpriteXPos = chaoticHumanBowSpritesAttributes[i].xPos;
+        const currentSpriteYPos = chaoticHumanBowSpritesAttributes[i].yPos;
+        
+        const imageSet = new ImageSet(1152, 0, 48, 64, 64, 63, 4, 0, 30, 46);
 
-    const hitBox = new HitBox(8, 36, 15, 5);
+        // |||||||||||| ANIMATION DATA CREATION: 3 FRAMES PER STATE & ANIMATION SPEED
+        const frames = new Frames(3, 6);
 
-    const collisions = new Collisions();
+        const physics = new Physics(-1);
 
-    const afterAttackLeeway = new Timer(0, 1);
+        const hitBox = new HitBox(8, 36, 15, 5);
+        if (currentSpriteState === State.RIGHT_ATTACK_2) {
+            hitBox.xOffset = 13;
+        }
 
-    const chaoticHumanBow = new ChaoticHumanBow(SpriteID.CHAOTIC_HUMAN_BOW, State.LEFT_ATTACK_2, 275, 23, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
+        const collisions = new Collisions();
 
-    // |||||||||||| ADD CHAOTIC HUMAN (BOW) TO ITS CORRESPONDING SPRITES ARRAY
-    globals.screenSprites.push(chaoticHumanBow);
+        const lifePoints = 2;
+
+        const afterAttackLeeway = new Timer(0, 1);
+
+        const chaoticHumanBow = new ChaoticHumanBow(SpriteID.CHAOTIC_HUMAN_BOW, currentSpriteState, currentSpriteXPos, currentSpriteYPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
+     
+        // |||||||||||| ADD CHAOTIC HUMAN (BOW) TO ITS CORRESPONDING SPRITES ARRAY
+        globals.screenSprites.push(chaoticHumanBow);
+    }
 }
 
 function initChaoticHumanSword() {
@@ -609,8 +636,6 @@ function initArrow() {
         
             // |||||||||||| ADD ARROW TO ITS CORRESPONDING SPRITES ARRAY
             globals.screenSprites.push(arrow);
-
-            break;
         }
     }
 }
@@ -640,8 +665,6 @@ function initAcid() {
         
             // |||||||||||| ADD ACID TO ITS CORRESPONDING SPRITES ARRAY
             globals.screenSprites.push(acid);
-
-            break;
         }
     }
 }

@@ -99,14 +99,8 @@ const State = {
     RIGHT_JUMP: 16,
 
     // |||||||| CHAOTIC HUMAN (BOW)
-    DOWN_2: 0,
-    DOWN_ATTACK_2: 1,
-    LEFT_2: 2,
-    LEFT_ATTACK_2: 3,
-    RIGHT_2: 4,
-    RIGHT_ATTACK_2: 5,
-    UP_2: 6,
-    UP_ATTACK_2: 7,
+    LEFT_ATTACK_2: 0,
+    RIGHT_ATTACK_2: 1,
 
     // |||||||| CHAOTIC HUMAN (SWORD | 1), HELL BAT (HAND-TO-HAND)
     DOWN_3: 0,
