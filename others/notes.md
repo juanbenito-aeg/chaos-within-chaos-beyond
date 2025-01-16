@@ -1,5 +1,5 @@
 - TODOS:
     - Si las particulas hechas mediante el contexto del canvas ralentizan bastante el juego, hacer sprites que representen particulas individuales y dibujarlas como imagenes
-    - Cuando el personaje sea atacado, pasará a un estado DAMAGE, en el que parpadeará por unos segundos para indicar que no puede ser atacado
     - Buscar background img para cave sect 2 y hacer mapa para el nivel
+    - Modificar initHellBatHandToHand, al igual que el resto de las funciones init de los sprites de los niveles
     - Refactorizar clases haciendo una de Enemy (¿?)
