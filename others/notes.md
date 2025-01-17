@@ -1,5 +1,35 @@
 - TODOS:
-    - Si las particulas hechas mediante el contexto del canvas ralentizan bastante el juego, hacer sprites que representen particulas individuales y dibujarlas como imagenes
-    - Buscar background img para cave sect 2 y hacer mapa para el nivel
-    - Modificar initHellBatHandToHand, al igual que el resto de las funciones init de los sprites de los niveles
-    - Refactorizar clases haciendo una de Enemy (¿?)
+    - Ajustes Sprint 6:
+        - QUITAR BLOQUEO DE ATAQUES CUERPO A CUERPO Y A DISTANCIA DE X.G CUANDO IRA SOBREPASA CIERTO LÍMITE
+        - AUMENTAR VELOCIDAD BLINK DE SPRITES AL SER ATACADOS
+        - AUMENTAR SALTO Y VELOCIDAD HORIZONTAL DE X.G
+        - AJUSTAR SPAWN DE X.G
+            - AL INICIO DE LA PARTIDA, COLOCARLO ENCIMA DE LOS DOS BLOQUES GRISES PARA QUE NO SE VEA EL PISO INFERIOR
+            - COLOCAR CIERTOS CHECKPOINTS (QUE MUESTREN EFECTOS VISUALES AL ALCANZARLOS, COMO BRILLOS SOBRE EL PERSONAJE) EN LOS QUE COLOCAR AL PERSONAJE CUANDO CAIGA SOBRE LAVA. TRAS APARECER EN UN CHECKPOINT, TAMBIÉN QUITAR UN PUNTO DE VIDA.
+        - A PARTIR DE IRA 50: DISPARA ORBES AUTOMATICAMENTE DE MANERA ALEATORIA O CADA "X" SEGUNDOS (AUMENTAR TAMBIÉN IRA ¿?¿?¿?¿?¿?) Y AL LANZAR ORBES MANUALMENTE AUMENTAR UN POCO IRA
+        - CUANDO IRA 100: EL JUGADOR NO PUEDE DISPARAR ORBES Y X.G DISPARA AUTOMATICAMENTE
+        - POCION VERDE (VIDA E IRA)
+            - CUANDO IRA MUY ELEVADA -> MAS PROBABLE QUE TE LA SUELTEN LOS ENEMIGOS
+            - CUANDO IRA INTERMEDIA -> MENOS PROBABLE Y POCION AZUL MAS PROBABLE
+            - CUANDO IRA BAJA -> NO APARECEN AL MATAR ENEMIGOS
+        - POCION AZUL (VIDA)
+            - CUANDO VIDA MUY ALTA -> POCA PROBABILIDAD
+            - CUANDO VIDA BAJA -> ALTA PROBABILIDAD
+            - CUANDO IRA ALTA Y VIDA BAJA -> MÁS PROBABLE QUE VERDE
+        - ECUACIÓN TIEMPO DE DESVANECIMIENTO PARTICULAS DE SIMBOLO DE IRA:
+            - TIEMPO DE DESVANECIMIENTO = ((-(4 - 0.7) * IRA)/100) + 4
+                - EN IRA = 0 -> DESVANECIMIENTO EN 4 SEGUNDOS
+                - EN IRA = 100 -> DESVANECIMIENTO EN 0.7 SEGUNDOS
+        - CUANDO IRA LLEGA A 100 EMPEZAR A DISMINUIR VIDA (REDUCIR PUNTOS DE VIDA CON NUMEROS DECIMALES CADA "X" SEGUNDOS, P. EJ.: -0.1)
+
+    - sprint 7:
+        - guardar high scores como variable fake, y si el score actual la supera, mostrarla actualizada tanto en estado PLAYING como en pantalla de high scores
+        - mostrar timer para demo en playing
+        - crear particulas para cuando los enemigos mueran
+        - crear particulas para lava, que suban hacia arriba
+
+    - Otros:
+        - Make recently killed enemies reappear near the player after a random number of seconds
+        - Buscar background img para cave sect 2 y hacer mapa para el nivel
+        - Modificar initHellBatHandToHand, al igual que el resto de las funciones init de los sprites de los niveles
+        - Refactorizar clases haciendo una de Enemy (¿?)
