@@ -17,8 +17,9 @@ import Collisions from "./Collisions.js";
 import Timer from "./Timer.js";
 import Camera from "./Camera.js";
 import globals from "./globals.js";
+import { RageSymbolParticle } from "./Particle.js";
 import { Level, level1 } from "./Level.js";
-import { Game, FPS, SpriteID, State } from "./constants.js";
+import { Game, FPS, SpriteID, State, ParticleID, ParticleState } from "./constants.js";
 import { keydownHandler, keyupHandler } from "./events.js";
 
 // |||||||||||| INITIALIZES THE HTML ELEMENTS
@@ -680,9 +681,17 @@ function initPotionGreen(xPos = -1, yPos = -1) {
         numOfSpritesToCreate = 1;
     }
 
-    for (let i = 0; i < numOfSpritesToCreate; i++) {        
-        const currentSpriteXPos = potionGreenSpritesAttributes[i].xPos;
-        const currentSpriteYPos = potionGreenSpritesAttributes[i].yPos;
+    for (let i = 0; i < numOfSpritesToCreate; i++) {
+        let currentSpriteXPos;
+        let currentSpriteYPos;
+
+        if (numOfSpritesToCreate !== 1) {
+            currentSpriteXPos = potionGreenSpritesAttributes[i].xPos;
+            currentSpriteYPos = potionGreenSpritesAttributes[i].yPos;
+        } else {
+            currentSpriteXPos = xPos;
+            currentSpriteYPos = yPos;
+        }
         
         const imageSet = new ImageSet(748, 510, 28, 30, 34, 30, 0, 0, 14, 16);
 
@@ -829,6 +838,34 @@ function initSkull() {
     globals.gameOverSprite = skull;
 }
 
+function initParticles() {
+    initRageSymbolParticles();
+}
+
+function initRageSymbolParticles() {
+    const numOfParticles = 10;
+    const xInit = 295.1;
+    const yInit = 43.4;
+    const alpha = 1.0;
+    const spikes = 20;
+    const outerRadius = 3;
+    const innerRadius = 1.5;
+    const timeToFade = 2.5;
+    let angle = Math.PI * 2;
+
+    for (let i = 0; i < numOfParticles; i++) {
+        const physics = new Physics(5);
+
+        const particle = new RageSymbolParticle(ParticleID.RAGE_SYMBOL, ParticleState.ON, xInit, yInit, physics, alpha, spikes, outerRadius, innerRadius, timeToFade, angle);
+
+        particle.physics.vx = particle.physics.vLimit * Math.cos(particle.angle);
+        particle.physics.vy = particle.physics.vLimit * Math.sin(particle.angle);
+        angle += 0.625;
+
+        globals.particles.push(particle);
+    }
+}
+
 // |||||||||||| EXPORTS
 export {
     initHTMLElements,
@@ -844,4 +881,6 @@ export {
     initCamera,
     initPotionGreen,
     initPotionBlue,
+    initParticles,
+    initRageSymbolParticles,
 };

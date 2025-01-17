@@ -1,6 +1,6 @@
 import Character from "./sprites/Character.js";
 import globals from "./globals.js";
-import { Game, SpriteID, Tile } from "./constants.js";
+import { Game, Tile, SpriteID, ParticleID, ParticleState } from "./constants.js";
 
 // |||||||||||| RENDERS THE GRAPHICS
 export default function render() {
@@ -450,6 +450,7 @@ function drawGame() {
     renderMap();
     renderHUD();
     renderScreenSprites();
+    renderParticles()
     restoreCamera();
 }
 
@@ -701,6 +702,53 @@ function drawHitBox(sprite) {
     }
 
     globals.ctx.strokeRect(x1, y1, w1, h1);
+}
+
+function renderParticles() {
+    for (let i = 0; i < globals.particles.length; i++) {
+        const particle = globals.particles[i];
+        renderParticle(particle);
+    }
+}
+
+function renderParticle(particle) {
+    const type = particle.id;
+
+    switch (type) {
+        case ParticleID.RAGE_SYMBOL:
+            renderRageSymbolParticle(particle);
+            break;
+    }
+}
+
+function renderRageSymbolParticle(particle) {
+    if (particle.state !== ParticleState.OFF) {
+        let x;
+        let y;
+        let rotation = (Math.PI / 2) * 3;
+        const step = Math.PI / particle.spikes;
+        
+        globals.ctxHUD.beginPath();
+        globals.ctxHUD.moveTo(particle.xPos, particle.yPos - particle.outerRadius);
+        for (let i = 0; i < particle.spikes; i++) {
+            x = particle.xPos + (Math.cos(rotation) * particle.outerRadius);
+            y = particle.yPos + (Math.sin(rotation) * particle.outerRadius);
+            globals.ctxHUD.lineTo(x, y);
+            rotation += step;
+            
+            x = particle.xPos + (Math.cos(rotation) * particle.innerRadius);
+            y = particle.yPos + (Math.sin(rotation) * particle.innerRadius);
+            globals.ctxHUD.lineTo(x, y);
+            rotation += step;
+        }
+        
+        globals.ctxHUD.lineTo(particle.xPos, particle.yPos - particle.outerRadius);
+        globals.ctxHUD.closePath();
+        globals.ctxHUD.globalAlpha = particle.alpha;
+        globals.ctxHUD.fillStyle = "rgb(238 65 52 / 0.85)";
+        globals.ctxHUD.fill();
+        globals.ctxHUD.globalAlpha = 1.0;
+    }
 }
 
 function drawGameOver() {

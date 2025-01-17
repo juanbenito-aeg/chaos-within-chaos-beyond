@@ -63,4 +63,7 @@ export default {
     nextOrbThrowDelay: {},
 
     nextRagePtUpDelay: {},
+
+    // |||||||||||| ARRAY OF PARTICLES
+    particles: [],
 };

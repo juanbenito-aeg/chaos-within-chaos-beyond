@@ -140,5 +140,28 @@ const Key = {
 // |||||||||||| ACCELERATION
 const GRAVITY = 150;
 
+// |||||||||||| PARTICLE TYPE IDENTIFIER (ID)
+const ParticleID = {
+    RAGE_SYMBOL: 0,
+};
+
+// |||||||||||| PARTICLE STATE IDENTIFIER
+const ParticleState = {
+    ON: 0,
+    FADE: 1,
+    OFF: -1,
+};
+
 // |||||||||||| EXPORTS
-export { Game, FPS, SpriteID, State, Tile, Block, Key, GRAVITY };
+export {
+    Game,
+    FPS,
+    SpriteID,
+    State,
+    Tile,
+    Block,
+    Key,
+    GRAVITY,
+    ParticleID,
+    ParticleState,
+};
