@@ -353,9 +353,9 @@ function initPlayer() {
     const imageSet = new ImageSet(2048, 0, 59, 62, 64, 64, 3, 2, 43, 46);
 
     // |||||||||||| ANIMATION DATA CREATION: 9 (OR LESS IN THIS CASE) FRAMES PER STATE & ANIMATION SPEED
-    const frames = new Frames(9, 4);
+    const frames = new Frames(9, 3);
 
-    const physics = new Physics(40, 0, 1, -140);
+    const physics = new Physics(55, 0, 1, -145);
 
     const hitBox = new HitBox(12, 34, 16, 5);
 
@@ -366,7 +366,7 @@ function initPlayer() {
 
     const afterAttackLeeway = new Timer(0, 1);
     
-    const player = new Player(SpriteID.PLAYER, State.RIGHT_STILL, 18, 220, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
+    const player = new Player(SpriteID.PLAYER, State.RIGHT_STILL, 18, 155, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
 
     // |||||||||||| ADD PLAYER TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(player);

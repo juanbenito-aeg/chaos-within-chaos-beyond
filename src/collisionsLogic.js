@@ -1647,6 +1647,8 @@ function detectCollisionBetweenAcidAndMapObstacles() {
             const obstaclesIDs = [
                 Block.DARK_BROWN_BLOCK,
                 Block.SPIKES_FLOOR,
+                Block.SPIKES_LEFTWARDS,
+                Block.SPIKES_RIGHTWARDS,
                 Block.GRAY_BLOCK,
                 Block.DARK_BROWN_SLOPE_UPWARDS,
                 Block.DARK_BROWN_SLOPE_DOWNWARDS,
@@ -1728,6 +1730,8 @@ function detectCollisionBetweenPotionAndMapObstacles() {
             const obstaclesIDs = [
                 Block.DARK_BROWN_BLOCK,
                 Block.SPIKES_FLOOR,
+                Block.SPIKES_LEFTWARDS,
+                Block.SPIKES_RIGHTWARDS,
                 Block.GRAY_BLOCK,
                 Block.DARK_BROWN_SLOPE_UPWARDS,
                 Block.DARK_BROWN_SLOPE_DOWNWARDS,
