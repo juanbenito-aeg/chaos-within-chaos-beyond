@@ -837,22 +837,24 @@ function initParticles() {
 
 function initRageSymbolParticles() {
     const numOfParticles = 10;
-    const xInit = 295.1;
-    const yInit = 43.4;
+    const xInit = 296;
+    const yInit = 43;
+    const vLimit = 6;
     const alpha = 1.0;
     const spikes = 20;
     const outerRadius = 3;
     const innerRadius = 1.5;
-    const timeToFade = 2.5;
+    const timeToFade = 2.25;
     let angle = Math.PI * 2;
 
     for (let i = 0; i < numOfParticles; i++) {
-        const physics = new Physics(5);
+        const physics = new Physics(vLimit);
 
-        const particle = new RageSymbolParticle(ParticleID.RAGE_SYMBOL, ParticleState.ON, xInit, yInit, physics, alpha, spikes, outerRadius, innerRadius, timeToFade, angle);
+        const particle = new RageSymbolParticle(ParticleID.RAGE_SYMBOL, ParticleState.ON, xInit, yInit, physics, alpha, spikes, outerRadius, innerRadius, timeToFade);
 
-        particle.physics.vx = particle.physics.vLimit * Math.cos(particle.angle);
-        particle.physics.vy = particle.physics.vLimit * Math.sin(particle.angle);
+        particle.physics.vx = particle.physics.vLimit * Math.cos(angle);
+        particle.physics.vy = particle.physics.vLimit * Math.sin(angle);
+        
         angle += 0.625;
 
         globals.particles.push(particle);

@@ -61,4 +61,6 @@ export default {
 
     // |||||||||||| ARRAY OF PARTICLES
     particles: [],
+
+    numOfRageSymbolParticlesOFF: 0,
 };

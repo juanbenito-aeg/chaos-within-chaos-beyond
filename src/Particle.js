@@ -10,7 +10,7 @@ class Particle {
 }
 
 class RageSymbolParticle extends Particle {
-    constructor(id, state, xPos, yPos, physics, alpha, spikes, outerRadius, innerRadius, timeToFade, angle) {
+    constructor(id, state, xPos, yPos, physics, alpha, spikes, outerRadius, innerRadius, timeToFade) {
         super(id, state, xPos, yPos, physics, alpha);
 
         this.spikes         = spikes;
@@ -18,7 +18,6 @@ class RageSymbolParticle extends Particle {
         this.innerRadius    = innerRadius;
         this.fadeCounter    = 0;
         this.timeToFade     = timeToFade;
-        this.angle          = angle;
     }
 }
 

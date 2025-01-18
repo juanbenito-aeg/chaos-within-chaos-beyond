@@ -124,8 +124,20 @@ function updateScreenSpritesPhysics() {
 
 function updateParticles() {
     for (let i = 0; i < globals.particles.length; i++) {
-        const particle = globals.particles[i];
-        updateParticle(particle);
+        const particle1 = globals.particles[i];
+        updateParticle(particle1);
+
+        if (globals.numOfRageSymbolParticlesOFF === 10) {
+            for (let j = 0; j < globals.numOfRageSymbolParticlesOFF; j++) {
+                const particle2 = globals.particles[j];
+                const indexOfParticleToDelete = globals.particles.indexOf(particle2);
+                globals.particles.splice(indexOfParticleToDelete, 1);
+            }
+            
+            initRageSymbolParticles();
+
+            globals.numOfRageSymbolParticlesOFF = 0;
+        }
     }
 }
 
@@ -158,16 +170,7 @@ function updateRageSymbolParticle(particle) {
             break;
 
         case ParticleState.OFF:
-            const player = globals.screenSprites[0];
-
-            particle.state = ParticleState.ON;
-            particle.xPos = 295.1;
-            particle.yPos = 43.4;
-            particle.alpha = 1.0;
-            // particle.physics.vLimit = 5 + (player.rageLevel / 5);
-            // particle.physics.vx = particle.physics.vLimit * Math.cos(particle.angle);
-            // particle.physics.vy = particle.physics.vLimit * Math.sin(particle.angle);
-            // particle.timeToFade = 0.75;
+            globals.numOfRageSymbolParticlesOFF++;
             break;
     }
 
