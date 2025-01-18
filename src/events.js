@@ -30,28 +30,16 @@ function updateEvents() {
     performPlayerRandomAttack();
 }
 
-function isPlayerAttackCanceledDueToRageBeingOverN() {
+function isMagicalOrbThrowCanceledDueToRageBeing100() {
     const player = globals.screenSprites[0];
 
-    if (player.rageLevel >= 25) {
-        // |||||||||||| THE HIGHER THE RAGE LEVEL, THE LOWER THE UPPER LIMIT OF THE RANDOM NUMBER
-        let randomNumUpperLimit;
-    
-        if (player.rageLevel >= 85) {
-            randomNumUpperLimit = 3;
-        } else if (player.rageLevel >= 55) {
-            randomNumUpperLimit = 6;
-        } else {
-            randomNumUpperLimit = 9;
-        }
-    
-        const randomNumBetween1AndN = Math.floor(Math.random() * randomNumUpperLimit) + 1;
-    
-        // |||||||||||| IF A 1 IS GOTTEN, THE ATTACK THE PLAYER HAS TRIED TO EXECUTE PRESSING THE CORRESPONDING KEY WON'T MATERIALIZE
-        const isPlayerAttackCanceled = randomNumBetween1AndN === 1;
+    let isMagicalOrbThrowCanceled = false;
 
-        return isPlayerAttackCanceled;
+    if ((player.rageLevel === 100) && (!player.isMagicalOrbThrowRandomlyPerformed)) {
+        isMagicalOrbThrowCanceled = true;
     }
+
+    return isMagicalOrbThrowCanceled;
 }
 
 function keydownHandler(event) {
@@ -69,13 +57,11 @@ function keydownHandler(event) {
             break;
         
         case Key.A:
-            if (!isPlayerAttackCanceledDueToRageBeingOverN()) {
-                globals.action.attackHandToHand = true;
-            }
+            globals.action.attackHandToHand = true;
             break;
         
         case Key.S:
-            if (!isPlayerAttackCanceledDueToRageBeingOverN()) {
+            if (!isMagicalOrbThrowCanceledDueToRageBeing100()) {
                 globals.action.throwMagicalOrb = true;
             }
             break;
