@@ -136,8 +136,13 @@ export default class ChaoticHumanSword extends Character {
                 this.afterAttackLeeway.timeChangeCounter = 0;
             }
 
-            if (this.afterAttackLeeway.timeChangeCounter > 0.5) {
+            // |||||||||||| MAKE THE SPRITE BLINK DURING THE LEEWAY IT IS GIVEN JUST AFTER IT IS ATTACKED 
+            if (this.afterAttackLeeway.timeChangeCounter > 0.75) {
                 this.isDrawn = false;
+            } else if (this.afterAttackLeeway.timeChangeCounter > 0.5) {
+                this.isDrawn = true;                
+            } else if (this.afterAttackLeeway.timeChangeCounter > 0.25) {
+                this.isDrawn = false;                
             } else {
                 this.isDrawn = true;                
             }
