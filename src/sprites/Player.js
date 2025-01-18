@@ -9,7 +9,8 @@ export default class Player extends Character {
 
         this.isLeftwardsHandToHandAttackEffective   = false;
         this.isRightwardsHandToHandAttackEffective  = false;
-        this.rageLevel                              = 0; // RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
+        this.rageLevel                              = 0;      // RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
+        this.isMagicalOrbThrowRandomlyPerformed     = false;  // INDICATES WHETHER A MAGICAL ORB THROW HAS BEEN PERFORMED RANDOMLY OR NOT
     }
 
     readKeyboardAndAssignState() {
@@ -110,6 +111,15 @@ export default class Player extends Character {
             initMagicalOrb();
             globals.nextOrbThrowDelay.timeChangeCounter = 0;
             globals.nextOrbThrowDelay.value = 5;
+
+            // |||||||||||| INCREASE THE PLAYER'S RAGE LEVEL IF THE MAGICAL ORB THROW HAS BEEN PERFORMED INTENTIONALLY
+            if (!this.isMagicalOrbThrowRandomlyPerformed && (this.rageLevel > 50)) {
+                this.rageLevel += 5;
+            }
+            
+            if (this.isMagicalOrbThrowRandomlyPerformed) {
+                this.isMagicalOrbThrowRandomlyPerformed = false;
+            }
         }
 
         if (globals.nextOrbThrowDelay.value > 0) {

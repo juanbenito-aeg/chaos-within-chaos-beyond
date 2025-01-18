@@ -1,16 +1,16 @@
 import globals from "./globals.js";
 import { Key } from "./constants.js";
 
-function performPlayerRandomAttack() {
+function performRandomMagicalOrbThrow() {
     const player = globals.screenSprites[0];
 
-    if (player.rageLevel >= 25) {
+    if (player.rageLevel > 50) {
         // |||||||||||| THE HIGHER THE RAGE LEVEL, THE LOWER THE UPPER LIMIT OF THE RANDOM NUMBER
         let randomNumUpperLimit;
 
-        if (player.rageLevel >= 85) {
+        if (player.rageLevel === 100) {
             randomNumUpperLimit = 25;
-        } else if (player.rageLevel >= 55) {
+        } else if (player.rageLevel > 75) {
             randomNumUpperLimit = 40;
         } else {
             randomNumUpperLimit = 55;
@@ -18,16 +18,18 @@ function performPlayerRandomAttack() {
     
         const randomNumBetween1AndN = Math.floor(Math.random() * randomNumUpperLimit) + 1;
 
-        // |||||||||||| IF A 1 IS GOTTEN, A MAGICAL ORB THROW WILL BE PERFORMED
-        if (randomNumBetween1AndN === 1) {
+        // |||||||||||| IF A 1 IS GOTTEN & THE REQUIRED DELAY HAS PASSED, A MAGICAL ORB THROW WILL BE PERFORMED
+        if ((randomNumBetween1AndN === 1) && (globals.nextOrbThrowDelay.value === 0)) {
             const event = new KeyboardEvent("keydown", {keyCode: 83});
             window.dispatchEvent(event);
+
+            player.isMagicalOrbThrowRandomlyPerformed = true;
         }
     }
 }
 
 function updateEvents() {
-    performPlayerRandomAttack();
+    performRandomMagicalOrbThrow();
 }
 
 function isMagicalOrbThrowCanceledDueToRageBeing100() {
