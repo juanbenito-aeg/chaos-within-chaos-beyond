@@ -19,7 +19,7 @@ function performRandomMagicalOrbThrow() {
         const randomNumBetween1AndN = Math.floor(Math.random() * randomNumUpperLimit) + 1;
 
         // |||||||||||| IF A 1 IS GOTTEN & THE REQUIRED DELAY HAS PASSED, A MAGICAL ORB THROW WILL BE PERFORMED
-        if ((randomNumBetween1AndN === 1) && (globals.nextOrbThrowDelay.value === 0)) {
+        if ((randomNumBetween1AndN === 1) && (player.nextOrbThrowDelay.value === 0)) {
             const event = new KeyboardEvent("keydown", {keyCode: 83});
             window.dispatchEvent(event);
 
@@ -28,8 +28,28 @@ function performRandomMagicalOrbThrow() {
     }
 }
 
+function lowerPlayerLifePointsDueToRageBeing100() {
+    const player = globals.screenSprites[0];
+    
+    if ((player.rageLevel === 100) && (player.nextLifePointsReductionDelay.value === 0)) {
+        player.lifePoints -= 0.25;
+        player.nextLifePointsReductionDelay.value = 10;    
+    } else if ((player.rageLevel === 100) && (player.nextLifePointsReductionDelay.value > 0)) {
+        player.nextLifePointsReductionDelay.timeChangeCounter += globals.deltaTime;
+
+        if (player.nextLifePointsReductionDelay.timeChangeCounter >= player.nextLifePointsReductionDelay.timeChangeValue) {
+            player.nextLifePointsReductionDelay.value--;
+            player.nextLifePointsReductionDelay.timeChangeCounter = 0;
+        }
+    } else {
+        player.nextLifePointsReductionDelay.value = 10;    
+        player.nextLifePointsReductionDelay.timeChangeCounter = 0;        
+    }
+}
+
 function updateEvents() {
     performRandomMagicalOrbThrow();
+    lowerPlayerLifePointsDueToRageBeing100();
 }
 
 function isMagicalOrbThrowCanceledDueToRageBeing100() {

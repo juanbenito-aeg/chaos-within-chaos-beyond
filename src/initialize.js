@@ -56,13 +56,6 @@ function initVars() {
     };
 }
 
-function initTimers() {
-    globals.nextOrbThrowDelay = new Timer(5, 1);
-    globals.nextOrbThrowDelay.value = 0;
-    
-    globals.nextRagePtUpDelay = new Timer(3, 1);
-}
-
 function initEvents() {
     // |||||||||||| ADD THE KEYBOARD EVENT LISTENERS
     window.addEventListener("keydown", keydownHandler, false);
@@ -875,7 +868,6 @@ export {
     initLevel,
     initEvents,
     initMagicalOrb,
-    initTimers,
     initArrow,
     initAcid,
     initCamera,

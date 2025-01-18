@@ -200,7 +200,7 @@ function updateScreenSpritesLogic() {
 function checkIfGameOver() {
     const player = globals.screenSprites[0];
 
-    if (player.lifePoints === 0) {
+    if (player.lifePoints <= 0) {
         globals.gameState = Game.OVER;
     }
 }

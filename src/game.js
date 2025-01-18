@@ -1,7 +1,7 @@
 import globals from "./globals.js";
 import update from "./gameLogic.js";
 import render from "./gameRender.js";
-import { initHTMLElements, loadAssets, initSprites, initVars, initLevel, initEvents, initTimers, initCamera, initParticles } from "./initialize.js";
+import { initHTMLElements, loadAssets, initSprites, initVars, initLevel, initEvents, initCamera, initParticles } from "./initialize.js";
 
 // |||||||||||| GAME INITIALIZATION
 
@@ -13,8 +13,6 @@ function init() {
     
     // |||||||| INITIALIZATION OF THE GAME'S VARIABLES
     initVars();
-    
-    initTimers();
 
     initEvents();
 

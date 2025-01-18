@@ -553,7 +553,9 @@ function renderLifePoints() {
 
     const player = globals.screenSprites[0];
 
-    const xTile = theEruditeFace.imageSet.xInit + (player.lifePoints - 1) * theEruditeFace.imageSet.xGridSize + theEruditeFace.imageSet.xOffset;
+    let tweakedLifePointsToRenderAdequateFrame = Math.ceil(player.lifePoints - 1);
+
+    const xTile = theEruditeFace.imageSet.xInit + tweakedLifePointsToRenderAdequateFrame * theEruditeFace.imageSet.xGridSize + theEruditeFace.imageSet.xOffset;
     const yTile = theEruditeFace.imageSet.yInit + theEruditeFace.state * theEruditeFace.imageSet.yGridSize + theEruditeFace.imageSet.yOffset;
 
     const xPos = Math.floor(theEruditeFace.xPos);

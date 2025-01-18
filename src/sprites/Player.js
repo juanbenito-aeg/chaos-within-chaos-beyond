@@ -1,4 +1,5 @@
 import Character from "./Character.js";
+import Timer from "../Timer.js";
 import globals from "../globals.js";
 import { SpriteID, State, GRAVITY } from "../constants.js";
 import { initMagicalOrb } from "../initialize.js";
@@ -9,8 +10,11 @@ export default class Player extends Character {
 
         this.isLeftwardsHandToHandAttackEffective   = false;
         this.isRightwardsHandToHandAttackEffective  = false;
-        this.rageLevel                              = 0;      // RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
-        this.isMagicalOrbThrowRandomlyPerformed     = false;  // INDICATES WHETHER A MAGICAL ORB THROW HAS BEEN PERFORMED RANDOMLY OR NOT
+        this.rageLevel                              = 0;                // RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
+        this.isMagicalOrbThrowRandomlyPerformed     = false;            // INDICATES WHETHER A MAGICAL ORB THROW HAS BEEN PERFORMED RANDOMLY OR NOT
+        this.nextOrbThrowDelay                      = new Timer(0, 1);  // TIMING OF THE DELAY BETWEEN SUCCESSIVE MAGICAL ORB THROWS (THE INITIAL VALUE OF THE TIMER IS 0 AS THE PLAYER HAS TO BE ALLOWED TO THROW A MAGICAL ORB FROM THE START OF THE GAME)
+        this.nextRagePtUpDelay                      = new Timer(3, 1);
+        this.nextLifePointsReductionDelay           = new Timer(10, 1);
     }
 
     readKeyboardAndAssignState() {
@@ -46,15 +50,15 @@ export default class Player extends Character {
     }
 
     updateRageLevel() {
-        if ((globals.nextRagePtUpDelay.value === 0) && (this.rageLevel < 100)) {
+        if ((this.nextRagePtUpDelay.value === 0) && (this.rageLevel < 100)) {
             this.rageLevel++;
-            globals.nextRagePtUpDelay.value = this.lifePoints;
+            this.nextRagePtUpDelay.value = this.lifePoints;
         } else {
-            globals.nextRagePtUpDelay.timeChangeCounter += globals.deltaTime;
+            this.nextRagePtUpDelay.timeChangeCounter += globals.deltaTime;
 
-            if (globals.nextRagePtUpDelay.timeChangeCounter >= globals.nextRagePtUpDelay.timeChangeValue) {
-                globals.nextRagePtUpDelay.value--;
-                globals.nextRagePtUpDelay.timeChangeCounter = 0;
+            if (this.nextRagePtUpDelay.timeChangeCounter >= this.nextRagePtUpDelay.timeChangeValue) {
+                this.nextRagePtUpDelay.value--;
+                this.nextRagePtUpDelay.timeChangeCounter = 0;
             }
         }
     }
@@ -107,10 +111,10 @@ export default class Player extends Character {
 
         this.updateAnimationFrame();
 
-        if (((this.state === State.LEFT_ATTACK_MAGICAL_ORB) || (this.state === State.RIGHT_ATTACK_MAGICAL_ORB)) && (this.frames.frameCounter === 3) && (globals.nextOrbThrowDelay.value === 0)) {
+        if (((this.state === State.LEFT_ATTACK_MAGICAL_ORB) || (this.state === State.RIGHT_ATTACK_MAGICAL_ORB)) && (this.frames.frameCounter === 3) && (this.nextOrbThrowDelay.value === 0)) {
             initMagicalOrb();
-            globals.nextOrbThrowDelay.timeChangeCounter = 0;
-            globals.nextOrbThrowDelay.value = 5;
+            this.nextOrbThrowDelay.timeChangeCounter = 0;
+            this.nextOrbThrowDelay.value = 5;
 
             // |||||||||||| INCREASE THE PLAYER'S RAGE LEVEL IF THE MAGICAL ORB THROW HAS BEEN PERFORMED INTENTIONALLY
             if (!this.isMagicalOrbThrowRandomlyPerformed && (this.rageLevel > 50)) {
@@ -122,13 +126,13 @@ export default class Player extends Character {
             }
         }
 
-        if (globals.nextOrbThrowDelay.value > 0) {
-            globals.nextOrbThrowDelay.timeChangeCounter += globals.deltaTime;
+        if (this.nextOrbThrowDelay.value > 0) {
+            this.nextOrbThrowDelay.timeChangeCounter += globals.deltaTime;
         
-            if (globals.nextOrbThrowDelay.timeChangeCounter >= globals.nextOrbThrowDelay.timeChangeValue) {
-                globals.nextOrbThrowDelay.value--;
+            if (this.nextOrbThrowDelay.timeChangeCounter >= this.nextOrbThrowDelay.timeChangeValue) {
+                this.nextOrbThrowDelay.value--;
         
-                globals.nextOrbThrowDelay.timeChangeCounter = 0;
+                this.nextOrbThrowDelay.timeChangeCounter = 0;
             }
         }
 
@@ -252,8 +256,8 @@ export default class Player extends Character {
 
         // |||||||||||| IF THE PLAYER HAS EITHER LOST OR EARNED LIFE POINTS, UPDATE THE TIMER USED TO INCREASE THEIR RAGE LEVEL
         if (this.lifePoints !== playerLifePtsBeforeChecks) {
-            globals.nextRagePtUpDelay.value = this.lifePoints;
-            globals.nextRagePtUpDelay.timeChangeCounter = 0;
+            this.nextRagePtUpDelay.value = this.lifePoints;
+            this.nextRagePtUpDelay.timeChangeCounter = 0;
         }
     
         this.updateRageLevel();
