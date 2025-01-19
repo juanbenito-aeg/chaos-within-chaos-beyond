@@ -343,6 +343,9 @@ function initRageBarContent() {
 }
 
 function initPlayer() {
+    const xPos = 18;
+    const yPos = 155;
+
     const imageSet = new ImageSet(2048, 0, 59, 62, 64, 64, 3, 2, 43, 46);
 
     // |||||||||||| ANIMATION DATA CREATION: 9 (OR LESS IN THIS CASE) FRAMES PER STATE & ANIMATION SPEED
@@ -359,7 +362,40 @@ function initPlayer() {
 
     const afterAttackLeeway = new Timer(0, 1);
     
-    const player = new Player(SpriteID.PLAYER, State.RIGHT_STILL, 18, 155, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
+    const checkpoints = [
+        {
+            xPosLowerLimit: xPos,
+            xPosUpperLimit: xPos,
+            yPosLowerLimit: yPos,
+            yPosUpperLimit: yPos,
+        },
+        // {
+        //     xPosLowerLimit: 120,
+        //     xPosUpperLimit: 125,
+        //     yPosLowerLimit: 535,
+        //     yPosUpperLimit: 555,
+        // },
+        {
+            xPosLowerLimit: 840,
+            xPosUpperLimit: 845,
+            yPosLowerLimit: 130,
+            yPosUpperLimit: 205,
+        },
+        // {
+        //     xPosLowerLimit: 1145,
+        //     xPosUpperLimit: 1150,
+        //     yPosLowerLimit: 660,
+        //     yPosUpperLimit: 735,
+        // },
+        {
+            xPosLowerLimit: 1815,
+            xPosUpperLimit: 1820,
+            yPosLowerLimit: 675,
+            yPosUpperLimit: 700,
+        },
+    ];
+
+    const player = new Player(SpriteID.PLAYER, State.RIGHT_STILL, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, checkpoints);
 
     // |||||||||||| ADD PLAYER TO ITS CORRESPONDING SPRITES ARRAY
     globals.screenSprites.push(player);

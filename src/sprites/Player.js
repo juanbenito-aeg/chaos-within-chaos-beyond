@@ -5,7 +5,7 @@ import { SpriteID, State, GRAVITY } from "../constants.js";
 import { initMagicalOrb } from "../initialize.js";
 
 export default class Player extends Character {
-    constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway) {
+    constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, checkpoints) {
         super(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
 
         this.isLeftwardsHandToHandAttackEffective   = false;
@@ -15,6 +15,11 @@ export default class Player extends Character {
         this.nextOrbThrowDelay                      = new Timer(0, 1);  // TIMING OF THE DELAY BETWEEN SUCCESSIVE MAGICAL ORB THROWS (THE INITIAL VALUE OF THE TIMER IS 0 AS THE PLAYER HAS TO BE ALLOWED TO THROW A MAGICAL ORB FROM THE START OF THE GAME)
         this.nextRagePtUpDelay                      = new Timer(3, 1);
         this.nextLifePointsReductionDelay           = new Timer(10, 1);
+        this.checkpoints                            = checkpoints;
+        this.lastCheckpoint                         = {
+            xPos: xPos,
+            yPos: yPos,
+        };
     }
 
     readKeyboardAndAssignState() {
@@ -109,6 +114,14 @@ export default class Player extends Character {
             this.yPos += this.physics.vy * globals.deltaTime;
         }
 
+        // |||||||||||| IF A NEW CHECKPOINT IS REACHED, UPDATE THE VARIABLE THAT HOLDS THE COORDINATES OF THE LAST ONE
+        for (let i = 0; i < this.checkpoints.length; i++) {
+            if (((this.xPos >= this.checkpoints[i].xPosLowerLimit) && (this.xPos <= this.checkpoints[i].xPosUpperLimit)) && ((this.yPos >= this.checkpoints[i].yPosLowerLimit) && (this.yPos <= this.checkpoints[i].yPosUpperLimit))) {
+                this.lastCheckpoint.xPos = this.checkpoints[i].xPosUpperLimit;
+                this.lastCheckpoint.yPos = this.checkpoints[i].yPosUpperLimit;
+            }
+        }
+
         this.updateAnimationFrame();
 
         if (((this.state === State.LEFT_ATTACK_MAGICAL_ORB) || (this.state === State.RIGHT_ATTACK_MAGICAL_ORB)) && (this.frames.frameCounter === 3) && (this.nextOrbThrowDelay.value === 0)) {
@@ -163,7 +176,9 @@ export default class Player extends Character {
         }
         
         if (this.collisions.isCollidingWithLava) {
-            this.lifePoints = 0;
+            this.lifePoints--;
+            this.xPos = this.lastCheckpoint.xPos;
+            this.yPos = this.lastCheckpoint.yPos;
         }
 
         // |||| COLLISION WITH ENEMIES
