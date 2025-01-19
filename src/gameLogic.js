@@ -205,6 +205,8 @@ function playGame() {
     // |||||||||||| UPDATE EVENTS
     updateEvents();
 
+    updateHUDTimer();
+
     // |||||||||||| CHECK IF THE PLAYER HAS DIED (IS GAME OVER)
     checkIfGameOver();
 }
@@ -300,10 +302,19 @@ function updateScreenSpritesLogic() {
     }
 }
 
+function updateHUDTimer() {
+    globals.demoTimer.timeChangeCounter += globals.deltaTime;
+
+    if (globals.demoTimer.timeChangeCounter >= globals.demoTimer.timeChangeValue) {
+        globals.demoTimer.value--;
+        globals.demoTimer.timeChangeCounter = 0;
+    }
+}
+
 function checkIfGameOver() {
     const player = globals.screenSprites[0];
 
-    if (player.lifePoints <= 0) {
+    if ((player.lifePoints <= 0) || (globals.demoTimer.value === 0)) {
         globals.gameState = Game.OVER;
     }
 }

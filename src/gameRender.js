@@ -519,32 +519,45 @@ function renderMap() {
 }
 
 function renderHUD() {
-    // |||||||||||| HARD-CODED DATA
-    const highScore = globals.score;
+    if (globals.score >= globals.highScore) {
+        globals.highScore = globals.score;
+    }
 
     // |||||||||||| DRAW SCORE
 
     globals.ctxHUD.font = "8px emulogic";
     globals.ctxHUD.fillStyle = "#d5dbc6";
-    globals.ctxHUD.fillText("SCORE", 29, 39.5);
+    globals.ctxHUD.fillText("SCORE", 29, 18.5);
     
     globals.ctxHUD.direction = "rtl";
     globals.ctxHUD.font = "7.5px emulogic";
     globals.ctxHUD.fillStyle = "#e7ebdd";
-    globals.ctxHUD.fillText(globals.score, 69, 54.5);
+    globals.ctxHUD.fillText(globals.score, 69, 33.5);
     
     // |||||||||||| DRAW HIGH SCORE
 
     globals.ctxHUD.direction = "ltr";
     globals.ctxHUD.font = "8px emulogic";
     globals.ctxHUD.fillStyle = "#d5dbc6";
-    globals.ctxHUD.fillText("HI-SCORE", 99, 39.5);
+    globals.ctxHUD.fillText("HI-SCORE", 99, 18.5);
 
     globals.ctxHUD.direction = "rtl";
     globals.ctxHUD.font = "7.5px emulogic";
     globals.ctxHUD.fillStyle = "#e7ebdd";
-    globals.ctxHUD.fillText(highScore, 163, 54.5);
+    globals.ctxHUD.fillText(globals.highScore, 163, 33.5);
     
+    // |||||||||||| RENDER DEMO TIMER
+
+    globals.ctxHUD.direction = "ltr";
+    globals.ctxHUD.font = "8px emulogic";
+    globals.ctxHUD.fillStyle = "#d5dbc6";
+    globals.ctxHUD.fillText("TIME", 131, 57.5);
+
+    globals.ctxHUD.direction = "rtl";
+    globals.ctxHUD.font = "7.5px emulogic";
+    globals.ctxHUD.fillStyle = "#e7ebdd";
+    globals.ctxHUD.fillText(globals.demoTimer.value, 163, 72.5);
+
     // |||||||||||| DRAW RAGE BAR'S SYMBOL
     globals.ctxHUD.direction = "ltr";
     globals.ctxHUD.font = "20px emulogic";

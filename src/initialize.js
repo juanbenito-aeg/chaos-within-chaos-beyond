@@ -58,6 +58,12 @@ function initVars() {
         attackHandToHand: false,
         throwMagicalOrb: false,
     };
+
+    globals.highScore = 5000;
+}
+
+function initTimers() {
+    globals.demoTimer = new Timer(180, 1);
 }
 
 function initEvents() {
@@ -917,4 +923,5 @@ export {
     initPotionBlue,
     initParticles,
     initRageSymbolParticles,
+    initTimers,
 };

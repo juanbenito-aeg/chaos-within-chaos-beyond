@@ -56,6 +56,8 @@ export default {
 
     score: 0,
 
+    highScore: 0,
+
     // |||||||||||| OBJECT THAT HOLDS THE STATES OF THE KEYBOARD KEYS
     action: {},
 
@@ -67,4 +69,6 @@ export default {
     currentMainMenuSelection: "NEW GAME",
 
     currentGameOverSelection: "CHECK HIGH SCORES TABLE",
+
+    demoTimer: {},
 };
