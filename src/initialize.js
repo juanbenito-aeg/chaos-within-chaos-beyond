@@ -48,9 +48,13 @@ function initVars() {
 
     // |||||||| INITIALIZE THE STATE OF THE ACTIONS
     globals.action = {
+        confirmSelection: false,
+        return: false,
         jump: false,
         moveLeft: false,
+        moveUp: false,
         moveRight: false,
+        moveDown: false,
         attackHandToHand: false,
         throwMagicalOrb: false,
     };

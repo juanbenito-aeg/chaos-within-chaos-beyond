@@ -36,6 +36,18 @@ export default function render() {
     }
 }
 
+function shrinkCanvasForPlayingGameState() {
+    // |||||||||||| CLEAR SCREEN & HUD
+    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
+    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+
+    const canvasOriginalHeight = 256;
+
+    globals.canvasHUD.style.display = "block";
+    globals.canvas.style.height = "640px";
+    globals.canvas.height = canvasOriginalHeight;
+}
+
 function enlargeCanvasForMenus() {
     // |||||||||||| CLEAR SCREEN
     globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
@@ -118,32 +130,31 @@ function renderMainMenuButtons() {
     globals.ctx.fillRect(291.5, 221, 60, 60);
     globals.ctx.strokeRect(291.5, 221, 60, 60);
 
-    // |||||||||||| DEFINITION OF THE CURRENT SELECTION & A "SIGN" TO RECOGNIZE IT
-    let currentSelection = "NEW GAME";
+    // |||||||||||| DEFINITION OF A "SIGN" TO RECOGNIZE THE CURRENT SELECTION
 
     globals.ctx.font = "7px emulogic";
     globals.ctx.fillStyle = "rgb(212 212 212)";
     globals.ctx.strokeStyle = "rgb(212 212 212)";
 
-    switch (currentSelection) {
+    switch (globals.currentMainMenuSelection) {
         case "NEW GAME":
             globals.ctx.strokeRect(97, 120, 60, 60);
-            globals.ctx.fillText(currentSelection, 126.25, 197);
+            globals.ctx.fillText(globals.currentMainMenuSelection, 126.25, 197);
             break;
         
         case "STORY":
             globals.ctx.strokeRect(97, 221, 60, 60);
-            globals.ctx.fillText(currentSelection, 126.25, 298);
+            globals.ctx.fillText(globals.currentMainMenuSelection, 126.25, 298);
             break;
         
         case "HIGH SCORES":
             globals.ctx.strokeRect(291.5, 120, 60, 60);
-            globals.ctx.fillText(currentSelection, 321.5, 197);
+            globals.ctx.fillText(globals.currentMainMenuSelection, 321.5, 197);
             break;
         
         case "CONTROLS":
             globals.ctx.strokeRect(291.5, 221, 60, 60);
-            globals.ctx.fillText(currentSelection, 321.5, 298);
+            globals.ctx.fillText(globals.currentMainMenuSelection, 321.5, 298);
             break;
     }
 }
@@ -441,9 +452,7 @@ function renderControlsMenuSprite(sprite) {
 }
 
 function drawGame() {
-    // |||||||||||| CLEAR SCREEN & HUD
-    globals.ctx.clearRect(0, 0, globals.canvas.width, globals.canvas.height);
-    globals.ctxHUD.clearRect(0, 0, globals.canvasHUD.width, globals.canvasHUD.height);
+    shrinkCanvasForPlayingGameState();
 
     renderScreenBackgroundImg();
     moveCamera();
@@ -779,7 +788,6 @@ function renderGameOverTxt() {
         "RETURN TO THE MAIN MENU",
     ];
     
-    let currentSelection = menuActions[0];
     let rowYCoordinate = 235;
     
     globals.ctx.font = "10px emulogic";
@@ -787,7 +795,7 @@ function renderGameOverTxt() {
     for (let i = 0; i < menuActions.length; i++) {
         globals.ctx.fillStyle = "rgb(212 212 212 / 0.5)";
         
-        if (currentSelection === menuActions[i]) {
+        if (globals.currentGameOverSelection === menuActions[i]) {
             globals.ctx.fillStyle = "rgb(212 212 212)";    
         }
 

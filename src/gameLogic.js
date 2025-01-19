@@ -12,19 +12,119 @@ export default function update() {
             break;
         
         case Game.MAIN_MENU:
+            updateMainMenu();
             break;
         
         case Game.STORY_MENU:
+            updateStoryMenu();
+            break;
+        
+        case Game.HIGH_SCORES_MENU:
+            updateHighScoresMenu();
             break;
         
         case Game.CONTROLS_MENU:
-            updateControlsMenuSprites();
+            updateControlsMenu();
             break;
         
         case Game.PLAYING:
             playGame();
             break;
+        
+        case Game.OVER:
+            updateGameOver();
+            break;
     }
+}
+
+function updateMainMenu() {
+    updateCurrentMainMenuSelection();
+    updateCurrentScreenFromMainMenu();
+}
+
+function updateCurrentMainMenuSelection() {
+    if (globals.action.moveLeft) {
+        switch (globals.currentMainMenuSelection) {
+            case "HIGH SCORES":
+                globals.currentMainMenuSelection = "NEW GAME";
+                break;
+
+            case "CONTROLS":
+                globals.currentMainMenuSelection = "STORY";
+                break;
+        }
+    } else if (globals.action.moveRight) {
+        switch (globals.currentMainMenuSelection) {
+            case "NEW GAME":
+                globals.currentMainMenuSelection = "HIGH SCORES";
+                break;
+
+            case "STORY":
+                globals.currentMainMenuSelection = "CONTROLS";
+                break;
+        }
+    } else if (globals.action.moveDown) {
+        switch (globals.currentMainMenuSelection) {
+            case "NEW GAME":
+                globals.currentMainMenuSelection = "STORY";
+                break;
+
+            case "HIGH SCORES":
+                globals.currentMainMenuSelection = "CONTROLS";
+                break;
+        }
+    } else if (globals.action.moveUp) {
+        switch (globals.currentMainMenuSelection) {
+            case "STORY":
+                globals.currentMainMenuSelection = "NEW GAME";
+                break;
+
+            case "CONTROLS":
+                globals.currentMainMenuSelection = "HIGH SCORES";
+                break;
+        }
+    }
+}
+
+function updateCurrentScreenFromMainMenu() {
+    if (globals.action.confirmSelection) {
+        switch (globals.currentMainMenuSelection) {
+            case "NEW GAME":
+                globals.gameState = Game.PLAYING;
+                break;
+            
+            case "STORY":
+                globals.gameState = Game.STORY_MENU;
+                break;
+            
+            case "HIGH SCORES":
+                globals.gameState = Game.HIGH_SCORES_MENU;
+                break;
+            
+            case "CONTROLS":
+                globals.gameState = Game.CONTROLS_MENU;
+                break;
+        }
+    }
+}
+
+function returnToTheMainMenu() {
+    if (globals.action.return) {
+        globals.gameState = Game.MAIN_MENU;
+    }
+}
+
+function updateStoryMenu() {
+    returnToTheMainMenu();
+}
+
+function updateHighScoresMenu() {
+    returnToTheMainMenu();
+}
+
+function updateControlsMenu() {
+    updateControlsMenuSprites();
+    returnToTheMainMenu();
 }
 
 function updateControlsMenuSprites() {
@@ -205,5 +305,29 @@ function checkIfGameOver() {
 
     if (player.lifePoints <= 0) {
         globals.gameState = Game.OVER;
+    }
+}
+
+function updateGameOver() {
+    updateCurrentGameOverSelection();
+    updateCurrentScreenFromGameOver();
+}
+
+function updateCurrentGameOverSelection() {
+    if (globals.action.moveDown && (globals.currentGameOverSelection === "CHECK HIGH SCORES TABLE")) {
+        globals.currentGameOverSelection = "RETURN TO THE MAIN MENU";
+    } else if (globals.action.moveUp && (globals.currentGameOverSelection === "RETURN TO THE MAIN MENU")) {
+        globals.currentGameOverSelection = "CHECK HIGH SCORES TABLE";
+    }
+}
+
+function updateCurrentScreenFromGameOver() {
+    if (globals.action.confirmSelection && (globals.currentGameOverSelection === "CHECK HIGH SCORES TABLE")) {
+        globals.gameState = Game.HIGH_SCORES_MENU;
+    } else if (globals.action.confirmSelection && (globals.currentGameOverSelection === "RETURN TO THE MAIN MENU")) {
+        globals.gameState = Game.MAIN_MENU;
+
+        // |||||||||||| AVOID STARTING NEW GAME JUST AFTER CONFIRMING THE CURRENT SELECTION
+        globals.action.confirmSelection = false;
     }
 }

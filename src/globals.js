@@ -63,4 +63,8 @@ export default {
     particles: [],
 
     numOfRageSymbolParticlesOFF: 0,
+
+    currentMainMenuSelection: "NEW GAME",
+
+    currentGameOverSelection: "CHECK HIGH SCORES TABLE",
 };
