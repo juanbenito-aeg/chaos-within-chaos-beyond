@@ -74,15 +74,40 @@ export default class HellBatAcid extends Character {
 
         // |||||||||||| WHEN KILLED, DROP A GREEN OR A BLUE POTION
         if (this.lifePoints === 0) {
-            const randomNumBetween1AndN = Math.floor(Math.random() * 100) + 1;
-
             const potionDropXPos = this.xPos + this.hitBox.xOffset;
-            const potionDropYPos = this.yPos + this.hitBox.xOffset;
+            const potionDropYPos = this.yPos + this.hitBox.yOffset;
+            
+            const player = globals.screenSprites[0];
 
-            if (randomNumBetween1AndN > 85) {
-                initPotionBlue(potionDropXPos, potionDropYPos);
-            } else if (randomNumBetween1AndN > 45) {
-                initPotionGreen(potionDropXPos, potionDropYPos);
+            let numToTweakProbabilityOfDroppingGreenPotion;
+            let numToTweakProbabilityOfDroppingBluePotion;
+
+            const randomNumBetween1And100 = Math.floor(Math.random() * 100) + 1;
+
+            if ((player.rageLevel > 75) && (player.lifePoints > 2.5)) {
+                numToTweakProbabilityOfDroppingGreenPotion = 50;
+                numToTweakProbabilityOfDroppingBluePotion = 75;
+
+                if (randomNumBetween1And100 <= numToTweakProbabilityOfDroppingGreenPotion) {
+                    initPotionGreen(potionDropXPos, potionDropYPos);
+                } else if (randomNumBetween1And100 <= numToTweakProbabilityOfDroppingBluePotion) {
+                    initPotionBlue(potionDropXPos, potionDropYPos);
+                }
+            } else if ((player.lifePoints <= 2.5) || ((player.rageLevel > 25) && (player.rageLevel <= 75))) {
+                numToTweakProbabilityOfDroppingGreenPotion = 75;
+                numToTweakProbabilityOfDroppingBluePotion = 50;
+
+                if (randomNumBetween1And100 <= numToTweakProbabilityOfDroppingBluePotion) {
+                    initPotionBlue(potionDropXPos, potionDropYPos);
+                } else if (randomNumBetween1And100 <= numToTweakProbabilityOfDroppingGreenPotion) {
+                    initPotionGreen(potionDropXPos, potionDropYPos);
+                }
+            } else if (player.rageLevel <= 25) {
+                numToTweakProbabilityOfDroppingBluePotion = 25;
+
+                if (randomNumBetween1And100 <= numToTweakProbabilityOfDroppingBluePotion) {
+                    initPotionBlue(potionDropXPos, potionDropYPos);
+                }
             }
         }
 
