@@ -38,8 +38,42 @@ export default function update() {
 }
 
 function updateMainMenu() {
+    updateMainMenuSprites();    
     updateCurrentMainMenuSelection();
     updateCurrentScreenFromMainMenu();
+}
+
+function updateMainMenuSprites() {
+    for (let i = 0; i < globals.mainMenuSprites.length; i++) {
+        const sprite = globals.mainMenuSprites[i];
+
+        updateMainMenuSprite(sprite);
+    }
+}
+
+function updateMainMenuSprite(sprite) {
+    const type = sprite.id;
+
+    switch (type) {
+        // |||||||||||| SUN
+        case SpriteID.SUN:
+            updateSun(sprite);
+            break;
+    }
+}
+
+function updateSun(sprite) {
+    if (sprite.nextAngleChangeDelay.value === 0) {
+        sprite.angle += 45;
+        sprite.nextAngleChangeDelay.value = 1;
+    } else {
+        sprite.nextAngleChangeDelay.timeChangeCounter += globals.deltaTime;
+
+        if (sprite.nextAngleChangeDelay.timeChangeCounter >= sprite.nextAngleChangeDelay.timeChangeValue) {
+            sprite.nextAngleChangeDelay.value -= 1;
+            sprite.nextAngleChangeDelay.timeChangeCounter = 0;
+        }
+    }
 }
 
 function updateCurrentMainMenuSelection() {

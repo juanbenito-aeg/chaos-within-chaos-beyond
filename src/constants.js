@@ -73,6 +73,7 @@ const SpriteID = {
     MAGICAL_ORB: 28,
     ARROW: 29,
     ACID: 30,
+    SUN: 31,
 };
 
 // |||||||||||| SPRITE STATE IDENTIFIER (DIRECTION)

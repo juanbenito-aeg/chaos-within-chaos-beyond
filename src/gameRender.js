@@ -80,7 +80,6 @@ function drawMainMenu() {
     renderNMenuBackgroundImg(mainMenuBackgroundImg);
 
     renderMainMenuTxt();
-    renderMainMenuSun();
     renderMainMenuButtons();
     renderMainMenuSprites();
 }
@@ -95,17 +94,6 @@ function renderMainMenuTxt() {
     globals.ctx.strokeText("CHAOS WITHIN", canvasWidthDividedBy2, 37.15);
     globals.ctx.font = "24px emulogic";
     globals.ctx.strokeText("CHAOS BEYOND", canvasWidthDividedBy2, 80);
-}
-
-function renderMainMenuSun() {
-    const sunGradient = globals.ctx.createRadialGradient(225.5, 179, 10, 224, 178, 40);
-    sunGradient.addColorStop(0, "rgb(255 228 132 / 0.35)");
-    sunGradient.addColorStop(1, "rgb(255 228 132 / 0.05)");
-
-    globals.ctx.fillStyle = sunGradient;
-    
-    globals.ctx.roundRect(205, 159, 40, 40, 100);
-    globals.ctx.fill();
 }
 
 function renderMainMenuButtons() {
@@ -175,6 +163,20 @@ function renderMainMenuSprite(sprite) {
     const xPos = Math.floor(sprite.xPos);
     const yPos = Math.floor(sprite.yPos);
 
+    // |||||||||||| SUN SPRITE ROTATION
+    if (sprite.id === SpriteID.SUN) {
+        // |||||||| MOVE TO THE CENTER OF THE SUN SPRITE
+        globals.ctx.translate(xPos + (sprite.imageSet.xDestinationSize / 2), yPos + (sprite.imageSet.yDestinationSize / 2));
+
+        // |||||||| ROTATE "N" DEGREES
+        const angle_radians = sprite.angle * Math.PI / 180;
+
+        globals.ctx.rotate(angle_radians);
+
+        // |||||||| RETURN TO THE ORIGIN
+        globals.ctx.translate(-(xPos + (sprite.imageSet.xDestinationSize / 2)), -(yPos + (sprite.imageSet.yDestinationSize / 2)));
+    }
+
     // |||||||||||| DRAW THE SPRITE'S (NEW) FRAME IN THE DESIRED POSITION
     globals.ctx.drawImage(
         globals.tileSets[Tile.SIZE_OTHERS],                                 // THE IMAGE FILE
@@ -183,6 +185,11 @@ function renderMainMenuSprite(sprite) {
         xPos, yPos,                                                         // THE DESTINATION X & Y POSITION
         sprite.imageSet.xDestinationSize, sprite.imageSet.yDestinationSize  // THE DESTINATION WIDTH & HEIGHT
     );
+
+    // |||||||||||| RESTORE THE INITIAL CONTEXT
+    if (sprite.id === SpriteID.SUN) {
+        globals.ctx.setTransform(1, 0, 0, 1, 0, 0);
+    }
 }
 
 function drawStoryMenu() {

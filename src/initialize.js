@@ -1,4 +1,5 @@
 import Sprite from "./sprites/Sprite.js";
+import Sun from "./sprites/Sun.js";
 import Player from "./sprites/Player.js";
 import MagicalOrb from "./sprites/MagicalOrb.js";
 import ChaoticHumanBow from "./sprites/ChaoticHumanBow.js";
@@ -102,7 +103,7 @@ function loadHandler() {
 
         console.log("Assets finished loading");
 
-        globals.gameState = Game.PLAYING;
+        globals.gameState = Game.MAIN_MENU;
     }
 }
 
@@ -133,6 +134,7 @@ function initSprites() {
     initStoryIcon();
     initHighScoresIcon();
     initControlsIcon();
+    initSun();
 
     // |||||||||||| INITIALIZATION OF THE CONTROLS MENU SPRITES
     initLeftArrowKey();
@@ -257,6 +259,17 @@ function initControlsIcon() {
 
     // |||||||||||| ADD THE "CONTROLS" ICON TO ITS CORRESPONDING SPRITES ARRAY
     globals.mainMenuSprites.push(controlsIcon);
+}
+
+function initSun() {
+    const imageSet = new ImageSet(150, 150, 148, 148, 150, 150, 0, 0, 50, 50);
+
+    const frames = new Frames(1);
+
+    const sun = new Sun(SpriteID.SUN, State.STILL, 200, 155, imageSet, frames);
+
+    // |||||||||||| ADD THE SUN TO ITS CORRESPONDING SPRITES ARRAY
+    globals.mainMenuSprites.push(sun);
 }
 
 function initLeftArrowKey() {
