@@ -18,7 +18,7 @@ import Collisions from "./Collisions.js";
 import Timer from "./Timer.js";
 import Camera from "./Camera.js";
 import globals from "./globals.js";
-import { RageSymbolParticle } from "./Particle.js";
+import { RageSymbolParticle, ControlsMenuSparkleParticle } from "./Particle.js";
 import { Level, level1 } from "./Level.js";
 import { Game, FPS, SpriteID, State, ParticleID, ParticleState } from "./constants.js";
 import { keydownHandler, keyupHandler } from "./events.js";
@@ -103,7 +103,7 @@ function loadHandler() {
 
         console.log("Assets finished loading");
 
-        globals.gameState = Game.MAIN_MENU;
+        globals.gameState = Game.PLAYING;
     }
 }
 
@@ -892,6 +892,7 @@ function initSkull() {
 
 function initParticles() {
     initRageSymbolParticles();
+    initControlsMenuSparkles();
 }
 
 function initRageSymbolParticles() {
@@ -920,6 +921,35 @@ function initRageSymbolParticles() {
     }
 }
 
+function initControlsMenuSparkles() {
+    const numOfParticles = 10;
+
+    for (let i = 0; i < numOfParticles; i++) {
+        createControlsMenuSparkleParticle();
+    }
+}
+
+function createControlsMenuSparkleParticle() {
+    const xPos = Math.random() * globals.canvas.width;
+    const yPos = Math.random() * globals.canvas.height;
+    
+    const alpha = 1.0;
+
+    const radius = 2;
+
+    const colors = [
+        "rgb(215 255 252 / 0.75)",
+        "rgb(246 251 148 / 0.75)",
+        "rgb(106 176 201 / 0.75)",
+    ];
+    const randomColorsArrayIndex = Math.floor(Math.random() * colors.length);
+    const color = colors[randomColorsArrayIndex];
+
+    const particle = new ControlsMenuSparkleParticle(ParticleID.CONTROLS_MENU_SPARKLE, ParticleState.FADE, xPos, yPos, null, alpha, radius, color);
+
+    globals.particles.push(particle);
+}
+
 // |||||||||||| EXPORTS
 export {
     initHTMLElements,
@@ -937,4 +967,5 @@ export {
     initParticles,
     initRageSymbolParticles,
     initTimers,
+    createControlsMenuSparkleParticle,
 };

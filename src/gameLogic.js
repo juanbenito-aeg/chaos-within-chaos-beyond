@@ -1,7 +1,7 @@
 import globals from "./globals.js";
 import detectCollisions from "./collisionsLogic.js";
 import { Game, SpriteID, State, ParticleID, ParticleState } from "./constants.js";
-import { initRageSymbolParticles } from "./initialize.js";
+import { initRageSymbolParticles, createControlsMenuSparkleParticle } from "./initialize.js";
 import { updateEvents } from "./events.js";
 
 export default function update() {
@@ -157,6 +157,7 @@ function updateHighScoresMenu() {
 }
 
 function updateControlsMenu() {
+    updateParticles();
     updateControlsMenuSprites();
     returnToTheMainMenu();
 }
@@ -261,13 +262,23 @@ function updateScreenSpritesPhysics() {
 function updateParticles() {
     for (let i = 0; i < globals.particles.length; i++) {
         const particle1 = globals.particles[i];
-        updateParticle(particle1);
+        
+        if ((particle1.id === ParticleID.CONTROLS_MENU_SPARKLE) && (particle1.state === ParticleState.OFF)) {
+            globals.particles.splice(i, 1);
+            i--;
+            createControlsMenuSparkleParticle();
+        } else {
+            updateParticle(particle1);
+        }
 
         if (globals.numOfRageSymbolParticlesOFF === 10) {
-            for (let j = 0; j < globals.numOfRageSymbolParticlesOFF; j++) {
+            for (let j = 0; j < globals.particles.length; j++) {
                 const particle2 = globals.particles[j];
-                const indexOfParticleToDelete = globals.particles.indexOf(particle2);
-                globals.particles.splice(indexOfParticleToDelete, 1);
+                
+                if (particle2.id === ParticleID.RAGE_SYMBOL) {
+                    globals.particles.splice(j, 1);
+                    j--;
+                }
             }
             
             initRageSymbolParticles();
@@ -283,6 +294,10 @@ function updateParticle(particle) {
     switch (type) {
         case ParticleID.RAGE_SYMBOL:
             updateRageSymbolParticle(particle);
+            break;
+        
+        case ParticleID.CONTROLS_MENU_SPARKLE:
+            updateControlsMenuSparkleParticle(particle);
             break;
     }
 }
@@ -312,6 +327,13 @@ function updateRageSymbolParticle(particle) {
 
     particle.xPos += particle.physics.vx * globals.deltaTime;
     particle.yPos += particle.physics.vy * globals.deltaTime;
+}
+
+function updateControlsMenuSparkleParticle(particle) {
+    particle.alpha -= 0.01;
+    if (particle.alpha <= 0) {
+        particle.state = ParticleState.OFF;
+    }
 }
 
 function updateCamera() {

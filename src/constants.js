@@ -148,6 +148,7 @@ const GRAVITY = 150;
 // |||||||||||| PARTICLE TYPE IDENTIFIER (ID)
 const ParticleID = {
     RAGE_SYMBOL: 0,
+    CONTROLS_MENU_SPARKLE: 1,
 };
 
 // |||||||||||| PARTICLE STATE IDENTIFIER

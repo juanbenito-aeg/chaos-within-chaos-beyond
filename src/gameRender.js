@@ -372,6 +372,7 @@ function drawControlsMenu() {
 
     renderControlsMenuTxt();
     renderControlsMenuSprites();
+    renderParticles();
 }
 
 function renderControlsMenuTxt() {
@@ -749,6 +750,10 @@ function renderParticle(particle) {
         case ParticleID.RAGE_SYMBOL:
             renderRageSymbolParticle(particle);
             break;
+        
+        case ParticleID.CONTROLS_MENU_SPARKLE:
+            renderControlsMenuSparkleParticle(particle);
+            break;
     }
 }
 
@@ -779,6 +784,31 @@ function renderRageSymbolParticle(particle) {
         globals.ctxHUD.fillStyle = "rgb(238 65 52 / 0.85)";
         globals.ctxHUD.fill();
         globals.ctxHUD.globalAlpha = 1.0;
+    }
+}
+
+function renderControlsMenuSparkleParticle(particle) {
+    if (particle.state !== ParticleState.OFF) {
+        globals.ctx.save();
+
+        globals.ctx.globalAlpha = particle.alpha;
+
+        globals.ctx.shadowColor = particle.color;
+        globals.ctx.shadowBlur = 5;
+        
+        globals.ctx.roundRect(particle.xPos, particle.yPos, 3.5, 3.5, 3.5);
+        globals.ctx.strokeStyle = "transparent";
+
+        for (let i = 0; i < 5; i++) {
+            globals.ctx.shadowBlur += 0.85;
+            
+            globals.ctx.stroke();
+        }
+
+        globals.ctx.fillStyle = particle.color;
+        globals.ctx.fill();
+
+        globals.ctx.restore();
     }
 }
 
