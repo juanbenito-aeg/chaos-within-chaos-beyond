@@ -83,7 +83,7 @@ export default class ChaoticHumanSword extends Character {
 
         // |||||||| COLLISION WITH PLAYER & THEIR MAGICAL ORBS
         if (this.collisions.isCollidingWithPlayer) {
-            const player = globals.screenSprites[0];
+            const player = globals.level1Sprites[0];
             
             if ((player.isLeftwardsHandToHandAttackEffective || player.isRightwardsHandToHandAttackEffective) && (this.afterAttackLeeway.value === 0)) {
                 this.lifePoints--;
@@ -119,7 +119,7 @@ export default class ChaoticHumanSword extends Character {
             const potionDropXPos = this.xPos + this.hitBox.xOffset;
             const potionDropYPos = this.yPos + this.hitBox.yOffset;
             
-            const player = globals.screenSprites[0];
+            const player = globals.level1Sprites[0];
 
             let numToTweakProbabilityOfDroppingGreenPotion;
             let numToTweakProbabilityOfDroppingBluePotion;

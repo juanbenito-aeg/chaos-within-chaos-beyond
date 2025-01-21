@@ -1,37 +1,14 @@
 import globals from "./globals.js";
 import update from "./gameLogic.js";
 import render from "./gameRender.js";
-import { initHTMLElements, loadAssets, initSprites, initVars, initLevel, initEvents, initCamera, initParticles, initTimers } from "./initialize.js";
+import { initEssentials } from "./initialize.js";
 
 // |||||||||||| GAME INITIALIZATION
 
 window.onload = init;
 
 function init() {
-    // |||||||| INITIALIZATION OF THE HTML ELEMENTS: CANVAS & CONTEXT (SCREEN & HUD)
-    initHTMLElements();
-    
-    // |||||||| INITIALIZATION OF THE GAME'S VARIABLES
-    initVars();
-
-    initTimers();
-
-    initEvents();
-
-    // |||||||| LOAD ALL ASSETS: TILEMAPS, IMAGES, SOUNDS
-    loadAssets();
-
-    // |||||||| INITIALIZATION OF THE CAMERA
-    initCamera();
-
-    // |||||||| INITIALIZATION OF THE GAME'S MAP
-    initLevel();
-
-    // |||||||| INITIALIZATION OF SPRITES
-    initSprites();
-
-    // |||||||| INITIALIZATION OF PARTICLES
-    initParticles();
+    initEssentials();
 
     // |||||||| FIRST FRAME REQUEST
     window.requestAnimationFrame(gameLoop);

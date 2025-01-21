@@ -1,7 +1,7 @@
 import Character from "./Character.js";
 import Timer from "../Timer.js";
 import globals from "../globals.js";
-import { SpriteID, State, GRAVITY } from "../constants.js";
+import { Game, SpriteID, State, GRAVITY } from "../constants.js";
 import { initMagicalOrb } from "../initialize.js";
 
 export default class Player extends Character {
@@ -183,16 +183,20 @@ export default class Player extends Character {
 
         // |||| COLLISION WITH ENEMIES
 
-        const enemies = [
-            SpriteID.CHAOTIC_HUMAN_BOW,
-            SpriteID.CHAOTIC_HUMAN_SWORD,
-            SpriteID.FAST_WORM,
-            SpriteID.HELL_BAT_ACID,
-            SpriteID.HELL_BAT_HAND_TO_HAND,
-        ];
+        let currentLevelSprites;
+        let enemies;
 
-        for (let i = 1; i < globals.screenSprites.length; i++) {
-            const sprite = globals.screenSprites[i];
+        if (globals.gameState === Game.PLAYING_LEVEL_1) {
+            currentLevelSprites = globals.level1Sprites;
+            enemies = [
+                SpriteID.CHAOTIC_HUMAN_BOW,
+                SpriteID.FAST_WORM,
+                SpriteID.HELL_BAT_ACID,
+            ];
+        }
+
+        for (let i = 1; i < currentLevelSprites.length; i++) {
+            const sprite = currentLevelSprites[i];
 
             if (sprite.collisions.isCollidingWithPlayer && enemies.includes(sprite.id)) {
                 this.isLeftwardsHandToHandAttackEffective = ((this.state === State.LEFT_ATTACK_HAND_TO_HAND) && ((sprite.xPos + sprite.hitBox.xOffset + sprite.hitBox.xSize) <= (this.xPos + this.hitBox.xOffset + (this.hitBox.xSize / 2))));

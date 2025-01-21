@@ -18,12 +18,24 @@ import Collisions from "./Collisions.js";
 import Timer from "./Timer.js";
 import Camera from "./Camera.js";
 import globals from "./globals.js";
-import { RageSymbolParticle, ControlsMenuSparkleParticle } from "./Particle.js";
+import { RageSymbolParticle, ControlsMenuSparkle } from "./Particle.js";
 import { Level, level1 } from "./Level.js";
 import { Game, FPS, SpriteID, State, ParticleID, ParticleState } from "./constants.js";
 import { keydownHandler, keyupHandler } from "./events.js";
 
-// |||||||||||| INITIALIZES THE HTML ELEMENTS
+function initEssentials() {
+    // |||||||||||| INITIALIZE HTML ELEMENTS
+    initHTMLElements();
+
+    // |||||||||||| INITIALIZE GAME VARIABLES
+    initVars();
+
+    initEvents();
+
+    // |||||||||||| LOAD ASSETS SUCH AS TILEMAPS, IMAGES & SOUNDS
+    loadAssets();
+}
+
 function initHTMLElements() {
     // |||||||| CANVAS, CONTEXT (SCREEN)
     globals.canvas = document.getElementById("gameScreen");
@@ -35,19 +47,19 @@ function initHTMLElements() {
 
     // |||||||| ANTI-ALIASING DELETION
     globals.ctx.imageSmoothingEnabled = false;
+    globals.ctxHUD.imageSmoothingEnabled = false;
 }
 
-// |||||||||||| INITIALIZES THE GAME'S VARIABLES
 function initVars() {
-    // |||||||| INITIALIZE THE TIME MANAGEMENT VARIABLES
+    // |||||||| INITIALIZE TIME MANAGEMENT VARIABLES
     globals.previousCycleMilliseconds = 0;
     globals.deltaTime = 0;
     globals.frameTimeObj = 1 / FPS;
 
-    // |||||||| INITIALIZE THE GAME STATE
+    // |||||||| INITIALIZE GAME STATE
     globals.gameState = Game.LOADING;
 
-    // |||||||| INITIALIZE THE STATE OF THE ACTIONS
+    // |||||||| INITIALIZE STATE OF ACTIONS
     globals.action = {
         confirmSelection: false,
         return: false,
@@ -63,28 +75,23 @@ function initVars() {
     globals.highScore = 5000;
 }
 
-function initTimers() {
-    globals.demoTimer = new Timer(180, 1);
-}
-
 function initEvents() {
-    // |||||||||||| ADD THE KEYBOARD EVENT LISTENERS
+    // |||||||||||| ADD KEYBOARD EVENT LISTENERS
     window.addEventListener("keydown", keydownHandler, false);
     window.addEventListener("keyup", keyupHandler, false);
 }
 
-// |||||||||||| ASSETS LOADING: TILEMAPS, IMAGES, SOUNDS
 function loadAssets() {
     let tileSet;
 
-    // |||||||| LOAD THE SPRITESHEET
+    // |||||||| LOAD SPRITESHEET
     tileSet = new Image();
     tileSet.addEventListener("load", loadHandler, false);
     tileSet.src = "./images/spritesheet.png";
     globals.tileSets.push(tileSet);
     globals.assetsToLoad.push(tileSet);
     
-    // |||||||| LOAD THE MAP TILESET
+    // |||||||| LOAD MAP TILESET
     tileSet = new Image();
     tileSet.addEventListener("load", loadHandler, false);
     tileSet.src = "./images/map-tileset.png";
@@ -92,7 +99,7 @@ function loadAssets() {
     globals.assetsToLoad.push(tileSet);
 }
 
-// |||||||||||| FUNCTION THAT IS CALLED EACH TIME AN ASSET IS LOADED
+// |||||||||||| CODE BLOCK TO CALL EACH TIME AN ASSET IS LOADED
 function loadHandler() {
     globals.assetsLoaded++;
 
@@ -103,63 +110,31 @@ function loadHandler() {
 
         console.log("Assets finished loading");
 
-        globals.gameState = Game.PLAYING;
+        globals.gameState = Game.LOADING_LEVEL_1;
     }
 }
 
-function initCamera() {
-    globals.camera = new Camera(0, 0);
+function initMainMenu() {
+    // |||||||||||| RESET GLOBAL VARIABLES USED ON THE MAIN MENU
+    globals.mainMenuSprites             = [];
+    globals.currentMainMenuSelection    = "NEW GAME";
+
+    initMainMenuSprites();
+
+    // |||||||||||| CHANGE GAME STATE
+    globals.gameState = Game.MAIN_MENU;
 }
 
-function initLevel() {
-    const imageSet = new ImageSet(0, 0, 16, 16, 16, 16, 0, 0, 16, 16);
-
-    // |||||||||||| CREATE AND SAVE THE CAVE SECTION (LEVEL)
-    globals.level = new Level(level1, imageSet);
-}
-
-function initSprites() {
-    // |||||||||||| INITIALIZATION OF THE MENUS BACKGROUND IMAGES SPRITES
+function initMainMenuSprites() {
+    // |||||||||||| INITIALIZE BACKGROUND IMAGE
     initMainMenuBackgroundImg();
-    initStoryMenuBackgroundImg();
-    initHighScoresMenuBackgroundImg();
-    initControlsMenuBackgroundImg();
-    
-    // |||||||||||| INITIALIZATION OF THE SCREEN BACKGROUND IMAGES SPRITES
-    initScreenCaveSect1BackgroundImg();
-    // initScreenCaveSect2BackgroundImg();
 
-    // |||||||||||| INITIALIZATION OF THE MAIN MENU SPRITES
+    // |||||||||||| INITIALIZE THE REST OF THE SPRITES
     initNewGameIcon();
     initStoryIcon();
     initHighScoresIcon();
     initControlsIcon();
     initSun();
-
-    // |||||||||||| INITIALIZATION OF THE CONTROLS MENU SPRITES
-    initLeftArrowKey();
-    initRightArrowKey();
-    initSpaceKey();
-    initALetterKey();
-    initSLetterKey();
-
-    // |||||||||||| INITIALIZATION OF THE HUD SPRITES
-    initTheEruditeHUD();
-    initRageBarContainer();
-    initRageBarContent();
-
-    // |||||||||||| INITIALIZATION OF THE SCREEN SPRITES
-    initPlayer();
-    initChaoticHumanBow();
-    // initChaoticHumanSword();
-    initFastWorm();
-    initHellBatAcid();
-    // initHellBatHandToHand();
-    initPotionGreen();
-    // initPotionBlue();
-
-    // |||||||||||| INITIALIZATION OF THE "GAME OVER" SCREEN SPRITES
-    initSkull();
 }
 
 function initMainMenuBackgroundImg() {
@@ -169,52 +144,7 @@ function initMainMenuBackgroundImg() {
 
     const mainMenuBackgroundImg = new Sprite(SpriteID.BACKGROUND_IMG_MAIN_MENU, State.STILL, 0, 0, imageSet, frames);
 
-    // |||||||||||| ADD THE MAIN MENU'S BACKGROUND IMAGE TO ITS CORRESPONDING SPRITES ARRAY
-    globals.menusBackgroundImgsSprites.push(mainMenuBackgroundImg);
-}
-
-function initStoryMenuBackgroundImg() {
-    const imageSet = new ImageSet(601, 1432, 597, 341, 601, 358, 74, 0, -1, -1);
-
-    const frames = new Frames(1);
-
-    const storyMenuBackgroundImg = new Sprite(SpriteID.BACKGROUND_IMG_STORY_MENU, State.STILL, 0, 0, imageSet, frames);
-
-    // |||||||||||| ADD THE STORY MENU'S BACKGROUND IMAGE TO ITS CORRESPONDING SPRITES ARRAY
-    globals.menusBackgroundImgsSprites.push(storyMenuBackgroundImg);
-}
-
-function initHighScoresMenuBackgroundImg() {
-    const imageSet = new ImageSet(601, 1074, 597, 341, 601, 358, 110, 10, -1, -1);
-
-    const frames = new Frames(1);
-
-    const highScoresMenuBackgroundImg = new Sprite(SpriteID.BACKGROUND_IMG_HIGH_SCORES_MENU, State.STILL, 0, 0, imageSet, frames);
-
-    // |||||||||||| ADD THE HIGH SCORES MENU'S BACKGROUND IMAGE TO ITS CORRESPONDING SPRITES ARRAY
-    globals.menusBackgroundImgsSprites.push(highScoresMenuBackgroundImg);
-}
-
-function initControlsMenuBackgroundImg() {
-    const imageSet = new ImageSet(1204, 1432, 597, 341, 602, 358, 74, 0, -1, -1);
-
-    const frames = new Frames(1);
-
-    const controlsMenuBackgroundImg = new Sprite(SpriteID.BACKGROUND_IMG_CONTROLS_MENU, State.STILL, 0, 0, imageSet, frames);
-
-    // |||||||||||| ADD THE CONTROLS MENU'S BACKGROUND IMAGE TO ITS CORRESPONDING SPRITES ARRAY
-    globals.menusBackgroundImgsSprites.push(controlsMenuBackgroundImg);
-}
-
-function initScreenCaveSect1BackgroundImg() {
-    const imageSet = new ImageSet(0, 1063, 448, 256, 448, 329, 0, 0, -1, -1);
-
-    const frames = new Frames(1);
-
-    const screenCaveSect1BackgroundImg = new Sprite(SpriteID.BACKGROUND_IMG_CAVE_SECT_1, State.STILL, 0, 0, imageSet, frames);
-
-    // |||||||||||| ADD THE CAVE'S FIRST SECTION'S BACKGROUND IMAGE TO ITS CORRESPONDING SPRITES ARRAY
-    globals.screenBackgroundImgsSprites.push(screenCaveSect1BackgroundImg);
+    globals.mainMenuBackgroundImg = mainMenuBackgroundImg;
 }
 
 function initNewGameIcon() {
@@ -270,6 +200,75 @@ function initSun() {
 
     // |||||||||||| ADD THE SUN TO ITS CORRESPONDING SPRITES ARRAY
     globals.mainMenuSprites.push(sun);
+}
+
+function initStoryMenu() {
+    initStoryMenuBackgroundImg();
+
+    // |||||||||||| CHANGE GAME STATE
+    globals.gameState = Game.STORY_MENU;
+}
+
+function initStoryMenuBackgroundImg() {
+    const imageSet = new ImageSet(601, 1432, 597, 341, 601, 358, 74, 0, -1, -1);
+
+    const frames = new Frames(1);
+
+    const storyMenuBackgroundImg = new Sprite(SpriteID.BACKGROUND_IMG_STORY_MENU, State.STILL, 0, 0, imageSet, frames);
+
+    globals.storyMenuBackgroundImg = storyMenuBackgroundImg;
+}
+
+function initHighScoresMenu() {
+    initHighScoresMenuBackgroundImg();
+
+    // |||||||||||| CHANGE GAME STATE
+    globals.gameState = Game.HIGH_SCORES_MENU;
+}
+
+function initHighScoresMenuBackgroundImg() {
+    const imageSet = new ImageSet(601, 1074, 597, 341, 601, 358, 110, 10, -1, -1);
+
+    const frames = new Frames(1);
+
+    const highScoresMenuBackgroundImg = new Sprite(SpriteID.BACKGROUND_IMG_HIGH_SCORES_MENU, State.STILL, 0, 0, imageSet, frames);
+
+    globals.highScoresMenuBackgroundImg = highScoresMenuBackgroundImg;
+}
+
+function initControlsMenu() {
+    // |||||||||||| RESET GLOBAL VARIABLES USED ON THE CONTROLS MENU
+    globals.controlsMenuSprites = [];
+    globals.controlsMenuParticles = [];
+
+    initControlsMenuSprites();
+
+    initControlsMenuParticles();
+
+    // |||||||||||| CHANGE GAME STATE
+    globals.gameState = Game.CONTROLS_MENU;
+}
+
+function initControlsMenuSprites() {
+    // |||||||||||| INITIALIZE BACKGROUND IMAGE
+    initControlsMenuBackgroundImg();
+
+    // |||||||||||| INITIALIZE THE REST OF THE SPRITES
+    initLeftArrowKey();
+    initRightArrowKey();
+    initSpaceKey();
+    initALetterKey();
+    initSLetterKey();
+}
+
+function initControlsMenuBackgroundImg() {
+    const imageSet = new ImageSet(1204, 1432, 597, 341, 602, 358, 74, 0, -1, -1);
+
+    const frames = new Frames(1);
+
+    const controlsMenuBackgroundImg = new Sprite(SpriteID.BACKGROUND_IMG_CONTROLS_MENU, State.STILL, 0, 0, imageSet, frames);
+
+    globals.controlsMenuBackgroundImg = controlsMenuBackgroundImg;
 }
 
 function initLeftArrowKey() {
@@ -332,6 +331,97 @@ function initSLetterKey() {
     globals.controlsMenuSprites.push(SLetterKey);
 }
 
+function initControlsMenuParticles() {
+    initControlsMenuSparkles();
+}
+
+function initControlsMenuSparkles() {
+    const numOfParticles = 10;
+
+    for (let i = 0; i < numOfParticles; i++) {
+        createControlsMenuSparkle();
+    }
+}
+
+function createControlsMenuSparkle() {
+    const xPos = Math.random() * globals.canvas.width;
+    const yPos = Math.random() * globals.canvas.height;
+    
+    const alpha = 1.0;
+
+    const width = 3.5;
+    const height = 3.5;
+
+    const radius = 3.5;
+
+    const colors = [
+        "rgb(215 255 252 / 0.75)",
+        "rgb(246 251 148 / 0.75)",
+        "rgb(106 176 201 / 0.75)",
+    ];
+    const randomColorsArrayIndex = Math.floor(Math.random() * colors.length);
+    const color = colors[randomColorsArrayIndex];
+
+    const particle = new ControlsMenuSparkle(ParticleID.CONTROLS_MENU_SPARKLE, ParticleState.FADE, xPos, yPos, null, alpha, width, height, radius, color);
+
+    globals.controlsMenuParticles.push(particle);
+}
+
+function initLevel1() {
+    // |||||||||||| RESET GLOBAL VARIABLES USED ON THE FIRST LEVEL
+    globals.HUDSprites      = [];
+    globals.score           = 0;
+    globals.level1Sprites   = [];
+    globals.levelsParticles = [];
+    
+    // |||||||||||| INITIALIZE MAP
+    initLevel1Map();
+
+    // |||||||||||| INITIALIZE 180-SECONDS TIMER FOR DEMO
+    initDemoTimer();
+
+    // |||||||||||| INITIALIZE CAMERA
+    initCamera();
+
+    initLevel1Sprites();
+
+    initLevelsParticles();
+
+    // |||||||||||| CHANGE GAME STATE
+    globals.gameState = Game.PLAYING_LEVEL_1;
+}
+
+function initLevel1Map() {
+    const imageSet = new ImageSet(0, 0, 16, 16, 16, 16, 0, 0, 16, 16);
+
+    globals.level = new Level(level1, imageSet);
+}
+
+function initDemoTimer() {
+    globals.demoTimer = new Timer(180, 1);
+}
+
+function initCamera() {
+    globals.camera = new Camera(0, 0);
+}
+
+function initLevel1Sprites() {
+    // |||||||||||| INITIALIZE THE HUD SPRITES
+    initTheEruditeHUD();
+    initRageBarContainer();
+    initRageBarContent();
+
+    // |||||||||||| INITIALIZE BACKGROUND IMAGE
+    initLevel1BackgroundImg();
+
+    // |||||||||||| INITIALIZE THE REST OF THE SPRITES
+    initPlayer();
+    initChaoticHumanBow();
+    initFastWorm();
+    initHellBatAcid();
+    initPotionGreen();
+}
+
 function initTheEruditeHUD() {
     const imageSet = new ImageSet(0, 1321, 85, 85, 85, 85, 0, 0, -1, -1);
 
@@ -363,6 +453,16 @@ function initRageBarContent() {
 
     // |||||||||||| ADD RAGE BAR (CONTENT) TO ITS CORRESPONDING SPRITES ARRAY
     globals.HUDSprites.push(rageBarContent);
+}
+
+function initLevel1BackgroundImg() {
+    const imageSet = new ImageSet(0, 1063, 448, 256, 448, 329, 0, 0, -1, -1);
+
+    const frames = new Frames(1);
+
+    const level1BackgroundImg = new Sprite(SpriteID.BACKGROUND_IMG_LEVEL_1, State.STILL, 0, 0, imageSet, frames);
+
+    globals.level1BackgroundImg = level1BackgroundImg;
 }
 
 function initPlayer() {
@@ -421,7 +521,40 @@ function initPlayer() {
     const player = new Player(SpriteID.PLAYER, State.RIGHT_STILL, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, checkpoints);
 
     // |||||||||||| ADD PLAYER TO ITS CORRESPONDING SPRITES ARRAY
-    globals.screenSprites.push(player);
+    globals.level1Sprites.push(player);
+}
+
+function initMagicalOrb() {
+    const player = globals.level1Sprites[0];
+    
+    let magicalOrbXPos;
+    let magicalOrbYPos = player.yPos + (player.imageSet.yDestinationSize / 3);
+    
+    let vLimit;
+
+    if (player.state === State.LEFT_ATTACK_MAGICAL_ORB) {
+        magicalOrbXPos = player.xPos;
+        vLimit = -210;
+    } else {
+        magicalOrbXPos = player.xPos + player.imageSet.xDestinationSize;
+        vLimit = 210;
+    }
+
+    const imageSet = new ImageSet(576, 512, 32, 32, 32, 32, 0, 0, 19, 19);
+
+    const frames = new Frames(4, 1);
+
+    const physics = new Physics(vLimit);
+    physics.vx = vLimit;
+
+    const hitBox = new HitBox(19, 19, 0, 0);
+
+    const collisions = new Collisions();
+
+    const magicalOrb = new MagicalOrb(SpriteID.MAGICAL_ORB, State.STILL, magicalOrbXPos, magicalOrbYPos, imageSet, frames, physics, hitBox, collisions);
+
+    // |||||||||||| ADD MAGICAL ORB TO ITS CORRESPONDING SPRITES ARRAY
+    globals.level1Sprites.push(magicalOrb);
 }
 
 function initChaoticHumanBow() {
@@ -489,49 +622,44 @@ function initChaoticHumanBow() {
         const chaoticHumanBow = new ChaoticHumanBow(SpriteID.CHAOTIC_HUMAN_BOW, currentSpriteState, currentSpriteXPos, currentSpriteYPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, nextArrowShotDelay);
      
         // |||||||||||| ADD CHAOTIC HUMAN (BOW) TO ITS CORRESPONDING SPRITES ARRAY
-        globals.screenSprites.push(chaoticHumanBow);
+        globals.level1Sprites.push(chaoticHumanBow);
     }
 }
 
-function initChaoticHumanSword() {
-    // |||||||||||| CREATE ALL THE SPRITES FOR THE CAVE'S SECOND SECTION (LEVEL)
+function initArrow(chaoticHumanBow) {
+    let state;
 
-    const chaoticHumanSwordSpritesAttributes = [
-        {
-            state: State.LEFT_3,
-            xPos: 250,
-            yPos: 60,
-        },
-    ];
+    let xPos;
+    let yPos = chaoticHumanBow.yPos + (chaoticHumanBow.imageSet.yDestinationSize / 3.75);
+    
+    let vLimit;
 
-    for (let i = 0; i < chaoticHumanSwordSpritesAttributes.length; i++) {
-        const currentSpriteState = chaoticHumanSwordSpritesAttributes[i].state;
-        
-        const currentSpriteXPos = chaoticHumanSwordSpritesAttributes[i].xPos;
-        const currentSpriteYPos = chaoticHumanSwordSpritesAttributes[i].yPos;
-        
-        const imageSet = new ImageSet(576, 0, 56, 53, 64, 64, 3, 10, 44, 41);
-
-        // |||||||||||| ANIMATION DATA CREATION: 9 (OR LESS IN THIS CASE) FRAMES PER STATE & ANIMATION SPEED
-        const frames = new Frames(9, 3);
-
-        const physics = new Physics(20);
-
-        const maxTimeToChangeDirection = 3
-
-        const hitBox = new HitBox(26, 40, 2, 1);
-
-        const collisions = new Collisions();
-
-        const lifePoints = 2;
-
-        const afterAttackLeeway = new Timer(0, 1);
-
-        const chaoticHumanSword = new ChaoticHumanSword(SpriteID.CHAOTIC_HUMAN_SWORD, currentSpriteState, currentSpriteXPos, currentSpriteYPos, imageSet, frames, physics, maxTimeToChangeDirection, hitBox, collisions, lifePoints, afterAttackLeeway);
-     
-        // |||||||||||| ADD CHAOTIC HUMAN (SWORD) TO ITS CORRESPONDING SPRITES ARRAY
-        globals.screenSprites.push(chaoticHumanSword);
+    if (chaoticHumanBow.state === State.LEFT_ATTACK_2) {
+        state = State.LEFT_4;
+        xPos = chaoticHumanBow.xPos;
+        vLimit = -210;
+    } else {
+        state = State.RIGHT_4;
+        xPos = chaoticHumanBow.xPos + chaoticHumanBow.imageSet.xDestinationSize;
+        vLimit = 210;
     }
+
+    const imageSet = new ImageSet(580, 555, 16, 7, 20, 15, 0, 0, 16, 7);
+
+    // |||||||||||| ANIMATION DATA CREATION: 1 FRAME PER STATE & ANIMATION SPEED
+    const frames = new Frames(1, 1);
+
+    const physics = new Physics(vLimit);
+    physics.vx = vLimit;
+
+    const hitBox = new HitBox(16, 7, 0, 0);
+
+    const collisions = new Collisions();
+
+    const arrow = new Arrow(SpriteID.ARROW, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
+
+    // |||||||||||| ADD ARROW TO ITS CORRESPONDING SPRITES ARRAY
+    globals.level1Sprites.push(arrow);
 }
 
 function initFastWorm() {
@@ -545,7 +673,7 @@ function initFastWorm() {
         },
         {
             state: State.RIGHT,
-            xPos: 157,
+            xPos: 234,
             yPos: 483,
         },
         {
@@ -579,7 +707,7 @@ function initFastWorm() {
         const fastWorm = new FastWorm(SpriteID.FAST_WORM, currentSpriteState, currentSpriteXPos, currentSpriteYPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
      
         // |||||||||||| ADD FAST WORM TO ITS CORRESPONDING SPRITES ARRAY
-        globals.screenSprites.push(fastWorm);
+        globals.level1Sprites.push(fastWorm);
     }
 }
 
@@ -670,35 +798,31 @@ function initHellBatAcid() {
         hellBatAcid.setPosition();
 
         // |||||||||||| ADD HELL BAT (ACID) TO ITS CORRESPONDING SPRITES ARRAY
-        globals.screenSprites.push(hellBatAcid);
+        globals.level1Sprites.push(hellBatAcid);
     }
 }
 
-function initHellBatHandToHand() {
-    const imageSet = new ImageSet(1334, 0, 33, 39, 46, 59, 8, 19, 33, 39);
+function initAcid(hellBatAcid) {    
+    const xPos = hellBatAcid.xPos + (hellBatAcid.imageSet.xDestinationSize / 3.35);
+    const yPos = hellBatAcid.yPos + (hellBatAcid.imageSet.yDestinationSize / 2.5);
+    
+    const vLimit = 180;
 
-    // |||||||||||| ANIMATION DATA CREATION: 3 FRAMES PER STATE & ANIMATION SPEED
-    const frames = new Frames(3, 7);
+    const imageSet = new ImageSet(570, 440, 19, 35, 30, 40, 7, 2, 4, 20);
 
-    // |||||||||||| INITIAL VALUES FOR "Physics"
-    const vLimit = 50;
-    const omega = 2.5;
-    const initAngle = 90 * Math.PI / 180;
-    const yRef = globals.canvas.height / 2.15;
+    const frames = new Frames(4, 3);
 
-    const physics = new Physics(vLimit, 0, 1, 0, omega, initAngle, 100, 100, yRef);
-    physics.vx = vLimit;
+    const physics = new Physics(vLimit);
+    physics.vy = vLimit;
 
-    const hitBox = new HitBox(32, 21, 1, 2);
+    const hitBox = new HitBox(4, 20, 0, 0);
 
     const collisions = new Collisions();
 
-    const afterAttackLeeway = new Timer(0, 1);
+    const acid = new Acid(SpriteID.ACID, State.STILL, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
 
-    const hellBatHandToHand = new HellBatHandToHand(SpriteID.HELL_BAT_HAND_TO_HAND, State.DOWN_3, 0, 0, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
-
-    // |||||||||||| ADD HELL BAT (HAND-TO-HAND) TO ITS CORRESPONDING SPRITES ARRAY
-    globals.screenSprites.push(hellBatHandToHand);
+    // |||||||||||| ADD ACID TO ITS CORRESPONDING SPRITES ARRAY
+    globals.level1Sprites.push(acid);
 }
 
 function initPotionGreen(xPos = -1, yPos = -1) {
@@ -758,19 +882,11 @@ function initPotionGreen(xPos = -1, yPos = -1) {
         const potionGreen = new Potion(SpriteID.POTION_GREEN, State.STILL, currentSpriteXPos, currentSpriteYPos, imageSet, frames, physics, hitBox, collisions);
      
         // |||||||||||| ADD POTION (GREEN) TO ITS CORRESPONDING SPRITES ARRAY
-        globals.screenSprites.push(potionGreen);
+        globals.level1Sprites.push(potionGreen);
     }
 }
 
 function initPotionBlue(xPos = -1, yPos = -1) {
-    // if (xPos === -1) {
-    //     xPos = 209;
-    // }
-
-    // if (yPos === -1) {
-    //     yPos = 80;
-    // }
-
     const imageSet = new ImageSet(714, 510, 28, 30, 34, 30, 0, 0, 14, 16);
 
     const frames = new Frames(1);
@@ -784,115 +900,11 @@ function initPotionBlue(xPos = -1, yPos = -1) {
     const potionBlue = new Potion(SpriteID.POTION_BLUE, State.STILL, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
 
     // |||||||||||| ADD POTION (BLUE) TO ITS CORRESPONDING SPRITES ARRAY
-    globals.screenSprites.push(potionBlue);
+    globals.level1Sprites.push(potionBlue);
 }
 
-function initMagicalOrb() {
-    const player = globals.screenSprites[0];
-    
-    let magicalOrbXPos;
-    let magicalOrbYPos = player.yPos + (player.imageSet.yDestinationSize / 3);
-    
-    let vLimit;
-
-    if (player.state === State.LEFT_ATTACK_MAGICAL_ORB) {
-        magicalOrbXPos = player.xPos;
-        vLimit = -210;
-    } else {
-        magicalOrbXPos = player.xPos + player.imageSet.xDestinationSize;
-        vLimit = 210;
-    }
-
-    const imageSet = new ImageSet(576, 512, 32, 32, 32, 32, 0, 0, 19, 19);
-
-    const frames = new Frames(4, 1);
-
-    const physics = new Physics(vLimit);
-    physics.vx = vLimit;
-
-    const hitBox = new HitBox(19, 19, 0, 0);
-
-    const collisions = new Collisions();
-
-    const magicalOrb = new MagicalOrb(SpriteID.MAGICAL_ORB, State.STILL, magicalOrbXPos, magicalOrbYPos, imageSet, frames, physics, hitBox, collisions);
-
-    // |||||||||||| ADD MAGICAL ORB TO ITS CORRESPONDING SPRITES ARRAY
-    globals.screenSprites.push(magicalOrb);
-}
-
-function initArrow(chaoticHumanBow) {
-    let state;
-
-    let xPos;
-    let yPos = chaoticHumanBow.yPos + (chaoticHumanBow.imageSet.yDestinationSize / 3.75);
-    
-    let vLimit;
-
-    if (chaoticHumanBow.state === State.LEFT_ATTACK_2) {
-        state = State.LEFT_4;
-        xPos = chaoticHumanBow.xPos;
-        vLimit = -210;
-    } else {
-        state = State.RIGHT_4;
-        xPos = chaoticHumanBow.xPos + chaoticHumanBow.imageSet.xDestinationSize;
-        vLimit = 210;
-    }
-
-    const imageSet = new ImageSet(580, 555, 16, 7, 20, 15, 0, 0, 16, 7);
-
-    // |||||||||||| ANIMATION DATA CREATION: 1 FRAME PER STATE & ANIMATION SPEED
-    const frames = new Frames(1, 1);
-
-    const physics = new Physics(vLimit);
-    physics.vx = vLimit;
-
-    const hitBox = new HitBox(16, 7, 0, 0);
-
-    const collisions = new Collisions();
-
-    const arrow = new Arrow(SpriteID.ARROW, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
-
-    // |||||||||||| ADD ARROW TO ITS CORRESPONDING SPRITES ARRAY
-    globals.screenSprites.push(arrow);
-}
-
-function initAcid(hellBatAcid) {    
-    const xPos = hellBatAcid.xPos + (hellBatAcid.imageSet.xDestinationSize / 3.35);
-    const yPos = hellBatAcid.yPos + (hellBatAcid.imageSet.yDestinationSize / 2.5);
-    
-    const vLimit = 180;
-
-    const imageSet = new ImageSet(570, 440, 19, 35, 30, 40, 7, 2, 4, 20);
-
-    const frames = new Frames(4, 3);
-
-    const physics = new Physics(vLimit);
-    physics.vy = vLimit;
-
-    const hitBox = new HitBox(4, 20, 0, 0);
-
-    const collisions = new Collisions();
-
-    const acid = new Acid(SpriteID.ACID, State.STILL, xPos, yPos, imageSet, frames, physics, hitBox, collisions);
-
-    // |||||||||||| ADD ACID TO ITS CORRESPONDING SPRITES ARRAY
-    globals.screenSprites.push(acid);
-}
-
-function initSkull() {
-    const imageSet = new ImageSet(153, 1780, 120, 162, 153, 178, 32, 14, 80, 122);
-
-    const frames = new Frames(1);
-
-    const skull = new Sprite(SpriteID.SKULL, State.STILL, 186, 20, imageSet, frames);
-
-    // |||||||||||| ASSIGN SKULL TO ITS CORRESPONDING VARIABLE
-    globals.gameOverSprite = skull;
-}
-
-function initParticles() {
+function initLevelsParticles() {
     initRageSymbolParticles();
-    initControlsMenuSparkles();
 }
 
 function initRageSymbolParticles() {
@@ -917,55 +929,113 @@ function initRageSymbolParticles() {
         
         angle += 0.625;
 
-        globals.particles.push(particle);
+        globals.levelsParticles.push(particle);
     }
 }
 
-function initControlsMenuSparkles() {
-    const numOfParticles = 10;
+function initChaoticHumanSword() {
+    // |||||||||||| CREATE ALL THE SPRITES FOR THE CAVE'S SECOND SECTION (LEVEL)
 
-    for (let i = 0; i < numOfParticles; i++) {
-        createControlsMenuSparkleParticle();
-    }
-}
-
-function createControlsMenuSparkleParticle() {
-    const xPos = Math.random() * globals.canvas.width;
-    const yPos = Math.random() * globals.canvas.height;
-    
-    const alpha = 1.0;
-
-    const radius = 2;
-
-    const colors = [
-        "rgb(215 255 252 / 0.75)",
-        "rgb(246 251 148 / 0.75)",
-        "rgb(106 176 201 / 0.75)",
+    const chaoticHumanSwordSpritesAttributes = [
+        {
+            state: State.LEFT_3,
+            xPos: 250,
+            yPos: 60,
+        },
     ];
-    const randomColorsArrayIndex = Math.floor(Math.random() * colors.length);
-    const color = colors[randomColorsArrayIndex];
 
-    const particle = new ControlsMenuSparkleParticle(ParticleID.CONTROLS_MENU_SPARKLE, ParticleState.FADE, xPos, yPos, null, alpha, radius, color);
+    for (let i = 0; i < chaoticHumanSwordSpritesAttributes.length; i++) {
+        const currentSpriteState = chaoticHumanSwordSpritesAttributes[i].state;
+        
+        const currentSpriteXPos = chaoticHumanSwordSpritesAttributes[i].xPos;
+        const currentSpriteYPos = chaoticHumanSwordSpritesAttributes[i].yPos;
+        
+        const imageSet = new ImageSet(576, 0, 56, 53, 64, 64, 3, 10, 44, 41);
 
-    globals.particles.push(particle);
+        // |||||||||||| ANIMATION DATA CREATION: 9 (OR LESS IN THIS CASE) FRAMES PER STATE & ANIMATION SPEED
+        const frames = new Frames(9, 3);
+
+        const physics = new Physics(20);
+
+        const maxTimeToChangeDirection = 3
+
+        const hitBox = new HitBox(26, 40, 2, 1);
+
+        const collisions = new Collisions();
+
+        const lifePoints = 2;
+
+        const afterAttackLeeway = new Timer(0, 1);
+
+        const chaoticHumanSword = new ChaoticHumanSword(SpriteID.CHAOTIC_HUMAN_SWORD, currentSpriteState, currentSpriteXPos, currentSpriteYPos, imageSet, frames, physics, maxTimeToChangeDirection, hitBox, collisions, lifePoints, afterAttackLeeway);
+     
+        // |||||||||||| ADD CHAOTIC HUMAN (SWORD) TO ITS CORRESPONDING SPRITES ARRAY
+        globals.level2Sprites.push(chaoticHumanSword);
+    }
+}
+
+function initHellBatHandToHand() {
+    const imageSet = new ImageSet(1334, 0, 33, 39, 46, 59, 8, 19, 33, 39);
+
+    // |||||||||||| ANIMATION DATA CREATION: 3 FRAMES PER STATE & ANIMATION SPEED
+    const frames = new Frames(3, 7);
+
+    // |||||||||||| INITIAL VALUES FOR "Physics"
+    const vLimit = 50;
+    const omega = 2.5;
+    const initAngle = 90 * Math.PI / 180;
+    const yRef = globals.canvas.height / 2.15;
+
+    const physics = new Physics(vLimit, 0, 1, 0, omega, initAngle, 100, 100, yRef);
+    physics.vx = vLimit;
+
+    const hitBox = new HitBox(32, 21, 1, 2);
+
+    const collisions = new Collisions();
+
+    const afterAttackLeeway = new Timer(0, 1);
+
+    const hellBatHandToHand = new HellBatHandToHand(SpriteID.HELL_BAT_HAND_TO_HAND, State.DOWN_3, 0, 0, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
+
+    // |||||||||||| ADD HELL BAT (HAND-TO-HAND) TO ITS CORRESPONDING SPRITES ARRAY
+    globals.level2Sprites.push(hellBatHandToHand);
+}
+
+function initGameOver() {
+    // |||||||||||| RESET GLOBAL VARIABLES USED ON THE "GAME OVER" SCREEN
+    globals.currentGameOverSelection = "CHECK HIGH SCORES TABLE";
+
+    initSkull();
+
+    // |||||||||||| CHANGE GAME STATE
+    globals.gameState = Game.OVER;
+}
+
+function initSkull() {
+    const imageSet = new ImageSet(153, 1780, 120, 162, 153, 178, 32, 14, 80, 122);
+
+    const frames = new Frames(1);
+
+    const skull = new Sprite(SpriteID.SKULL, State.STILL, 186, 20, imageSet, frames);
+
+    // |||||||||||| ASSIGN SKULL TO ITS CORRESPONDING VARIABLE
+    globals.gameOverSprite = skull;
 }
 
 // |||||||||||| EXPORTS
 export {
-    initHTMLElements,
-    loadAssets,
-    initVars,
-    initSprites,
-    initLevel,
-    initEvents,
+    initEssentials,
+    initMainMenu,    
+    initStoryMenu,    
+    initHighScoresMenu,    
+    initControlsMenu,    
+    createControlsMenuSparkle,
+    initLevel1,    
     initMagicalOrb,
     initArrow,
     initAcid,
-    initCamera,
     initPotionGreen,
     initPotionBlue,
-    initParticles,
     initRageSymbolParticles,
-    initTimers,
-    createControlsMenuSparkleParticle,
+    initGameOver,    
 };

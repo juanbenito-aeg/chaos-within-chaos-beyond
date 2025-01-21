@@ -1,7 +1,7 @@
 import globals from "./globals.js";
 import detectCollisions from "./collisionsLogic.js";
 import { Game, SpriteID, State, ParticleID, ParticleState } from "./constants.js";
-import { initRageSymbolParticles, createControlsMenuSparkleParticle } from "./initialize.js";
+import { initMainMenu, initStoryMenu, initHighScoresMenu, initControlsMenu, initLevel1, initGameOver, initRageSymbolParticles, createControlsMenuSparkle } from "./initialize.js";
 import { updateEvents } from "./events.js";
 
 export default function update() {
@@ -11,24 +11,47 @@ export default function update() {
             console.log("Loading assets...");
             break;
         
+        case Game.LOADING_MAIN_MENU:
+            initMainMenu();
+            break;
+
         case Game.MAIN_MENU:
             updateMainMenu();
             break;
         
+        case Game.LOADING_STORY_MENU:
+            initStoryMenu();
+            break;
+
         case Game.STORY_MENU:
             updateStoryMenu();
             break;
         
+        case Game.LOADING_HIGH_SCORES_MENU:
+            initHighScoresMenu();
+            break;
+
         case Game.HIGH_SCORES_MENU:
             updateHighScoresMenu();
             break;
         
+        case Game.LOADING_CONTROLS_MENU:
+            initControlsMenu();
+            break;
+
         case Game.CONTROLS_MENU:
             updateControlsMenu();
             break;
-        
-        case Game.PLAYING:
-            playGame();
+
+        case Game.LOADING_LEVEL_1:
+            initLevel1();
+
+        case Game.PLAYING_LEVEL_1:
+            playLevel1();
+            break;
+
+        case Game.LOADING_GAME_OVER:
+            initGameOver();
             break;
         
         case Game.OVER:
@@ -124,19 +147,19 @@ function updateCurrentScreenFromMainMenu() {
     if (globals.action.confirmSelection) {
         switch (globals.currentMainMenuSelection) {
             case "NEW GAME":
-                globals.gameState = Game.PLAYING;
+                globals.gameState = Game.LOADING_LEVEL_1;
                 break;
             
             case "STORY":
-                globals.gameState = Game.STORY_MENU;
+                globals.gameState = Game.LOADING_STORY_MENU;
                 break;
             
             case "HIGH SCORES":
-                globals.gameState = Game.HIGH_SCORES_MENU;
+                globals.gameState = Game.LOADING_HIGH_SCORES_MENU;
                 break;
             
             case "CONTROLS":
-                globals.gameState = Game.CONTROLS_MENU;
+                globals.gameState = Game.LOADING_CONTROLS_MENU;
                 break;
         }
     }
@@ -144,7 +167,7 @@ function updateCurrentScreenFromMainMenu() {
 
 function returnToTheMainMenu() {
     if (globals.action.return) {
-        globals.gameState = Game.MAIN_MENU;
+        globals.gameState = Game.LOADING_MAIN_MENU;
     }
 }
 
@@ -157,76 +180,107 @@ function updateHighScoresMenu() {
 }
 
 function updateControlsMenu() {
-    updateParticles();
-    updateControlsMenuSprites();
+    // updateControlsMenuSprites();
+    updateControlsMenuParticles();
     returnToTheMainMenu();
 }
 
-function updateControlsMenuSprites() {
-    for (let i = 0; i < globals.controlsMenuSprites.length; i++) {
-        const sprite = globals.controlsMenuSprites[i];
+// function updateControlsMenuSprites() {
+//     for (let i = 0; i < globals.controlsMenuSprites.length; i++) {
+//         const sprite = globals.controlsMenuSprites[i];
 
-        updateControlsMenuSprite(sprite);
+//         updateControlsMenuSprite(sprite);
+//     }
+// }
+
+// function updateControlsMenuSprite(sprite) {
+//     const type = sprite.id;
+
+//     switch (type) {
+//         // |||||||||||| "LEFT ARROW" KEY
+//         case SpriteID.LEFT_ARROW_KEY:
+//             updateLeftArrowKey(sprite);
+//             break;
+
+//         // |||||||||||| "RIGHT ARROW" KEY
+//         case SpriteID.RIGHT_ARROW_KEY:
+//             updateRightArrowKey(sprite);
+//             break;
+
+//         // |||||||||||| "SPACE" KEY
+//         case SpriteID.SPACE_KEY:
+//             updateSpaceKey(sprite);
+//             break;
+
+//         // |||||||||||| "A" LETTER KEY
+//         case SpriteID.A_LETTER_KEY:
+//             updateALetterKey(sprite);
+//             break;
+
+//         // |||||||||||| "S" LETTER KEY
+//         case SpriteID.S_LETTER_KEY:
+//             updateSLetterKey(sprite);
+//             break;
+//     }
+// }
+
+// function updateLeftArrowKey(sprite) {
+//     sprite.frames.frameCounter = 0;
+// }
+
+// function updateRightArrowKey(sprite) {
+//     sprite.frames.frameCounter = 0;
+// }
+
+// function updateSpaceKey(sprite) {
+//     sprite.frames.frameCounter = 0;
+// }
+
+// function updateALetterKey(sprite) {
+//     sprite.frames.frameCounter = 0;
+// }
+
+// function updateSLetterKey(sprite) {
+//     sprite.frames.frameCounter = 0;
+// }
+
+function updateControlsMenuParticles() {
+    for (let i = 0; i < globals.controlsMenuParticles.length; i++) {
+        const particle = globals.controlsMenuParticles[i];
+        
+        if (particle.state === ParticleState.OFF) {
+            globals.controlsMenuParticles.splice(i, 1);
+            i--;
+            createControlsMenuSparkle();
+        } else {
+            updateControlsMenuParticle(particle);
+        }
     }
 }
 
-function updateControlsMenuSprite(sprite) {
-    const type = sprite.id;
+function updateControlsMenuParticle(particle) {
+    const type = particle.id;
 
     switch (type) {
-        // |||||||||||| "LEFT ARROW" KEY
-        case SpriteID.LEFT_ARROW_KEY:
-            updateLeftArrowKey(sprite);
-            break;
-
-        // |||||||||||| "RIGHT ARROW" KEY
-        case SpriteID.RIGHT_ARROW_KEY:
-            updateRightArrowKey(sprite);
-            break;
-
-        // |||||||||||| "SPACE" KEY
-        case SpriteID.SPACE_KEY:
-            updateSpaceKey(sprite);
-            break;
-
-        // |||||||||||| "A" LETTER KEY
-        case SpriteID.A_LETTER_KEY:
-            updateALetterKey(sprite);
-            break;
-
-        // |||||||||||| "S" LETTER KEY
-        case SpriteID.S_LETTER_KEY:
-            updateSLetterKey(sprite);
+        case ParticleID.CONTROLS_MENU_SPARKLE:
+            updateControlsMenuSparkle(particle);
             break;
     }
 }
 
-function updateLeftArrowKey(sprite) {
-    sprite.frames.frameCounter = 0;
+function updateControlsMenuSparkle(particle) {
+    particle.alpha -= 0.01;
+    if (particle.alpha <= 0) {
+        particle.state = ParticleState.OFF;
+    }
 }
 
-function updateRightArrowKey(sprite) {
-    sprite.frames.frameCounter = 0;
-}
-
-function updateSpaceKey(sprite) {
-    sprite.frames.frameCounter = 0;
-}
-
-function updateALetterKey(sprite) {
-    sprite.frames.frameCounter = 0;
-}
-
-function updateSLetterKey(sprite) {
-    sprite.frames.frameCounter = 0;
-}
-
-function playGame() {
+function playLevel1() {
     // |||||||||||| UPDATE PHYSICS
-    updateScreenSpritesPhysics();
+    updateLevel1SpritesPhysics();
 
     // |||||||||||| UPDATE PARTICLES
-    updateParticles();
+    updateLevelsParticles();
     
     // |||||||||||| DETECT COLLISIONS
     detectCollisions();
@@ -235,48 +289,40 @@ function playGame() {
     updateCamera();
     
     // |||||||||||| UPDATE LOGIC
-    updateScreenSpritesLogic();
+    updateLevel1SpritesLogic();
 
     // |||||||||||| UPDATE EVENTS
     updateEvents();
 
     updateHUDTimer();
 
-    // |||||||||||| CHECK IF THE PLAYER HAS DIED (IS GAME OVER)
     checkIfGameOver();
 }
 
-function updateScreenSpritesPhysics() {
-    for (let i = 0; i < globals.screenSprites.length; i++) {
-        const sprite = globals.screenSprites[i];
+function updateLevel1SpritesPhysics() {
+    for (let i = 0; i < globals.level1Sprites.length; i++) {
+        const sprite = globals.level1Sprites[i];
 
         if (sprite.state === State.OFF) {
-            const indexOfSpriteToDelete = globals.screenSprites.indexOf(sprite);
-            globals.screenSprites.splice(indexOfSpriteToDelete, 1);
+            globals.level1Sprites.splice(i, 1);
+            i--;
         } else {
             sprite.updatePhysics();
         }
     }
 }
 
-function updateParticles() {
-    for (let i = 0; i < globals.particles.length; i++) {
-        const particle1 = globals.particles[i];
-        
-        if ((particle1.id === ParticleID.CONTROLS_MENU_SPARKLE) && (particle1.state === ParticleState.OFF)) {
-            globals.particles.splice(i, 1);
-            i--;
-            createControlsMenuSparkleParticle();
-        } else {
-            updateParticle(particle1);
-        }
+function updateLevelsParticles() {
+    for (let i = 0; i < globals.levelsParticles.length; i++) {
+        const particle1 = globals.levelsParticles[i];
+        updateLevelsParticle(particle1);
 
         if (globals.numOfRageSymbolParticlesOFF === 10) {
-            for (let j = 0; j < globals.particles.length; j++) {
-                const particle2 = globals.particles[j];
+            for (let j = 0; j < globals.levelsParticles.length; j++) {
+                const particle2 = globals.levelsParticles[j];
                 
                 if (particle2.id === ParticleID.RAGE_SYMBOL) {
-                    globals.particles.splice(j, 1);
+                    globals.levelsParticles.splice(j, 1);
                     j--;
                 }
             }
@@ -288,16 +334,12 @@ function updateParticles() {
     }
 }
 
-function updateParticle(particle) {
+function updateLevelsParticle(particle) {
     const type = particle.id;
 
     switch (type) {
         case ParticleID.RAGE_SYMBOL:
             updateRageSymbolParticle(particle);
-            break;
-        
-        case ParticleID.CONTROLS_MENU_SPARKLE:
-            updateControlsMenuSparkleParticle(particle);
             break;
     }
 }
@@ -329,31 +371,24 @@ function updateRageSymbolParticle(particle) {
     particle.yPos += particle.physics.vy * globals.deltaTime;
 }
 
-function updateControlsMenuSparkleParticle(particle) {
-    particle.alpha -= 0.01;
-    if (particle.alpha <= 0) {
-        particle.state = ParticleState.OFF;
-    }
-}
-
 function updateCamera() {
     // |||||||||||| FOCUS THE CAMERA ON THE PLAYER
     
-    const player = globals.screenSprites[0];
+    const player = globals.level1Sprites[0];
         
-    const level1Width = globals.level.data[0].length * 16;
-    const level1Height = globals.level.data.length * 16;
+    const levelWidth = globals.level.data[0].length * 16;
+    const levelHeight = globals.level.data.length * 16;
     
     const cameraX = Math.max(Math.floor(player.xPos) + Math.floor((player.imageSet.xDestinationSize - globals.canvas.width) / 2), 0);
-    globals.camera.x = Math.min(cameraX, level1Width - globals.canvas.width);
+    globals.camera.x = Math.min(cameraX, levelWidth - globals.canvas.width);
 
     const cameraY = Math.max(Math.floor(player.yPos) + Math.floor((player.imageSet.yDestinationSize - globals.canvas.height) / 2), 0);
-    globals.camera.y = Math.min(cameraY, level1Height - globals.canvas.height);
+    globals.camera.y = Math.min(cameraY, levelHeight - globals.canvas.height);
 }
 
-function updateScreenSpritesLogic() {
-    for (let i = 0; i < globals.screenSprites.length; i++) {
-        const sprite = globals.screenSprites[i];
+function updateLevel1SpritesLogic() {
+    for (let i = 0; i < globals.level1Sprites.length; i++) {
+        const sprite = globals.level1Sprites[i];
         sprite.updateLogic();
     }
 }
@@ -368,10 +403,10 @@ function updateHUDTimer() {
 }
 
 function checkIfGameOver() {
-    const player = globals.screenSprites[0];
+    const player = globals.level1Sprites[0];
 
     if ((player.lifePoints <= 0) || (globals.demoTimer.value === 0)) {
-        globals.gameState = Game.OVER;
+        globals.gameState = Game.LOADING_GAME_OVER;
     }
 }
 
@@ -390,9 +425,9 @@ function updateCurrentGameOverSelection() {
 
 function updateCurrentScreenFromGameOver() {
     if (globals.action.confirmSelection && (globals.currentGameOverSelection === "CHECK HIGH SCORES TABLE")) {
-        globals.gameState = Game.HIGH_SCORES_MENU;
+        globals.gameState = Game.LOADING_HIGH_SCORES_MENU;
     } else if (globals.action.confirmSelection && (globals.currentGameOverSelection === "RETURN TO THE MAIN MENU")) {
-        globals.gameState = Game.MAIN_MENU;
+        globals.gameState = Game.LOADING_MAIN_MENU;
 
         // |||||||||||| AVOID STARTING NEW GAME JUST AFTER CONFIRMING THE CURRENT SELECTION
         globals.action.confirmSelection = false;

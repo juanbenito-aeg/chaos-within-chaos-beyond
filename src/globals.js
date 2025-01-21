@@ -25,50 +25,54 @@ export default {
     tileSets: [],
 
     // |||||||||||| VARIABLES TO MANAGE ASSETS LOADING
+
     // |||||||| HOLDS THE ELEMENTS TO LOAD (PRIMARILY, IMAGES & SOUNDS)
     assetsToLoad: [],
+
     // |||||||| INDICATES THE NUMBER OF ELEMENTS THAT HAVE BEEN LOADED SO FAR
     assetsLoaded: 0,
-
-    // |||||||||||| CAVE SECTION (LEVEL) DATA
-    level: {},
-
-    // |||||||||||| ARRAY WITH THE MENUS BACKGROUND IMAGES SPRITES' DATA
-    menusBackgroundImgsSprites: [],
-    
-    // |||||||||||| ARRAY WITH THE SCREEN BACKGROUND IMAGES SPRITES' DATA
-    screenBackgroundImgsSprites: [],
-    
-    // |||||||||||| ARRAY WITH THE MAIN MENU SPRITES' DATA
-    mainMenuSprites: [],
-    
-    // |||||||||||| ARRAY WITH THE CONTROLS MENU SPRITES' DATA
-    controlsMenuSprites: [],
-
-    // |||||||||||| ARRAY WITH THE HUD SPRITES' DATA
-    HUDSprites: [],
-
-    // |||||||||||| ARRAY WITH THE SCREEN SPRITES' DATA
-    screenSprites: [],
-
-    // |||||||||||| "GAME OVER" SCREEN SPRITE'S DATA
-    gameOverSprite: {},
-
-    score: 0,
-
-    highScore: 0,
 
     // |||||||||||| OBJECT THAT HOLDS THE STATES OF THE KEYBOARD KEYS
     action: {},
 
-    // |||||||||||| ARRAY OF PARTICLES
-    particles: [],
+    // |||||||||||| MAIN MENU DATA
+    mainMenuBackgroundImg: {},
+    mainMenuSprites: [],
+    currentMainMenuSelection: "NEW GAME",
+    
+    // |||||||||||| STORY MENU DATA
+    storyMenuBackgroundImg: {},
+    
+    // |||||||||||| HIGH SCORES MENU DATA
+    highScoresMenuBackgroundImg: {},
+    
+    // |||||||||||| CONTROLS MENU DATA
+    controlsMenuBackgroundImg: {},
+    controlsMenuSprites: [],
+    controlsMenuParticles: [],
+
+    // |||||||||||| HUD DATA
+    HUDSprites: [],
+
+    score: 0,
+    highScore: 0,
+
+    level: {},
+
+    // |||||||||||| FIRST LEVEL DATA
+    level1BackgroundImg: {},
+    level1Sprites: [],
+    demoTimer: {},
+    
+    // |||||||||||| SECOND LEVEL DATA
+    level2BackgroundImg: {},
+    level2Sprites: [],
+
+    levelsParticles: [],
 
     numOfRageSymbolParticlesOFF: 0,
-
-    currentMainMenuSelection: "NEW GAME",
-
+    
+    // |||||||||||| "GAME OVER" SCREEN DATA
+    gameOverSprite: {},
     currentGameOverSelection: "CHECK HIGH SCORES TABLE",
-
-    demoTimer: {},
 };

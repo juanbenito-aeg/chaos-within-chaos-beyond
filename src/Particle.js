@@ -21,10 +21,12 @@ class RageSymbolParticle extends Particle {
     }
 }
 
-class ControlsMenuSparkleParticle extends Particle {
-    constructor(id, state, xPos, yPos, physics, alpha, radius, color) {
+class ControlsMenuSparkle extends Particle {
+    constructor(id, state, xPos, yPos, physics, alpha, width, height, radius, color) {
         super(id, state, xPos, yPos, physics, alpha);
 
+        this.width  = width;
+        this.height = height;
         this.radius = radius;
         this.color  = color;
     }
@@ -32,5 +34,5 @@ class ControlsMenuSparkleParticle extends Particle {
 
 export {
     RageSymbolParticle,
-    ControlsMenuSparkleParticle,
+    ControlsMenuSparkle,
 };

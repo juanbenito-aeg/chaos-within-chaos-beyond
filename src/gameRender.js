@@ -26,8 +26,8 @@ export default function render() {
             drawControlsMenu();
             break;
         
-        case Game.PLAYING:
-            drawGame();
+        case Game.PLAYING_LEVEL_1:
+            drawLevel1();
             break;
         
         case Game.OVER:
@@ -60,24 +60,23 @@ function enlargeCanvasForMenus() {
     globals.canvas.height = canvasOriginalHeight + canvasHUDOriginalHeight;
 }
 
-function renderNMenuBackgroundImg(nMenuBackgroundImg) {
-    const xTile = nMenuBackgroundImg.imageSet.xInit + nMenuBackgroundImg.frames.frameCounter * nMenuBackgroundImg.imageSet.xGridSize + nMenuBackgroundImg.imageSet.xOffset;
-    const yTile = nMenuBackgroundImg.imageSet.yInit + nMenuBackgroundImg.state * nMenuBackgroundImg.imageSet.yGridSize + nMenuBackgroundImg.imageSet.yOffset;
+function renderNBackgroundImg(nBackgroundImg) {
+    const xTile = nBackgroundImg.imageSet.xInit + nBackgroundImg.frames.frameCounter * nBackgroundImg.imageSet.xGridSize + nBackgroundImg.imageSet.xOffset;
+    const yTile = nBackgroundImg.imageSet.yInit + nBackgroundImg.state * nBackgroundImg.imageSet.yGridSize + nBackgroundImg.imageSet.yOffset;
 
     globals.ctx.drawImage(
-        globals.tileSets[Tile.SIZE_OTHERS],                                       // THE IMAGE FILE
-        xTile, yTile,                                                             // THE SOURCE X & Y POSITION
-        nMenuBackgroundImg.imageSet.xSize, nMenuBackgroundImg.imageSet.ySize,     // THE SOURCE WIDTH & HEIGHT
-        0, 0,                                                                     // THE DESTINATION X & Y POSITION
-        nMenuBackgroundImg.imageSet.xSize, nMenuBackgroundImg.imageSet.ySize      // THE DESTINATION WIDTH & HEIGHT
+        globals.tileSets[Tile.SIZE_OTHERS],                               // THE IMAGE FILE
+        xTile, yTile,                                                     // THE SOURCE X & Y POSITION
+        nBackgroundImg.imageSet.xSize, nBackgroundImg.imageSet.ySize,     // THE SOURCE WIDTH & HEIGHT
+        0, 0,                                                             // THE DESTINATION X & Y POSITION
+        nBackgroundImg.imageSet.xSize, nBackgroundImg.imageSet.ySize      // THE DESTINATION WIDTH & HEIGHT
     );
 }
 
 function drawMainMenu() {
     enlargeCanvasForMenus();
 
-    const mainMenuBackgroundImg = globals.menusBackgroundImgsSprites[0];
-    renderNMenuBackgroundImg(mainMenuBackgroundImg);
+    renderNBackgroundImg(globals.mainMenuBackgroundImg);
 
     renderMainMenuTxt();
     renderMainMenuButtons();
@@ -195,8 +194,7 @@ function renderMainMenuSprite(sprite) {
 function drawStoryMenu() {
     enlargeCanvasForMenus();
 
-    const storyMenuBackgroundImg = globals.menusBackgroundImgsSprites[1];
-    renderNMenuBackgroundImg(storyMenuBackgroundImg);
+    renderNBackgroundImg(globals.storyMenuBackgroundImg);
 
     renderStoryMenuTxt();
 }
@@ -250,8 +248,7 @@ function renderStoryMenuTxt() {
 function drawHighScoresMenu() {
     enlargeCanvasForMenus();
 
-    const highScoresMenuBackgroundImg = globals.menusBackgroundImgsSprites[2];
-    renderNMenuBackgroundImg(highScoresMenuBackgroundImg);
+    renderNBackgroundImg(globals.highScoresMenuBackgroundImg);
 
     renderHighScoresMenuTxt();
 }
@@ -367,12 +364,11 @@ function renderHighScoresMenuTxt() {
 function drawControlsMenu() {
     enlargeCanvasForMenus();
 
-    const controlsMenuBackgroundImg = globals.menusBackgroundImgsSprites[3];
-    renderNMenuBackgroundImg(controlsMenuBackgroundImg);
+    renderNBackgroundImg(globals.controlsMenuBackgroundImg);
 
     renderControlsMenuTxt();
     renderControlsMenuSprites();
-    renderParticles();
+    renderControlsMenuParticles();
 }
 
 function renderControlsMenuTxt() {
@@ -459,32 +455,60 @@ function renderControlsMenuSprite(sprite) {
     );
 }
 
-function drawGame() {
+function renderControlsMenuParticles() {
+    for (let i = 0; i < globals.controlsMenuParticles.length; i++) {
+        const particle = globals.controlsMenuParticles[i];
+        renderControlsMenuParticle(particle);
+    }
+}
+
+function renderControlsMenuParticle(particle) {
+    const type = particle.id;
+
+    switch (type) {
+        case ParticleID.CONTROLS_MENU_SPARKLE:
+            renderControlsMenuSparkle(particle);
+            break;
+    }
+}
+
+function renderControlsMenuSparkle(particle) {
+    if (particle.state !== ParticleState.OFF) {
+        globals.ctx.save();
+
+        globals.ctx.globalAlpha = particle.alpha;
+
+        globals.ctx.shadowColor = particle.color;
+        globals.ctx.shadowBlur = 5;
+        
+        globals.ctx.roundRect(particle.xPos, particle.yPos, particle.width, particle.height, particle.radius);
+        
+        globals.ctx.strokeStyle = "transparent";
+
+        for (let i = 0; i < 5; i++) {
+            globals.ctx.shadowBlur += 0.85;
+            
+            globals.ctx.stroke();
+        }
+
+        globals.ctx.fillStyle = particle.color;
+        globals.ctx.fill();
+
+        globals.ctx.restore();
+    }
+}
+
+function drawLevel1() {
     shrinkCanvasForPlayingGameState();
 
-    renderScreenBackgroundImg();
+    renderNBackgroundImg(globals.level1BackgroundImg);
+
     moveCamera();
     renderMap();
     renderHUD();
-    renderScreenSprites();
-    renderParticles()
+    renderLevel1Sprites();
+    renderLevelsParticles()
     restoreCamera();
-}
-
-// |||||||||||| DRAWS THE SCREEN BACKGROUND IMAGE
-function renderScreenBackgroundImg() {
-    const screenBackgroundImg = globals.screenBackgroundImgsSprites[0];
-
-    const xTile = screenBackgroundImg.imageSet.xInit + screenBackgroundImg.frames.frameCounter * screenBackgroundImg.imageSet.xGridSize + screenBackgroundImg.imageSet.xOffset;
-    const yTile = screenBackgroundImg.imageSet.yInit + screenBackgroundImg.state * screenBackgroundImg.imageSet.yGridSize + screenBackgroundImg.imageSet.yOffset;
-
-    globals.ctx.drawImage(
-        globals.tileSets[Tile.SIZE_OTHERS],                                       // THE IMAGE FILE
-        xTile, yTile,                                                             // THE SOURCE X & Y POSITION
-        screenBackgroundImg.imageSet.xSize, screenBackgroundImg.imageSet.ySize,   // THE SOURCE WIDTH & HEIGHT
-        0, 0,                                                                     // THE DESTINATION X & Y POSITION
-        screenBackgroundImg.imageSet.xSize, screenBackgroundImg.imageSet.ySize    // THE DESTINATION WIDTH & HEIGHT
-    );
 }
 
 function moveCamera() {
@@ -581,7 +605,7 @@ function renderHUD() {
 function renderLifePoints() {
     const theEruditeFace = globals.HUDSprites[0];
 
-    const player = globals.screenSprites[0];
+    const player = globals.level1Sprites[0];
 
     let tweakedLifePointsToRenderAdequateFrame = Math.ceil(player.lifePoints - 1);
 
@@ -618,7 +642,7 @@ function renderRageLevel() {
                 break;
             
             case SpriteID.RAGE_BAR_CONTENT:
-                const player = globals.screenSprites[0];
+                const player = globals.level1Sprites[0];
                 spriteSourceAndDestinationWidth = sprite.imageSet.xSize * (player.rageLevel / 100);
                 break;
         }
@@ -633,9 +657,9 @@ function renderRageLevel() {
     }
 }
 
-function renderScreenSprites() {
-    for (let i = 0; i < globals.screenSprites.length; i++) {
-        const sprite = globals.screenSprites[i];
+function renderLevel1Sprites() {
+    for (let i = 0; i < globals.level1Sprites.length; i++) {
+        const sprite = globals.level1Sprites[i];
 
         if (sprite instanceof Character) {
             if (sprite.isDrawn) {
@@ -680,6 +704,11 @@ function drawSpriteRectangle(sprite, destinationWidth, destinationHeight) {
 }
 
 function drawHitBox(sprite) {
+    let currentLevelSprites;
+    if (globals.gameState === Game.PLAYING_LEVEL_1) {
+        currentLevelSprites = globals.level1Sprites;
+    }
+
     globals.ctx.strokeStyle = "white";
     
     let x1;
@@ -704,7 +733,7 @@ function drawHitBox(sprite) {
     }
 
     if (sprite.collisions.isCollidingWithPlayer && (sprite.id !== SpriteID.POTION_GREEN) && (sprite.id !== SpriteID.POTION_BLUE)) {
-        const player = globals.screenSprites[0];
+        const player = globals.level1Sprites[0];
 
         x2 = player.xPos + player.hitBox.xOffset;
         y2 = player.yPos + player.hitBox.yOffset;
@@ -717,9 +746,9 @@ function drawHitBox(sprite) {
     }
     
     if (sprite.collisions.isCollidingWithMagicalOrb && (sprite.id !== SpriteID.POTION_GREEN) && (sprite.id !== SpriteID.POTION_BLUE)) {
-        for (let i = 1; i < globals.screenSprites.length; i++) {
-            if (globals.screenSprites[i].id === SpriteID.MAGICAL_ORB) {
-                const magicalOrb = globals.screenSprites[i];
+        for (let i = 1; i < currentLevelSprites.length; i++) {
+            if (currentLevelSprites[i].id === SpriteID.MAGICAL_ORB) {
+                const magicalOrb = currentLevelSprites[i];
                 
                 x2 = magicalOrb.xPos + magicalOrb.hitBox.xOffset;
                 y2 = magicalOrb.yPos + magicalOrb.hitBox.yOffset;
@@ -736,23 +765,19 @@ function drawHitBox(sprite) {
     globals.ctx.strokeRect(x1, y1, w1, h1);
 }
 
-function renderParticles() {
-    for (let i = 0; i < globals.particles.length; i++) {
-        const particle = globals.particles[i];
-        renderParticle(particle);
+function renderLevelsParticles() {
+    for (let i = 0; i < globals.levelsParticles.length; i++) {
+        const particle = globals.levelsParticles[i];
+        renderLevelsParticle(particle);
     }
 }
 
-function renderParticle(particle) {
+function renderLevelsParticle(particle) {
     const type = particle.id;
 
     switch (type) {
         case ParticleID.RAGE_SYMBOL:
             renderRageSymbolParticle(particle);
-            break;
-        
-        case ParticleID.CONTROLS_MENU_SPARKLE:
-            renderControlsMenuSparkleParticle(particle);
             break;
     }
 }
@@ -784,31 +809,6 @@ function renderRageSymbolParticle(particle) {
         globals.ctxHUD.fillStyle = "rgb(238 65 52 / 0.85)";
         globals.ctxHUD.fill();
         globals.ctxHUD.globalAlpha = 1.0;
-    }
-}
-
-function renderControlsMenuSparkleParticle(particle) {
-    if (particle.state !== ParticleState.OFF) {
-        globals.ctx.save();
-
-        globals.ctx.globalAlpha = particle.alpha;
-
-        globals.ctx.shadowColor = particle.color;
-        globals.ctx.shadowBlur = 5;
-        
-        globals.ctx.roundRect(particle.xPos, particle.yPos, 3.5, 3.5, 3.5);
-        globals.ctx.strokeStyle = "transparent";
-
-        for (let i = 0; i < 5; i++) {
-            globals.ctx.shadowBlur += 0.85;
-            
-            globals.ctx.stroke();
-        }
-
-        globals.ctx.fillStyle = particle.color;
-        globals.ctx.fill();
-
-        globals.ctx.restore();
     }
 }
 
