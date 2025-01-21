@@ -32,7 +32,20 @@ class ControlsMenuSparkle extends Particle {
     }
 }
 
+class CheckpointParticle extends Particle {
+    constructor(id, state, xPos, yPos, physics, alpha, spikes, outerRadius, innerRadius, timeToFade) {
+        super(id, state, xPos, yPos, physics, alpha);
+
+        this.spikes         = spikes;
+        this.outerRadius    = outerRadius;
+        this.innerRadius    = innerRadius;
+        this.fadeCounter    = 0;
+        this.timeToFade     = timeToFade;
+    }
+}
+
 export {
     RageSymbolParticle,
     ControlsMenuSparkle,
+    CheckpointParticle,
 };

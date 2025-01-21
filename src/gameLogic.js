@@ -314,22 +314,28 @@ function updateLevel1SpritesPhysics() {
 
 function updateLevelsParticles() {
     for (let i = 0; i < globals.levelsParticles.length; i++) {
-        const particle1 = globals.levelsParticles[i];
-        updateLevelsParticle(particle1);
+        let particle = globals.levelsParticles[i];
 
-        if (globals.numOfRageSymbolParticlesOFF === 10) {
-            for (let j = 0; j < globals.levelsParticles.length; j++) {
-                const particle2 = globals.levelsParticles[j];
-                
-                if (particle2.id === ParticleID.RAGE_SYMBOL) {
-                    globals.levelsParticles.splice(j, 1);
-                    j--;
-                }
-            }
+        if (particle.id !== ParticleID.RAGE_SYMBOL && particle.state === ParticleState.OFF) {
+            globals.levelsParticles.splice(i, 1);
+            i--;
+        } else {
+            updateLevelsParticle(particle);
             
-            initRageSymbolParticles();
-
-            globals.numOfRageSymbolParticlesOFF = 0;
+            if (globals.numOfRageSymbolParticlesOFF === 10) {
+                for (let j = 0; j < globals.levelsParticles.length; j++) {
+                    particle = globals.levelsParticles[j];
+                    
+                    if (particle.id === ParticleID.RAGE_SYMBOL) {
+                        globals.levelsParticles.splice(j, 1);
+                        j--;
+                    }
+                }
+                
+                initRageSymbolParticles();
+    
+                globals.numOfRageSymbolParticlesOFF = 0;
+            }
         }
     }
 }
@@ -340,6 +346,10 @@ function updateLevelsParticle(particle) {
     switch (type) {
         case ParticleID.RAGE_SYMBOL:
             updateRageSymbolParticle(particle);
+            break;
+        
+        case ParticleID.CHECKPOINT:
+            updateCheckpointParticle(particle);
             break;
     }
 }
@@ -364,6 +374,29 @@ function updateRageSymbolParticle(particle) {
 
         case ParticleState.OFF:
             globals.numOfRageSymbolParticlesOFF++;
+            break;
+    }
+
+    particle.xPos += particle.physics.vx * globals.deltaTime;
+    particle.yPos += particle.physics.vy * globals.deltaTime;
+}
+
+function updateCheckpointParticle(particle) {
+    particle.fadeCounter += globals.deltaTime;
+
+    switch (particle.state) {
+        case ParticleState.ON:
+            if (particle.fadeCounter >= particle.timeToFade) {
+                particle.fadeCounter = 0;
+                particle.state = ParticleState.FADE;                
+            }
+            break;
+
+        case ParticleState.FADE:
+            particle.alpha -= 0.05;
+            if (particle.alpha <= 0) {
+                particle.state = ParticleState.OFF;
+            }
             break;
     }
 

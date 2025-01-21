@@ -18,9 +18,9 @@ import Collisions from "./Collisions.js";
 import Timer from "./Timer.js";
 import Camera from "./Camera.js";
 import globals from "./globals.js";
-import { RageSymbolParticle, ControlsMenuSparkle } from "./Particle.js";
+import { RageSymbolParticle, ControlsMenuSparkle, CheckpointParticle } from "./Particle.js";
 import { Level, level1 } from "./Level.js";
-import { Game, FPS, SpriteID, State, ParticleID, ParticleState } from "./constants.js";
+import { Game, FPS, SpriteID, State, ParticleID, ParticleState, GRAVITY } from "./constants.js";
 import { keydownHandler, keyupHandler } from "./events.js";
 
 function initEssentials() {
@@ -466,8 +466,8 @@ function initLevel1BackgroundImg() {
 }
 
 function initPlayer() {
-    const xPos = 18;
-    const yPos = 155;
+    const xPos = /* 18 */ 830;
+    const yPos = /* 155 */ 200;
 
     const imageSet = new ImageSet(2048, 0, 59, 62, 64, 64, 3, 2, 43, 46);
 
@@ -911,7 +911,6 @@ function initRageSymbolParticles() {
     const numOfParticles = 10;
     const xInit = 296;
     const yInit = 43;
-    const vLimit = 6;
     const alpha = 1.0;
     const spikes = 20;
     const outerRadius = 3;
@@ -920,7 +919,7 @@ function initRageSymbolParticles() {
     let angle = Math.PI * 2;
 
     for (let i = 0; i < numOfParticles; i++) {
-        const physics = new Physics(vLimit);
+        const physics = new Physics(6);
 
         const particle = new RageSymbolParticle(ParticleID.RAGE_SYMBOL, ParticleState.ON, xInit, yInit, physics, alpha, spikes, outerRadius, innerRadius, timeToFade);
 
@@ -928,6 +927,44 @@ function initRageSymbolParticles() {
         particle.physics.vy = particle.physics.vLimit * Math.sin(angle);
         
         angle += 0.625;
+
+        globals.levelsParticles.push(particle);
+    }
+}
+
+function initCheckpointParticles(player) {
+    const numOfParticles = 6;
+    const xInitLeft = player.xPos + player.hitBox.xOffset;
+    const xInitRight = player.xPos + player.hitBox.xOffset + player.hitBox.xSize;
+    const yInit = player.yPos + player.hitBox.yOffset + player.hitBox.ySize;
+    const alpha = 1.0;
+    const spikes = 5;
+    const outerRadius = 3;
+    const innerRadius = 1.5;
+    const timeToFade = 0.5;
+    const angles = [
+        ((5 * Math.PI) / 6),
+        ((3 * Math.PI) / 4),
+        ((2 * Math.PI) / 3),
+        (Math.PI / 3),
+        (Math.PI / 4),
+        (Math.PI / 6),
+    ];
+
+    for (let i = 0; i < numOfParticles; i++) {
+        let xPos;
+        if (i < 3) {
+            xPos = xInitLeft;
+        } else {
+            xPos = xInitRight;
+        }
+
+        const physics = new Physics(45);
+
+        const particle = new CheckpointParticle(ParticleID.CHECKPOINT, ParticleState.ON, xPos, yInit, physics, alpha, spikes, outerRadius, innerRadius, timeToFade);
+
+        particle.physics.vx = particle.physics.vLimit * Math.cos(angles[i]);
+        particle.physics.vy = -particle.physics.vLimit * Math.sin(angles[i]);
 
         globals.levelsParticles.push(particle);
     }
@@ -1037,5 +1074,6 @@ export {
     initPotionGreen,
     initPotionBlue,
     initRageSymbolParticles,
+    initCheckpointParticles,
     initGameOver,    
 };

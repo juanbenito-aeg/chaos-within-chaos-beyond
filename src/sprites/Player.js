@@ -2,7 +2,7 @@ import Character from "./Character.js";
 import Timer from "../Timer.js";
 import globals from "../globals.js";
 import { Game, SpriteID, State, GRAVITY } from "../constants.js";
-import { initMagicalOrb } from "../initialize.js";
+import { initMagicalOrb, initCheckpointParticles } from "../initialize.js";
 
 export default class Player extends Character {
     constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, checkpoints) {
@@ -116,9 +116,11 @@ export default class Player extends Character {
 
         // |||||||||||| IF A NEW CHECKPOINT IS REACHED, UPDATE THE VARIABLE THAT HOLDS THE COORDINATES OF THE LAST ONE
         for (let i = 0; i < this.checkpoints.length; i++) {
-            if (((this.xPos >= this.checkpoints[i].xPosLowerLimit) && (this.xPos <= this.checkpoints[i].xPosUpperLimit)) && ((this.yPos >= this.checkpoints[i].yPosLowerLimit) && (this.yPos <= this.checkpoints[i].yPosUpperLimit))) {
+            if (((this.xPos >= this.checkpoints[i].xPosLowerLimit) && (this.xPos <= this.checkpoints[i].xPosUpperLimit)) && ((this.yPos >= this.checkpoints[i].yPosLowerLimit) && (this.yPos <= this.checkpoints[i].yPosUpperLimit)) && (this.lastCheckpoint.xPos !== this.checkpoints[i].xPosUpperLimit)) {
                 this.lastCheckpoint.xPos = this.checkpoints[i].xPosUpperLimit;
                 this.lastCheckpoint.yPos = this.checkpoints[i].yPosUpperLimit;
+
+                initCheckpointParticles(this);
             }
         }
 

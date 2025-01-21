@@ -779,37 +779,55 @@ function renderLevelsParticle(particle) {
         case ParticleID.RAGE_SYMBOL:
             renderRageSymbolParticle(particle);
             break;
+        
+        case ParticleID.CHECKPOINT:
+            renderCheckpointParticle(particle);
+            break;
     }
+}
+
+function renderNSpikesParticle(context, particle, colorOfParticle) {
+    let x;
+    let y;
+    let rotation = (Math.PI / 2) * 3;
+    const step = Math.PI / particle.spikes;
+    
+    context.beginPath();
+    context.moveTo(particle.xPos, particle.yPos - particle.outerRadius);
+    for (let i = 0; i < particle.spikes; i++) {
+        x = particle.xPos + (Math.cos(rotation) * particle.outerRadius);
+        y = particle.yPos + (Math.sin(rotation) * particle.outerRadius);
+        context.lineTo(x, y);
+        rotation += step;
+        
+        x = particle.xPos + (Math.cos(rotation) * particle.innerRadius);
+        y = particle.yPos + (Math.sin(rotation) * particle.innerRadius);
+        context.lineTo(x, y);
+        rotation += step;
+    }
+    
+    context.lineTo(particle.xPos, particle.yPos - particle.outerRadius);
+    context.closePath();
+    context.globalAlpha = particle.alpha;
+    context.fillStyle = colorOfParticle;
+    context.fill();
+    context.globalAlpha = 1.0;
 }
 
 function renderRageSymbolParticle(particle) {
     if (particle.state !== ParticleState.OFF) {
-        let x;
-        let y;
-        let rotation = (Math.PI / 2) * 3;
-        const step = Math.PI / particle.spikes;
+        const redColor = "rgb(238 65 52 / 0.85)";
         
-        globals.ctxHUD.beginPath();
-        globals.ctxHUD.moveTo(particle.xPos, particle.yPos - particle.outerRadius);
-        for (let i = 0; i < particle.spikes; i++) {
-            x = particle.xPos + (Math.cos(rotation) * particle.outerRadius);
-            y = particle.yPos + (Math.sin(rotation) * particle.outerRadius);
-            globals.ctxHUD.lineTo(x, y);
-            rotation += step;
-            
-            x = particle.xPos + (Math.cos(rotation) * particle.innerRadius);
-            y = particle.yPos + (Math.sin(rotation) * particle.innerRadius);
-            globals.ctxHUD.lineTo(x, y);
-            rotation += step;
-        }
-        
-        globals.ctxHUD.lineTo(particle.xPos, particle.yPos - particle.outerRadius);
-        globals.ctxHUD.closePath();
-        globals.ctxHUD.globalAlpha = particle.alpha;
-        globals.ctxHUD.fillStyle = "rgb(238 65 52 / 0.85)";
-        globals.ctxHUD.fill();
-        globals.ctxHUD.globalAlpha = 1.0;
+        renderNSpikesParticle(globals.ctxHUD, particle, redColor);
     }
+}
+
+function renderCheckpointParticle(particle) {
+    if (particle.state !== ParticleState.OFF) {
+        const whiteColor = "rgb(255 255 255 / 1.0)";
+
+        renderNSpikesParticle(globals.ctx, particle, whiteColor);
+    } 
 }
 
 function drawGameOver() {

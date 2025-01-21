@@ -155,6 +155,7 @@ const GRAVITY = 150;
 const ParticleID = {
     RAGE_SYMBOL: 0,
     CONTROLS_MENU_SPARKLE: 1,
+    CHECKPOINT: 2,
 };
 
 // |||||||||||| PARTICLE STATE IDENTIFIER
