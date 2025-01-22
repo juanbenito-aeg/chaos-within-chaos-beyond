@@ -1,7 +1,6 @@
 - TODOS:
     - sprint 7:
         - PARTÍCULAS MAL COLOCADAS SOBRE SÍMBOLO DE IRA
-        - guardar high scores como variable fake, y si el score actual la supera, mostrarla actualizada tanto en estado PLAYING como en pantalla de high scores
 
     - Otros:
         - Make recently killed enemies reappear near the player after a random number of seconds
