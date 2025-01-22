@@ -18,9 +18,9 @@ import Collisions from "./Collisions.js";
 import Timer from "./Timer.js";
 import Camera from "./Camera.js";
 import globals from "./globals.js";
-import { RageSymbolParticle, ControlsMenuSparkle, CheckpointParticle } from "./Particle.js";
+import { RageSymbolParticle, ControlsMenuSparkle, CheckpointParticle, LavaParticle } from "./Particle.js";
 import { Level, level1 } from "./Level.js";
-import { Game, FPS, SpriteID, State, ParticleID, ParticleState, GRAVITY } from "./constants.js";
+import { Game, FPS, Block, SpriteID, State, ParticleID, ParticleState, GRAVITY } from "./constants.js";
 import { keydownHandler, keyupHandler } from "./events.js";
 
 function initEssentials() {
@@ -466,8 +466,8 @@ function initLevel1BackgroundImg() {
 }
 
 function initPlayer() {
-    const xPos = /* 18 */ 830;
-    const yPos = /* 155 */ 200;
+    const xPos = 18;
+    const yPos = 155;
 
     const imageSet = new ImageSet(2048, 0, 59, 62, 64, 64, 3, 2, 43, 46);
 
@@ -905,6 +905,7 @@ function initPotionBlue(xPos = -1, yPos = -1) {
 
 function initLevelsParticles() {
     initRageSymbolParticles();
+    initLavaParticles();
 }
 
 function initRageSymbolParticles() {
@@ -930,6 +931,41 @@ function initRageSymbolParticles() {
 
         globals.levelsParticles.push(particle);
     }
+}
+
+function initLavaParticles() {
+    const brickSize = globals.level.imageSet.xGridSize;
+
+    const numOfParticlesForEachLavaBlock = 4;
+
+    for (let i = 0; i < level1.length; i++) {
+        for (let j = 0; j < level1[0].length; j++) {
+            if (level1[i][j] === Block.LAVA_1) {
+                const lavaBlockXPos = j * brickSize;
+                const lavaBlockYPos = i * brickSize;
+                
+                for (let k = 0; k < numOfParticlesForEachLavaBlock; k++) {
+                    createLavaParticle(lavaBlockXPos, lavaBlockYPos);
+                }
+            }
+        }
+    }
+}
+
+function createLavaParticle(lavaBlockXPos, lavaBlockYPos) {
+    const xPos = lavaBlockXPos + (Math.random() * 14);
+    const velocity = (Math.random() * 20) + 10;
+    const physics = new Physics(velocity);
+    const alpha = 1.0;
+    const width = Math.random() + 1;
+    const height = (Math.random() * 3) + 1;
+    const timeToFade = (Math.random() * 10) + 1;
+
+    const particle = new LavaParticle(ParticleID.LAVA, ParticleState.ON, xPos, lavaBlockYPos, physics, alpha, width, height, timeToFade, lavaBlockXPos, lavaBlockYPos);
+
+    particle.physics.vy = -particle.physics.vLimit;
+
+    globals.levelsParticles.push(particle);
 }
 
 function initCheckpointParticles(player) {
@@ -1074,6 +1110,7 @@ export {
     initPotionGreen,
     initPotionBlue,
     initRageSymbolParticles,
+    createLavaParticle,
     initCheckpointParticles,
     initGameOver,    
 };

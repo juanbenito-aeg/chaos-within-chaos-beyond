@@ -156,6 +156,7 @@ const ParticleID = {
     RAGE_SYMBOL: 0,
     CONTROLS_MENU_SPARKLE: 1,
     CHECKPOINT: 2,
+    LAVA: 3,
 };
 
 // |||||||||||| PARTICLE STATE IDENTIFIER

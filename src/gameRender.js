@@ -783,6 +783,10 @@ function renderLevelsParticle(particle) {
         case ParticleID.CHECKPOINT:
             renderCheckpointParticle(particle);
             break;
+        
+        case ParticleID.LAVA:
+            renderLavaParticle(particle);
+            break;
     }
 }
 
@@ -828,6 +832,19 @@ function renderCheckpointParticle(particle) {
 
         renderNSpikesParticle(globals.ctx, particle, whiteColor);
     } 
+}
+
+function renderLavaParticle(particle) {
+    if (particle.state !== ParticleState.OFF) {
+        globals.ctx.save();
+
+        globals.ctx.globalAlpha = particle.alpha;
+
+        globals.ctx.fillStyle = "rgb(254 144 1)";
+        globals.ctx.fillRect(particle.xPos, particle.yPos, particle.width, particle.height);
+
+        globals.ctx.restore();
+    }
 }
 
 function drawGameOver() {

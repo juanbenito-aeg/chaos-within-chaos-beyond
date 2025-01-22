@@ -1,7 +1,7 @@
 import globals from "./globals.js";
 import detectCollisions from "./collisionsLogic.js";
 import { Game, SpriteID, State, ParticleID, ParticleState } from "./constants.js";
-import { initMainMenu, initStoryMenu, initHighScoresMenu, initControlsMenu, initLevel1, initGameOver, initRageSymbolParticles, createControlsMenuSparkle } from "./initialize.js";
+import { initMainMenu, initStoryMenu, initHighScoresMenu, initControlsMenu, initLevel1, initGameOver, initRageSymbolParticles, createControlsMenuSparkle, createLavaParticle } from "./initialize.js";
 import { updateEvents } from "./events.js";
 
 export default function update() {
@@ -319,6 +319,10 @@ function updateLevelsParticles() {
         if (particle.id !== ParticleID.RAGE_SYMBOL && particle.state === ParticleState.OFF) {
             globals.levelsParticles.splice(i, 1);
             i--;
+
+            if (particle.id === ParticleID.LAVA) {
+                createLavaParticle(particle.xInit, particle.yInit);
+            }
         } else {
             updateLevelsParticle(particle);
             
@@ -350,6 +354,10 @@ function updateLevelsParticle(particle) {
         
         case ParticleID.CHECKPOINT:
             updateCheckpointParticle(particle);
+            break;
+        
+        case ParticleID.LAVA:
+            updateLavaParticle(particle);
             break;
     }
 }
@@ -401,6 +409,28 @@ function updateCheckpointParticle(particle) {
     }
 
     particle.xPos += particle.physics.vx * globals.deltaTime;
+    particle.yPos += particle.physics.vy * globals.deltaTime;
+}
+
+function updateLavaParticle(particle) {
+    particle.fadeCounter += globals.deltaTime;
+
+    switch (particle.state) {
+        case ParticleState.ON:
+            if (particle.fadeCounter >= particle.timeToFade) {
+                particle.fadeCounter = 0;
+                particle.state = ParticleState.FADE;                
+            }
+            break;
+
+        case ParticleState.FADE:
+            particle.alpha -= 0.05;
+            if (particle.alpha <= 0) {
+                particle.state = ParticleState.OFF;
+            }
+            break;
+    }
+
     particle.yPos += particle.physics.vy * globals.deltaTime;
 }
 
