@@ -18,7 +18,7 @@ import Collisions from "./Collisions.js";
 import Timer from "./Timer.js";
 import Camera from "./Camera.js";
 import globals from "./globals.js";
-import { RageSymbolParticle, ControlsMenuSparkle, CheckpointParticle, LavaParticle } from "./Particle.js";
+import { RageSymbolParticle, ControlsMenuSparkle, CheckpointParticle, LavaParticle, EnemyDeathParticle } from "./Particle.js";
 import { Level, level1 } from "./Level.js";
 import { Game, FPS, Block, SpriteID, State, ParticleID, ParticleState, GRAVITY } from "./constants.js";
 import { keydownHandler, keyupHandler } from "./events.js";
@@ -1006,6 +1006,31 @@ function initCheckpointParticles(player) {
     }
 }
 
+function initEnemyDeathParticles(enemy) {
+    const numOfParticles = 100;
+    const xInit = enemy.xPos + enemy.hitBox.xOffset + (enemy.hitBox.xSize / 2);
+    const yInit = enemy.yPos + enemy.hitBox.yOffset + (enemy.hitBox.ySize / 2);
+    const alpha = 1.0;
+    const timeToFade = 0.75;
+
+    for (let i = 0; i < numOfParticles; i++) {
+        const velocity = (Math.random() * 30) + 10;
+        const physics = new Physics(velocity, 10);
+
+        const particle = new EnemyDeathParticle(ParticleID.ENEMY_DEATH, ParticleState.ON, xInit, yInit, physics, alpha, 2.5, 2.5, timeToFade);
+
+        const randomAngle = (Math.random() * 2) * Math.PI;
+
+        particle.physics.vx = particle.physics.vLimit * Math.cos(randomAngle);
+        particle.physics.vy = particle.physics.vLimit * Math.sin(randomAngle);
+        
+        particle.physics.ax = -particle.physics.aLimit * Math.cos(randomAngle);
+        particle.physics.ay = -particle.physics.aLimit * Math.sin(randomAngle);
+
+        globals.levelsParticles.push(particle);
+    }
+}
+
 function initChaoticHumanSword() {
     // |||||||||||| CREATE ALL THE SPRITES FOR THE CAVE'S SECOND SECTION (LEVEL)
 
@@ -1112,5 +1137,6 @@ export {
     initRageSymbolParticles,
     createLavaParticle,
     initCheckpointParticles,
+    initEnemyDeathParticles,
     initGameOver,    
 };

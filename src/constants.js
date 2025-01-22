@@ -157,6 +157,7 @@ const ParticleID = {
     CONTROLS_MENU_SPARKLE: 1,
     CHECKPOINT: 2,
     LAVA: 3,
+    ENEMY_DEATH: 4,
 };
 
 // |||||||||||| PARTICLE STATE IDENTIFIER

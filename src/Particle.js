@@ -57,9 +57,21 @@ class LavaParticle extends Particle {
     }
 }
 
+class EnemyDeathParticle extends Particle {
+    constructor(id, state, xPos, yPos, physics, alpha, width, height, timeToFade) {
+        super(id, state, xPos, yPos, physics, alpha);
+
+        this.width          = width;
+        this.height         = height;
+        this.fadeCounter    = 0;
+        this.timeToFade     = timeToFade;
+    }
+}
+
 export {
     RageSymbolParticle,
     ControlsMenuSparkle,
     CheckpointParticle,
     LavaParticle,
+    EnemyDeathParticle,
 };

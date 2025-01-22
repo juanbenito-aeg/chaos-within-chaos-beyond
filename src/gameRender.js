@@ -787,6 +787,10 @@ function renderLevelsParticle(particle) {
         case ParticleID.LAVA:
             renderLavaParticle(particle);
             break;
+        
+        case ParticleID.ENEMY_DEATH:
+            renderEnemyDeathParticle(particle);
+            break;
     }
 }
 
@@ -841,6 +845,19 @@ function renderLavaParticle(particle) {
         globals.ctx.globalAlpha = particle.alpha;
 
         globals.ctx.fillStyle = "rgb(254 144 1)";
+        globals.ctx.fillRect(particle.xPos, particle.yPos, particle.width, particle.height);
+
+        globals.ctx.restore();
+    }
+}
+
+function renderEnemyDeathParticle(particle) {
+    if (particle.state !== ParticleState.OFF) {
+        globals.ctx.save();
+
+        globals.ctx.globalAlpha = particle.alpha;
+
+        globals.ctx.fillStyle = "rgb(120 6 6 / 0.75)";
         globals.ctx.fillRect(particle.xPos, particle.yPos, particle.width, particle.height);
 
         globals.ctx.restore();

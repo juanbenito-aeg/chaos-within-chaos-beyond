@@ -359,6 +359,10 @@ function updateLevelsParticle(particle) {
         case ParticleID.LAVA:
             updateLavaParticle(particle);
             break;
+        
+        case ParticleID.ENEMY_DEATH:
+            updateEnemyDeathParticle(particle);
+            break;
     }
 }
 
@@ -431,6 +435,32 @@ function updateLavaParticle(particle) {
             break;
     }
 
+    particle.yPos += particle.physics.vy * globals.deltaTime;
+}
+
+function updateEnemyDeathParticle(particle) {
+    particle.fadeCounter += globals.deltaTime;
+
+    switch (particle.state) {
+        case ParticleState.ON:
+            if (particle.fadeCounter >= particle.timeToFade) {
+                particle.fadeCounter = 0;
+                particle.state = ParticleState.FADE;                
+            }
+            break;
+
+        case ParticleState.FADE:
+            particle.alpha -= 0.05;
+            if (particle.alpha <= 0) {
+                particle.state = ParticleState.OFF;
+            }
+            break;
+    }
+
+    particle.physics.vx += particle.physics.ax * globals.deltaTime;
+    particle.physics.vy += particle.physics.ay * globals.deltaTime;
+
+    particle.xPos += particle.physics.vx * globals.deltaTime;
     particle.yPos += particle.physics.vy * globals.deltaTime;
 }
 

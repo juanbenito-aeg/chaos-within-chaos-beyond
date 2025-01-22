@@ -1,7 +1,7 @@
 import Character from "./Character.js";
 import globals from "../globals.js";
 import { State, GRAVITY } from "../constants.js";
-import { initPotionGreen, initPotionBlue } from "../initialize.js";
+import { initPotionGreen, initPotionBlue, initEnemyDeathParticles } from "../initialize.js";
 
 export default class FastWorm extends Character {
     constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway) {
@@ -138,6 +138,8 @@ export default class FastWorm extends Character {
 
         // |||||||||||| WHEN KILLED, DROP A GREEN OR A BLUE POTION
         if (this.lifePoints === 0) {
+            initEnemyDeathParticles(this);
+
             const potionDropXPos = this.xPos + this.hitBox.xOffset;
             const potionDropYPos = this.yPos + this.hitBox.yOffset;
             
