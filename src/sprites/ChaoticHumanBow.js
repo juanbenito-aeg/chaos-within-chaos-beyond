@@ -1,7 +1,7 @@
 import Character from "./Character.js";
 import globals from "../globals.js";
 import { State, GRAVITY } from "../constants.js";
-import { initArrow, initPotionGreen, initPotionBlue } from "../initialize.js";
+import { initArrow, initPotionGreen, initPotionBlue, initEnemyDeathParticles } from "../initialize.js";
 
 export default class ChaoticHumanBow extends Character {
     constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, nextArrowShotDelay) {
@@ -114,6 +114,8 @@ export default class ChaoticHumanBow extends Character {
                     initPotionBlue(potionDropXPos, potionDropYPos);
                 }
             }
+
+            initEnemyDeathParticles(this);
         }
 
         if (this.afterAttackLeeway.value > 0) {

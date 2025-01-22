@@ -857,7 +857,7 @@ function renderEnemyDeathParticle(particle) {
 
         globals.ctx.globalAlpha = particle.alpha;
 
-        globals.ctx.fillStyle = "rgb(120 6 6 / 0.75)";
+        globals.ctx.fillStyle = "rgb(120 6 6)";
         globals.ctx.fillRect(particle.xPos, particle.yPos, particle.width, particle.height);
 
         globals.ctx.restore();

@@ -1007,7 +1007,7 @@ function initCheckpointParticles(player) {
 }
 
 function initEnemyDeathParticles(enemy) {
-    const numOfParticles = 100;
+    const numOfParticles = 150;
     const xInit = enemy.xPos + enemy.hitBox.xOffset + (enemy.hitBox.xSize / 2);
     const yInit = enemy.yPos + enemy.hitBox.yOffset + (enemy.hitBox.ySize / 2);
     const alpha = 1.0;
@@ -1015,7 +1015,7 @@ function initEnemyDeathParticles(enemy) {
 
     for (let i = 0; i < numOfParticles; i++) {
         const velocity = (Math.random() * 30) + 10;
-        const physics = new Physics(velocity, 10);
+        const physics = new Physics(velocity, 60);
 
         const particle = new EnemyDeathParticle(ParticleID.ENEMY_DEATH, ParticleState.ON, xInit, yInit, physics, alpha, 2.5, 2.5, timeToFade);
 

@@ -1,7 +1,7 @@
 import Character from "./Character.js";
 import globals from "../globals.js";
 import { State } from "../constants.js";
-import { initPotionGreen, initPotionBlue } from "../initialize.js";
+import { initPotionGreen, initPotionBlue, initEnemyDeathParticles } from "../initialize.js";
  
 export default class HellBatHandToHand extends Character {
     constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway) {
@@ -90,6 +90,8 @@ export default class HellBatHandToHand extends Character {
                     initPotionBlue(potionDropXPos, potionDropYPos);
                 }
             }
+
+            initEnemyDeathParticles(this);
         }
 
         if (this.afterAttackLeeway.value > 0) {

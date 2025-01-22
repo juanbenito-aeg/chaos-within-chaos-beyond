@@ -138,8 +138,6 @@ export default class FastWorm extends Character {
 
         // |||||||||||| WHEN KILLED, DROP A GREEN OR A BLUE POTION
         if (this.lifePoints === 0) {
-            initEnemyDeathParticles(this);
-
             const potionDropXPos = this.xPos + this.hitBox.xOffset;
             const potionDropYPos = this.yPos + this.hitBox.yOffset;
             
@@ -175,6 +173,8 @@ export default class FastWorm extends Character {
                     initPotionBlue(potionDropXPos, potionDropYPos);
                 }
             }
+
+            initEnemyDeathParticles(this);
         }
 
         if (this.afterAttackLeeway.value > 0) {

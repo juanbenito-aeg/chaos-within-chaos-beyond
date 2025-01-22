@@ -1,7 +1,7 @@
 import Character from "./Character.js";
 import globals from "../globals.js";
 import { State } from "../constants.js";
-import { initAcid, initPotionGreen, initPotionBlue } from "../initialize.js";
+import { initAcid, initPotionGreen, initPotionBlue, initEnemyDeathParticles } from "../initialize.js";
 
 export default class HellBatAcid extends Character {
     constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, nextAcidDropDelay) {
@@ -109,6 +109,8 @@ export default class HellBatAcid extends Character {
                     initPotionBlue(potionDropXPos, potionDropYPos);
                 }
             }
+
+            initEnemyDeathParticles(this);
         }
 
         if (this.afterAttackLeeway.value > 0) {
