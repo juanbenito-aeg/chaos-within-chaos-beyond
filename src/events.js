@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { Key } from "./constants.js";
+import { Game, Key } from "./constants.js";
 
 function performRandomMagicalOrbThrow() {
     const player = globals.level1Sprites[0];
@@ -99,7 +99,7 @@ function keydownHandler(event) {
             break;
         
         case Key.S:
-            if (!isMagicalOrbThrowCanceledDueToRageBeing100()) {
+            if ((globals.gameState === Game.PLAYING_LEVEL_1) && !isMagicalOrbThrowCanceledDueToRageBeing100()) {
                 globals.action.throwMagicalOrb = true;
             }
             break;

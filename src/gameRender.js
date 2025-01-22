@@ -305,23 +305,10 @@ function renderHighScoresMenuTxt() {
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "rgb(212 212 212)";
 
-    const playersNames = [
-        "AAA",
-        "BBB",
-        "CCC",
-        "DDD",
-        "EEE",
-        "FFF",
-        "GGG",
-        "HHH",
-        "III",
-        "JJJ",
-    ];
-
     rowYCoordinate = 106;
 
-    for (let i = 0; i < playersNames.length; i++) {
-        globals.ctx.fillText(playersNames[i], 241, rowYCoordinate);
+    for (let i = 0; i < globals.highScores.length; i++) {
+        globals.ctx.fillText(globals.highScores[i].playerName, 241, rowYCoordinate);
 
         rowYCoordinate += 20;
     }
@@ -334,23 +321,10 @@ function renderHighScoresMenuTxt() {
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "rgb(212 212 212)";
 
-    const scores = [
-        1000000,
-        900000,
-        800000,
-        700000,
-        600000,
-        500000,
-        400000,
-        300000,
-        200000,
-        100000,
-    ];
-
     rowYCoordinate = 106;
 
-    for (let i = 0; i < scores.length; i++) {
-        globals.ctx.fillText(scores[i], 367, rowYCoordinate);
+    for (let i = 0; i < globals.highScores.length; i++) {
+        globals.ctx.fillText(globals.highScores[i].playerScore, 367, rowYCoordinate);
 
         rowYCoordinate += 20;
     }
@@ -551,8 +525,9 @@ function renderMap() {
 }
 
 function renderHUD() {
-    if (globals.score >= globals.highScore) {
-        globals.highScore = globals.score;
+    let highScore = globals.highScores[0].playerScore;
+    if (globals.score > highScore) {
+        highScore = globals.score;
     }
 
     // |||||||||||| DRAW SCORE
@@ -576,7 +551,7 @@ function renderHUD() {
     globals.ctxHUD.direction = "rtl";
     globals.ctxHUD.font = "7.5px emulogic";
     globals.ctxHUD.fillStyle = "#e7ebdd";
-    globals.ctxHUD.fillText(globals.highScore, 163, 33.5);
+    globals.ctxHUD.fillText(highScore, 163, 33.5);
     
     // |||||||||||| RENDER DEMO TIMER
 

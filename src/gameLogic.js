@@ -499,7 +499,26 @@ function checkIfGameOver() {
     const player = globals.level1Sprites[0];
 
     if ((player.lifePoints <= 0) || (globals.demoTimer.value === 0)) {
+        updateHighScores();
+        
         globals.gameState = Game.LOADING_GAME_OVER;
+    }
+}
+
+function updateHighScores() {
+    for (let i = 0; i < globals.highScores.length; i++) {
+        if (globals.score >= globals.highScores[i].playerScore) {
+            const playerData = {
+                playerName: "JBA",
+                playerScore: globals.score,
+            };
+
+            globals.highScores.splice(i, 0, playerData);
+
+            globals.highScores.pop();
+
+            break;
+        }
     }
 }
 

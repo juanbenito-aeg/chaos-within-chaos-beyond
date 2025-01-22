@@ -72,7 +72,48 @@ function initVars() {
         throwMagicalOrb: false,
     };
 
-    globals.highScore = 5000;
+    globals.highScores = [
+        {
+            playerName: "AAA",
+            playerScore: 2500,
+        },
+        {
+            playerName: "---",
+            playerScore: 0,
+        },
+        {
+            playerName: "---",
+            playerScore: 0,
+        },
+        {
+            playerName: "---",
+            playerScore: 0,
+        },
+        {
+            playerName: "---",
+            playerScore: 0,
+        },
+        {
+            playerName: "---",
+            playerScore: 0,
+        },
+        {
+            playerName: "---",
+            playerScore: 0,
+        },
+        {
+            playerName: "---",
+            playerScore: 0,
+        },
+        {
+            playerName: "---",
+            playerScore: 0,
+        },
+        {
+            playerName: "---",
+            playerScore: 0,
+        },
+    ];
 }
 
 function initEvents() {
@@ -110,7 +151,7 @@ function loadHandler() {
 
         console.log("Assets finished loading");
 
-        globals.gameState = Game.LOADING_LEVEL_1;
+        globals.gameState = Game.LOADING_STORY_MENU;
     }
 }
 
@@ -573,22 +614,22 @@ function initChaoticHumanBow() {
         },
         {
             state: State.LEFT_ATTACK_2,
-            xPos: 773,
+            xPos: 765,
             yPos: 343,
         },
         {
             state: State.LEFT_ATTACK_2,
-            xPos: 1461,
+            xPos: 1448,
             yPos: 168,
         },
         {
             state: State.LEFT_ATTACK_2,
-            xPos: 1637,
+            xPos: 1629,
             yPos: 530,
         },
         {
             state: State.LEFT_ATTACK_2,
-            xPos: 2325,
+            xPos: 2333,
             yPos: 854,
         },
     ];

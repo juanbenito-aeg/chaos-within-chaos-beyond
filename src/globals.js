@@ -55,7 +55,7 @@ export default {
     HUDSprites: [],
 
     score: 0,
-    highScore: 0,
+    highScores: [],
 
     level: {},
 
