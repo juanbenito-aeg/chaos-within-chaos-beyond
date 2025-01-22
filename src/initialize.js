@@ -244,6 +244,10 @@ function initSun() {
 }
 
 function initStoryMenu() {
+    // |||||||||||| RESET GLOBAL VARIABLES USED ON THE STORY MENU
+    globals.storyLineFromLeftSideXCoordinate    = 0;
+    globals.storyLineFromRightSideXCoordinate   = globals.canvas.width;
+
     initStoryMenuBackgroundImg();
 
     // |||||||||||| CHANGE GAME STATE

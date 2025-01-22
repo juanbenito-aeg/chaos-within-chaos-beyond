@@ -237,7 +237,20 @@ function renderStoryMenuTxt() {
     let storyLineYCoordinate = 82;
 
     for (let i = 0; i < storyDividedIntoLines.length; i++) {
-        globals.ctx.fillText(storyDividedIntoLines[i], canvasWidthDividedBy2, storyLineYCoordinate);
+        if ((i % 2) === 0) {
+            globals.ctx.fillText(storyDividedIntoLines[i], globals.storyLineFromLeftSideXCoordinate, storyLineYCoordinate);
+            
+            if (globals.storyLineFromLeftSideXCoordinate < canvasWidthDividedBy2) {
+                globals.storyLineFromLeftSideXCoordinate += 0.25;
+            }
+        } else {
+            globals.ctx.fillText(storyDividedIntoLines[i], globals.storyLineFromRightSideXCoordinate, storyLineYCoordinate);
+            
+            if (globals.storyLineFromRightSideXCoordinate > canvasWidthDividedBy2) {
+                globals.storyLineFromRightSideXCoordinate -= 0.25;
+            }
+        }
+
         storyLineYCoordinate += 14;
     }
 

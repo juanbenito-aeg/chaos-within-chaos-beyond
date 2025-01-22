@@ -42,6 +42,8 @@ export default {
     
     // |||||||||||| STORY MENU DATA
     storyMenuBackgroundImg: {},
+    storyLineFromLeftSideXCoordinate: 0,
+    storyLineFromRightSideXCoordinate: 0,
     
     // |||||||||||| HIGH SCORES MENU DATA
     highScoresMenuBackgroundImg: {},
