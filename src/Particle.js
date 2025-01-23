@@ -10,7 +10,7 @@ class Particle {
 }
 
 class RageSymbolParticle extends Particle {
-    constructor(id, state, xPos, yPos, physics, alpha, spikes, outerRadius, innerRadius, timeToFade) {
+    constructor(id, state, xPos, yPos, physics, alpha, spikes, outerRadius, innerRadius, timeToFade, color) {
         super(id, state, xPos, yPos, physics, alpha);
 
         this.spikes         = spikes;
@@ -18,6 +18,7 @@ class RageSymbolParticle extends Particle {
         this.innerRadius    = innerRadius;
         this.fadeCounter    = 0;
         this.timeToFade     = timeToFade;
+        this.color          = color;
     }
 }
 
@@ -33,7 +34,7 @@ class ControlsMenuSparkle extends Particle {
 }
 
 class CheckpointParticle extends Particle {
-    constructor(id, state, xPos, yPos, physics, alpha, spikes, outerRadius, innerRadius, timeToFade) {
+    constructor(id, state, xPos, yPos, physics, alpha, spikes, outerRadius, innerRadius, timeToFade, color) {
         super(id, state, xPos, yPos, physics, alpha);
 
         this.spikes         = spikes;
@@ -41,6 +42,7 @@ class CheckpointParticle extends Particle {
         this.innerRadius    = innerRadius;
         this.fadeCounter    = 0;
         this.timeToFade     = timeToFade;
+        this.color          = color;
     }
 }
 

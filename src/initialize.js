@@ -151,7 +151,7 @@ function loadHandler() {
 
         console.log("Assets finished loading");
 
-        globals.gameState = Game.LOADING_STORY_MENU;
+        globals.gameState = Game.LOADING_LEVEL_1;
     }
 }
 
@@ -453,6 +453,7 @@ function initCamera() {
 function initLevel1Sprites() {
     // |||||||||||| INITIALIZE THE HUD SPRITES
     initTheEruditeHUD();
+    initRageBarSymbol();
     initRageBarContainer();
     initRageBarContent();
 
@@ -468,7 +469,7 @@ function initLevel1Sprites() {
 }
 
 function initTheEruditeHUD() {
-    const imageSet = new ImageSet(0, 1321, 85, 85, 85, 85, 0, 0, -1, -1);
+    const imageSet = new ImageSet(0, 1321, 85, 85, 85, 85, 0, 0, 85, 85);
 
     const frames = new Frames(5);
 
@@ -478,8 +479,19 @@ function initTheEruditeHUD() {
     globals.HUDSprites.push(theEruditeHUD);
 }
 
+function initRageBarSymbol() {
+    const imageSet = new ImageSet(0, 975, 71, 71, 75, 75, 0, 0, 25, 25);
+
+    const frames = new Frames(3);
+
+    const rageBarSymbol = new Sprite(SpriteID.RAGE_BAR_SYMBOL, State.STILL, 281, 30, imageSet, frames);
+
+    // |||||||||||| ADD RAGE BAR'S SYMBOL TO ITS CORRESPONDING SPRITES ARRAY
+    globals.HUDSprites.push(rageBarSymbol);
+}
+
 function initRageBarContainer() {
-    const imageSet = new ImageSet(0, 1404, 112, 28, 112, 26, 0, 0, -1, -1);
+    const imageSet = new ImageSet(0, 1404, 112, 28, 112, 26, 0, 0, 112, 28);
 
     const frames = new Frames(1);
 
@@ -490,7 +502,7 @@ function initRageBarContainer() {
 }
 
 function initRageBarContent() {
-    const imageSet = new ImageSet(112, 1404, 86, 14, 86, 14, 0, 0, -1, -1);
+    const imageSet = new ImageSet(112, 1404, 86, 14, 86, 14, 0, 0, 86, 14);
 
     const frames = new Frames(1);
 
@@ -954,20 +966,34 @@ function initLevelsParticles() {
 }
 
 function initRageSymbolParticles() {
+    const rageBarSymbol = globals.HUDSprites[1];
+
+    const player = globals.level1Sprites[0];
+
     const numOfParticles = 10;
-    const xInit = 296;
-    const yInit = 43;
+    const xInit = rageBarSymbol.xPos + rageBarSymbol.imageSet.xDestinationSize / 2;
+    const yInit = rageBarSymbol.yPos + rageBarSymbol.imageSet.yDestinationSize / 2;
     const alpha = 1.0;
     const spikes = 20;
     const outerRadius = 3;
     const innerRadius = 1.5;
-    const timeToFade = 2.25;
+    const timeToFade = 2.5;
+    
+    let color;
+    if (player.rageLevel === 100) {
+        color = "rgb(208 0 0 / 0.75)";
+    } else if (player.rageLevel > 50) {
+        color = "rgb(232 93 4 / 0.75)";
+    } else {
+        color = "rgb(255 186 8 / 0.75)";
+    }
+
     let angle = Math.PI * 2;
 
     for (let i = 0; i < numOfParticles; i++) {
         const physics = new Physics(6);
 
-        const particle = new RageSymbolParticle(ParticleID.RAGE_SYMBOL, ParticleState.ON, xInit, yInit, physics, alpha, spikes, outerRadius, innerRadius, timeToFade);
+        const particle = new RageSymbolParticle(ParticleID.RAGE_SYMBOL, ParticleState.ON, xInit, yInit, physics, alpha, spikes, outerRadius, innerRadius, timeToFade, color);
 
         particle.physics.vx = particle.physics.vLimit * Math.cos(angle);
         particle.physics.vy = particle.physics.vLimit * Math.sin(angle);
@@ -1023,6 +1049,7 @@ function initCheckpointParticles(player) {
     const outerRadius = 3;
     const innerRadius = 1.5;
     const timeToFade = 0.5;
+    const whiteColor = "rgb(255 255 255)";
     const angles = [
         ((5 * Math.PI) / 6),
         ((3 * Math.PI) / 4),
@@ -1042,7 +1069,7 @@ function initCheckpointParticles(player) {
 
         const physics = new Physics(45);
 
-        const particle = new CheckpointParticle(ParticleID.CHECKPOINT, ParticleState.ON, xPos, yInit, physics, alpha, spikes, outerRadius, innerRadius, timeToFade);
+        const particle = new CheckpointParticle(ParticleID.CHECKPOINT, ParticleState.ON, xPos, yInit, physics, alpha, spikes, outerRadius, innerRadius, timeToFade, whiteColor);
 
         particle.physics.vx = particle.physics.vLimit * Math.cos(angles[i]);
         particle.physics.vy = -particle.physics.vLimit * Math.sin(angles[i]);

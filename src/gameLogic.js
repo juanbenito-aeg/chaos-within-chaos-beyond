@@ -294,6 +294,7 @@ function playLevel1() {
     // |||||||||||| UPDATE EVENTS
     updateEvents();
 
+    updateHUDRageLevel();
     updateHUDTimer();
 
     checkIfGameOver();
@@ -483,6 +484,20 @@ function updateLevel1SpritesLogic() {
     for (let i = 0; i < globals.level1Sprites.length; i++) {
         const sprite = globals.level1Sprites[i];
         sprite.updateLogic();
+    }
+}
+
+function updateHUDRageLevel() {
+    const player = globals.level1Sprites[0];
+
+    const rageBarSymbol = globals.HUDSprites[1];
+
+    if (player.rageLevel === 100) {
+        rageBarSymbol.frames.frameCounter = 2;
+    } else if (player.rageLevel > 50) {
+        rageBarSymbol.frames.frameCounter = 1;
+    } else {
+        rageBarSymbol.frames.frameCounter = 0;
     }
 }
 

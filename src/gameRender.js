@@ -545,6 +545,7 @@ function renderHUD() {
 
     // |||||||||||| DRAW SCORE
 
+    globals.ctxHUD.direction = "ltr";
     globals.ctxHUD.font = "8px emulogic";
     globals.ctxHUD.fillStyle = "#d5dbc6";
     globals.ctxHUD.fillText("SCORE", 29, 18.5);
@@ -577,11 +578,6 @@ function renderHUD() {
     globals.ctxHUD.font = "7.5px emulogic";
     globals.ctxHUD.fillStyle = "#e7ebdd";
     globals.ctxHUD.fillText(globals.demoTimer.value, 163, 72.5);
-
-    // |||||||||||| DRAW RAGE BAR'S SYMBOL
-    globals.ctxHUD.direction = "ltr";
-    globals.ctxHUD.font = "20px emulogic";
-    globals.ctxHUD.fillText("💢", 282.5, 49.5);
 
     // |||||||||||| RENDER LIFE POINTS
     renderLifePoints();
@@ -622,25 +618,29 @@ function renderRageLevel() {
         const xPos = Math.floor(sprite.xPos);
         const yPos = Math.floor(sprite.yPos);
 
-        let spriteSourceAndDestinationWidth;
+        let spriteSourceWidth;
+        let spriteDestinationWidth;
 
         switch (sprite.id) {
+            case SpriteID.RAGE_BAR_SYMBOL:
             case SpriteID.RAGE_BAR_CONTAINER:
-                spriteSourceAndDestinationWidth = sprite.imageSet.xSize;
+                spriteSourceWidth = sprite.imageSet.xSize;
+                spriteDestinationWidth = sprite.imageSet.xDestinationSize;
                 break;
             
             case SpriteID.RAGE_BAR_CONTENT:
                 const player = globals.level1Sprites[0];
-                spriteSourceAndDestinationWidth = sprite.imageSet.xSize * (player.rageLevel / 100);
+                spriteSourceWidth = sprite.imageSet.xSize * (player.rageLevel / 100);
+                spriteDestinationWidth = sprite.imageSet.xDestinationSize * (player.rageLevel / 100);
                 break;
         }
 
         globals.ctxHUD.drawImage(
-            globals.tileSets[Tile.SIZE_OTHERS],                       // THE IMAGE FILE
-            xTile, yTile,                                             // THE SOURCE X & Y POSITION
-            spriteSourceAndDestinationWidth, sprite.imageSet.ySize,   // THE SOURCE WIDTH & HEIGHT
-            xPos, yPos,                                               // THE DESTINATION X & Y POSITION
-            spriteSourceAndDestinationWidth, sprite.imageSet.ySize    // THE DESTINATION WIDTH & HEIGHT
+            globals.tileSets[Tile.SIZE_OTHERS],                         // THE IMAGE FILE
+            xTile, yTile,                                               // THE SOURCE X & Y POSITION
+            spriteSourceWidth, sprite.imageSet.ySize,                   // THE SOURCE WIDTH & HEIGHT
+            xPos, yPos,                                                 // THE DESTINATION X & Y POSITION
+            spriteDestinationWidth, sprite.imageSet.yDestinationSize    // THE DESTINATION WIDTH & HEIGHT
         );
     }
 }
@@ -782,47 +782,43 @@ function renderLevelsParticle(particle) {
     }
 }
 
-function renderNSpikesParticle(context, particle, colorOfParticle) {
+function renderNSpikesParticle(nCanvasContext, particle) {
     let x;
     let y;
     let rotation = (Math.PI / 2) * 3;
     const step = Math.PI / particle.spikes;
     
-    context.beginPath();
-    context.moveTo(particle.xPos, particle.yPos - particle.outerRadius);
+    nCanvasContext.beginPath();
+    nCanvasContext.moveTo(particle.xPos, particle.yPos - particle.outerRadius);
     for (let i = 0; i < particle.spikes; i++) {
         x = particle.xPos + (Math.cos(rotation) * particle.outerRadius);
         y = particle.yPos + (Math.sin(rotation) * particle.outerRadius);
-        context.lineTo(x, y);
+        nCanvasContext.lineTo(x, y);
         rotation += step;
         
         x = particle.xPos + (Math.cos(rotation) * particle.innerRadius);
         y = particle.yPos + (Math.sin(rotation) * particle.innerRadius);
-        context.lineTo(x, y);
+        nCanvasContext.lineTo(x, y);
         rotation += step;
     }
     
-    context.lineTo(particle.xPos, particle.yPos - particle.outerRadius);
-    context.closePath();
-    context.globalAlpha = particle.alpha;
-    context.fillStyle = colorOfParticle;
-    context.fill();
-    context.globalAlpha = 1.0;
+    nCanvasContext.lineTo(particle.xPos, particle.yPos - particle.outerRadius);
+    nCanvasContext.closePath();
+    nCanvasContext.globalAlpha = particle.alpha;
+    nCanvasContext.fillStyle = particle.color;
+    nCanvasContext.fill();
+    nCanvasContext.globalAlpha = 1.0;
 }
 
 function renderRageSymbolParticle(particle) {
-    if (particle.state !== ParticleState.OFF) {
-        const redColor = "rgb(238 65 52 / 0.85)";
-        
-        renderNSpikesParticle(globals.ctxHUD, particle, redColor);
+    if (particle.state !== ParticleState.OFF) {    
+        renderNSpikesParticle(globals.ctxHUD, particle);
     }
 }
 
 function renderCheckpointParticle(particle) {
     if (particle.state !== ParticleState.OFF) {
-        const whiteColor = "rgb(255 255 255 / 1.0)";
-
-        renderNSpikesParticle(globals.ctx, particle, whiteColor);
+        renderNSpikesParticle(globals.ctx, particle);
     } 
 }
 
