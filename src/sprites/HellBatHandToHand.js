@@ -8,13 +8,11 @@ export default class HellBatHandToHand extends Character {
         super(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
     }
 
-    updatePhysics() {
-        const amplitude = 80;
-    
+    updatePhysics() {    
         this.physics.angle += this.physics.omega * globals.deltaTime;
     
         this.xPos += this.physics.vx * globals.deltaTime;
-        this.yPos = this.physics.yRef + amplitude * Math.sin(this.physics.angle);
+        this.yPos = this.physics.yRef + this.physics.amplitude * Math.sin(this.physics.angle);
     
         this.updateAnimationFrame();
     }

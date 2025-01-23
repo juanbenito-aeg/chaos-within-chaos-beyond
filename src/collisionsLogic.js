@@ -52,8 +52,8 @@ export default function detectCollisions() {
         // |||||||||||| CALCULATE CHAOTIC HUMANS' (SWORD) COLLISION WITH THE MAP'S OBSTACLES
         detectCollisionBetweenChaoticHumanSwordAndMapObstacles();
         
-        // |||||||||||| CALCULATE HELL BATS' (HAND TO HAND) COLLISION WITH THE CANVAS' BOUNDARIES
-        detectCollisionBetweenHellBatHandToHandAndCanvasBoundaries();
+        // |||||||||||| CALCULATE HELL BATS' (HAND TO HAND) COLLISION WITH THE MAP'S BOUNDARIES
+        detectCollisionBetweenHellBatHandToHandAndMapBoundaries();
     }
 }
 
@@ -1702,20 +1702,33 @@ function detectCollisionBetweenAcidAndMapObstacles() {
     }
 }
 
-function detectCollisionBetweenHellBatHandToHandAndCanvasBoundaries() {
+function detectCollisionBetweenHellBatHandToHandAndMapBoundaries() {
     for (let i = 1; i < globals.level2Sprites.length; i++) {
         if (globals.level2Sprites[i].id === SpriteID.HELL_BAT_HAND_TO_HAND) {
+            const brickSize = globals.level.imageSet.xGridSize;
+            const level2Width = globals.level.data[0].length * brickSize;
+            
             const hellBatHandToHand = globals.level2Sprites[i];
             
             // |||||||||||| RESET COLLISION STATE
             hellBatHandToHand.collisions.isCollidingWithObstacleOnTheLeft   = false;
             hellBatHandToHand.collisions.isCollidingWithObstacleOnTheRight  = false;
 
-            if ((hellBatHandToHand.xPos + hellBatHandToHand.imageSet.xDestinationSize) > globals.canvas.width) {
-                hellBatHandToHand.physics.vx = -hellBatHandToHand.physics.vLimit;
+            if ((hellBatHandToHand.xPos + hellBatHandToHand.imageSet.xDestinationSize) > level2Width) {
+                let vLimit = hellBatHandToHand.physics.vLimit;
+                if (hellBatHandToHand.physics.vx > 0) {
+                    vLimit = -vLimit;
+                }
+                hellBatHandToHand.physics.vx = vLimit;
+                
                 hellBatHandToHand.collisions.isCollidingWithObstacleOnTheRight = true;
             } else if (hellBatHandToHand.xPos < 0) {
-                hellBatHandToHand.physics.vx = hellBatHandToHand.physics.vLimit;
+                let vLimit = hellBatHandToHand.physics.vLimit;
+                if (hellBatHandToHand.physics.vx > 0) {
+                    vLimit = -vLimit;
+                }
+                hellBatHandToHand.physics.vx = vLimit;
+
                 hellBatHandToHand.collisions.isCollidingWithObstacleOnTheLeft = true;
             }
         }

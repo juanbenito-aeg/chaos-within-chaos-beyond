@@ -1145,30 +1145,51 @@ function initChaoticHumanSword() {
 }
 
 function initHellBatHandToHand() {
-    const imageSet = new ImageSet(1334, 0, 33, 39, 46, 59, 8, 19, 33, 39);
+    // |||||||||||| CREATE ALL THE SPRITES FOR THE CAVE'S SECOND SECTION (LEVEL)
 
-    // |||||||||||| ANIMATION DATA CREATION: 3 FRAMES PER STATE & ANIMATION SPEED
-    const frames = new Frames(3, 7);
+    const hellBatHandToHandSpritesAttributes = [
+        {
+            xPos: 0,
+            yPos: 0,
+            vLimit: 50,
+            omega: 2.5,
+            yRef: globals.canvas.height / 2.15,
+            amplitude: 80,
+        },
+    ];
+    
+    for (let i = 0; i < hellBatHandToHandSpritesAttributes.length; i++) {        
+        const currentSpriteXPos = hellBatHandToHandSpritesAttributes[i].xPos;
+        const currentSpriteYPos = hellBatHandToHandSpritesAttributes[i].yPos;
+        
+        const imageSet = new ImageSet(1334, 0, 33, 39, 46, 59, 8, 19, 33, 39);
 
-    // |||||||||||| INITIAL VALUES FOR "Physics"
-    const vLimit = 50;
-    const omega = 2.5;
-    const initAngle = 90 * Math.PI / 180;
-    const yRef = globals.canvas.height / 2.15;
+        // |||||||||||| ANIMATION DATA CREATION: 3 FRAMES PER STATE & ANIMATION SPEED
+        const frames = new Frames(3, 7);
 
-    const physics = new Physics(vLimit, 0, 1, 0, omega, initAngle, 100, 100, yRef);
-    physics.vx = vLimit;
+        // |||||||||||| INITIAL VALUES FOR "Physics"
+        const initAngle = 90 * Math.PI / 180;
+        const currentSpriteVLimit = hellBatHandToHandSpritesAttributes[i].vLimit;
+        const currentSpriteOmega = hellBatHandToHandSpritesAttributes[i].omega;
+        const currentSpriteYRef = hellBatHandToHandSpritesAttributes[i].yRef;
+        const currentSpriteAmplitude = hellBatHandToHandSpritesAttributes[i].amplitude;
 
-    const hitBox = new HitBox(32, 21, 1, 2);
+        const physics = new Physics(currentSpriteVLimit, 0, 1, 0, currentSpriteOmega, initAngle, 100, 100, currentSpriteYRef, 0, 0, currentSpriteAmplitude);
+        physics.vx = currentSpriteVLimit;
 
-    const collisions = new Collisions();
+        const hitBox = new HitBox(32, 21, 1, 2);
 
-    const afterAttackLeeway = new Timer(0, 1);
+        const collisions = new Collisions();
 
-    const hellBatHandToHand = new HellBatHandToHand(SpriteID.HELL_BAT_HAND_TO_HAND, State.DOWN_3, 0, 0, imageSet, frames, physics, hitBox, collisions, 2, afterAttackLeeway);
+        const lifePoints = 2;
 
-    // |||||||||||| ADD HELL BAT (HAND-TO-HAND) TO ITS CORRESPONDING SPRITES ARRAY
-    globals.level2Sprites.push(hellBatHandToHand);
+        const afterAttackLeeway = new Timer(0, 1);
+
+        const hellBatHandToHand = new HellBatHandToHand(SpriteID.HELL_BAT_HAND_TO_HAND, State.DOWN_3, currentSpriteXPos, currentSpriteYPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
+     
+        // |||||||||||| ADD HELL BAT (HAND-TO-HAND) TO ITS CORRESPONDING SPRITES ARRAY
+        globals.level2Sprites.push(hellBatHandToHand);
+    }
 }
 
 function initGameOver() {
