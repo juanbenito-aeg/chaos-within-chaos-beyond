@@ -26,7 +26,7 @@ export default function render() {
             drawControlsMenu();
             break;
         
-        case Game.PLAYING_LEVEL_1:
+        case Game.PLAYING:
             drawLevel1();
             break;
         
@@ -693,7 +693,7 @@ function drawSpriteRectangle(sprite, destinationWidth, destinationHeight) {
 
 function drawHitBox(sprite) {
     let currentLevelSprites;
-    if (globals.gameState === Game.PLAYING_LEVEL_1) {
+    if (globals.level.number === 1) {
         currentLevelSprites = globals.level1Sprites;
     }
 

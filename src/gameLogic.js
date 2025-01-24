@@ -43,10 +43,10 @@ export default function update() {
             updateControlsMenu();
             break;
 
-        case Game.LOADING_LEVEL_1:
+        case Game.LOADING_LEVEL:
             initLevel1();
 
-        case Game.PLAYING_LEVEL_1:
+        case Game.PLAYING:
             playLevel1();
             break;
 
@@ -147,7 +147,7 @@ function updateCurrentScreenFromMainMenu() {
     if (globals.action.confirmSelection) {
         switch (globals.currentMainMenuSelection) {
             case "NEW GAME":
-                globals.gameState = Game.LOADING_LEVEL_1;
+                globals.gameState = Game.LOADING_LEVEL;
                 break;
             
             case "STORY":

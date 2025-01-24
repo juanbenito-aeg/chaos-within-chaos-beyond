@@ -13,7 +13,7 @@ export default function detectCollisions() {
     // |||||||||||| CALCULATE PLAYER'S & HIS MAGICAL ORBS' COLLISION WITH THE OTHER SPRITES
     
     let currentLevelSprites;
-    if (globals.gameState === Game.PLAYING_LEVEL_1) {
+    if (globals.level.number === 1) {
         currentLevelSprites = globals.level1Sprites;
     }
     
@@ -39,7 +39,7 @@ export default function detectCollisions() {
     // |||||||||||| CALCULATE POTIONS' COLLISION WITH THE MAP'S OBSTACLES
     detectCollisionBetweenPotionAndMapObstacles(currentLevelSprites);
 
-    if (globals.gameState === Game.PLAYING_LEVEL_1) {
+    if (globals.level.number === 1) {
         // |||||||||||| CALCULATE CHAOTIC HUMANS' (BOW) COLLISION WITH THE MAP'S OBSTACLES
         detectCollisionBetweenChaoticHumanBowAndMapObstacles();
         

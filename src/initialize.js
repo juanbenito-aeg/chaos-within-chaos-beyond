@@ -151,7 +151,7 @@ function loadHandler() {
 
         console.log("Assets finished loading");
 
-        globals.gameState = Game.LOADING_LEVEL_1;
+        globals.gameState = Game.LOADING_LEVEL;
     }
 }
 
@@ -433,7 +433,7 @@ function initLevel1() {
     initLevelsParticles();
 
     // |||||||||||| CHANGE GAME STATE
-    globals.gameState = Game.PLAYING_LEVEL_1;
+    globals.gameState = Game.PLAYING;
 }
 
 function initLevel1Map() {

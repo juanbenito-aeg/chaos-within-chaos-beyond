@@ -99,7 +99,7 @@ function keydownHandler(event) {
             break;
         
         case Key.S:
-            if ((globals.gameState === Game.PLAYING_LEVEL_1) && !isMagicalOrbThrowCanceledDueToRageBeing100()) {
+            if ((globals.gameState === Game.PLAYING) && !isMagicalOrbThrowCanceledDueToRageBeing100()) {
                 globals.action.throwMagicalOrb = true;
             }
             break;

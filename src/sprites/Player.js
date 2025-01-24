@@ -188,7 +188,7 @@ export default class Player extends Character {
         let currentLevelSprites;
         let enemies;
 
-        if (globals.gameState === Game.PLAYING_LEVEL_1) {
+        if (globals.level.number === 1) {
             currentLevelSprites = globals.level1Sprites;
             enemies = [
                 SpriteID.CHAOTIC_HUMAN_BOW,
