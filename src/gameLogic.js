@@ -297,7 +297,6 @@ function playLevel1() {
     updateEvents();
 
     updateHUDRageLevel();
-    updateHUDTimer();
     
     checkIfGameOver();
 }
@@ -503,15 +502,6 @@ function updateHUDRageLevel() {
     }
 }
 
-function updateHUDTimer() {
-    globals.demoTimer.timeChangeCounter += globals.deltaTime;
-
-    if (globals.demoTimer.timeChangeCounter >= globals.demoTimer.timeChangeValue) {
-        globals.demoTimer.value--;
-        globals.demoTimer.timeChangeCounter = 0;
-    }
-}
-
 function playSound() {
     if (globals.currentSound !== Sound.NO_SOUND) {
         // |||||||||||| PLAY THE SOUND THAT HAS BEEN INVOKED
@@ -526,7 +516,7 @@ function playSound() {
 function checkIfGameOver() {
     const player = globals.level1Sprites[0];
 
-    if ((player.lifePoints <= 0) || (globals.demoTimer.value === 0)) {
+    if (player.lifePoints <= 0) {
         updateHighScores();
         
         globals.gameState = Game.LOADING_GAME_OVER;

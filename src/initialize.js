@@ -172,7 +172,7 @@ function loadHandler() {
 
         console.log("Assets finished loading");
 
-        globals.gameState = Game.LOADING_MAIN_MENU;
+        globals.gameState = Game.LOADING_LEVEL;
     }
 }
 
@@ -443,9 +443,6 @@ function initLevel1() {
     // |||||||||||| INITIALIZE MAP
     initLevel1Map();
 
-    // |||||||||||| INITIALIZE 180-SECONDS TIMER FOR DEMO
-    initDemoTimer();
-
     // |||||||||||| INITIALIZE CAMERA
     initCamera();
 
@@ -464,10 +461,6 @@ function initLevel1Map() {
     const imageSet = new ImageSet(0, 0, 16, 16, 16, 16, 0, 0, 16, 16);
 
     globals.level = new Level(level1, imageSet);
-}
-
-function initDemoTimer() {
-    globals.demoTimer = new Timer(180, 1);
 }
 
 function initCamera() {

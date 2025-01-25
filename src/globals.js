@@ -70,7 +70,6 @@ export default {
     // |||||||||||| FIRST LEVEL DATA
     level1BackgroundImg: {},
     level1Sprites: [],
-    demoTimer: {},
     
     // |||||||||||| SECOND LEVEL DATA
     level2BackgroundImg: {},
