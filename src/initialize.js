@@ -20,8 +20,8 @@ import Camera from "./Camera.js";
 import globals from "./globals.js";
 import { RageSymbolParticle, ControlsMenuSparkle, CheckpointParticle, LavaParticle, EnemyDeathParticle } from "./Particle.js";
 import { Level, level1 } from "./Level.js";
-import { Game, FPS, Block, SpriteID, State, ParticleID, ParticleState, GRAVITY } from "./constants.js";
-import { keydownHandler, keyupHandler } from "./events.js";
+import { Game, FPS, Sound, Block, SpriteID, State, ParticleID, ParticleState } from "./constants.js";
+import { updateMusic, keydownHandler, keyupHandler } from "./events.js";
 
 function initEssentials() {
     // |||||||||||| INITIALIZE HTML ELEMENTS
@@ -71,6 +71,8 @@ function initVars() {
         attackHandToHand: false,
         throwMagicalOrb: false,
     };
+
+    globals.currentSound = Sound.NO_SOUND;
 
     globals.highScores = [
         {
@@ -125,19 +127,34 @@ function initEvents() {
 function loadAssets() {
     let tileSet;
 
-    // |||||||| LOAD SPRITESHEET
+    // |||||||||||| LOAD SPRITESHEET
     tileSet = new Image();
     tileSet.addEventListener("load", loadHandler, false);
     tileSet.src = "./images/spritesheet.png";
     globals.tileSets.push(tileSet);
     globals.assetsToLoad.push(tileSet);
     
-    // |||||||| LOAD MAP TILESET
+    // |||||||||||| LOAD MAP TILESET
     tileSet = new Image();
     tileSet.addEventListener("load", loadHandler, false);
     tileSet.src = "./images/map-tileset.png";
     globals.tileSets.push(tileSet);
     globals.assetsToLoad.push(tileSet);
+
+    // |||||||||||| LOAD SOUNDS
+
+    const levelMusic = document.querySelector("#levelMusic");
+    levelMusic.addEventListener("canplaythrough", loadHandler, false);
+    levelMusic.addEventListener("timeupdate", updateMusic, false);
+    levelMusic.load();
+    globals.sounds.push(levelMusic);
+    globals.assetsToLoad.push(levelMusic);
+
+    const orbThrowSound = document.querySelector("#orbThrowSound");
+    orbThrowSound.addEventListener("canplaythrough", loadHandler, false);
+    orbThrowSound.load();
+    globals.sounds.push(orbThrowSound);
+    globals.assetsToLoad.push(orbThrowSound);
 }
 
 // |||||||||||| CODE BLOCK TO CALL EACH TIME AN ASSET IS LOADED
@@ -149,9 +166,13 @@ function loadHandler() {
             globals.tileSets[i].removeEventListener("load", loadHandler, false);
         }
 
+        for (let i = 0; i < globals.sounds.length; i++) {
+            globals.sounds[i].removeEventListener("canplaythrough", loadHandler, false);
+        }
+
         console.log("Assets finished loading");
 
-        globals.gameState = Game.LOADING_LEVEL;
+        globals.gameState = Game.LOADING_MAIN_MENU;
     }
 }
 
@@ -434,6 +455,9 @@ function initLevel1() {
 
     // |||||||||||| CHANGE GAME STATE
     globals.gameState = Game.PLAYING;
+
+    globals.sounds[Sound.LEVEL_MUSIC].play();
+    globals.sounds[Sound.LEVEL_MUSIC].volume = 0.5;
 }
 
 function initLevel1Map() {

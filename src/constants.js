@@ -19,6 +19,13 @@ const Game = {
 // |||||||||||| FPS (FRAMES PER SECOND)
 const FPS = 30;
 
+// |||||||||||| GAME SOUNDS
+const Sound = {
+    NO_SOUND: -1,
+    LEVEL_MUSIC: 0,
+    ORB_THROW: 1,
+};
+
 // |||||||||||| DIFFERENT TILESETS
 const Tile = {
     SIZE_OTHERS: 0,     // SPRITES (64 x 64, ETC.)
@@ -172,6 +179,7 @@ const ParticleState = {
 export {
     Game,
     FPS,
+    Sound,
     SpriteID,
     State,
     Tile,

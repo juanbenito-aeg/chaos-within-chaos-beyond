@@ -35,6 +35,12 @@ export default {
     // |||||||||||| OBJECT THAT HOLDS THE STATES OF THE KEYBOARD KEYS
     action: {},
 
+    // |||||||||||| SOUNDS
+    sounds: [],
+
+    // |||||||||||| CURRENT SOUND TO PLAY
+    currentSound: -1,
+
     // |||||||||||| MAIN MENU DATA
     mainMenuBackgroundImg: {},
     mainMenuSprites: [],

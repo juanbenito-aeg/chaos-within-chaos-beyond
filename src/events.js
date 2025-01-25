@@ -1,5 +1,17 @@
 import globals from "./globals.js";
-import { Game, Key } from "./constants.js";
+import { Game, Sound, Key } from "./constants.js";
+
+function updateMusic() {
+    const buffer = 0.25;
+    const music = globals.sounds[Sound.LEVEL_MUSIC];
+    if ((globals.gameState === Game.PLAYING) && (music.currentTime > (music.duration - buffer))) {
+        music.currentTime = 0;
+        music.play();
+    } else if (globals.gameState !== Game.PLAYING) {
+        music.currentTime = 0;
+        music.pause();
+    }
+}
 
 function performRandomMagicalOrbThrow() {
     const player = globals.level1Sprites[0];
@@ -146,4 +158,4 @@ function keyupHandler(event) {
     }
 }
 
-export { updateEvents, keydownHandler, keyupHandler };
+export { updateMusic, updateEvents, keydownHandler, keyupHandler };

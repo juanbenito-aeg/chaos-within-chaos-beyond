@@ -1,6 +1,6 @@
 import globals from "./globals.js";
 import detectCollisions from "./collisionsLogic.js";
-import { Game, SpriteID, State, ParticleID, ParticleState } from "./constants.js";
+import { Game, Sound, SpriteID, State, ParticleID, ParticleState } from "./constants.js";
 import { initMainMenu, initStoryMenu, initHighScoresMenu, initControlsMenu, initLevel1, initGameOver, initRageSymbolParticles, createControlsMenuSparkle, createLavaParticle } from "./initialize.js";
 import { updateEvents } from "./events.js";
 
@@ -279,6 +279,8 @@ function playLevel1() {
     // |||||||||||| UPDATE PHYSICS
     updateLevel1SpritesPhysics();
 
+    playSound();
+
     // |||||||||||| UPDATE PARTICLES
     updateLevelsParticles();
     
@@ -296,7 +298,7 @@ function playLevel1() {
 
     updateHUDRageLevel();
     updateHUDTimer();
-
+    
     checkIfGameOver();
 }
 
@@ -507,6 +509,17 @@ function updateHUDTimer() {
     if (globals.demoTimer.timeChangeCounter >= globals.demoTimer.timeChangeValue) {
         globals.demoTimer.value--;
         globals.demoTimer.timeChangeCounter = 0;
+    }
+}
+
+function playSound() {
+    if (globals.currentSound !== Sound.NO_SOUND) {
+        // |||||||||||| PLAY THE SOUND THAT HAS BEEN INVOKED
+        globals.sounds[globals.currentSound].currentTime = 0;
+        globals.sounds[globals.currentSound].play();
+
+        // |||||||||||| RESET "currentSound"
+        globals.currentSound = Sound.NO_SOUND;
     }
 }
 

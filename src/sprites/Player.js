@@ -1,7 +1,7 @@
 import Character from "./Character.js";
 import Timer from "../Timer.js";
 import globals from "../globals.js";
-import { Game, SpriteID, State, GRAVITY } from "../constants.js";
+import { Sound, SpriteID, State, GRAVITY } from "../constants.js";
 import { initMagicalOrb, initCheckpointParticles } from "../initialize.js";
 
 export default class Player extends Character {
@@ -130,6 +130,8 @@ export default class Player extends Character {
             initMagicalOrb();
             this.nextOrbThrowDelay.timeChangeCounter = 0;
             this.nextOrbThrowDelay.value = 5;
+
+            globals.currentSound = Sound.ORB_THROW;
 
             // |||||||||||| INCREASE THE PLAYER'S RAGE LEVEL IF THE MAGICAL ORB THROW HAS BEEN PERFORMED INTENTIONALLY
             if (!this.isMagicalOrbThrowRandomlyPerformed && (this.rageLevel > 50)) {
