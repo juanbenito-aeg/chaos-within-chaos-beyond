@@ -14,7 +14,7 @@ function updateMusic() {
 }
 
 function performRandomMagicalOrbThrow() {
-    const player = globals.level1Sprites[0];
+    const player = globals.levelSprites[0];
 
     if (player.rageLevel > 50) {
         // |||||||||||| THE HIGHER THE RAGE LEVEL, THE LOWER THE UPPER LIMIT OF THE RANDOM NUMBER
@@ -41,7 +41,7 @@ function performRandomMagicalOrbThrow() {
 }
 
 function lowerPlayerLifePointsDueToRageBeing100() {
-    const player = globals.level1Sprites[0];
+    const player = globals.levelSprites[0];
     
     if ((player.rageLevel === 100) && (player.nextLifePointsReductionDelay.value === 0)) {
         player.lifePoints -= 0.25;
@@ -65,7 +65,7 @@ function updateEvents() {
 }
 
 function isMagicalOrbThrowCanceledDueToRageBeing100() {
-    const player = globals.level1Sprites[0];
+    const player = globals.levelSprites[0];
 
     let isMagicalOrbThrowCanceled = false;
 

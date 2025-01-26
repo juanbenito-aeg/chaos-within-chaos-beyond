@@ -1,7 +1,7 @@
 import globals from "./globals.js";
 import detectCollisions from "./collisionsLogic.js";
 import { Game, Sound, SpriteID, State, ParticleID, ParticleState } from "./constants.js";
-import { initMainMenu, initStoryMenu, initHighScoresMenu, initControlsMenu, initLevel1, initGameOver, initRageSymbolParticles, createControlsMenuSparkle, createLavaParticle } from "./initialize.js";
+import { initMainMenu, initStoryMenu, initHighScoresMenu, initControlsMenu, initLevel, initGameOver, initRageSymbolParticles, createControlsMenuSparkle, createLavaParticle } from "./initialize.js";
 import { updateEvents } from "./events.js";
 
 export default function update() {
@@ -44,10 +44,10 @@ export default function update() {
             break;
 
         case Game.LOADING_LEVEL:
-            initLevel1();
+            initLevel();
 
         case Game.PLAYING:
-            playLevel1();
+            playLevel();
             break;
 
         case Game.LOADING_GAME_OVER:
@@ -275,14 +275,14 @@ function updateControlsMenuSparkle(particle) {
     }
 }
 
-function playLevel1() {
+function playLevel() {
     // |||||||||||| UPDATE PHYSICS
-    updateLevel1SpritesPhysics();
+    updateSpritesPhysics();
 
     playSound();
 
     // |||||||||||| UPDATE PARTICLES
-    updateLevelsParticles();
+    updateLevelParticles();
     
     // |||||||||||| DETECT COLLISIONS
     detectCollisions();
@@ -291,7 +291,7 @@ function playLevel1() {
     updateCamera();
     
     // |||||||||||| UPDATE LOGIC
-    updateLevel1SpritesLogic();
+    updateSpritesLogic();
 
     // |||||||||||| UPDATE EVENTS
     updateEvents();
@@ -301,12 +301,12 @@ function playLevel1() {
     checkIfGameOver();
 }
 
-function updateLevel1SpritesPhysics() {
-    for (let i = 0; i < globals.level1Sprites.length; i++) {
-        const sprite = globals.level1Sprites[i];
+function updateSpritesPhysics() {
+    for (let i = 0; i < globals.levelSprites.length; i++) {
+        const sprite = globals.levelSprites[i];
 
         if (sprite.state === State.OFF) {
-            globals.level1Sprites.splice(i, 1);
+            globals.levelSprites.splice(i, 1);
             i--;
         } else {
             sprite.updatePhysics();
@@ -314,26 +314,26 @@ function updateLevel1SpritesPhysics() {
     }
 }
 
-function updateLevelsParticles() {
-    for (let i = 0; i < globals.levelsParticles.length; i++) {
-        let particle = globals.levelsParticles[i];
+function updateLevelParticles() {
+    for (let i = 0; i < globals.levelParticles.length; i++) {
+        let particle = globals.levelParticles[i];
 
         if (particle.id !== ParticleID.RAGE_SYMBOL && particle.state === ParticleState.OFF) {
-            globals.levelsParticles.splice(i, 1);
+            globals.levelParticles.splice(i, 1);
             i--;
 
             if (particle.id === ParticleID.LAVA) {
                 createLavaParticle(particle.xInit, particle.yInit);
             }
         } else {
-            updateLevelsParticle(particle);
+            updateLevelParticle(particle);
             
             if (globals.numOfRageSymbolParticlesOFF === 10) {
-                for (let j = 0; j < globals.levelsParticles.length; j++) {
-                    particle = globals.levelsParticles[j];
+                for (let j = 0; j < globals.levelParticles.length; j++) {
+                    particle = globals.levelParticles[j];
                     
                     if (particle.id === ParticleID.RAGE_SYMBOL) {
-                        globals.levelsParticles.splice(j, 1);
+                        globals.levelParticles.splice(j, 1);
                         j--;
                     }
                 }
@@ -346,7 +346,7 @@ function updateLevelsParticles() {
     }
 }
 
-function updateLevelsParticle(particle) {
+function updateLevelParticle(particle) {
     const type = particle.id;
 
     switch (type) {
@@ -469,7 +469,7 @@ function updateEnemyDeathParticle(particle) {
 function updateCamera() {
     // |||||||||||| FOCUS THE CAMERA ON THE PLAYER
     
-    const player = globals.level1Sprites[0];
+    const player = globals.levelSprites[0];
         
     const levelWidth = globals.level.data[0].length * 16;
     const levelHeight = globals.level.data.length * 16;
@@ -481,15 +481,15 @@ function updateCamera() {
     globals.camera.y = Math.min(cameraY, levelHeight - globals.canvas.height);
 }
 
-function updateLevel1SpritesLogic() {
-    for (let i = 0; i < globals.level1Sprites.length; i++) {
-        const sprite = globals.level1Sprites[i];
+function updateSpritesLogic() {
+    for (let i = 0; i < globals.levelSprites.length; i++) {
+        const sprite = globals.levelSprites[i];
         sprite.updateLogic();
     }
 }
 
 function updateHUDRageLevel() {
-    const player = globals.level1Sprites[0];
+    const player = globals.levelSprites[0];
 
     const rageBarSymbol = globals.HUDSprites[1];
 
@@ -514,7 +514,7 @@ function playSound() {
 }
 
 function checkIfGameOver() {
-    const player = globals.level1Sprites[0];
+    const player = globals.levelSprites[0];
 
     if (player.lifePoints <= 0) {
         updateHighScores();

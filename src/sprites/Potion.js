@@ -22,7 +22,7 @@ export default class Potion extends InGameSprite {
     }
 
     updateLogic() {
-        const player = globals.level1Sprites[0];
+        const player = globals.levelSprites[0];
 
         if (this.collisions.isCollidingWithPlayer && (player.hitBox.xSize !== 28)) {
             this.state = State.OFF;

@@ -66,16 +66,9 @@ export default {
     highScores: [],
 
     level: {},
-
-    // |||||||||||| FIRST LEVEL DATA
-    level1BackgroundImg: {},
-    level1Sprites: [],
-    
-    // |||||||||||| SECOND LEVEL DATA
-    level2BackgroundImg: {},
-    level2Sprites: [],
-
-    levelsParticles: [],
+    levelBackgroundImg: {},
+    levelSprites: [],
+    levelParticles: [],
 
     numOfRageSymbolParticlesOFF: 0,
     

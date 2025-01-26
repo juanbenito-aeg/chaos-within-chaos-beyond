@@ -27,7 +27,7 @@ export default function render() {
             break;
         
         case Game.PLAYING:
-            drawLevel1();
+            drawLevel();
             break;
         
         case Game.OVER:
@@ -485,16 +485,16 @@ function renderControlsMenuSparkle(particle) {
     }
 }
 
-function drawLevel1() {
+function drawLevel() {
     shrinkCanvasForPlayingGameState();
 
-    renderNBackgroundImg(globals.level1BackgroundImg);
+    renderNBackgroundImg(globals.levelBackgroundImg);
 
     moveCamera();
     renderMap();
     renderHUD();
-    renderLevel1Sprites();
-    renderLevelsParticles()
+    renderLevelSprites();
+    renderLevelParticles()
     restoreCamera();
 }
 
@@ -577,7 +577,7 @@ function renderHUD() {
 function renderLifePoints() {
     const theEruditeFace = globals.HUDSprites[0];
 
-    const player = globals.level1Sprites[0];
+    const player = globals.levelSprites[0];
 
     let tweakedLifePointsToRenderAdequateFrame = Math.ceil(player.lifePoints - 1);
 
@@ -617,7 +617,7 @@ function renderRageLevel() {
                 break;
             
             case SpriteID.RAGE_BAR_CONTENT:
-                const player = globals.level1Sprites[0];
+                const player = globals.levelSprites[0];
                 spriteSourceWidth = sprite.imageSet.xSize * (player.rageLevel / 100);
                 spriteDestinationWidth = sprite.imageSet.xDestinationSize * (player.rageLevel / 100);
                 break;
@@ -633,16 +633,16 @@ function renderRageLevel() {
     }
 }
 
-function renderLevel1Sprites() {
-    for (let i = 0; i < globals.level1Sprites.length; i++) {
-        const sprite = globals.level1Sprites[i];
+function renderLevelSprites() {
+    for (let i = 0; i < globals.levelSprites.length; i++) {
+        const sprite = globals.levelSprites[i];
 
         if (sprite instanceof Character) {
             if (sprite.isDrawn) {
-                renderScreenSprite(sprite);
+                renderLevelSprite(sprite);
             }
         } else {
-            renderScreenSprite(sprite);
+            renderLevelSprite(sprite);
         }
 
         // |||||||||||| TEST: DRAWS THE HITBOX
@@ -650,7 +650,7 @@ function renderLevel1Sprites() {
     }
 }
 
-function renderScreenSprite(sprite) {
+function renderLevelSprite(sprite) {
     // |||||||||||| CALCULATE POSITION OF THE SPRITE IN THE SPRITESHEET
     const xTile = sprite.imageSet.xInit + sprite.frames.frameCounter * sprite.imageSet.xGridSize + sprite.imageSet.xOffset;
     const yTile = sprite.imageSet.yInit + sprite.state * sprite.imageSet.yGridSize + sprite.imageSet.yOffset;
@@ -680,11 +680,6 @@ function drawSpriteRectangle(sprite, destinationWidth, destinationHeight) {
 }
 
 function drawHitBox(sprite) {
-    let currentLevelSprites;
-    if (globals.level.number === 1) {
-        currentLevelSprites = globals.level1Sprites;
-    }
-
     globals.ctx.strokeStyle = "white";
     
     let x1;
@@ -709,7 +704,7 @@ function drawHitBox(sprite) {
     }
 
     if (sprite.collisions.isCollidingWithPlayer && (sprite.id !== SpriteID.POTION_GREEN) && (sprite.id !== SpriteID.POTION_BLUE)) {
-        const player = globals.level1Sprites[0];
+        const player = globals.levelSprites[0];
 
         x2 = player.xPos + player.hitBox.xOffset;
         y2 = player.yPos + player.hitBox.yOffset;
@@ -722,9 +717,9 @@ function drawHitBox(sprite) {
     }
     
     if (sprite.collisions.isCollidingWithMagicalOrb && (sprite.id !== SpriteID.POTION_GREEN) && (sprite.id !== SpriteID.POTION_BLUE)) {
-        for (let i = 1; i < currentLevelSprites.length; i++) {
-            if (currentLevelSprites[i].id === SpriteID.MAGICAL_ORB) {
-                const magicalOrb = currentLevelSprites[i];
+        for (let i = 1; i < globals.levelSprites.length; i++) {
+            if (globals.levelSprites[i].id === SpriteID.MAGICAL_ORB) {
+                const magicalOrb = globals.levelSprites[i];
                 
                 x2 = magicalOrb.xPos + magicalOrb.hitBox.xOffset;
                 y2 = magicalOrb.yPos + magicalOrb.hitBox.yOffset;
@@ -741,9 +736,9 @@ function drawHitBox(sprite) {
     globals.ctx.strokeRect(x1, y1, w1, h1);
 }
 
-function renderLevelsParticles() {
-    for (let i = 0; i < globals.levelsParticles.length; i++) {
-        const particle = globals.levelsParticles[i];
+function renderLevelParticles() {
+    for (let i = 0; i < globals.levelParticles.length; i++) {
+        const particle = globals.levelParticles[i];
         renderLevelsParticle(particle);
     }
 }

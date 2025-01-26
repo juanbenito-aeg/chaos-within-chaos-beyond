@@ -88,6 +88,7 @@ const SpriteID = {
     ACID: 30,
     SUN: 31,
     RAGE_BAR_SYMBOL: 32,
+    BACKGROUND_IMG_LEVEL_2: 33,
 };
 
 // |||||||||||| SPRITE STATE IDENTIFIER (DIRECTION)

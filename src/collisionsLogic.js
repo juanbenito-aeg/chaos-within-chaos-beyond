@@ -1,8 +1,8 @@
 import globals from "./globals.js";
-import { Game, Block, SpriteID, State } from "./constants.js";
+import { Block, SpriteID, State } from "./constants.js";
 
 export default function detectCollisions() {
-    const player = globals.level1Sprites[0];
+    const player = globals.levelSprites[0];
 
     // |||||||||||| RESET COLLISION STATE
     player.collisions.isCollidingWithAcid           = false;
@@ -11,19 +11,13 @@ export default function detectCollisions() {
     player.collisions.isCollidingWithBluePotion     = false;
 
     // |||||||||||| CALCULATE PLAYER'S & HIS MAGICAL ORBS' COLLISION WITH THE OTHER SPRITES
-    
-    let currentLevelSprites;
-    if (globals.level.number === 1) {
-        currentLevelSprites = globals.level1Sprites;
-    }
-    
-    for (let i = 1; i < currentLevelSprites.length; i++) {
-        const sprite = currentLevelSprites[i];
+    for (let i = 1; i < globals.levelSprites.length; i++) {
+        const sprite = globals.levelSprites[i];
         
         detectCollisionBetweenPlayerAndSprite(sprite);
 
         if (sprite.id !== SpriteID.MAGICAL_ORB) {
-            detectCollisionBetweenMagicalOrbAndSprite(currentLevelSprites, sprite);
+            detectCollisionBetweenMagicalOrbAndSprite(sprite);
         }
     }
 
@@ -37,7 +31,7 @@ export default function detectCollisions() {
     detectCollisionBetweenFastWormAndMapObstacles();
 
     // |||||||||||| CALCULATE POTIONS' COLLISION WITH THE MAP'S OBSTACLES
-    detectCollisionBetweenPotionAndMapObstacles(currentLevelSprites);
+    detectCollisionBetweenPotionAndMapObstacles();
 
     if (globals.level.number === 1) {
         // |||||||||||| CALCULATE CHAOTIC HUMANS' (BOW) COLLISION WITH THE MAP'S OBSTACLES
@@ -58,7 +52,7 @@ export default function detectCollisions() {
 }
 
 function detectCollisionBetweenPlayerAndSprite(sprite) {
-    const player = globals.level1Sprites[0];
+    const player = globals.levelSprites[0];
     
     // |||||||||||| RESET COLLISION STATE
     sprite.collisions.isCollidingWithPlayer = false;
@@ -98,13 +92,13 @@ function detectCollisionBetweenPlayerAndSprite(sprite) {
     }
 }
 
-function detectCollisionBetweenMagicalOrbAndSprite(currentLevelSprites, sprite1) {
+function detectCollisionBetweenMagicalOrbAndSprite(sprite1) {
     // |||||||||||| RESET COLLISION STATE
     sprite1.collisions.isCollidingWithMagicalOrb = false;
 
-    for (let i = 1; i < currentLevelSprites.length; i++) {
-        if (currentLevelSprites[i].id === SpriteID.MAGICAL_ORB) {
-            const magicalOrb = currentLevelSprites[i];
+    for (let i = 1; i < globals.levelSprites.length; i++) {
+        if (globals.levelSprites[i].id === SpriteID.MAGICAL_ORB) {
+            const magicalOrb = globals.levelSprites[i];
             
             // |||||||||||| THE MAGICAL ORB'S DATA
             const x1 = magicalOrb.xPos + magicalOrb.hitBox.xOffset;
@@ -143,7 +137,7 @@ function rectIntersect(x1, y1, w1, h1, x2, y2, w2, h2) {
 }
 
 function detectCollisionBetweenPlayerAndMapObstacles() {
-    const player = globals.level1Sprites[0];
+    const player = globals.levelSprites[0];
 
     let xPos;
     let yPos;
@@ -744,9 +738,9 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
 }
 
 function detectCollisionBetweenMagicalOrbAndMapObstacles() {
-    for (let i = 1; i < globals.level1Sprites.length; i++) {
-        if (globals.level1Sprites[i].id === SpriteID.MAGICAL_ORB) {
-            const magicalOrb = globals.level1Sprites[i];
+    for (let i = 1; i < globals.levelSprites.length; i++) {
+        if (globals.levelSprites[i].id === SpriteID.MAGICAL_ORB) {
+            const magicalOrb = globals.levelSprites[i];
 
             let xPos;
             let yPos;
@@ -860,9 +854,9 @@ function detectCollisionBetweenMagicalOrbAndMapObstacles() {
 }
 
 function detectCollisionBetweenChaoticHumanBowAndMapObstacles() {
-    for (let i = 1; i < globals.level1Sprites.length; i++) {
-        if (globals.level1Sprites[i].id === SpriteID.CHAOTIC_HUMAN_BOW) {
-            const chaoticHumanBow = globals.level1Sprites[i];
+    for (let i = 1; i < globals.levelSprites.length; i++) {
+        if (globals.levelSprites[i].id === SpriteID.CHAOTIC_HUMAN_BOW) {
+            const chaoticHumanBow = globals.levelSprites[i];
 
             let xPos;
             let yPos;
@@ -932,9 +926,9 @@ function detectCollisionBetweenChaoticHumanBowAndMapObstacles() {
 }
 
 function detectCollisionBetweenArrowAndMapObstacles() {
-    for (let i = 1; i < globals.level1Sprites.length; i++) {
-        if (globals.level1Sprites[i].id === SpriteID.ARROW) {
-            const arrow = globals.level1Sprites[i];
+    for (let i = 1; i < globals.levelSprites.length; i++) {
+        if (globals.levelSprites[i].id === SpriteID.ARROW) {
+            const arrow = globals.levelSprites[i];
 
             let xPos;
             let yPos;
@@ -1022,9 +1016,9 @@ function detectCollisionBetweenArrowAndMapObstacles() {
 }
 
 function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
-    for (let i = 1; i < globals.level2Sprites.length; i++) {
-        if (globals.level2Sprites[i].id === SpriteID.CHAOTIC_HUMAN_SWORD) {
-            const chaoticHumanSword = globals.level2Sprites[i];
+    for (let i = 1; i < globals.levelSprites.length; i++) {
+        if (globals.levelSprites[i].id === SpriteID.CHAOTIC_HUMAN_SWORD) {
+            const chaoticHumanSword = globals.levelSprites[i];
 
             let xPos;
             let yPos;
@@ -1248,9 +1242,9 @@ function detectCollisionBetweenChaoticHumanSwordAndMapObstacles() {
 }
 
 function detectCollisionBetweenFastWormAndMapObstacles() {
-    for (let i = 1; i < globals.level1Sprites.length; i++) {
-        if (globals.level1Sprites[i].id === SpriteID.FAST_WORM) {
-            const fastWorm = globals.level1Sprites[i];
+    for (let i = 1; i < globals.levelSprites.length; i++) {
+        if (globals.levelSprites[i].id === SpriteID.FAST_WORM) {
+            const fastWorm = globals.levelSprites[i];
             
             let xPos;
             let yPos;
@@ -1642,9 +1636,9 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
 }
 
 function detectCollisionBetweenAcidAndMapObstacles() {
-    for (let i = 1; i < globals.level1Sprites.length; i++) {
-        if (globals.level1Sprites[i].id === SpriteID.ACID) {
-            const acid = globals.level1Sprites[i];
+    for (let i = 1; i < globals.levelSprites.length; i++) {
+        if (globals.levelSprites[i].id === SpriteID.ACID) {
+            const acid = globals.levelSprites[i];
 
             let xPos;
             let yPos;
@@ -1703,12 +1697,12 @@ function detectCollisionBetweenAcidAndMapObstacles() {
 }
 
 function detectCollisionBetweenHellBatHandToHandAndMapBoundaries() {
-    for (let i = 1; i < globals.level2Sprites.length; i++) {
-        if (globals.level2Sprites[i].id === SpriteID.HELL_BAT_HAND_TO_HAND) {
+    for (let i = 1; i < globals.levelSprites.length; i++) {
+        if (globals.levelSprites[i].id === SpriteID.HELL_BAT_HAND_TO_HAND) {
             const brickSize = globals.level.imageSet.xGridSize;
             const level2Width = globals.level.data[0].length * brickSize;
             
-            const hellBatHandToHand = globals.level2Sprites[i];
+            const hellBatHandToHand = globals.levelSprites[i];
             
             // |||||||||||| RESET COLLISION STATE
             hellBatHandToHand.collisions.isCollidingWithObstacleOnTheLeft   = false;
@@ -1735,10 +1729,10 @@ function detectCollisionBetweenHellBatHandToHandAndMapBoundaries() {
     }
 }
 
-function detectCollisionBetweenPotionAndMapObstacles(currentLevelSprites) {
-    for (let i = 1; i < currentLevelSprites.length; i++) {
-        if ((currentLevelSprites[i].id === SpriteID.POTION_GREEN) || (currentLevelSprites[i].id === SpriteID.POTION_BLUE)) {
-            const potion = currentLevelSprites[i];
+function detectCollisionBetweenPotionAndMapObstacles() {
+    for (let i = 1; i < globals.levelSprites.length; i++) {
+        if ((globals.levelSprites[i].id === SpriteID.POTION_GREEN) || (globals.levelSprites[i].id === SpriteID.POTION_BLUE)) {
+            const potion = globals.levelSprites[i];
 
             let xPos;
             let yPos;

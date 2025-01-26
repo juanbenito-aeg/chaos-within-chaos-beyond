@@ -46,7 +46,7 @@ export default class ChaoticHumanBow extends Character {
     updateLogic() {
         // |||||||||||| UPDATE LIFE POINTS & SCORE
         if (this.collisions.isCollidingWithPlayer) {
-            const player = globals.level1Sprites[0];
+            const player = globals.levelSprites[0];
             
             if ((player.isLeftwardsHandToHandAttackEffective || player.isRightwardsHandToHandAttackEffective) && (this.afterAttackLeeway.value === 0)) {
                 this.lifePoints--;
@@ -82,7 +82,7 @@ export default class ChaoticHumanBow extends Character {
             const potionDropXPos = this.xPos + this.hitBox.xOffset;
             const potionDropYPos = this.yPos + this.hitBox.yOffset;
             
-            const player = globals.level1Sprites[0];
+            const player = globals.levelSprites[0];
 
             let numToTweakProbabilityOfDroppingGreenPotion;
             let numToTweakProbabilityOfDroppingBluePotion;
