@@ -461,6 +461,7 @@ function initLevel() {
     // |||||||||||| CHANGE GAME STATE
     globals.gameState = Game.PLAYING;
 
+    globals.sounds[Sound.LEVEL_MUSIC].currentTime = 0;
     globals.sounds[Sound.LEVEL_MUSIC].play();
     globals.sounds[Sound.LEVEL_MUSIC].volume = 0.5;
 }
@@ -497,8 +498,8 @@ function initCommonToTheTwoLevelsSprites() {
 
     // |||||||||||| INITIALIZE THE REST OF THE SPRITES
     initPlayer();
-    // initFastWorm();
-    // initPotionGreen();
+    initFastWorm();
+    initPotionGreen();
 }
 
 function initLevel1ExclusiveSprites() {
@@ -568,9 +569,7 @@ function initLevelBackgroundImg() {
     globals.levelBackgroundImg = levelBackgroundImg;
 }
 
-function initPlayer() {
-    const brickSize = globals.level.imageSet.xGridSize;
-    
+function initPlayer() {    
     let xPos;
     let yPos;
     if (globals.level.number === 1) {
@@ -578,7 +577,7 @@ function initPlayer() {
         yPos = 155;
     } else {
         xPos = 35;
-        yPos = (globals.level.data.length * brickSize) - 60;
+        yPos = 2612;
     }
 
     const imageSet = new ImageSet(2048, 0, 59, 62, 64, 64, 3, 2, 43, 46);
@@ -1308,6 +1307,29 @@ function initSkull() {
     globals.gameOverSprite = skull;
 }
 
+function initGameWon() {
+    initGameWonToGameOverTimer();
+
+    initGameWonBackgroundImg();
+    
+    // |||||||||||| CHANGE GAME STATE
+    globals.gameState = Game.WON;
+}
+
+function initGameWonToGameOverTimer() {
+    globals.gameWonToGameOverTimer = new Timer(20, 1);
+}
+
+function initGameWonBackgroundImg() {
+    const imageSet = new ImageSet(597, 1790, 597, 341, 597, 358, 78, 0, -1, -1);
+
+    const frames = new Frames(1);
+
+    const gameWonBackgroundImg = new Sprite(SpriteID.BACKGROUND_IMG_GAME_WON, State.STILL, 0, 0, imageSet, frames);
+
+    globals.gameWonBackgroundImg = gameWonBackgroundImg;
+}
+
 // |||||||||||| EXPORTS
 export {
     initEssentials,
@@ -1326,5 +1348,6 @@ export {
     createLavaParticle,
     initCheckpointParticles,
     initEnemyDeathParticles,
-    initGameOver,    
+    initGameOver,
+    initGameWon,    
 };

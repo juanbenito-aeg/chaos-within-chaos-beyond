@@ -75,4 +75,8 @@ export default {
     // |||||||||||| "GAME OVER" SCREEN DATA
     gameOverSprite: {},
     currentGameOverSelection: "CHECK HIGH SCORES TABLE",
+    
+    // |||||||||||| "YOU WIN" SCREEN DATA
+    gameWonToGameOverTimer: {},
+    gameWonBackgroundImg: {},
 };

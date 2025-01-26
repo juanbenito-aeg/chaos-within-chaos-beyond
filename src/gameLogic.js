@@ -1,7 +1,7 @@
 import globals from "./globals.js";
 import detectCollisions from "./collisionsLogic.js";
 import { Game, Sound, SpriteID, State, ParticleID, ParticleState } from "./constants.js";
-import { initMainMenu, initStoryMenu, initHighScoresMenu, initControlsMenu, initLevel, initGameOver, initRageSymbolParticles, createControlsMenuSparkle, createLavaParticle } from "./initialize.js";
+import { initMainMenu, initStoryMenu, initHighScoresMenu, initControlsMenu, initLevel, initGameOver, initGameWon, initRageSymbolParticles, createControlsMenuSparkle, createLavaParticle } from "./initialize.js";
 import { updateEvents } from "./events.js";
 
 export default function update() {
@@ -56,6 +56,14 @@ export default function update() {
         
         case Game.OVER:
             updateGameOver();
+            break;
+        
+        case Game.LOADING_GAME_WON:
+            initGameWon();
+            break;
+        
+        case Game.WON:
+            updateGameWon();
             break;
     }
 }
@@ -299,6 +307,8 @@ function playLevel() {
     updateHUDRageLevel();
     
     checkIfGameOver();
+
+    checkIfLvlChangesOrPlayerWon();
 }
 
 function updateSpritesPhysics() {
@@ -513,16 +523,6 @@ function playSound() {
     }
 }
 
-function checkIfGameOver() {
-    const player = globals.levelSprites[0];
-
-    if (player.lifePoints <= 0) {
-        updateHighScores();
-        
-        globals.gameState = Game.LOADING_GAME_OVER;
-    }
-}
-
 function updateHighScores() {
     for (let i = 0; i < globals.highScores.length; i++) {
         if (globals.score >= globals.highScores[i].playerScore) {
@@ -536,6 +536,36 @@ function updateHighScores() {
             globals.highScores.pop();
 
             break;
+        }
+    }
+}
+
+function checkIfGameOver() {
+    const player = globals.levelSprites[0];
+
+    if (player.lifePoints <= 0) {
+        updateHighScores();
+        
+        globals.level.number = 1;
+
+        globals.gameState = Game.LOADING_GAME_OVER;
+    }
+}
+
+function checkIfLvlChangesOrPlayerWon() {
+    const player = globals.levelSprites[0];
+
+    if (player.collisions.isCollidingWithOpenDoor) {
+        if (globals.level.number === 1) {
+            globals.level.number = 2;
+            
+            globals.gameState = Game.LOADING_LEVEL;
+        } else {
+            updateHighScores();
+        
+            globals.level.number = 1;
+
+            globals.gameState = Game.LOADING_GAME_WON;
         }
     }
 }
@@ -561,5 +591,22 @@ function updateCurrentScreenFromGameOver() {
 
         // |||||||||||| AVOID STARTING NEW GAME JUST AFTER CONFIRMING THE CURRENT SELECTION
         globals.action.confirmSelection = false;
+    }
+}
+
+function updateGameWon() {
+    updateGameWonToGameOverTimer();
+}
+
+function updateGameWonToGameOverTimer() {
+    if (globals.gameWonToGameOverTimer.value === 0) {
+        globals.gameState = Game.LOADING_GAME_OVER;
+    } else {
+        globals.gameWonToGameOverTimer.timeChangeCounter += globals.deltaTime;
+    
+        if (globals.gameWonToGameOverTimer.timeChangeCounter >= globals.gameWonToGameOverTimer.timeChangeValue) {
+            globals.gameWonToGameOverTimer.value--;
+            globals.gameWonToGameOverTimer.timeChangeCounter = 0;
+        }
     }
 }

@@ -14,6 +14,8 @@ const Game = {
     PLAYING: 10,
     LOADING_GAME_OVER: 11,
     OVER: 12,
+    LOADING_GAME_WON: 13,
+    WON: 14,
 };
 
 // |||||||||||| FPS (FRAMES PER SECOND)
@@ -89,6 +91,7 @@ const SpriteID = {
     SUN: 31,
     RAGE_BAR_SYMBOL: 32,
     BACKGROUND_IMG_LEVEL_2: 33,
+    BACKGROUND_IMG_GAME_WON: 34,
 };
 
 // |||||||||||| SPRITE STATE IDENTIFIER (DIRECTION)

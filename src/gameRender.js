@@ -33,6 +33,10 @@ export default function render() {
         case Game.OVER:
             drawGameOver();
             break;
+        
+        case Game.WON:
+            drawGameWon();
+            break;
     }
 }
 
@@ -892,4 +896,47 @@ function renderGameOverSprite() {
         xPos, yPos,                                                       // THE DESTINATION X & Y POSITION
         skull.imageSet.xDestinationSize, skull.imageSet.yDestinationSize  // THE DESTINATION WIDTH & HEIGHT
     );
+}
+
+function drawGameWon() {
+    enlargeCanvasForMenus();
+
+    renderNBackgroundImg(globals.gameWonBackgroundImg);
+
+    renderGameWonTxt();
+}
+
+function renderGameWonTxt() {
+    const canvasWidthDividedBy2 = globals.canvas.width / 2;
+    
+    globals.ctx.textAlign = "center";
+    
+    globals.ctx.font = "30px emulogic";
+    globals.ctx.strokeStyle = "white";
+    globals.ctx.strokeText("YOU WIN", canvasWidthDividedBy2, 75);
+    
+    // |||||||||||| STORY END TEXT
+
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "rgb(212 212 212)";
+
+    const storyEndTxtDividedIntoLines = [
+        "Despite the difficulties of standing after",
+        "spilling countless liters of blood, both",
+        "from his own body and from horrendous",
+        "enemies, The Erudite managed to get a few",
+        "kilometers away from that damned cave,",
+        "until a path of light opened before his",
+        "eyes. It was a small cottage in the middle",
+        "of the forest. Its name was \"Wound's",
+        "Valley Inn\". He decided to enter.",
+    ];
+
+    let storyEndTxtLineYCoordinate = 125;
+
+    for (let i = 0; i < storyEndTxtDividedIntoLines.length; i++) {
+        globals.ctx.fillText(storyEndTxtDividedIntoLines[i], canvasWidthDividedBy2, storyEndTxtLineYCoordinate);
+
+        storyEndTxtLineYCoordinate += 16;
+    }
 }
