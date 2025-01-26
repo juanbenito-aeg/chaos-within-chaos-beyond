@@ -1,13 +1,10 @@
 - TODOS:
     - Sprint 8:
-        - Quitar timer de la demo y que desde el principio del nivel 1 hasta win pasen mínimo 300 segundos
-        - Definir variable que especifique el nivel que se está jugando, y a partir de esta cargar recursos de un nivel u otro (es decir, solo se tendrán estados LOADING_LEVEL y PLAYING, que se usan para los dos niveles)
+        - ¿Reiniciar score, ira y vida al comenzar segundo nivel?
+        - Confirmar que desde el principio del nivel 1 hasta win pasen mínimo 300 segundos
         - Eventos dificultad -> Inspiración: Wonder Boy 1
             - Se pueden gestionar con puntuación interna, diferente de la puntuación que se muestra al jugador
-        - You Win
-            - Parte del texto se puede coger del documento del personaje (The Arrival to the Inn)
-
+        
     - Otros:
-        - Buscar background img para cave sect 2 y hacer mapa para el nivel
         - Refactorizar clases haciendo una de Enemy (¿?)
         - ¿Crear atributos/propiedades con valores idénticos entre instancias de una clase en su constructor en vez de en el bucle de la función init de "initialize.js"?
