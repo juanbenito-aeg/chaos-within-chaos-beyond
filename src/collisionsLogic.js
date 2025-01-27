@@ -1830,20 +1830,8 @@ function detectCollisionBetweenHellBatHandToHandAndMapBoundaries() {
             hellBatHandToHand.collisions.isCollidingWithObstacleOnTheRight  = false;
 
             if ((hellBatHandToHand.xPos + hellBatHandToHand.imageSet.xDestinationSize) > level2Width) {
-                let vLimit = hellBatHandToHand.physics.vLimit;
-                if (hellBatHandToHand.physics.vx > 0) {
-                    vLimit = -vLimit;
-                }
-                hellBatHandToHand.physics.vx = vLimit;
-                
                 hellBatHandToHand.collisions.isCollidingWithObstacleOnTheRight = true;
             } else if (hellBatHandToHand.xPos < 0) {
-                let vLimit = hellBatHandToHand.physics.vLimit;
-                if (hellBatHandToHand.physics.vx > 0) {
-                    vLimit = -vLimit;
-                }
-                hellBatHandToHand.physics.vx = vLimit;
-
                 hellBatHandToHand.collisions.isCollidingWithObstacleOnTheLeft = true;
             }
         }

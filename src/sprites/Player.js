@@ -10,7 +10,7 @@ export default class Player extends Character {
 
         this.isLeftwardsHandToHandAttackEffective   = false;
         this.isRightwardsHandToHandAttackEffective  = false;
-        this.rageLevel                              = 0;                // RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
+        this.rageLevel                              = 50;                // RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
         this.isMagicalOrbThrowRandomlyPerformed     = false;            // INDICATES WHETHER A MAGICAL ORB THROW HAS BEEN PERFORMED RANDOMLY OR NOT
         this.nextOrbThrowDelay                      = new Timer(0, 1);  // TIMING OF THE DELAY BETWEEN SUCCESSIVE MAGICAL ORB THROWS (THE INITIAL VALUE OF THE TIMER IS 0 AS THE PLAYER HAS TO BE ALLOWED TO THROW A MAGICAL ORB FROM THE START OF THE GAME)
         this.nextRagePtUpDelay                      = new Timer(3, 1);

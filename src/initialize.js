@@ -456,6 +456,8 @@ function initLevel() {
         initLevel2ExclusiveSprites();
         
         initFastWormsFlyingStateTimer();
+
+        initHellBatsApparitionEventTimer();
     }
 
     initLevelParticles();
@@ -1095,11 +1097,10 @@ function initChaoticHumanSword() {
     }
 }
 
-function initHellBatHandToHand(isInvokedFromEvent = false, xPos, yPos, vLimit, omega, yRef, amplitude) {
+function initHellBatHandToHand(isFunctionInvokedFromEvent = false, xPos, vLimit, omega, yRef, amplitude) {
     const hellBatHandToHandSpritesAttributes = [
         {
             xPos: 0,
-            yPos: 0,
             vLimit: 50,
             omega: 2.5,
             yRef: globals.canvas.height / 2.15,
@@ -1108,7 +1109,7 @@ function initHellBatHandToHand(isInvokedFromEvent = false, xPos, yPos, vLimit, o
     ];
 
     let numOfSpritesToCreate;
-    if (isInvokedFromEvent) {
+    if (isFunctionInvokedFromEvent) {
         numOfSpritesToCreate = 1;
     } else {
         numOfSpritesToCreate = hellBatHandToHandSpritesAttributes.length;
@@ -1116,7 +1117,6 @@ function initHellBatHandToHand(isInvokedFromEvent = false, xPos, yPos, vLimit, o
 
     for (let i = 0; i < numOfSpritesToCreate; i++) {
         let currentSpriteXPos;
-        let currentSpriteYPos;
 
         // |||||||||||| INITIAL VALUES FOR "Physics"
         const initAngle = 90 * Math.PI / 180;
@@ -1125,22 +1125,26 @@ function initHellBatHandToHand(isInvokedFromEvent = false, xPos, yPos, vLimit, o
         let currentSpriteYRef;
         let currentSpriteAmplitude;
 
-        if (isInvokedFromEvent) {
+        let wasInitializedFromEvent;
+
+        if (isFunctionInvokedFromEvent) {
             currentSpriteXPos = xPos;
-            currentSpriteYPos = yPos;
 
             currentSpriteVLimit = vLimit;
             currentSpriteOmega = omega;
             currentSpriteYRef = yRef;
             currentSpriteAmplitude = amplitude;
+
+            wasInitializedFromEvent = true;
         } else {
             currentSpriteXPos = hellBatHandToHandSpritesAttributes[i].xPos;
-            currentSpriteYPos = hellBatHandToHandSpritesAttributes[i].yPos;
 
             currentSpriteVLimit = hellBatHandToHandSpritesAttributes[i].vLimit;
             currentSpriteOmega = hellBatHandToHandSpritesAttributes[i].omega;
             currentSpriteYRef = hellBatHandToHandSpritesAttributes[i].yRef;
             currentSpriteAmplitude = hellBatHandToHandSpritesAttributes[i].amplitude;
+
+            wasInitializedFromEvent = false;
         }
         
         const imageSet = new ImageSet(1334, 0, 33, 39, 46, 59, 8, 19, 33, 39);
@@ -1156,7 +1160,7 @@ function initHellBatHandToHand(isInvokedFromEvent = false, xPos, yPos, vLimit, o
         const collisions = new Collisions();
 
         let lifePoints;
-        if (isInvokedFromEvent) {
+        if (isFunctionInvokedFromEvent) {
             lifePoints = 1;
         } else {
             lifePoints = 2;
@@ -1164,15 +1168,23 @@ function initHellBatHandToHand(isInvokedFromEvent = false, xPos, yPos, vLimit, o
 
         const afterAttackLeeway = new Timer(0, 1);
 
-        const hellBatHandToHand = new HellBatHandToHand(SpriteID.HELL_BAT_HAND_TO_HAND, State.DOWN_3, currentSpriteXPos, currentSpriteYPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
+        const hellBatHandToHand = new HellBatHandToHand(SpriteID.HELL_BAT_HAND_TO_HAND, State.DOWN_3, currentSpriteXPos, 0, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, wasInitializedFromEvent);
      
         // |||||||||||| ADD HELL BAT (HAND-TO-HAND) TO ITS CORRESPONDING SPRITES ARRAY
         globals.levelSprites.push(hellBatHandToHand);
+
+        if (hellBatHandToHand.wasInitializedFromEvent) {
+            globals.hellBatsApparitionEventSprites.push(hellBatHandToHand);
+        }
     }
 }
 
 function initFastWormsFlyingStateTimer() {
     globals.fastWormsFlyingStateTimer = new Timer(20, 1);    
+}
+
+function initHellBatsApparitionEventTimer() {
+    globals.hellBatsApparitionEventTimer = new Timer(10, 1);    
 }
 
 function initLevelParticles() {

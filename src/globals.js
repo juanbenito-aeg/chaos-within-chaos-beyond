@@ -70,9 +70,14 @@ export default {
     levelSprites: [],
     levelParticles: [],
 
-    // |||||||||||| VARIABLES TO CONTROL THE EVENT OF FLYING FAST WORMS IN THE SECOND LEVEL
+    // |||||||||||| VARIABLES TO MANAGE THE EVENT OF FLYING FAST WORMS IN THE SECOND LEVEL
     doFastWormsFly: false,
     fastWormsFlyingStateTimer: {},
+
+    // |||||||||||| VARIABLES TO MANAGE THE EVENT OF HELL BATS (HAND-TO-HAND) RANDOMLY APPEARING NEXT TO THE PLAYER IN THE SECOND LEVEL
+    hellBatsApparitionEventTimer: {},
+    hellBatsApparitionEventSprites: [],
+    isHellBatsApparitionEventTakingPlace: false,
 
     numOfRageSymbolParticlesOFF: 0,
     
