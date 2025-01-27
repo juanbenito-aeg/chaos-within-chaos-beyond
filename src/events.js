@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { Game, Sound, Key } from "./constants.js";
+import { Game, Sound, SpriteID, Key } from "./constants.js";
 
 function updateMusic() {
     const buffer = 0.25;
@@ -59,9 +59,35 @@ function lowerPlayerLifePointsDueToRageBeing100() {
     }
 }
 
+function doFastWormsFly() {
+    // |||||||||||| THIS EVENT TAKES PLACE DURING THE SECOND LEVEL
+    if (globals.level.number === 2) {                
+        const randomNumBetween1AndN = Math.floor(Math.random() * 200) + 1;
+
+        // |||||||| IF A 1 IS GOTTEN & THE FAST WORMS ARE NOT CURRENTLY FLYING, MAKE THEM DO SO FOR A NUMBER OF SECONDS
+        if ((randomNumBetween1AndN === 1) && !globals.doFastWormsFly) {
+            globals.doFastWormsFly = true;
+        }
+
+        if (globals.fastWormsFlyingStateTimer.value === 0) {
+            globals.fastWormsFlyingStateTimer.value = 20;
+            globals.doFastWormsFly = false;
+        } else if (globals.doFastWormsFly) {
+            globals.fastWormsFlyingStateTimer.timeChangeCounter += globals.deltaTime;
+            
+            if (globals.fastWormsFlyingStateTimer.timeChangeCounter >= globals.fastWormsFlyingStateTimer.timeChangeValue) {
+                globals.fastWormsFlyingStateTimer.value--;
+                globals.fastWormsFlyingStateTimer.timeChangeCounter = 0;
+            }
+        }
+    }
+}
+
 function updateEvents() {
     performRandomMagicalOrbThrow();
     lowerPlayerLifePointsDueToRageBeing100();
+
+    doFastWormsFly();
 }
 
 function isMagicalOrbThrowCanceledDueToRageBeing100() {

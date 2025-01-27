@@ -1320,6 +1320,23 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
 
             // |||||||||||| CALCULATE COLLISIONS ON THE 6 SPOTS
             if (fastWorm.physics.vx > 0) { // RIGHTWARDS MOVEMENT
+                // |||||||| SPOT 6
+                xPos = fastWorm.xPos + fastWorm.hitBox.xOffset;
+                yPos = fastWorm.yPos + fastWorm.hitBox.yOffset;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos6 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos6) {
+                        // |||| CALCULATE OVERLAP ON Y
+                        overlapY = brickSize - (Math.floor(yPos) % brickSize);
+            
+                        // |||| COLLISION ON Y AXIS
+                        fastWorm.collisions.isCollidingWithObstacleOnTheTop = true;
+                        fastWorm.yPos += overlapY;
+                        fastWorm.physics.vy = 0;
+                    }
+                }
+                
                 // |||||||| SPOT 4
                 xPos = fastWorm.xPos + fastWorm.hitBox.xOffset;
                 yPos = fastWorm.yPos + fastWorm.hitBox.yOffset + fastWorm.hitBox.ySize - 1;
@@ -1336,18 +1353,22 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                         overlapY = (Math.floor(yPos) % brickSize) + 1;
 
                         if (obstaclesIDs[i] === Block.DARK_BROWN_SLOPE_DOWNWARDS) {
-                            // |||| CALCULATE OVERLAP ON Y (1 - USED TO PUT THE SPRITE AGAINST THE BOTTOM SIDE OF THE SLOPE TILE)
-                            overlapY = brickSize - (Math.floor(yPos) % brickSize);
+                            let overlapYToStopFalling = (Math.floor(xPos) % brickSize) + 1;
                             
-                            fastWorm.yPos += overlapY;
-                            
-                            // |||| CALCULATE OVERLAP ON Y (2 - USED TO ADEQUATELY POSITION THE SPRITE ON THE SLOPE TILE)
-                            overlapY = overlapX;
-        
-                            // |||| COLLISION ON Y AXIS
-                            fastWorm.collisions.isCollidingWithObstacleOnTheBottom = true;
-                            fastWorm.yPos -= overlapY;
-                            fastWorm.physics.vy = 0;
+                            if ((!fastWorm.collisions.isCollidingWithObstacleOnTheBottom && (fastWorm.physics.vy > 0) && (overlapY >= overlapYToStopFalling)) || fastWorm.collisions.isCollidingWithObstacleOnTheBottom) {
+                                // |||| CALCULATE OVERLAP ON Y (1 - USED TO PUT THE SPRITE AGAINST THE BOTTOM SIDE OF THE SLOPE TILE)
+                                overlapY = brickSize - (Math.floor(yPos) % brickSize);
+                                
+                                fastWorm.yPos += overlapY;
+                                
+                                // |||| CALCULATE OVERLAP ON Y (2 - USED TO ADEQUATELY POSITION THE SPRITE ON THE SLOPE TILE)
+                                overlapY = overlapX;
+            
+                                // |||| COLLISION ON Y AXIS
+                                fastWorm.collisions.isCollidingWithObstacleOnTheBottom = true;
+                                fastWorm.yPos -= overlapY;
+                                fastWorm.physics.vy = 0;
+                            }
                         } else if (!fastWorm.collisions.isCollidingWithSlope) {
                             // |||| COLLISION ON Y AXIS
                             fastWorm.collisions.isCollidingWithObstacleOnTheBottom = true;
@@ -1385,13 +1406,23 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                     isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos1) {
-                        // |||| CALCULATE OVERLAP ON X
+                        // |||| CALCULATE OVERLAP ON X & Y
                         overlapX = (Math.floor(xPos) % brickSize) + 1;
+                        overlapY = brickSize - (Math.floor(yPos) % brickSize);
                         
-                        // |||| COLLISION ON X AXIS
-                        fastWorm.collisions.isCollidingWithObstacleOnTheRight = true;
-                        fastWorm.xPos -= overlapX;
-                        fastWorm.physics.vx = 0;
+                        if (overlapX <= overlapY) {
+                            // |||| COLLISION ON X AXIS
+                            fastWorm.collisions.isCollidingWithObstacleOnTheRight = true;
+                            fastWorm.xPos -= overlapX;
+                            fastWorm.physics.vx = 0;
+                        } else {
+                            // |||| COLLISION ON Y AXIS
+                            fastWorm.collisions.isCollidingWithObstacleOnTheTop = true;
+                            fastWorm.yPos += overlapY;
+                            if (fastWorm.physics.vy < 0) {                    
+                                fastWorm.physics.vy = 0;
+                            } 
+                        }
                     }
                 }
         
@@ -1412,18 +1443,22 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                             overlapY = (Math.floor(yPos) % brickSize) + 1;
                 
                             if (obstaclesIDs[i] === Block.DARK_BROWN_SLOPE_UPWARDS) {
-                                // |||| CALCULATE OVERLAP ON Y (1 - USED TO PUT THE SPRITE AGAINST THE BOTTOM SIDE OF THE SLOPE TILE)
-                                overlapY = brickSize - (Math.floor(yPos) % brickSize);
+                                let overlapYToStopFalling = brickSize - (Math.floor(xPos) % brickSize);
                                 
-                                fastWorm.yPos += overlapY;
-                                
-                                // |||| CALCULATE OVERLAP ON Y (2 - USED TO ADEQUATELY POSITION THE SPRITE ON THE SLOPE TILE)
-                                overlapY = overlapX - 1;
-            
-                                // |||| COLLISION ON Y AXIS
-                                fastWorm.collisions.isCollidingWithObstacleOnTheBottom = true;
-                                fastWorm.yPos -= overlapY;
-                                fastWorm.physics.vy = 0;
+                                if ((!fastWorm.collisions.isCollidingWithObstacleOnTheBottom && (fastWorm.physics.vy > 0) && (overlapY >= overlapYToStopFalling)) || fastWorm.collisions.isCollidingWithObstacleOnTheBottom) {
+                                    // |||| CALCULATE OVERLAP ON Y (1 - USED TO PUT THE SPRITE AGAINST THE BOTTOM SIDE OF THE SLOPE TILE)
+                                    overlapY = brickSize - (Math.floor(yPos) % brickSize);
+                                    
+                                    fastWorm.yPos += overlapY;
+                                    
+                                    // |||| CALCULATE OVERLAP ON Y (2 - USED TO ADEQUATELY POSITION THE SPRITE ON THE SLOPE TILE)
+                                    overlapY = overlapX - 1;
+                
+                                    // |||| COLLISION ON Y AXIS
+                                    fastWorm.collisions.isCollidingWithObstacleOnTheBottom = true;
+                                    fastWorm.yPos -= overlapY;
+                                    fastWorm.physics.vy = 0;
+                                }
                             } else if (!fastWorm.collisions.isCollidingWithSlope) {
                                 if (overlapX <= overlapY) {
                                     // |||| COLLISION ON X AXIS
@@ -1441,6 +1476,23 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                     }
                 }
             } else if (fastWorm.physics.vx < 0) { // LEFTWARDS MOVEMENT
+                // |||||||| SPOT 1
+                xPos = fastWorm.xPos + fastWorm.hitBox.xOffset + fastWorm.hitBox.xSize - 1;
+                yPos = fastWorm.yPos + fastWorm.hitBox.yOffset;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos1) {
+                        // |||| CALCULATE OVERLAP ON Y
+                        overlapY = brickSize - (Math.floor(yPos) % brickSize);
+            
+                        // |||| COLLISION ON Y AXIS
+                        fastWorm.collisions.isCollidingWithObstacleOnTheTop = true;
+                        fastWorm.yPos += overlapY;
+                        fastWorm.physics.vy = 0;
+                    }
+                }
+                
                 // |||||||| SPOT 3
                 xPos = fastWorm.xPos + fastWorm.hitBox.xOffset + fastWorm.hitBox.xSize - 1;
                 yPos = fastWorm.yPos + fastWorm.hitBox.yOffset + fastWorm.hitBox.ySize - 1;
@@ -1457,18 +1509,22 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                         overlapY = (Math.floor(yPos) % brickSize) + 1;
 
                         if (obstaclesIDs[i] === Block.DARK_BROWN_SLOPE_UPWARDS) {
-                            // |||| CALCULATE OVERLAP ON Y (1 - USED TO PUT THE SPRITE AGAINST THE BOTTOM SIDE OF THE SLOPE TILE)
-                            overlapY = brickSize - (Math.floor(yPos) % brickSize);
-                            
-                            fastWorm.yPos += overlapY;
-                            
-                            // |||| CALCULATE OVERLAP ON Y (2 - USED TO ADEQUATELY POSITION THE SPRITE ON THE SLOPE TILE)
-                            overlapY = overlapX;
-        
-                            // |||| COLLISION ON Y AXIS
-                            fastWorm.collisions.isCollidingWithObstacleOnTheBottom = true;
-                            fastWorm.yPos -= overlapY;
-                            fastWorm.physics.vy = 0;
+                            let overlapYToStopFalling = brickSize - (Math.floor(xPos) % brickSize);
+                    
+                            if ((!fastWorm.collisions.isCollidingWithObstacleOnTheBottom && (fastWorm.physics.vy > 0) && (overlapY >= overlapYToStopFalling)) || fastWorm.collisions.isCollidingWithObstacleOnTheBottom) {
+                                // |||| CALCULATE OVERLAP ON Y (1 - USED TO PUT THE SPRITE AGAINST THE BOTTOM SIDE OF THE SLOPE TILE)
+                                overlapY = brickSize - (Math.floor(yPos) % brickSize);
+                                
+                                fastWorm.yPos += overlapY;
+                                
+                                // |||| CALCULATE OVERLAP ON Y (2 - USED TO ADEQUATELY POSITION THE SPRITE ON THE SLOPE TILE)
+                                overlapY = overlapX;
+            
+                                // |||| COLLISION ON Y AXIS
+                                fastWorm.collisions.isCollidingWithObstacleOnTheBottom = true;
+                                fastWorm.yPos -= overlapY;
+                                fastWorm.physics.vy = 0;
+                            }
                         } else if (!fastWorm.collisions.isCollidingWithSlope) {
                             // |||| COLLISION ON Y AXIS
                             fastWorm.collisions.isCollidingWithObstacleOnTheBottom = true;
@@ -1506,13 +1562,23 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                     isCollidingOnPos6 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                     
                     if (isCollidingOnPos6) {
-                        // |||| CALCULATE OVERLAP ON X
+                        // |||| CALCULATE OVERLAP ON X & Y
                         overlapX = brickSize - (Math.floor(xPos) % brickSize);
+                        overlapY = brickSize - (Math.floor(yPos) % brickSize);
             
-                        // |||| COLLISION ON X AXIS
-                        fastWorm.collisions.isCollidingWithObstacleOnTheLeft = true;
-                        fastWorm.xPos += overlapX;
-                        fastWorm.physics.vx = 0;
+                        if (overlapX <= overlapY) {
+                            // |||| COLLISION ON X AXIS
+                            fastWorm.collisions.isCollidingWithObstacleOnTheLeft = true;
+                            fastWorm.xPos += overlapX;
+                            fastWorm.physics.vx = 0;
+                        } else {
+                            // |||| COLLISION ON Y AXIS
+                            fastWorm.collisions.isCollidingWithObstacleOnTheTop = true;
+                            fastWorm.yPos += overlapY;
+                            if (fastWorm.physics.vy < 0) {                    
+                                fastWorm.physics.vy = 0;
+                            } 
+                        }
                     }
                 }
         
@@ -1527,24 +1593,28 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                             if (obstaclesIDs[i] === Block.LAVA_1) {
                                 fastWorm.collisions.isCollidingWithLava = true;
                             }
-    
+
                             // |||| CALCULATE OVERLAP ON X & Y
                             overlapX = brickSize - (Math.floor(xPos) % brickSize);
                             overlapY = (Math.floor(yPos) % brickSize) + 1;
                 
                             if (obstaclesIDs[i] === Block.DARK_BROWN_SLOPE_DOWNWARDS) {
-                                // |||| CALCULATE OVERLAP ON Y (1 - USED TO PUT THE SPRITE AGAINST THE BOTTOM SIDE OF THE SLOPE TILE)
-                                overlapY = brickSize - (Math.floor(yPos) % brickSize);
+                                let overlapYToStopFalling = (Math.floor(xPos) % brickSize) + 1;
                                 
-                                fastWorm.yPos += overlapY;
-                                
-                                // |||| CALCULATE OVERLAP ON Y (2 - USED TO ADEQUATELY POSITION THE SPRITE ON THE SLOPE TILE)
-                                overlapY = overlapX - 1;
-            
-                                // |||| COLLISION ON Y AXIS
-                                fastWorm.collisions.isCollidingWithObstacleOnTheBottom = true;
-                                fastWorm.yPos -= overlapY;
-                                fastWorm.physics.vy = 0;
+                                if ((!fastWorm.collisions.isCollidingWithObstacleOnTheBottom && (fastWorm.physics.vy > 0) && (overlapY >= overlapYToStopFalling)) || fastWorm.collisions.isCollidingWithObstacleOnTheBottom) {
+                                    // |||| CALCULATE OVERLAP ON Y (1 - USED TO PUT THE SPRITE AGAINST THE BOTTOM SIDE OF THE SLOPE TILE)
+                                    overlapY = brickSize - (Math.floor(yPos) % brickSize);
+                                    
+                                    fastWorm.yPos += overlapY;
+                                    
+                                    // |||| CALCULATE OVERLAP ON Y (2 - USED TO ADEQUATELY POSITION THE SPRITE ON THE SLOPE TILE)
+                                    overlapY = overlapX - 1;
+                
+                                    // |||| COLLISION ON Y AXIS
+                                    fastWorm.collisions.isCollidingWithObstacleOnTheBottom = true;
+                                    fastWorm.yPos -= overlapY;
+                                    fastWorm.physics.vy = 0;
+                                }
                             } else if (!fastWorm.collisions.isCollidingWithSlope) {
                                 if (overlapX <= overlapY) {
                                     // |||| COLLISION ON X AXIS
@@ -1562,6 +1632,23 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                     }
                 }
             } else { // STATIC
+                // |||||||| SPOT 6
+                xPos = fastWorm.xPos + fastWorm.hitBox.xOffset;
+                yPos = fastWorm.yPos + fastWorm.hitBox.yOffset;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos6 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos6) {
+                        // |||| CALCULATE OVERLAP ON Y
+                        overlapY = brickSize - (Math.floor(yPos) % brickSize);
+            
+                        // |||| COLLISION ON Y AXIS
+                        fastWorm.collisions.isCollidingWithObstacleOnTheTop = true;
+                        fastWorm.yPos += overlapY;
+                        fastWorm.physics.vy = 0;
+                    }
+                }
+
                 // |||||||| SPOT 4
                 xPos = fastWorm.xPos + fastWorm.hitBox.xOffset;
                 yPos = fastWorm.yPos + fastWorm.hitBox.yOffset + fastWorm.hitBox.ySize - 1;
@@ -1579,18 +1666,22 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                             overlapY = (Math.floor(yPos) % brickSize) + 1;
     
                             if (obstaclesIDs[i] === Block.DARK_BROWN_SLOPE_DOWNWARDS) {
-                                // |||| CALCULATE OVERLAP ON Y (1 - USED TO PUT THE SPRITE AGAINST THE BOTTOM SIDE OF THE SLOPE TILE)
-                                overlapY = brickSize - (Math.floor(yPos) % brickSize);
-                                
-                                fastWorm.yPos += overlapY;
-                                
-                                // |||| CALCULATE OVERLAP ON Y (2 - USED TO ADEQUATELY POSITION THE SPRITE ON THE SLOPE TILE)
-                                overlapY = overlapX - 1;
-            
-                                // |||| COLLISION ON Y AXIS
-                                fastWorm.collisions.isCollidingWithObstacleOnTheBottom = true;
-                                fastWorm.yPos -= overlapY;
-                                fastWorm.physics.vy = 0;
+                                let overlapYToStopFalling = (Math.floor(xPos) % brickSize) + 1;
+                        
+                                if ((!fastWorm.collisions.isCollidingWithObstacleOnTheBottom && (fastWorm.physics.vy > 0) && (overlapY >= overlapYToStopFalling)) || fastWorm.collisions.isCollidingWithObstacleOnTheBottom) {
+                                    // |||| CALCULATE OVERLAP ON Y (1 - USED TO PUT THE SPRITE AGAINST THE BOTTOM SIDE OF THE SLOPE TILE)
+                                    overlapY = brickSize - (Math.floor(yPos) % brickSize);
+                                    
+                                    fastWorm.yPos += overlapY;
+                                    
+                                    // |||| CALCULATE OVERLAP ON Y (2 - USED TO ADEQUATELY POSITION THE SPRITE ON THE SLOPE TILE)
+                                    overlapY = overlapX - 1;
+                
+                                    // |||| COLLISION ON Y AXIS
+                                    fastWorm.collisions.isCollidingWithObstacleOnTheBottom = true;
+                                    fastWorm.yPos -= overlapY;
+                                    fastWorm.physics.vy = 0;
+                                }
                             } else if (!fastWorm.collisions.isCollidingWithSlope) {
                                 // |||| COLLISION ON Y AXIS
                                 fastWorm.collisions.isCollidingWithObstacleOnTheBottom = true;
@@ -1598,6 +1689,23 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                                 fastWorm.physics.vy = 0;
                             }
                         }
+                    }
+                }
+
+                // |||||||| SPOT 1
+                xPos = fastWorm.xPos + fastWorm.hitBox.xOffset + fastWorm.hitBox.xSize - 1;
+                yPos = fastWorm.yPos + fastWorm.hitBox.yOffset;
+                for (let i = 0; i < obstaclesIDs.length; i++) {
+                    isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
+                    
+                    if (isCollidingOnPos1) {
+                        // |||| CALCULATE OVERLAP ON Y
+                        overlapY = brickSize - (Math.floor(yPos) % brickSize);
+            
+                        // |||| COLLISION ON Y AXIS
+                        fastWorm.collisions.isCollidingWithObstacleOnTheTop = true;
+                        fastWorm.yPos += overlapY;
+                        fastWorm.physics.vy = 0;
                     }
                 }
         
@@ -1618,18 +1726,22 @@ function detectCollisionBetweenFastWormAndMapObstacles() {
                             overlapY = (Math.floor(yPos) % brickSize) + 1;
     
                             if (obstaclesIDs[i] === Block.DARK_BROWN_SLOPE_UPWARDS) {
-                                // |||| CALCULATE OVERLAP ON Y (1 - USED TO PUT THE SPRITE AGAINST THE BOTTOM SIDE OF THE SLOPE TILE)
-                                overlapY = brickSize - (Math.floor(yPos) % brickSize);
-                                
-                                fastWorm.yPos += overlapY;
-                                
-                                // |||| CALCULATE OVERLAP ON Y (2 - USED TO ADEQUATELY POSITION THE SPRITE ON THE SLOPE TILE)
-                                overlapY = overlapX - 1;
-            
-                                // |||| COLLISION ON Y AXIS
-                                fastWorm.collisions.isCollidingWithObstacleOnTheBottom = true;
-                                fastWorm.yPos -= overlapY;
-                                fastWorm.physics.vy = 0;
+                                let overlapYToStopFalling = brickSize - (Math.floor(xPos) % brickSize);
+                        
+                                if ((!fastWorm.collisions.isCollidingWithObstacleOnTheBottom && (fastWorm.physics.vy > 0) && (overlapY >= overlapYToStopFalling)) || fastWorm.collisions.isCollidingWithObstacleOnTheBottom) {
+                                    // |||| CALCULATE OVERLAP ON Y (1 - USED TO PUT THE SPRITE AGAINST THE BOTTOM SIDE OF THE SLOPE TILE)
+                                    overlapY = brickSize - (Math.floor(yPos) % brickSize);
+                                    
+                                    fastWorm.yPos += overlapY;
+                                    
+                                    // |||| CALCULATE OVERLAP ON Y (2 - USED TO ADEQUATELY POSITION THE SPRITE ON THE SLOPE TILE)
+                                    overlapY = overlapX - 1;
+                
+                                    // |||| COLLISION ON Y AXIS
+                                    fastWorm.collisions.isCollidingWithObstacleOnTheBottom = true;
+                                    fastWorm.yPos -= overlapY;
+                                    fastWorm.physics.vy = 0;
+                                }
                             } else if (!fastWorm.collisions.isCollidingWithSlope) {
                                 // |||| COLLISION ON Y AXIS
                                 fastWorm.collisions.isCollidingWithObstacleOnTheBottom = true;

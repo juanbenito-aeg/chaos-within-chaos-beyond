@@ -69,8 +69,15 @@ export default class FastWorm extends Character {
 
             const uvVectorX = vpVectorX / vpVectorLength;
             this.physics.vx = this.physics.vLimit * uvVectorX;
+            
+            let uvVectorY;
+            if (globals.doFastWormsFly) {
+                uvVectorY = vpVectorY / vpVectorLength;
+                this.physics.vy = this.physics.vLimit * uvVectorY;
+            }
         } else {
             this.physics.vx = 0;
+            this.physics.vy = 0;
         }
 
         // |||||||||||| CALCULATE THE DISTANCE IT MOVES (X AXIS)

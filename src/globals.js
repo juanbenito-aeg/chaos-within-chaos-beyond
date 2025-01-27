@@ -70,6 +70,10 @@ export default {
     levelSprites: [],
     levelParticles: [],
 
+    // |||||||||||| VARIABLES TO CONTROL THE EVENT OF FLYING FAST WORMS IN THE SECOND LEVEL
+    doFastWormsFly: false,
+    fastWormsFlyingStateTimer: {},
+
     numOfRageSymbolParticlesOFF: 0,
     
     // |||||||||||| "GAME OVER" SCREEN DATA

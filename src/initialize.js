@@ -454,6 +454,8 @@ function initLevel() {
         initLevel1ExclusiveSprites();
     } else {
         initLevel2ExclusiveSprites();
+        
+        initFastWormsFlyingStateTimer();
     }
 
     initLevelParticles();
@@ -706,8 +708,8 @@ function initFastWorm() {
         fastWormSpritesAttributes = [
             {
                 state: State.LEFT,
-                xPos: 0,
-                yPos: 0,
+                xPos: 100,
+                yPos: 100,
             },
         ];
     }
@@ -1139,6 +1141,10 @@ function initHellBatHandToHand() {
         // |||||||||||| ADD HELL BAT (HAND-TO-HAND) TO ITS CORRESPONDING SPRITES ARRAY
         globals.levelSprites.push(hellBatHandToHand);
     }
+}
+
+function initFastWormsFlyingStateTimer() {
+    globals.fastWormsFlyingStateTimer = new Timer(20, 1);    
 }
 
 function initLevelParticles() {
