@@ -1095,9 +1095,7 @@ function initChaoticHumanSword() {
     }
 }
 
-function initHellBatHandToHand() {
-    // |||||||||||| CREATE ALL THE SPRITES FOR THE CAVE'S SECOND SECTION (LEVEL)
-
+function initHellBatHandToHand(isInvokedFromEvent = false, xPos, yPos, vLimit, omega, yRef, amplitude) {
     const hellBatHandToHandSpritesAttributes = [
         {
             xPos: 0,
@@ -1108,22 +1106,47 @@ function initHellBatHandToHand() {
             amplitude: 80,
         },
     ];
-    
-    for (let i = 0; i < hellBatHandToHandSpritesAttributes.length; i++) {        
-        const currentSpriteXPos = hellBatHandToHandSpritesAttributes[i].xPos;
-        const currentSpriteYPos = hellBatHandToHandSpritesAttributes[i].yPos;
+
+    let numOfSpritesToCreate;
+    if (isInvokedFromEvent) {
+        numOfSpritesToCreate = 1;
+    } else {
+        numOfSpritesToCreate = hellBatHandToHandSpritesAttributes.length;
+    }
+
+    for (let i = 0; i < numOfSpritesToCreate; i++) {
+        let currentSpriteXPos;
+        let currentSpriteYPos;
+
+        // |||||||||||| INITIAL VALUES FOR "Physics"
+        const initAngle = 90 * Math.PI / 180;
+        let currentSpriteVLimit;
+        let currentSpriteOmega;
+        let currentSpriteYRef;
+        let currentSpriteAmplitude;
+
+        if (isInvokedFromEvent) {
+            currentSpriteXPos = xPos;
+            currentSpriteYPos = yPos;
+
+            currentSpriteVLimit = vLimit;
+            currentSpriteOmega = omega;
+            currentSpriteYRef = yRef;
+            currentSpriteAmplitude = amplitude;
+        } else {
+            currentSpriteXPos = hellBatHandToHandSpritesAttributes[i].xPos;
+            currentSpriteYPos = hellBatHandToHandSpritesAttributes[i].yPos;
+
+            currentSpriteVLimit = hellBatHandToHandSpritesAttributes[i].vLimit;
+            currentSpriteOmega = hellBatHandToHandSpritesAttributes[i].omega;
+            currentSpriteYRef = hellBatHandToHandSpritesAttributes[i].yRef;
+            currentSpriteAmplitude = hellBatHandToHandSpritesAttributes[i].amplitude;
+        }
         
         const imageSet = new ImageSet(1334, 0, 33, 39, 46, 59, 8, 19, 33, 39);
 
         // |||||||||||| ANIMATION DATA CREATION: 3 FRAMES PER STATE & ANIMATION SPEED
         const frames = new Frames(3, 7);
-
-        // |||||||||||| INITIAL VALUES FOR "Physics"
-        const initAngle = 90 * Math.PI / 180;
-        const currentSpriteVLimit = hellBatHandToHandSpritesAttributes[i].vLimit;
-        const currentSpriteOmega = hellBatHandToHandSpritesAttributes[i].omega;
-        const currentSpriteYRef = hellBatHandToHandSpritesAttributes[i].yRef;
-        const currentSpriteAmplitude = hellBatHandToHandSpritesAttributes[i].amplitude;
 
         const physics = new Physics(currentSpriteVLimit, 0, 1, 0, currentSpriteOmega, initAngle, 100, 100, currentSpriteYRef, 0, 0, currentSpriteAmplitude);
         physics.vx = currentSpriteVLimit;
@@ -1132,7 +1155,12 @@ function initHellBatHandToHand() {
 
         const collisions = new Collisions();
 
-        const lifePoints = 2;
+        let lifePoints;
+        if (isInvokedFromEvent) {
+            lifePoints = 1;
+        } else {
+            lifePoints = 2;
+        }
 
         const afterAttackLeeway = new Timer(0, 1);
 
@@ -1350,6 +1378,7 @@ export {
     initAcid,
     initPotionGreen,
     initPotionBlue,
+    initHellBatHandToHand,
     initRageSymbolParticles,
     createLavaParticle,
     initCheckpointParticles,

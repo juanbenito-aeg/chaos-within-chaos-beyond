@@ -1,5 +1,6 @@
 import globals from "./globals.js";
-import { Game, Sound, SpriteID, Key } from "./constants.js";
+import { Game, Sound, Key } from "./constants.js";
+import { initHellBatHandToHand } from "./initialize.js";
 
 function updateMusic() {
     const buffer = 0.25;
@@ -83,11 +84,50 @@ function doFastWormsFly() {
     }
 }
 
+function makeHellBatsAppearDueToRageBeing100() {
+    // |||||||||||| THIS EVENT TAKES PLACE DURING THE SECOND LEVEL
+    if (globals.level.number === 2) {
+        const player = globals.levelSprites[0];
+
+        if (player.rageLevel > 50) {
+            const randomNumBetween1AndN = Math.floor(Math.random() * 100) + 1;
+    
+            // |||||||| IF A 1 IS GOTTEN, MAKE TWO HELL BATS (HAND-TO-HAND) SPAWN NEAR THE PLAYER
+            if (randomNumBetween1AndN === 1) {
+                const hellBatHandToHandSpritesAttributes = [
+                    {
+                        xPos: Math.max(0, (player.xPos - 20)),
+                        yPos: player.yPos,
+                        vLimit: 50,
+                        omega: 2.5,
+                        yRef: player.yPos,
+                        amplitude: 80,
+                    },
+                    {
+                        xPos: Math.min(((globals.level.data[0].length * 16) - 33), (player.xPos + player.imageSet.xSize)),
+                        yPos: player.yPos,
+                        vLimit: 50,
+                        omega: 2.5,
+                        yRef: player.yPos,
+                        amplitude: 80,
+                    },
+                ];
+
+                for (let i = 0; i < hellBatHandToHandSpritesAttributes.length; i++) {
+                    initHellBatHandToHand(true, hellBatHandToHandSpritesAttributes[i].xPos, hellBatHandToHandSpritesAttributes[i].yPos, hellBatHandToHandSpritesAttributes[i].vLimit, hellBatHandToHandSpritesAttributes[i].omega, hellBatHandToHandSpritesAttributes[i].yRef, hellBatHandToHandSpritesAttributes[i].amplitude);
+                }
+            }
+        }
+    }
+}
+
 function updateEvents() {
     performRandomMagicalOrbThrow();
     lowerPlayerLifePointsDueToRageBeing100();
 
     doFastWormsFly();
+
+    makeHellBatsAppearDueToRageBeing100();
 }
 
 function isMagicalOrbThrowCanceledDueToRageBeing100() {
