@@ -90,26 +90,28 @@ function makeHellBatsAppearDueToRageBeingOver50() {
         const player = globals.levelSprites[0];
 
         if (player.rageLevel > 50) {
-            const randomNumBetween1AndN = Math.floor(Math.random() * 50) + 1;
+            const randomNumBetween1AndN = Math.floor(Math.random() * 1000) + 1;
     
             // |||||||| IF A 1 IS GOTTEN, MAKE TWO HELL BATS (HAND-TO-HAND) SPAWN NEAR THE PLAYER
             if ((randomNumBetween1AndN === 1) && !globals.isHellBatsApparitionEventTakingPlace) {
                 globals.isHellBatsApparitionEventTakingPlace = true;
                 globals.hellBatsApparitionEventSprites = [];
 
+                const hellBatHandToHandXDestinationSize = 33;
+
                 const hellBatHandToHandSpritesAttributes = [
                     {
-                        xPos: Math.max(32, player.xPos - 33),
-                        vLimit: -50,
-                        omega: 2.5,
-                        yRef: player.yPos + player.hitBox.yOffset,
+                        xPos: player.xPos - hellBatHandToHandXDestinationSize,
+                        vLimit: -60,
+                        omega: 3,
+                        yRef: (player.yPos + player.hitBox.yOffset),
                         amplitude: 40,
                     },
                     {
-                        xPos: Math.min((globals.level.data[0] * 16) - 33, player.xPos + player.imageSet.xDestinationSize),
-                        vLimit: 50,
-                        omega: 2.5,
-                        yRef: player.yPos + player.hitBox.yOffset,
+                        xPos: player.xPos + player.imageSet.xDestinationSize,
+                        vLimit: 60,
+                        omega: 3,
+                        yRef: (player.yPos + player.hitBox.yOffset),
                         amplitude: 40,
                     },
                 ];

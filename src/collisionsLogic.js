@@ -1831,8 +1831,10 @@ function detectCollisionBetweenHellBatHandToHandAndMapBoundaries() {
 
             if ((hellBatHandToHand.xPos + hellBatHandToHand.imageSet.xDestinationSize) > level2Width) {
                 hellBatHandToHand.collisions.isCollidingWithObstacleOnTheRight = true;
+                hellBatHandToHand.xPos = level2Width - hellBatHandToHand.imageSet.xDestinationSize;
             } else if (hellBatHandToHand.xPos < 0) {
                 hellBatHandToHand.collisions.isCollidingWithObstacleOnTheLeft = true;
+                hellBatHandToHand.xPos = 0;
             }
         }
     }

@@ -74,7 +74,7 @@ export default class HellBatHandToHand extends Character {
 
                 if ((globals.hellBatsApparitionEventTimer.value > 0) && (globals.hellBatsApparitionEventSprites.length === 0)) {
                     potionDropXPos = player.xPos + player.hitBox.xOffset;
-                    potionDropYPos = player.yPos + - 25;
+                    potionDropYPos = player.yPos - 25;
                     initPotionGreen(potionDropXPos, potionDropYPos);                
                     
                     potionDropXPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize;

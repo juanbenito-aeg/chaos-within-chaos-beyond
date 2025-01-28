@@ -1053,7 +1053,7 @@ function initAcid(hellBatAcid) {
 
 function initLevel2ExclusiveSprites() {
     initChaoticHumanSword();
-    initHellBatHandToHand();
+    initHellBatHandToHand(false);
 }
 
 function initChaoticHumanSword() {
@@ -1097,13 +1097,13 @@ function initChaoticHumanSword() {
     }
 }
 
-function initHellBatHandToHand(isFunctionInvokedFromEvent = false, xPos, vLimit, omega, yRef, amplitude) {
+function initHellBatHandToHand(isFunctionInvokedFromEvent, xPos, vLimit, omega, yRef, amplitude) {
     const hellBatHandToHandSpritesAttributes = [
         {
             xPos: 0,
             vLimit: 50,
             omega: 2.5,
-            yRef: globals.canvas.height / 2.15,
+            yRef: (globals.canvas.height / 2.15),
             amplitude: 80,
         },
     ];
