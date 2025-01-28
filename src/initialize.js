@@ -172,7 +172,7 @@ function loadHandler() {
 
         console.log("Assets finished loading");
 
-        globals.gameState = Game.LOADING_LEVEL;
+        globals.gameState = Game.LOADING_MAIN_MENU;
     }
 }
 
@@ -595,8 +595,8 @@ function initPlayer() {
 
     const collisions = new Collisions();
 
-    // |||||||||||| LIFE POINTS, STARTING IN 3 AND RANGING FROM 1 TO 5 (REPRESENTED BY X.G FACE'S DIFFERENT FRAMES)
-    const lifePoints = 3;
+    // |||||||||||| LIFE POINTS, RANGING FROM 1 TO 5 (REPRESENTED BY X.G FACE'S DIFFERENT FRAMES)
+    const lifePoints = 5;
 
     const afterAttackLeeway = new Timer(0, 1);
     
@@ -641,6 +641,12 @@ function initPlayer() {
                 xPosUpperLimit: xPos,
                 yPosLowerLimit: yPos,
                 yPosUpperLimit: yPos,
+            },
+            {
+                xPosLowerLimit: 205,
+                xPosUpperLimit: 210,
+                yPosLowerLimit: 1510,
+                yPosUpperLimit: 1580,
             },
         ];
     }
@@ -709,9 +715,19 @@ function initFastWorm() {
     } else {
         fastWormSpritesAttributes = [
             {
-                state: State.LEFT,
-                xPos: 100,
-                yPos: 100,
+                state: State.RIGHT,
+                xPos: 428,
+                yPos: 2584,
+            },
+            {
+                state: State.RIGHT,
+                xPos: 107,
+                yPos: 2176,
+            },
+            {
+                state: State.RIGHT,
+                xPos: 234,
+                yPos: 768,
             },
         ];
     }
@@ -774,8 +790,20 @@ function initPotionGreen(xPos = -1, yPos = -1) {
     } else {
         potionGreenSpritesAttributes = [
             {
-                xPos: 0,
-                yPos: 0,
+                xPos: 482,
+                yPos: 2650,
+            },
+            {
+                xPos: 257,
+                yPos: 1952,
+            },
+            {
+                xPos: 473,
+                yPos: 1635,
+            },
+            {
+                xPos: 434,
+                yPos: 608,
             },
         ];
     }
@@ -1061,9 +1089,39 @@ function initChaoticHumanSword() {
 
     const chaoticHumanSwordSpritesAttributes = [
         {
+            state: State.RIGHT_3,
+            xPos: 200,
+            yPos: 2395,
+            vLimit: 40,
+            maxTimeToChangeDirection: 3,
+        },
+        {
+            state: State.RIGHT_3,
+            xPos: 185,
+            yPos: 2090,
+            vLimit: 30,
+            maxTimeToChangeDirection: 4,
+        },
+        {
             state: State.LEFT_3,
-            xPos: 250,
-            yPos: 60,
+            xPos: 427,
+            yPos: 1555,
+            vLimit: 35,
+            maxTimeToChangeDirection: 2.75,
+        },
+        {
+            state: State.LEFT_3,
+            xPos: 190,
+            yPos: 1465,
+            vLimit: 30,
+            maxTimeToChangeDirection: 3,
+        },
+        {
+            state: State.RIGHT_3,
+            xPos: 236,
+            yPos: 585,
+            vLimit: 45,
+            maxTimeToChangeDirection: 3.5,
         },
     ];
 
@@ -1078,9 +1136,10 @@ function initChaoticHumanSword() {
         // |||||||||||| ANIMATION DATA CREATION: 9 (OR LESS IN THIS CASE) FRAMES PER STATE & ANIMATION SPEED
         const frames = new Frames(9, 3);
 
-        const physics = new Physics(20);
+        const currentSpriteVLimit = chaoticHumanSwordSpritesAttributes[i].vLimit;
+        const physics = new Physics(currentSpriteVLimit);
 
-        const maxTimeToChangeDirection = 3
+        const currentSpriteMaxTimeToChangeDirection = chaoticHumanSwordSpritesAttributes[i].maxTimeToChangeDirection;
 
         const hitBox = new HitBox(26, 40, 2, 1);
 
@@ -1090,7 +1149,7 @@ function initChaoticHumanSword() {
 
         const afterAttackLeeway = new Timer(0, 1);
 
-        const chaoticHumanSword = new ChaoticHumanSword(SpriteID.CHAOTIC_HUMAN_SWORD, currentSpriteState, currentSpriteXPos, currentSpriteYPos, imageSet, frames, physics, maxTimeToChangeDirection, hitBox, collisions, lifePoints, afterAttackLeeway);
+        const chaoticHumanSword = new ChaoticHumanSword(SpriteID.CHAOTIC_HUMAN_SWORD, currentSpriteState, currentSpriteXPos, currentSpriteYPos, imageSet, frames, physics, currentSpriteMaxTimeToChangeDirection, hitBox, collisions, lifePoints, afterAttackLeeway);
      
         // |||||||||||| ADD CHAOTIC HUMAN (SWORD) TO ITS CORRESPONDING SPRITES ARRAY
         globals.levelSprites.push(chaoticHumanSword);
@@ -1103,8 +1162,22 @@ function initHellBatHandToHand(isFunctionInvokedFromEvent, xPos, vLimit, omega, 
             xPos: 0,
             vLimit: 50,
             omega: 2.5,
-            yRef: (globals.canvas.height / 2.15),
-            amplitude: 80,
+            yRef: 2312,
+            amplitude: 60,
+        },
+        {
+            xPos: 0,
+            vLimit: 60,
+            omega: 1.5,
+            yRef: 998,
+            amplitude: 140,
+        },
+        {
+            xPos: 0,
+            vLimit: 70,
+            omega: 2,
+            yRef: 173,
+            amplitude: 120,
         },
     ];
 

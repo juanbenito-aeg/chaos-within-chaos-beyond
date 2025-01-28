@@ -3,7 +3,7 @@ import { Game, Sound, Key } from "./constants.js";
 import { initHellBatHandToHand } from "./initialize.js";
 
 function updateMusic() {
-    const buffer = 0.25;
+    const buffer = 0.275;
     const music = globals.sounds[Sound.LEVEL_MUSIC];
     if ((globals.gameState === Game.PLAYING) && (music.currentTime > (music.duration - buffer))) {
         music.currentTime = 0;
@@ -63,7 +63,7 @@ function lowerPlayerLifePointsDueToRageBeing100() {
 function doFastWormsFly() {
     // |||||||||||| THIS EVENT TAKES PLACE DURING THE SECOND LEVEL
     if (globals.level.number === 2) {                
-        const randomNumBetween1AndN = Math.floor(Math.random() * 200) + 1;
+        const randomNumBetween1AndN = Math.floor(Math.random() * 500) + 1;
 
         // |||||||| IF A 1 IS GOTTEN & THE FAST WORMS ARE NOT CURRENTLY FLYING, MAKE THEM DO SO FOR A NUMBER OF SECONDS
         if ((randomNumBetween1AndN === 1) && !globals.doFastWormsFly) {
