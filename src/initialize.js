@@ -172,7 +172,7 @@ function loadHandler() {
 
         console.log("Assets finished loading");
 
-        globals.gameState = Game.LOADING_MAIN_MENU;
+        globals.gameState = Game.LOADING_LEVEL;
     }
 }
 
@@ -577,8 +577,8 @@ function initPlayer() {
     let xPos;
     let yPos;
     if (globals.level.number === 1) {
-        xPos = 18;
-        yPos = 155;
+        xPos = /* 18 */ 1820;
+        yPos = /* 155 */ 210;
     } else {
         xPos = 35;
         yPos = 2612;
@@ -783,7 +783,7 @@ function initPotionGreen(xPos = -1, yPos = -1) {
                 yPos: 977,
             },
             {
-                xPos: 2337,
+                xPos: 2354,
                 yPos: 675,
             },
         ];
@@ -999,24 +999,24 @@ function initHellBatAcid() {
         },
         {
             omega: 1.25,
-            xRotCenter: 1734,
+            xRotCenter: 1744,
             yRotCenter: 325,
-            aRadius: 50,
+            aRadius: 45,
             bRadius: 30,
         },
         {
             omega: 1.25,
             xRotCenter: 2183,
-            yRotCenter: 800,
+            yRotCenter: 805,
             aRadius: 95,
-            bRadius: 40,
+            bRadius: 30,
         },
         {
             omega: 1.75,
             xRotCenter: 2286,
-            yRotCenter: 260,
-            aRadius: 41,
-            bRadius: 10,
+            yRotCenter: 275,
+            aRadius: 40,
+            bRadius: 25,
         },
     ];
 
