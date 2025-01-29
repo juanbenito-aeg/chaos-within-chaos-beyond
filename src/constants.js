@@ -161,7 +161,7 @@ const Key = {
 };
 
 // |||||||||||| ACCELERATION
-const GRAVITY = 150;
+const GRAVITY = 153;
 
 // |||||||||||| PARTICLE TYPE IDENTIFIER (ID)
 const ParticleID = {

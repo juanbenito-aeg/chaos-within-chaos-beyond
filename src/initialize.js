@@ -589,7 +589,7 @@ function initPlayer() {
     // |||||||||||| ANIMATION DATA CREATION: 9 (OR LESS IN THIS CASE) FRAMES PER STATE & ANIMATION SPEED
     const frames = new Frames(9, 3);
 
-    const physics = new Physics(55, 0, 1, -145);
+    const physics = new Physics(65, 0, 1, -145);
 
     const hitBox = new HitBox(12, 34, 16, 5);
 
