@@ -577,8 +577,8 @@ function initPlayer() {
     let xPos;
     let yPos;
     if (globals.level.number === 1) {
-        xPos = /* 18 */ 1820;
-        yPos = /* 155 */ 210;
+        xPos = 18;
+        yPos = 155;
     } else {
         xPos = 35;
         yPos = 2612;
@@ -710,6 +710,11 @@ function initFastWorm() {
                 state: State.RIGHT,
                 xPos: 2012,
                 yPos: 990,
+            },
+            {
+                state: State.LEFT,
+                xPos: 1960,
+                yPos: 48,
             },
         ];
     } else {
@@ -894,6 +899,21 @@ function initChaoticHumanBow() {
             xPos: 2333,
             yPos: 854,
         },
+        {
+            state: State.LEFT_ATTACK_2,
+            xPos: 2333,
+            yPos: 48,
+        },
+        {
+            state: State.LEFT_ATTACK_2,
+            xPos: 2788,
+            yPos: 950,
+        },
+        {
+            state: State.LEFT_ATTACK_2,
+            xPos: 3188,
+            yPos: 950,
+        },
     ];
 
     for (let i = 0; i < chaoticHumanBowSpritesAttributes.length; i++) {
@@ -1017,6 +1037,34 @@ function initHellBatAcid() {
             yRotCenter: 275,
             aRadius: 40,
             bRadius: 25,
+        },
+        {
+            omega: 1.85,
+            xRotCenter: 2555,
+            yRotCenter: 130,
+            aRadius: 115,
+            bRadius: 90,
+        },
+        {
+            omega: 2.8,
+            xRotCenter: 2785,
+            yRotCenter: 95,
+            aRadius: 88,
+            bRadius: 55,
+        },
+        {
+            omega: 2,
+            xRotCenter: 2696,
+            yRotCenter: 472,
+            aRadius: 148,
+            bRadius: 66,
+        },
+        {
+            omega: 2,
+            xRotCenter: 3057,
+            yRotCenter: 472,
+            aRadius: 148,
+            bRadius: 66,
         },
     ];
 

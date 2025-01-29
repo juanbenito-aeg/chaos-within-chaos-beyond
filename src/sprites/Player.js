@@ -264,7 +264,7 @@ export default class Player extends Character {
                     this.lifePoints = 5;
                 }
 
-                globals.score += 75;
+                globals.score += 70;
             }
         }
 
