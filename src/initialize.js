@@ -590,10 +590,16 @@ function initPlayer() {
     const frames = new Frames(9, 3);
 
     const physics = new Physics(65, 0, 1, -145);
+    if (globals.level.number === 2) {
+        physics.isOnGround = true;
+    }
 
     const hitBox = new HitBox(12, 34, 16, 5);
 
     const collisions = new Collisions();
+    if (globals.level.number === 2) {
+        collisions.isCollidingWithObstacleOnTheBottom = true;
+    }
 
     // |||||||||||| LIFE POINTS, RANGING FROM 1 TO 5 (REPRESENTED BY X.G FACE'S DIFFERENT FRAMES)
     const lifePoints = 5;

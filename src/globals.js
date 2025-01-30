@@ -75,6 +75,7 @@ export default {
     fastWormsFlyingStateTimer: {},
 
     // |||||||||||| VARIABLES TO MANAGE THE EVENT OF HELL BATS (HAND-TO-HAND) RANDOMLY APPEARING NEXT TO THE PLAYER IN THE SECOND LEVEL
+    rageLevelToReachToMakeHellBatsAppear: 0,
     hellBatsApparitionEventTimer: {},
     hellBatsApparitionEventSprites: [],
     isHellBatsApparitionEventTakingPlace: false,

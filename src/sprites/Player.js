@@ -31,7 +31,7 @@ export default class Player extends Character {
         
         const isStateLeftOrLeftJump = (this.state === State.LEFT) || (this.state === State.LEFT_JUMP);
         const isStateRightOrRightJump = (this.state === State.RIGHT) || (this.state === State.RIGHT_JUMP);
-        console.log(this.physics.isOnGround);
+
         if (this.physics.isOnGround) {
             this.state = (globals.action.jump && isStateAnyLeft)                        ? State.LEFT_JUMP :
                          (globals.action.jump && isStateAnyRight)                       ? State.RIGHT_JUMP :

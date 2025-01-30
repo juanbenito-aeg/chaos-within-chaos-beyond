@@ -2,7 +2,7 @@ class Level {
     constructor(data, imageSet) {
         this.data       = data;         // TWO-DIMENSIONAL ARRAY WITH THE MAP'S DATA
         this.imageSet   = imageSet;     // MAP'S IMAGES DATA
-        this.number     = 1;            // LEVEL NUMBER (POSSIBLE VALUES -> 1 OR 2)
+        this.number     = 2;            // LEVEL NUMBER (POSSIBLE VALUES -> 1 OR 2)
     }
 }
 
