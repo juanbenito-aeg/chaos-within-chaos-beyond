@@ -22,8 +22,10 @@ export default class InGameSprite extends Sprite {
     
             case State.LEFT_ATTACK_HAND_TO_HAND:
             case State.LEFT_ATTACK_MAGICAL_ORB:
+            case State.LEFT_ATTACK_MAGICAL_ORB_JUMP:
             case State.RIGHT_ATTACK_HAND_TO_HAND:
             case State.RIGHT_ATTACK_MAGICAL_ORB:
+            case State.RIGHT_ATTACK_MAGICAL_ORB_JUMP:
                 this.frames.frameChangeCounter++;
             
                 if (this.frames.frameChangeCounter === this.frames.speed) {
@@ -43,6 +45,14 @@ export default class InGameSprite extends Sprite {
                         case State.RIGHT_ATTACK_HAND_TO_HAND:
                         case State.RIGHT_ATTACK_MAGICAL_ORB:
                             this.state = State.RIGHT_STILL;
+                            break;
+
+                        case State.LEFT_ATTACK_MAGICAL_ORB_JUMP:
+                            this.state = State.LEFT_JUMP;
+                            break;
+                        
+                        case State.RIGHT_ATTACK_MAGICAL_ORB_JUMP:
+                            this.state = State.RIGHT_JUMP;
                             break;
                     }
                 }

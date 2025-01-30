@@ -577,8 +577,8 @@ function initPlayer() {
     let xPos;
     let yPos;
     if (globals.level.number === 1) {
-        xPos = 18;
-        yPos = 155;
+        xPos = 26;
+        yPos = 0;
     } else {
         xPos = 35;
         yPos = 2612;
@@ -665,7 +665,7 @@ function initMagicalOrb() {
     
     let vLimit;
 
-    if (player.state === State.LEFT_ATTACK_MAGICAL_ORB) {
+    if ((player.state === State.LEFT_ATTACK_MAGICAL_ORB) || (player.state === State.LEFT_ATTACK_MAGICAL_ORB_JUMP)) {
         magicalOrbXPos = player.xPos;
         vLimit = -210;
     } else {
@@ -1069,13 +1069,13 @@ function initHellBatAcid() {
     ];
 
     for (let i = 0; i < hellBatAcidSpritesAttributes.length; i++) {        
-        const imageSet = new ImageSet(1952, 1180, 92, 90, 122, 118, 30, 28, 52, 50);
+        const imageSet = new ImageSet(1952, 1770, 92, 90, 122, 118, 30, 28, 52, 50);
 
         // |||||||||||| ANIMATION DATA CREATION: 6 (OR LESS IN THIS CASE) FRAMES PER STATE & ANIMATION SPEED
         const frames = new Frames(6, 7);
 
         // |||||||||||| INITIAL VALUES FOR "Physics"
-        const initAngle = 90 * Math.PI / 180;
+        const initAngle = 270 * Math.PI / 180;
         const currentSpriteOmega = hellBatAcidSpritesAttributes[i].omega;
         const currentSpriteXRotCenter = hellBatAcidSpritesAttributes[i].xRotCenter;
         const currentSpriteYRotCenter = hellBatAcidSpritesAttributes[i].yRotCenter;
