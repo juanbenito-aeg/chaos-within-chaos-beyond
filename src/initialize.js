@@ -233,7 +233,7 @@ function loadHandler() {
 
         console.log("Assets finished loading");
 
-        globals.gameState = Game.LOADING_LEVEL;
+        globals.gameState = Game.LOADING_GAME_OVER;
     }
 }
 
@@ -1554,6 +1554,9 @@ function initEnemyDeathParticles(enemy) {
 
 function initGameOver() {
     // |||||||||||| RESET GLOBAL VARIABLES USED ON THE "GAME OVER" SCREEN
+    globals.lastGamePlayerName = ["A", "A", "A"];
+    globals.lastGamePlayerNameCurrentLetterIndex = 0;
+    globals.wasLastGamePlayerNameEntered = false;
     globals.currentGameOverSelection = "CHECK HIGH SCORES TABLE";
 
     initSkull();

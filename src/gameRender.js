@@ -841,11 +841,72 @@ function drawGameOver() {
     globals.ctx.fillStyle = "black";
     globals.ctx.fillRect(0, 0, 597, 341);
 
-    renderGameOverTxt();
-    renderGameOverSprite();
+    if (!globals.wasLastGamePlayerNameEntered) {
+        renderLastGamePlayerNameInsertionTxt();
+    } else {
+        renderGameOverMenuTxt();
+        renderGameOverMenuSprite();
+    }
 }
 
-function renderGameOverTxt() {
+function renderLastGamePlayerNameInsertionTxt() {
+    const canvasWidthDividedBy2 = globals.canvas.width / 2;
+    globals.ctx.textAlign = "center";
+    
+    globals.ctx.font = "20px emulogic";
+    globals.ctx.fillStyle = "white";
+    globals.ctx.fillText("ENTER YOUR NAME:", canvasWidthDividedBy2, 107.5);
+    
+    globals.ctx.textAlign = "start";
+
+    let letterXCoordinate = 185;
+    const lettersYCoordinate = 182;
+
+    const lettersFontSize = 17.5;
+    globals.ctx.font = `${lettersFontSize}px emulogic`;
+
+    for (let i = 0; i < globals.lastGamePlayerName.length; i++) {
+        globals.ctx.fillStyle = "rgb(212 212 212 / 0.5)";
+        
+        if (i === globals.lastGamePlayerNameCurrentLetterIndex) {
+            // |||||||||||| DRAW A TRIANGLE ABOVE THE CURRENTLY SELECTED LETTER
+            globals.ctx.beginPath();
+            globals.ctx.moveTo((letterXCoordinate + 4), (lettersYCoordinate - 25));
+            globals.ctx.lineTo(((letterXCoordinate + 4) + ((lettersFontSize / 2) - 3)), (lettersYCoordinate - 35));
+            globals.ctx.lineTo(((letterXCoordinate + 4) + (lettersFontSize - 5)), (lettersYCoordinate - 25));
+            if (globals.lastGamePlayerName[i] !== "A") {
+                globals.ctx.fillStyle = "rgb(212 212 212)";
+            }
+            globals.ctx.fill();
+            
+            // |||||||||||| DRAW A TRIANGLE UNDER THE CURRENTLY SELECTED LETTER
+            globals.ctx.beginPath();
+            globals.ctx.moveTo((letterXCoordinate + 4), (lettersYCoordinate + 10));
+            globals.ctx.lineTo(((letterXCoordinate + 4) + ((lettersFontSize / 2) - 3)), (lettersYCoordinate + 20));
+            globals.ctx.lineTo(((letterXCoordinate + 4) + (lettersFontSize - 5)), (lettersYCoordinate + 10));
+            if (globals.lastGamePlayerName[i] !== "Z") {
+                globals.ctx.fillStyle = "rgb(212 212 212)";
+            } else {
+                globals.ctx.fillStyle = "rgb(212 212 212 / 0.5)";
+            }
+            globals.ctx.fill();
+
+            globals.ctx.fillStyle = "rgb(212 212 212)";
+        }
+
+        globals.ctx.fillText(globals.lastGamePlayerName[i], letterXCoordinate, lettersYCoordinate);
+
+        letterXCoordinate += 30;
+    }
+
+    globals.ctx.textAlign = "center";
+
+    globals.ctx.font = "10px emulogic";
+    globals.ctx.fillStyle = "white";
+    globals.ctx.fillText("PRESS ENTER TO CONFIRM", canvasWidthDividedBy2, 250);
+}
+
+function renderGameOverMenuTxt() {
     const canvasWidthDividedBy2 = globals.canvas.width / 2;
     globals.ctx.textAlign = "center";
     globals.ctx.fillStyle = "white";
@@ -878,7 +939,7 @@ function renderGameOverTxt() {
     }
 }
 
-function renderGameOverSprite() {
+function renderGameOverMenuSprite() {
     const skull = globals.gameOverSprite;
 
     // |||||||||||| CALCULATE POSITION OF THE SPRITE IN THE SPRITESHEET

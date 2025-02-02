@@ -84,6 +84,9 @@ export default {
     numOfRageSymbolParticlesOFF: 0,
     
     // |||||||||||| "GAME OVER" SCREEN DATA
+    lastGamePlayerName: [],
+    lastGamePlayerNameCurrentLetterIndex: 0,
+    wasLastGamePlayerNameEntered: false,
     gameOverSprite: {},
     currentGameOverSelection: "CHECK HIGH SCORES TABLE",
     

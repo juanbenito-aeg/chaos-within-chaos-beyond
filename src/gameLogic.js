@@ -550,8 +550,56 @@ function checkIfLvlChangesOrPlayerWon() {
 }
 
 function updateGameOver() {
-    updateCurrentGameOverSelection();
-    updateCurrentScreenFromGameOver();
+    if (!globals.wasLastGamePlayerNameEntered) {
+        updateLastGamePlayerNameInsertion();
+    } else {
+        updateCurrentGameOverSelection();
+        updateCurrentScreenFromGameOver();
+    }
+}
+
+function  updateLastGamePlayerNameInsertion() {
+    const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+        
+    if (globals.action.moveUp) {
+        for (let i = 0; i < alphabet.length; i++) {
+            if ((globals.lastGamePlayerName[globals.lastGamePlayerNameCurrentLetterIndex] === alphabet[i]) && (i !== 0)) {
+                globals.lastGamePlayerName[globals.lastGamePlayerNameCurrentLetterIndex] = alphabet[i - 1];
+                break;
+            }
+        }
+
+        globals.action.moveUp = false;
+    } else if (globals.action.moveDown) {
+        for (let i = 0; i < alphabet.length; i++) {
+            if ((globals.lastGamePlayerName[globals.lastGamePlayerNameCurrentLetterIndex] === alphabet[i]) && (i !== (alphabet.length - 1))) {
+                globals.lastGamePlayerName[globals.lastGamePlayerNameCurrentLetterIndex] = alphabet[i + 1];
+                break;
+            }
+        }
+
+        globals.action.moveDown = false;
+    } else if (globals.action.moveLeft && (globals.lastGamePlayerNameCurrentLetterIndex !== 0)) {
+        globals.lastGamePlayerNameCurrentLetterIndex--;
+        globals.action.moveLeft = false;
+    } else if (globals.action.moveRight && (globals.lastGamePlayerNameCurrentLetterIndex !== 2)) {
+        globals.lastGamePlayerNameCurrentLetterIndex++;
+        globals.action.moveRight = false;
+    } else if (globals.action.confirmSelection) {
+        globals.wasLastGamePlayerNameEntered = true;
+
+        const lastGamePlayerName = globals.lastGamePlayerName.join("");
+        
+        const lastGamePlayerData = {
+            position: -1,
+            name: lastGamePlayerName,
+            score: globals.score,
+        };
+
+        globals.rawScores.push(lastGamePlayerData);
+
+        globals.action.confirmSelection = false;
+    }
 }
 
 function updateCurrentGameOverSelection() {
