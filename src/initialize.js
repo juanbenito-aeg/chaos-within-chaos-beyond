@@ -17,6 +17,7 @@ import HitBox from "./HitBox.js";
 import Collisions from "./Collisions.js";
 import Timer from "./Timer.js";
 import Camera from "./Camera.js";
+import HighScore from "./HighScore.js";
 import globals from "./globals.js";
 import { RageSymbolParticle, ControlsMenuSparkle, CheckpointParticle, LavaParticle, EnemyDeathParticle } from "./Particle.js";
 import { Level, level1, level2 } from "./Level.js";
@@ -74,46 +75,106 @@ function initVars() {
 
     globals.currentSound = Sound.NO_SOUND;
 
-    globals.highScores = [
+    globals.rawScores = [
         {
-            playerName: "AAA",
-            playerScore: 2500,
+            position: 1,
+            name: "AAA",
+            score: 20000,
         },
         {
-            playerName: "---",
-            playerScore: 0,
+            position: 2,
+            name: "BBB",
+            score: 19000,
         },
         {
-            playerName: "---",
-            playerScore: 0,
+            position: 3,
+            name: "CCC",
+            score: 18000,
         },
         {
-            playerName: "---",
-            playerScore: 0,
+            position: 4,
+            name: "DDD",
+            score: 17000,
         },
         {
-            playerName: "---",
-            playerScore: 0,
+            position: 5,
+            name: "EEE",
+            score: 16000,
         },
         {
-            playerName: "---",
-            playerScore: 0,
+            position: 6,
+            name: "FFF",
+            score: 15000,
         },
         {
-            playerName: "---",
-            playerScore: 0,
+            position: 7,
+            name: "GGG",
+            score: 14000,
         },
         {
-            playerName: "---",
-            playerScore: 0,
+            position: 8,
+            name: "HHH",
+            score: 13000,
         },
         {
-            playerName: "---",
-            playerScore: 0,
+            position: 9,
+            name: "III",
+            score: 12000,
         },
         {
-            playerName: "---",
-            playerScore: 0,
+            position: 10,
+            name: "JJJ",
+            score: 11000,
+        },
+        {
+            position: 11,
+            name: "KKK",
+            score: 10000,
+        },
+        {
+            position: 12,
+            name: "LLL",
+            score: 9000,
+        },
+        {
+            position: 13,
+            name: "MMM",
+            score: 8000,
+        },
+        {
+            position: 14,
+            name: "NNN",
+            score: 7000,
+        },
+        {
+            position: 15,
+            name: "ÑÑÑ",
+            score: 6000,
+        },
+        {
+            position: 16,
+            name: "OOO",
+            score: 5000,
+        },
+        {
+            position: 17,
+            name: "PPP",
+            score: 4000,
+        },
+        {
+            position: 18,
+            name: "QQQ",
+            score: 3000,
+        },
+        {
+            position: 19,
+            name: "RRR",
+            score: 2000,
+        },
+        {
+            position: 20,
+            name: "SSS",
+            score: 1000,
         },
     ];
 }
@@ -288,6 +349,8 @@ function initStoryMenuBackgroundImg() {
 function initHighScoresMenu() {
     initHighScoresMenuBackgroundImg();
 
+    initScores();
+
     // |||||||||||| CHANGE GAME STATE
     globals.gameState = Game.HIGH_SCORES_MENU;
 }
@@ -300,6 +363,36 @@ function initHighScoresMenuBackgroundImg() {
     const highScoresMenuBackgroundImg = new Sprite(SpriteID.BACKGROUND_IMG_HIGH_SCORES_MENU, State.STILL, 0, 0, imageSet, frames);
 
     globals.highScoresMenuBackgroundImg = highScoresMenuBackgroundImg;
+}
+
+function initScores() {
+    // |||||||||||| FILL "workedScores" ARRAY WITH "HighScore" CLASS INSTANCES
+    for (let i = 0; i < globals.rawScores.length; i++) {
+        const currentPosition = globals.rawScores[i].position;
+        const currentName = globals.rawScores[i].name;
+        const currentScore = globals.rawScores[i].score;
+
+        globals.workedScores[i] = new HighScore(currentPosition, currentName, currentScore);
+    }
+
+    // |||||||||||| SORT "workedScores" ARRAY IN DESCENDING ORDER BY SCORE
+    for (let i = 0; i < globals.workedScores.length; i++) {
+        for (let j = i + 1; j < globals.workedScores.length; j++) {
+            if (globals.workedScores[i].score < globals.workedScores[j].score) {
+                const temporaryScore = globals.workedScores[i];
+                
+                globals.workedScores[i] = globals.workedScores[j];
+                
+                globals.workedScores[j] = temporaryScore;
+            }
+            
+            globals.workedScores[i].position = i + 1;
+
+            if (j === (globals.workedScores.length - 1)) {
+                globals.workedScores[j].position = j + 1; 
+            }
+        }
+    }
 }
 
 function initControlsMenu() {

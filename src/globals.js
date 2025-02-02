@@ -63,7 +63,8 @@ export default {
     HUDSprites: [],
 
     score: 0,
-    highScores: [],
+    rawScores: [],
+    workedScores: [],
 
     level: {},
     levelBackgroundImg: {},

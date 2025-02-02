@@ -523,29 +523,10 @@ function playSound() {
     }
 }
 
-function updateHighScores() {
-    for (let i = 0; i < globals.highScores.length; i++) {
-        if (globals.score >= globals.highScores[i].playerScore) {
-            const playerData = {
-                playerName: "JBA",
-                playerScore: globals.score,
-            };
-
-            globals.highScores.splice(i, 0, playerData);
-
-            globals.highScores.pop();
-
-            break;
-        }
-    }
-}
-
 function checkIfGameOver() {
     const player = globals.levelSprites[0];
 
     if (player.lifePoints <= 0) {
-        updateHighScores();
-        
         globals.level.number = 1;
 
         globals.gameState = Game.LOADING_GAME_OVER;
@@ -561,8 +542,6 @@ function checkIfLvlChangesOrPlayerWon() {
             
             globals.gameState = Game.LOADING_LEVEL;
         } else {
-            updateHighScores();
-        
             globals.level.number = 1;
 
             globals.gameState = Game.LOADING_GAME_WON;
