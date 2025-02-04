@@ -1,7 +1,4 @@
 - TODOS:
-    - Sprint 9:
-        - String.fromCharCode() para segundo EI
-        
     - Otros:
         - Mostrar texto "LEVEL 1/LEVEL 2. READY?" o semejante al comenzar cada nivel
         - Cuando se superan "x" puntos de ira (p. ej., 50) hacer que tanto el personaje como los enemigos se muevan más rápido
