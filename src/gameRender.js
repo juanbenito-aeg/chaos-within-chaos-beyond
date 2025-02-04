@@ -331,6 +331,96 @@ function renderHighScoresMenuFromAnyScreenTxt() {
     globals.ctx.fill();
 }
 
+function renderCurrentScoresPageRecords(scoresRecordsLowerLimit, scoresRecordsUpperLimit) {    
+    let scoresRecordsIndexIfLastGamePlayerNotInTop3 = -1;
+    if ((globals.currentScoresPage === 1) && (scoresRecordsLowerLimit > 2)) {
+        scoresRecordsIndexIfLastGamePlayerNotInTop3 = 0;
+    }
+
+    let counterOfRenderedRecords = 0;
+
+    let rowYCoordinate = 106;
+
+    for (let i = scoresRecordsLowerLimit; i < scoresRecordsUpperLimit; i++) {
+        if (((counterOfRenderedRecords % 2) === 0) && (globals.horizontalSkewForEvenDataRecords > 0)) {
+            globals.ctx.setTransform(1, globals.verticalSkewForEvenDataRecords, globals.horizontalSkewForEvenDataRecords, 1, 0, 0);
+
+            globals.horizontalSkewForEvenDataRecords -= 0.0025;
+            globals.verticalSkewForEvenDataRecords -= 0.0025;
+        } else if (globals.horizontalSkewForOddDataRecords < 0) {
+            globals.ctx.setTransform(1, globals.verticalSkewForOddDataRecords, globals.horizontalSkewForOddDataRecords, 1, 0, 0);
+
+            globals.horizontalSkewForOddDataRecords += 0.0025;
+            globals.verticalSkewForOddDataRecords += 0.0025;
+        }
+
+        let rankToRender;
+        let nameToRender;
+        let scoreToRender;
+
+        if (!globals.workedScores[i]) {
+            rankToRender = `.${i + 1}`;
+            nameToRender = "---";
+            scoreToRender = 0;
+
+            globals.ctx.fillStyle = "rgb(212 212 212)";
+        } else if ((scoresRecordsIndexIfLastGamePlayerNotInTop3 >= 0) && (scoresRecordsIndexIfLastGamePlayerNotInTop3 <= 3)) {
+            rankToRender = `.${globals.workedScores[scoresRecordsIndexIfLastGamePlayerNotInTop3].position}`;
+            nameToRender = globals.workedScores[scoresRecordsIndexIfLastGamePlayerNotInTop3].name;
+            scoreToRender = globals.workedScores[scoresRecordsIndexIfLastGamePlayerNotInTop3].score;
+
+            scoresRecordsIndexIfLastGamePlayerNotInTop3++;
+            
+            // |||||||||||| IF THE BEST THREE SCORES RECORDS HAVE ALREADY BEEN SHOWN, RENDER A LINE THAT SEPARATES THEM FROM THE REST
+            if (scoresRecordsIndexIfLastGamePlayerNotInTop3 === 4) {
+                globals.ctx.beginPath();
+                globals.ctx.moveTo(108, 162);
+                globals.ctx.lineTo(368, 162);
+
+                globals.ctx.lineWidth = 5;
+                globals.ctx.filter = "drop-shadow(0 0 4px white)";
+                globals.ctx.strokeStyle = "white";
+                globals.ctx.stroke();
+                globals.ctx.filter = "none";
+
+                globals.ctx.fillStyle = "rgb(212 212 212 / 0)";
+            }
+
+            i--;
+        } else {
+            rankToRender = `.${globals.workedScores[i].position}`;
+            nameToRender = globals.workedScores[i].name;
+            scoreToRender = globals.workedScores[i].score;
+
+            globals.ctx.fillStyle = "rgb(212 212 212)";
+        }
+
+        // |||||||| RANK
+        globals.ctx.fillText(rankToRender, 131, rowYCoordinate);
+        
+        // |||||||| NAME
+        globals.ctx.fillText(nameToRender, 241, rowYCoordinate);
+    
+        // |||||||| SCORE    
+        globals.ctx.fillText(scoreToRender, 367, rowYCoordinate);
+        
+        counterOfRenderedRecords++;
+
+        rowYCoordinate += 20;        
+    }
+
+    globals.ctx.setTransform(1, 0, 0, 1, 0, 0);
+}
+
+function renderCurrentScoresPageNoticeOnTheBottom(noticeString) {
+    const canvasWidthDividedBy2 = globals.canvas.width / 2;
+    globals.ctx.textAlign = "center";
+    globals.ctx.direction = "ltr";
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "white";
+    globals.ctx.fillText(noticeString, canvasWidthDividedBy2, 321);
+}
+
 function renderHighScoresMenuFromMainMenuTxt() {
     // |||||||||||| PLAYERS' DATA DRAWING
 
@@ -349,42 +439,10 @@ function renderHighScoresMenuFromMainMenuTxt() {
         scoresRecordsLowerLimit = 10;
         scoresRecordsUpperLimit = 20;
     }
-    
-    let rowYCoordinate = 106;
 
-    for (let i = scoresRecordsLowerLimit; i < scoresRecordsUpperLimit; i++) {
-        if (((i % 2) === 0) && (globals.horizontalSkewForEvenDataRecords > 0)) {
-            globals.ctx.setTransform(1, globals.verticalSkewForEvenDataRecords, globals.horizontalSkewForEvenDataRecords, 1, 0, 0);
+    renderCurrentScoresPageRecords(scoresRecordsLowerLimit, scoresRecordsUpperLimit);
 
-            globals.horizontalSkewForEvenDataRecords -= 0.0025;
-            globals.verticalSkewForEvenDataRecords -= 0.0025;
-        } else if (globals.horizontalSkewForOddDataRecords < 0) {
-            globals.ctx.setTransform(1, globals.verticalSkewForOddDataRecords, globals.horizontalSkewForOddDataRecords, 1, 0, 0);
-
-            globals.horizontalSkewForOddDataRecords += 0.0025;
-            globals.verticalSkewForOddDataRecords += 0.0025;
-        }
-
-        // |||||||| RANK
-        globals.ctx.fillText(`.${globals.workedScores[i].position}`, 131, rowYCoordinate);
-        
-        // |||||||| NAME
-        globals.ctx.fillText(globals.workedScores[i].name, 241, rowYCoordinate);
-    
-        // |||||||| SCORE    
-        globals.ctx.fillText(globals.workedScores[i].score, 367, rowYCoordinate);
-        
-        rowYCoordinate += 20;        
-    }
-
-    globals.ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-    const canvasWidthDividedBy2 = globals.canvas.width / 2;
-    globals.ctx.textAlign = "center";
-    globals.ctx.direction = "ltr";
-    globals.ctx.font = "8px emulogic";
-    globals.ctx.fillStyle = "white";
-    globals.ctx.fillText("PRESS ESCAPE (esc) TO RETURN TO THE MAIN MENU", canvasWidthDividedBy2, 321);
+    renderCurrentScoresPageNoticeOnTheBottom("PRESS ESCAPE (esc) TO RETURN TO THE MAIN MENU");
 }
 
 function renderHighScoresMenuFromGameOverTxt() {
@@ -393,7 +451,39 @@ function renderHighScoresMenuFromGameOverTxt() {
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "rgb(212 212 212)";
     
-    // TODO
+    let scoresRecordsLowerLimit;
+    let scoresRecordsUpperLimit;
+
+    for (let i = 0; i < globals.workedScores.length; i++) {
+        if (globals.workedScores[i].isLastGamePlayer) {
+            const lastGamePlayerPosition = globals.workedScores[i].position;
+
+            if (globals.currentScoresPage === 1) {
+                if ((lastGamePlayerPosition >= 1) && (lastGamePlayerPosition <= 10)) {
+                    scoresRecordsLowerLimit = 0;
+                    scoresRecordsUpperLimit = 10;
+                } else {
+                    // |||||||||||| THE FIRST THREE RECORDS ARE NOT KEPT IN MIND, AS THEY WILL ALWAYS BE SHOWN
+                    scoresRecordsLowerLimit = (lastGamePlayerPosition - 5) - 1;
+                    scoresRecordsUpperLimit = lastGamePlayerPosition;
+                }
+            }
+        
+            if (globals.currentScoresPage === 2) {
+                if ((lastGamePlayerPosition >= 1) && (lastGamePlayerPosition <= 10)) {
+                    scoresRecordsLowerLimit = 10;
+                    scoresRecordsUpperLimit = 20;
+                } else {
+                    scoresRecordsLowerLimit = lastGamePlayerPosition;
+                    scoresRecordsUpperLimit = lastGamePlayerPosition + 10;
+                }
+            }
+        }
+    }
+
+    renderCurrentScoresPageRecords(scoresRecordsLowerLimit, scoresRecordsUpperLimit);
+
+    renderCurrentScoresPageNoticeOnTheBottom("¿?¿?¿?");
 }
 
 function drawControlsMenu() {

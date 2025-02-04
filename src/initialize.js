@@ -80,101 +80,121 @@ function initVars() {
             position: 1,
             name: "AAA",
             score: 20000,
+            isLastGamePlayer: false,
         },
         {
             position: 2,
             name: "BBB",
             score: 19000,
+            isLastGamePlayer: false,
         },
         {
             position: 3,
             name: "CCC",
             score: 18000,
+            isLastGamePlayer: false,
         },
         {
             position: 4,
             name: "DDD",
             score: 17000,
+            isLastGamePlayer: false,
         },
         {
             position: 5,
             name: "EEE",
             score: 16000,
+            isLastGamePlayer: false,
         },
         {
             position: 6,
             name: "FFF",
             score: 15000,
+            isLastGamePlayer: false,
         },
         {
             position: 7,
             name: "GGG",
             score: 14000,
+            isLastGamePlayer: false,
         },
         {
             position: 8,
             name: "HHH",
             score: 13000,
+            isLastGamePlayer: false,
         },
         {
             position: 9,
             name: "III",
             score: 12000,
+            isLastGamePlayer: false,
         },
         {
             position: 10,
             name: "JJJ",
             score: 11000,
+            isLastGamePlayer: false,
         },
         {
             position: 11,
             name: "KKK",
             score: 10000,
+            isLastGamePlayer: false,
         },
         {
             position: 12,
             name: "LLL",
             score: 9000,
+            isLastGamePlayer: false,
         },
         {
             position: 13,
             name: "MMM",
             score: 8000,
+            isLastGamePlayer: false,
         },
         {
             position: 14,
             name: "NNN",
             score: 7000,
+            isLastGamePlayer: false,
         },
         {
             position: 15,
             name: "OOO",
             score: 6000,
+            isLastGamePlayer: false,
         },
         {
             position: 16,
             name: "PPP",
             score: 5000,
+            isLastGamePlayer: false,
         },
         {
             position: 17,
             name: "QQQ",
             score: 4000,
+            isLastGamePlayer: false,
         },
         {
             position: 18,
             name: "RRR",
             score: 3000,
+            isLastGamePlayer: false,
         },
         {
             position: 19,
             name: "SSS",
             score: 2000,
+            isLastGamePlayer: false,
         },
         {
             position: 20,
             name: "TTT",
             score: 1000,
+            isLastGamePlayer: false,
         },
     ];
 }
@@ -233,7 +253,7 @@ function loadHandler() {
 
         console.log("Assets finished loading");
 
-        globals.gameState = Game.LOADING_HIGH_SCORES_MENU;
+        globals.gameState = Game.LOADING_GAME_OVER;
     }
 }
 
@@ -380,6 +400,11 @@ function initScores() {
         const currentScore = globals.rawScores[i].score;
 
         globals.workedScores[i] = new HighScore(currentPosition, currentName, currentScore);
+
+        if (globals.rawScores[i].isLastGamePlayer) {
+            globals.workedScores[i].isLastGamePlayer = true;
+            globals.rawScores[i].isLastGamePlayer = false;
+        }
     }
 
     // |||||||||||| SORT "workedScores" ARRAY IN DESCENDING ORDER BY SCORE

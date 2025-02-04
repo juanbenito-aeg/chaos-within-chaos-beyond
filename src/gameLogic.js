@@ -618,6 +618,7 @@ function  updateLastGamePlayerNameInsertion() {
             position: -1,
             name: lastGamePlayerName,
             score: globals.score,
+            isLastGamePlayer: true,
         };
 
         globals.rawScores.push(lastGamePlayerData);
