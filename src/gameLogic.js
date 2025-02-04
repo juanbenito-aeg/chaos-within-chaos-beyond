@@ -163,6 +163,7 @@ function updateCurrentScreenFromMainMenu() {
                 break;
             
             case "HIGH SCORES":
+                globals.didPlayerEnterHighScoresMenuFromMainMenu = true;
                 globals.gameState = Game.LOADING_HIGH_SCORES_MENU;
                 break;
             
@@ -184,7 +185,30 @@ function updateStoryMenu() {
 }
 
 function updateHighScoresMenu() {
+    updateCurrentScoresPage();
     returnToTheMainMenu();
+}
+
+function updateCurrentScoresPage() {
+    if (globals.action.moveRight && (globals.currentScoresPage === 1)) {
+        globals.currentScoresPage = 2;
+
+        globals.horizontalSkewForEvenDataRecords = 0.5;
+        globals.verticalSkewForEvenDataRecords = 0.5;
+        globals.horizontalSkewForOddDataRecords = -0.5;
+        globals.verticalSkewForOddDataRecords = -0.5;
+
+        globals.action.moveRight = false;
+    } else if (globals.action.moveLeft && (globals.currentScoresPage === 2)) {
+        globals.currentScoresPage = 1;
+
+        globals.horizontalSkewForEvenDataRecords = 0.5;
+        globals.verticalSkewForEvenDataRecords = 0.5;
+        globals.horizontalSkewForOddDataRecords = -0.5;
+        globals.verticalSkewForOddDataRecords = -0.5;
+
+        globals.action.moveLeft = false;
+    }
 }
 
 function updateControlsMenu() {
@@ -612,6 +636,7 @@ function updateCurrentGameOverSelection() {
 
 function updateCurrentScreenFromGameOver() {
     if (globals.action.confirmSelection && (globals.currentGameOverSelection === "CHECK HIGH SCORES TABLE")) {
+        globals.didPlayerEnterHighScoresMenuFromMainMenu = false;
         globals.gameState = Game.LOADING_HIGH_SCORES_MENU;
     } else if (globals.action.confirmSelection && (globals.currentGameOverSelection === "RETURN TO THE MAIN MENU")) {
         globals.gameState = Game.LOADING_MAIN_MENU;

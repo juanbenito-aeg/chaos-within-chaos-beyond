@@ -267,10 +267,15 @@ function drawHighScoresMenu() {
 
     renderNBackgroundImg(globals.highScoresMenuBackgroundImg);
 
-    renderHighScoresMenuTxt();
+    renderHighScoresMenuFromAnyScreenTxt();
+    if (globals.didPlayerEnterHighScoresMenuFromMainMenu) {
+        renderHighScoresMenuFromMainMenuTxt();
+    } else {
+        renderHighScoresMenuFromGameOverTxt();
+    }
 }
 
-function renderHighScoresMenuTxt() {
+function renderHighScoresMenuFromAnyScreenTxt() {
     const canvasWidthDividedBy2 = globals.canvas.width / 2;
     globals.ctx.textAlign = "center";
     
@@ -278,78 +283,117 @@ function renderHighScoresMenuTxt() {
     globals.ctx.strokeStyle = "white";
     globals.ctx.strokeText("HIGH SCORES", canvasWidthDividedBy2, 40);
     
-    // |||||||||||| COLUMNS DRAWING
+    // |||||||||||| COLUMNS HEADINGS DRAWING
+
     globals.ctx.textAlign = "start";
+    globals.ctx.font = "12px emulogic";
     globals.ctx.fillStyle = "white";
     
     // |||||||| RANK
-    globals.ctx.font = "12px emulogic";
     globals.ctx.fillText("RANK", 80, 78);
 
     globals.ctx.direction = "rtl";
+    
+    // |||||||| NAME
+    globals.ctx.fillText("NAME", 241, 78);
+
+    // |||||||| SCORE
+    globals.ctx.fillText("SCORE", 367, 78);
+
+    // |||||||||||| DRAWING OF ARROWS USED TO CHANGE CURRENT SCORES PAGE
+    
+    // |||||||| DEFINE & DRAW RIGHT-HAND ARROW
+    
+    globals.ctx.beginPath();
+    globals.ctx.moveTo(405, ((globals.canvas.height / 2) + 10));
+    globals.ctx.lineTo(415, (globals.canvas.height / 2));
+    globals.ctx.lineTo(405, ((globals.canvas.height / 2) - 10));
+    globals.ctx.fillStyle = "rgb(212 212 212 / 0.5)";
+
+    if (globals.currentScoresPage === 1) {
+        globals.ctx.fillStyle = "rgb(212 212 212)";
+    }
+
+    globals.ctx.fill();
+    
+    // |||||||| DEFINE & DRAW LEFT-HAND ARROW
+    
+    globals.ctx.beginPath();
+    globals.ctx.moveTo(44, ((globals.canvas.height / 2) + 10));
+    globals.ctx.lineTo(34, (globals.canvas.height / 2));
+    globals.ctx.lineTo(44, ((globals.canvas.height / 2) - 10));
+    globals.ctx.fillStyle = "rgb(212 212 212 / 0.5)";
+
+    if (globals.currentScoresPage === 2) {
+        globals.ctx.fillStyle = "rgb(212 212 212)";
+    }
+
+    globals.ctx.fill();
+}
+
+function renderHighScoresMenuFromMainMenuTxt() {
+    // |||||||||||| PLAYERS' DATA DRAWING
+
     globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "rgb(212 212 212)";
+    
+    let scoresRecordsLowerLimit;
+    let scoresRecordsUpperLimit;
+
+    if (globals.currentScoresPage === 1) {
+        scoresRecordsLowerLimit = 0;
+        scoresRecordsUpperLimit = 10;
+    }
+
+    if (globals.currentScoresPage === 2) {
+        scoresRecordsLowerLimit = 10;
+        scoresRecordsUpperLimit = 20;
+    }
     
     let rowYCoordinate = 106;
 
-    for (let i = 1; i <= 10; i++) {
-        let ordinalNumSuffix = "TH";
+    for (let i = scoresRecordsLowerLimit; i < scoresRecordsUpperLimit; i++) {
+        if (((i % 2) === 0) && (globals.horizontalSkewForEvenDataRecords > 0)) {
+            globals.ctx.setTransform(1, globals.verticalSkewForEvenDataRecords, globals.horizontalSkewForEvenDataRecords, 1, 0, 0);
 
-        switch (i) {
-            case 1:
-                ordinalNumSuffix = "ST";
-                break;
+            globals.horizontalSkewForEvenDataRecords -= 0.0025;
+            globals.verticalSkewForEvenDataRecords -= 0.0025;
+        } else if (globals.horizontalSkewForOddDataRecords < 0) {
+            globals.ctx.setTransform(1, globals.verticalSkewForOddDataRecords, globals.horizontalSkewForOddDataRecords, 1, 0, 0);
 
-            case 2:
-                ordinalNumSuffix = "ND";
-                break;
-            
-            case 3:
-                ordinalNumSuffix = "RD";
-                break;
+            globals.horizontalSkewForOddDataRecords += 0.0025;
+            globals.verticalSkewForOddDataRecords += 0.0025;
         }
 
-        globals.ctx.fillText(i + ordinalNumSuffix, 128, rowYCoordinate);
-
-        rowYCoordinate += 20;
-    }
-
-    // |||||||| NAME
-    globals.ctx.font = "12px emulogic";
-    globals.ctx.fillStyle = "white";
-    globals.ctx.fillText("NAME", 241, 78);
-
-    globals.ctx.font = "8px emulogic";
-    globals.ctx.fillStyle = "rgb(212 212 212)";
-
-    rowYCoordinate = 106;
-
-    for (let i = 0; i < globals.highScores.length; i++) {
-        globals.ctx.fillText(globals.highScores[i].playerName, 241, rowYCoordinate);
-
-        rowYCoordinate += 20;
-    }
+        // |||||||| RANK
+        globals.ctx.fillText(`.${globals.workedScores[i].position}`, 131, rowYCoordinate);
+        
+        // |||||||| NAME
+        globals.ctx.fillText(globals.workedScores[i].name, 241, rowYCoordinate);
     
-    // |||||||| SCORE
-    globals.ctx.font = "12px emulogic";
-    globals.ctx.fillStyle = "white";
-    globals.ctx.fillText("SCORE", 367, 78);
-
-    globals.ctx.font = "8px emulogic";
-    globals.ctx.fillStyle = "rgb(212 212 212)";
-
-    rowYCoordinate = 106;
-
-    for (let i = 0; i < globals.highScores.length; i++) {
-        globals.ctx.fillText(globals.highScores[i].playerScore, 367, rowYCoordinate);
-
-        rowYCoordinate += 20;
+        // |||||||| SCORE    
+        globals.ctx.fillText(globals.workedScores[i].score, 367, rowYCoordinate);
+        
+        rowYCoordinate += 20;        
     }
 
+    globals.ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+    const canvasWidthDividedBy2 = globals.canvas.width / 2;
     globals.ctx.textAlign = "center";
     globals.ctx.direction = "ltr";
+    globals.ctx.font = "8px emulogic";
     globals.ctx.fillStyle = "white";
     globals.ctx.fillText("PRESS ESCAPE (esc) TO RETURN TO THE MAIN MENU", canvasWidthDividedBy2, 321);
+}
+
+function renderHighScoresMenuFromGameOverTxt() {
+    // |||||||||||| PLAYERS' DATA DRAWING
+
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "rgb(212 212 212)";
+    
+    // TODO
 }
 
 function drawControlsMenu() {

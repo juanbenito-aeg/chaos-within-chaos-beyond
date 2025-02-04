@@ -53,6 +53,12 @@ export default {
     
     // |||||||||||| HIGH SCORES MENU DATA
     highScoresMenuBackgroundImg: {},
+    didPlayerEnterHighScoresMenuFromMainMenu: false,
+    currentScoresPage: 0,
+    horizontalSkewForEvenDataRecords: 0,
+    verticalSkewForEvenDataRecords: 0,
+    horizontalSkewForOddDataRecords: 0,
+    verticalSkewForOddDataRecords: 0,
     
     // |||||||||||| CONTROLS MENU DATA
     controlsMenuBackgroundImg: {},

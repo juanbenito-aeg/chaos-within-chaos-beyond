@@ -148,32 +148,32 @@ function initVars() {
         },
         {
             position: 15,
-            name: "ÑÑÑ",
+            name: "OOO",
             score: 6000,
         },
         {
             position: 16,
-            name: "OOO",
+            name: "PPP",
             score: 5000,
         },
         {
             position: 17,
-            name: "PPP",
+            name: "QQQ",
             score: 4000,
         },
         {
             position: 18,
-            name: "QQQ",
+            name: "RRR",
             score: 3000,
         },
         {
             position: 19,
-            name: "RRR",
+            name: "SSS",
             score: 2000,
         },
         {
             position: 20,
-            name: "SSS",
+            name: "TTT",
             score: 1000,
         },
     ];
@@ -233,7 +233,7 @@ function loadHandler() {
 
         console.log("Assets finished loading");
 
-        globals.gameState = Game.LOADING_GAME_OVER;
+        globals.gameState = Game.LOADING_HIGH_SCORES_MENU;
     }
 }
 
@@ -347,6 +347,13 @@ function initStoryMenuBackgroundImg() {
 }
 
 function initHighScoresMenu() {
+    // |||||||||||| RESET GLOBAL VARIABLES USED ON THE HIGH SCORES MENU
+    globals.currentScoresPage = 1;
+    globals.horizontalSkewForEvenDataRecords = 0.5;
+    globals.verticalSkewForEvenDataRecords = 0.5;
+    globals.horizontalSkewForOddDataRecords = -0.5;
+    globals.verticalSkewForOddDataRecords = -0.5;
+
     initHighScoresMenuBackgroundImg();
 
     initScores();
