@@ -253,7 +253,7 @@ function loadHandler() {
 
         console.log("Assets finished loading");
 
-        globals.gameState = Game.LOADING_GAME_OVER;
+        globals.gameState = Game.LOADING_LEVEL;
     }
 }
 

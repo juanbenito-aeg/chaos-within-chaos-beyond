@@ -60,6 +60,11 @@ function lowerPlayerLifePointsDueToRageBeing100() {
     }
 }
 
+function speedUpHarmfulElementsThrow() {
+    // |||||||||||| ARROWS
+    // TODO
+}
+
 function doFastWormsFly() {
     // |||||||||||| THIS EVENT TAKES PLACE DURING THE SECOND LEVEL
     if (globals.level.number === 2) {                
@@ -142,6 +147,10 @@ function makeHellBatsAppearDueToRageBeingOver50() {
 function updateEvents() {
     performRandomMagicalOrbThrow();
     lowerPlayerLifePointsDueToRageBeing100();
+
+    if (globals.level.number === 1) {
+        speedUpHarmfulElementsThrow();
+    }
 
     doFastWormsFly();
 
