@@ -186,7 +186,7 @@ function updateStoryMenu() {
 
 function updateHighScoresMenu() {
     updateCurrentScoresPage();
-    returnToTheMainMenu();
+    updateCurrentScreenFromHighScores();
 }
 
 function updateCurrentScoresPage() {
@@ -208,6 +208,18 @@ function updateCurrentScoresPage() {
         globals.verticalSkewForOddDataRecords = -0.5;
 
         globals.action.moveLeft = false;
+    }
+}
+
+function updateCurrentScreenFromHighScores() {
+    if (globals.action.return && (globals.highScoresMenuNoticeOnTheBottomData.noticeFontSize === 8)) {
+        globals.gameState = Game.LOADING_MAIN_MENU;
+    } else if (globals.action.return && (globals.highScoresMenuNoticeOnTheBottomData.noticeFontSize === 6.185)) {
+        globals.didPlayerEnterHighScoresMenuFromMainMenu = true;
+      
+        globals.gameState = Game.LOADING_HIGH_SCORES_MENU;
+
+        globals.action.return = false;
     }
 }
 

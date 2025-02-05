@@ -53,8 +53,10 @@ export default {
     
     // |||||||||||| HIGH SCORES MENU DATA
     highScoresMenuBackgroundImg: {},
+    highScoresMenuNoticeOnTheBottomData: {},
     didPlayerEnterHighScoresMenuFromMainMenu: false,
     currentScoresPage: 0,
+    lastGamePlayerPosition: 0,
     horizontalSkewForEvenDataRecords: 0,
     verticalSkewForEvenDataRecords: 0,
     horizontalSkewForOddDataRecords: 0,
@@ -69,6 +71,7 @@ export default {
     HUDSprites: [],
 
     score: 0,
+    highScore: 0,
     rawScores: [],
     workedScores: [],
 

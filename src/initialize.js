@@ -369,6 +369,7 @@ function initStoryMenuBackgroundImg() {
 function initHighScoresMenu() {
     // |||||||||||| RESET GLOBAL VARIABLES USED ON THE HIGH SCORES MENU
     globals.currentScoresPage = 1;
+    globals.lastGamePlayerPosition = 0;
     globals.horizontalSkewForEvenDataRecords = 0.5;
     globals.verticalSkewForEvenDataRecords = 0.5;
     globals.horizontalSkewForOddDataRecords = -0.5;
@@ -377,6 +378,8 @@ function initHighScoresMenu() {
     initHighScoresMenuBackgroundImg();
 
     initScores();
+
+    initNoticeOnTheBottom();
 
     // |||||||||||| CHANGE GAME STATE
     globals.gameState = Game.HIGH_SCORES_MENU;
@@ -410,7 +413,7 @@ function initScores() {
     // |||||||||||| SORT "workedScores" ARRAY IN DESCENDING ORDER BY SCORE
     for (let i = 0; i < globals.workedScores.length; i++) {
         for (let j = i + 1; j < globals.workedScores.length; j++) {
-            if (globals.workedScores[i].score < globals.workedScores[j].score) {
+            if (globals.workedScores[i].score <= globals.workedScores[j].score) {
                 const temporaryScore = globals.workedScores[i];
                 
                 globals.workedScores[i] = globals.workedScores[j];
@@ -424,6 +427,24 @@ function initScores() {
                 globals.workedScores[j].position = j + 1; 
             }
         }
+        
+        if (globals.workedScores[i].isLastGamePlayer) {
+            globals.lastGamePlayerPosition = globals.workedScores[i].position;
+        }
+    }
+}
+
+function initNoticeOnTheBottom() {
+    if (globals.didPlayerEnterHighScoresMenuFromMainMenu || (!globals.didPlayerEnterHighScoresMenuFromMainMenu && ((globals.lastGamePlayerPosition >= 1) && (globals.lastGamePlayerPosition <= 10)))) {
+        globals.highScoresMenuNoticeOnTheBottomData = {
+            noticeString: "PRESS ESCAPE (esc) TO RETURN TO THE MAIN MENU",
+            noticeFontSize: 8,
+        };
+    } else {
+        globals.highScoresMenuNoticeOnTheBottomData = {
+            noticeString: "PRESS ESCAPE (esc) TO CHECK THE BEST SCORES BEYOND THE FIRST THREE",
+            noticeFontSize: 6.185,
+        };
     }
 }
 
@@ -575,6 +596,8 @@ function initLevel() {
     if (globals.level.number === 1) {
         // |||||||||||| RESET GLOBAL VARIABLES (2)
         globals.score = 0;
+
+        initHighScore();
         
         initLevel1ExclusiveSprites();
     } else {
@@ -629,6 +652,14 @@ function initCommonToTheTwoLevelsSprites() {
     initPlayer();
     initFastWorm();
     initPotionGreen();
+}
+
+function initHighScore() {
+    for (let i = 0; i < globals.rawScores.length; i++) {
+        if (globals.highScore < globals.rawScores[i].score) {
+            globals.highScore = globals.rawScores[i].score;
+        }
+    }
 }
 
 function initLevel1ExclusiveSprites() {
