@@ -1,6 +1,7 @@
 - TODOS:
     - Otros:
-        - Mostrar texto "LEVEL 1/LEVEL 2. READY?" o semejante al comenzar cada nivel
         - Cuando se superan "x" puntos de ira (p. ej., 50) hacer que tanto el personaje como los enemigos se muevan más rápido
-        - Refactorizar clases haciendo una de Enemy (¿?)
+            - ¿Añadir atributo a clase Timer valueToStartCountingFrom?
+        - Mostrar texto "LEVEL 1/LEVEL 2. READY?" o semejante al comenzar cada nivel
+        - ¿Refactorizar clases haciendo una de Enemy?
         - ¿Crear atributos/propiedades con valores idénticos entre instancias de una clase en su constructor en vez de en el bucle de la función init de "initialize.js"?
