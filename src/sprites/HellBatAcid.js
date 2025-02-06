@@ -26,7 +26,7 @@ export default class HellBatAcid extends Character {
 
         if (this.nextAcidDropDelay.value === 0) {
             initAcid(this);
-            this.nextAcidDropDelay.value = 5;   
+            this.nextAcidDropDelay.value = this.nextAcidDropDelay.valueToStartCountingFrom;   
         } else {
             this.nextAcidDropDelay.timeChangeCounter += globals.deltaTime;
         

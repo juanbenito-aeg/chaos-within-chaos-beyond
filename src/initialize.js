@@ -1102,7 +1102,7 @@ function initChaoticHumanBow() {
 
         const afterAttackLeeway = new Timer(0, 1);
 
-        const nextArrowShotDelay = new Timer(5, 1);
+        const nextArrowShotDelay = new Timer(5, 1, 5);
 
         const chaoticHumanBow = new ChaoticHumanBow(SpriteID.CHAOTIC_HUMAN_BOW, currentSpriteState, currentSpriteXPos, currentSpriteYPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, nextArrowShotDelay);
      
@@ -1254,7 +1254,7 @@ function initHellBatAcid() {
 
         const afterAttackLeeway = new Timer(0, 1);
 
-        const nextAcidDropDelay = new Timer(5, 1);
+        const nextAcidDropDelay = new Timer(5, 1, 5);
 
         const hellBatAcid = new HellBatAcid(SpriteID.HELL_BAT_ACID, State.DOWN, -1, -1, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, nextAcidDropDelay);
     

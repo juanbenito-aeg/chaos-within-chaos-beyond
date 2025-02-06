@@ -1,5 +1,5 @@
 import globals from "./globals.js";
-import { Game, Sound, Key } from "./constants.js";
+import { Game, Sound, SpriteID, Key } from "./constants.js";
 import { initHellBatHandToHand } from "./initialize.js";
 
 function updateMusic() {
@@ -34,85 +34,107 @@ function lowerPlayerLifePointsDueToRageBeing100() {
 }
 
 function speedUpHarmfulElementsThrow() {
+    const player = globals.levelSprites[0];
+
+    let valueToStartCountingFrom;
+    if (player.rageLevel > 75) {
+        valueToStartCountingFrom = 2;
+    } else if (player.rageLevel > 50) {
+        valueToStartCountingFrom = 3;
+    } else if (player.rageLevel > 25) {
+        valueToStartCountingFrom = 4;
+    } else {
+        valueToStartCountingFrom = 5;
+    }
+
     // |||||||||||| ARROWS
-    // TODO
-}
+    for (let i = 1; i < globals.levelSprites.length; i++) {
+        if (globals.levelSprites[i].id === SpriteID.CHAOTIC_HUMAN_BOW) {
+            const chaoticHumanBow = globals.levelSprites[i];
 
-function doFastWormsFly() {
-    // |||||||||||| THIS EVENT TAKES PLACE DURING THE SECOND LEVEL
-    if (globals.level.number === 2) {                
-        const randomNumBetween1AndN = Math.floor(Math.random() * 500) + 1;
-
-        // |||||||| IF A 1 IS GOTTEN & THE FAST WORMS ARE NOT CURRENTLY FLYING, MAKE THEM DO SO FOR A NUMBER OF SECONDS
-        if ((randomNumBetween1AndN === 1) && !globals.doFastWormsFly) {
-            globals.doFastWormsFly = true;
+            chaoticHumanBow.nextArrowShotDelay.valueToStartCountingFrom = valueToStartCountingFrom;
         }
+    }
+        
+    // |||||||||||| ACID
+    for (let i = 1; i < globals.levelSprites.length; i++) {
+        if (globals.levelSprites[i].id === SpriteID.HELL_BAT_ACID) {
+            const hellBatAcid = globals.levelSprites[i];
 
-        if (globals.fastWormsFlyingStateTimer.value === 0) {
-            globals.fastWormsFlyingStateTimer.value = 20;
-            globals.doFastWormsFly = false;
-        } else if (globals.doFastWormsFly) {
-            globals.fastWormsFlyingStateTimer.timeChangeCounter += globals.deltaTime;
-            
-            if (globals.fastWormsFlyingStateTimer.timeChangeCounter >= globals.fastWormsFlyingStateTimer.timeChangeValue) {
-                globals.fastWormsFlyingStateTimer.value--;
-                globals.fastWormsFlyingStateTimer.timeChangeCounter = 0;
-            }
+            hellBatAcid.nextAcidDropDelay.valueToStartCountingFrom = valueToStartCountingFrom;
         }
     }
 }
 
-function makeHellBatsAppearDueToRageBeingOver50() {
-    // |||||||||||| THIS EVENT TAKES PLACE DURING THE SECOND LEVEL
-    if (globals.level.number === 2) {
-        const player = globals.levelSprites[0];
+function doFastWormsFly() {
+    const randomNumBetween1AndN = Math.floor(Math.random() * 500) + 1;
+
+    // |||||||| IF A 1 IS GOTTEN & THE FAST WORMS ARE NOT CURRENTLY FLYING, MAKE THEM DO SO FOR A NUMBER OF SECONDS
+    if ((randomNumBetween1AndN === 1) && !globals.doFastWormsFly) {
+        globals.doFastWormsFly = true;
+    }
+
+    if (globals.fastWormsFlyingStateTimer.value === 0) {
+        globals.fastWormsFlyingStateTimer.value = 20;
+        globals.doFastWormsFly = false;
+    } else if (globals.doFastWormsFly) {
+        globals.fastWormsFlyingStateTimer.timeChangeCounter += globals.deltaTime;
         
-        if (player.rageLevel > 75) {
-            if (globals.rageLevelToReachToMakeHellBatsAppear === 0) {
-                globals.rageLevelToReachToMakeHellBatsAppear = Math.ceil(Math.random() * (100 - 76)) + 76;
-            }
+        if (globals.fastWormsFlyingStateTimer.timeChangeCounter >= globals.fastWormsFlyingStateTimer.timeChangeValue) {
+            globals.fastWormsFlyingStateTimer.value--;
+            globals.fastWormsFlyingStateTimer.timeChangeCounter = 0;
+        }
+    }
+}
+
+function makeHellBatsAppearDueToRageBeingOver75() {
+    const player = globals.levelSprites[0];
     
-            // |||||||| MAKE TWO HELL BATS (HAND-TO-HAND) SPAWN NEAR THE PLAYER WHEN THE RANDOMLY CALCULATED RAGE LEVEL IS REACHED/EXCEEDED
-            if ((player.rageLevel >= globals.rageLevelToReachToMakeHellBatsAppear) && !globals.isHellBatsApparitionEventTakingPlace) {
-                globals.hellBatsApparitionEventSprites = [];
-                globals.isHellBatsApparitionEventTakingPlace = true;
-
-                const hellBatHandToHandXDestinationSize = 33;
-
-                const hellBatHandToHandSpritesAttributes = [
-                    {
-                        xPos: player.xPos - hellBatHandToHandXDestinationSize,
-                        vLimit: -60,
-                        omega: 3,
-                        yRef: (player.yPos + player.hitBox.yOffset),
-                        amplitude: 40,
-                    },
-                    {
-                        xPos: player.xPos + player.imageSet.xDestinationSize,
-                        vLimit: 60,
-                        omega: 3,
-                        yRef: (player.yPos + player.hitBox.yOffset),
-                        amplitude: 40,
-                    },
-                ];
-
-                for (let i = 0; i < hellBatHandToHandSpritesAttributes.length; i++) {
-                    initHellBatHandToHand(true, hellBatHandToHandSpritesAttributes[i].xPos, hellBatHandToHandSpritesAttributes[i].vLimit, hellBatHandToHandSpritesAttributes[i].omega, hellBatHandToHandSpritesAttributes[i].yRef, hellBatHandToHandSpritesAttributes[i].amplitude);
-                }
-            }
+    if (player.rageLevel > 75) {
+        if (globals.rageLevelToReachToMakeHellBatsAppear === 0) {
+            globals.rageLevelToReachToMakeHellBatsAppear = Math.ceil(Math.random() * (100 - 76)) + 76;
         }
 
-        if (globals.hellBatsApparitionEventTimer.value === 0) {
-            globals.rageLevelToReachToMakeHellBatsAppear = 0;
-            globals.hellBatsApparitionEventTimer.value = 10;
-            globals.isHellBatsApparitionEventTakingPlace = false;
-        } else if (globals.isHellBatsApparitionEventTakingPlace) {
-            globals.hellBatsApparitionEventTimer.timeChangeCounter += globals.deltaTime;
-            
-            if (globals.hellBatsApparitionEventTimer.timeChangeCounter >= globals.hellBatsApparitionEventTimer.timeChangeValue) {
-                globals.hellBatsApparitionEventTimer.value--;
-                globals.hellBatsApparitionEventTimer.timeChangeCounter = 0;
+        // |||||||| MAKE TWO HELL BATS (HAND-TO-HAND) SPAWN NEAR THE PLAYER WHEN THE RANDOMLY CALCULATED RAGE LEVEL IS REACHED/EXCEEDED
+        if ((player.rageLevel >= globals.rageLevelToReachToMakeHellBatsAppear) && !globals.isHellBatsApparitionEventTakingPlace) {
+            globals.hellBatsApparitionEventSprites = [];
+            globals.isHellBatsApparitionEventTakingPlace = true;
+
+            const hellBatHandToHandXDestinationSize = 33;
+
+            const hellBatHandToHandSpritesAttributes = [
+                {
+                    xPos: player.xPos - hellBatHandToHandXDestinationSize,
+                    vLimit: -60,
+                    omega: 3,
+                    yRef: (player.yPos + player.hitBox.yOffset),
+                    amplitude: 40,
+                },
+                {
+                    xPos: player.xPos + player.imageSet.xDestinationSize,
+                    vLimit: 60,
+                    omega: 3,
+                    yRef: (player.yPos + player.hitBox.yOffset),
+                    amplitude: 40,
+                },
+            ];
+
+            for (let i = 0; i < hellBatHandToHandSpritesAttributes.length; i++) {
+                initHellBatHandToHand(true, hellBatHandToHandSpritesAttributes[i].xPos, hellBatHandToHandSpritesAttributes[i].vLimit, hellBatHandToHandSpritesAttributes[i].omega, hellBatHandToHandSpritesAttributes[i].yRef, hellBatHandToHandSpritesAttributes[i].amplitude);
             }
+        }
+    }
+
+    if (globals.hellBatsApparitionEventTimer.value === 0) {
+        globals.rageLevelToReachToMakeHellBatsAppear = 0;
+        globals.hellBatsApparitionEventTimer.value = 10;
+        globals.isHellBatsApparitionEventTakingPlace = false;
+    } else if (globals.isHellBatsApparitionEventTakingPlace) {
+        globals.hellBatsApparitionEventTimer.timeChangeCounter += globals.deltaTime;
+        
+        if (globals.hellBatsApparitionEventTimer.timeChangeCounter >= globals.hellBatsApparitionEventTimer.timeChangeValue) {
+            globals.hellBatsApparitionEventTimer.value--;
+            globals.hellBatsApparitionEventTimer.timeChangeCounter = 0;
         }
     }
 }
@@ -122,11 +144,10 @@ function updateEvents() {
 
     if (globals.level.number === 1) {
         speedUpHarmfulElementsThrow();
+    } else {
+        doFastWormsFly();
+        makeHellBatsAppearDueToRageBeingOver75();
     }
-
-    doFastWormsFly();
-
-    makeHellBatsAppearDueToRageBeingOver50();
 }
 
 function isMagicalOrbThrowCanceledDueToRageBeing100() {

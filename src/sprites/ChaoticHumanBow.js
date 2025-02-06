@@ -28,7 +28,7 @@ export default class ChaoticHumanBow extends Character {
 
             if (this.frames.frameCounter === 2) {
                 initArrow(this);
-                this.nextArrowShotDelay.value = 5;
+                this.nextArrowShotDelay.value = this.nextArrowShotDelay.valueToStartCountingFrom;
 
                 this.frames.frameCounter = 0;
             }
