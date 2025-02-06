@@ -920,7 +920,9 @@ function initFastWorm() {
 
         const afterAttackLeeway = new Timer(0, 1);
 
-        const fastWorm = new FastWorm(SpriteID.FAST_WORM, currentSpriteState, currentSpriteXPos, currentSpriteYPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
+        const afterAttackStop = new Timer(0, 1);
+
+        const fastWorm = new FastWorm(SpriteID.FAST_WORM, currentSpriteState, currentSpriteXPos, currentSpriteYPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, afterAttackStop);
      
         // |||||||||||| ADD FAST WORM TO ITS CORRESPONDING SPRITES ARRAY
         globals.levelSprites.push(fastWorm);

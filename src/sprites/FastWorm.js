@@ -4,8 +4,10 @@ import { State, GRAVITY } from "../constants.js";
 import { initPotionGreen, initPotionBlue, initEnemyDeathParticles } from "../initialize.js";
 
 export default class FastWorm extends Character {
-    constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway) {
+    constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, afterAttackStop) {
         super(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway);
+
+        this.afterAttackStop = afterAttackStop;
     }
 
     updatePhysics() {
@@ -68,12 +70,20 @@ export default class FastWorm extends Character {
             }
 
             const uvVectorX = vpVectorX / vpVectorLength;
-            this.physics.vx = this.physics.vLimit * uvVectorX;
+            if (this.afterAttackStop.value === 0) {
+                this.physics.vx = this.physics.vLimit * uvVectorX;
+            } else {
+                this.physics.vx = 0;
+            }
             
             let uvVectorY;
             if (globals.doFastWormsFly) {
                 uvVectorY = vpVectorY / vpVectorLength;
-                this.physics.vy = this.physics.vLimit * uvVectorY;
+                if (this.afterAttackStop.value === 0) {
+                    this.physics.vy = this.physics.vLimit * uvVectorY;
+                } else {
+                    this.physics.vy = 0;
+                }
             }
         } else {
             this.physics.vx = 0;
@@ -125,6 +135,7 @@ export default class FastWorm extends Character {
                     this.state = State.OFF;
                 } else {
                     this.afterAttackLeeway.value = 4;
+                    this.afterAttackStop.value = 2;
                 }
             }
         }
@@ -140,6 +151,7 @@ export default class FastWorm extends Character {
                 this.state = State.OFF;
             } else {
                 this.afterAttackLeeway.value = 4;
+                this.afterAttackStop.value = 2;
             }
         }
 
@@ -201,6 +213,15 @@ export default class FastWorm extends Character {
                 this.isDrawn = false;                
             } else {
                 this.isDrawn = true;                
+            }
+        }
+
+        if (this.afterAttackStop.value > 0) {
+            this.afterAttackStop.timeChangeCounter += globals.deltaTime;
+    
+            if (this.afterAttackStop.timeChangeCounter >= this.afterAttackStop.timeChangeValue) {
+                this.afterAttackStop.value--;
+                this.afterAttackStop.timeChangeCounter = 0;
             }
         }
     }
