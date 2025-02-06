@@ -51,12 +51,6 @@ export default class Player extends Character {
                          (globals.action.throwMagicalOrb && (this.state === State.RIGHT_JUMP))  ? State.RIGHT_ATTACK_MAGICAL_ORB_JUMP :
                          this.state;
         }
-
-        // |||||||||||| MANUALLY DISPATCH "keyup" EVENT FOR MAGICAL ORB THROWS IN CASE THEY HAVE BEEN PERFORMED RANDOMLY IN "events.js"
-        if (globals.action.throwMagicalOrb) {
-            const event = new KeyboardEvent("keyup", {keyCode: 83});    
-            window.dispatchEvent(event);
-        }
     }
 
     updateRageLevel() {
