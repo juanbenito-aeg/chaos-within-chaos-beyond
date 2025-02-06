@@ -75,7 +75,10 @@ function initVars() {
 
     globals.currentSound = Sound.NO_SOUND;
 
-    globals.levelInitializationTimer = new Timer(5, 1, 5);
+    globals.levelInitializationTimer = new Timer(8, 1, 8);
+    initLoadingLevel1BackgroundImg();
+    initLoadingLevel2BackgroundImg();
+    initMap();
 
     globals.rawScores = [
         {
@@ -255,8 +258,28 @@ function loadHandler() {
 
         console.log("Assets finished loading");
 
-        globals.gameState = Game.LOADING_LEVEL;
+        globals.gameState = Game.LOADING_MAIN_MENU;
     }
+}
+
+function initLoadingLevel1BackgroundImg() {
+    const imageSet = new ImageSet(0, 2148, 597, 341, 597, 358, 75, 0, -1, -1);
+
+    const frames = new Frames(1);
+
+    const loadingLevel1BackgroundImg = new Sprite(SpriteID.BACKGROUND_IMG_LOADING_LEVEL_1, State.STILL, 0, 0, imageSet, frames);
+
+    globals.loadingLevel1BackgroundImg = loadingLevel1BackgroundImg;
+}
+
+function initLoadingLevel2BackgroundImg() {
+    const imageSet = new ImageSet(1194, 2148, 597, 341, 597, 358, 80, 0, -1, -1);
+
+    const frames = new Frames(1);
+
+    const loadingLevel2BackgroundImg = new Sprite(SpriteID.BACKGROUND_IMG_LOADING_LEVEL_2, State.STILL, 0, 0, imageSet, frames);
+
+    globals.loadingLevel2BackgroundImg = loadingLevel2BackgroundImg;
 }
 
 function initMainMenu() {

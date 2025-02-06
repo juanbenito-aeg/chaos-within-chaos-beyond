@@ -45,6 +45,7 @@ export default function update() {
 
         case Game.LOADING_LEVEL:
             updateLoadingLevel();
+            break;
 
         case Game.PLAYING:
             playLevel();

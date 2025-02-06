@@ -634,6 +634,52 @@ function renderControlsMenuSparkle(particle) {
 
 function drawLoadingLevel() {
     enlargeCanvasForMenus();
+
+    let levelNumber;
+    let introductoryTxt;
+    let introductoryTxtLineYCoordinate;
+
+    if (globals.level.number === 1) {
+        renderNBackgroundImg(globals.loadingLevel1BackgroundImg);
+        
+        levelNumber = 1;
+        introductoryTxt = [
+            "READY TO MEET THE REAL HELL?",
+            "GOOD LUCK...",
+        ];
+        introductoryTxtLineYCoordinate = 246;
+    } else {
+        renderNBackgroundImg(globals.loadingLevel2BackgroundImg);
+        
+        levelNumber = 2;
+        introductoryTxt = [
+            "IT WASN'T EASY, HUH?",
+            "WELL, WHAT COMES NEXT WON'T BE EITHER,",
+            "BUT I TRUST YOU. LET'S KICK SOME ASS.",
+        ];
+        introductoryTxtLineYCoordinate = 219;
+    }
+
+    renderLoadingLevelNTxt(levelNumber, introductoryTxt, introductoryTxtLineYCoordinate);
+}
+
+function renderLoadingLevelNTxt(levelNumber, introductoryTxt, introductoryTxtLineYCoordinate) {
+    const canvasWidthDividedBy2 = globals.canvas.width / 2;
+    globals.ctx.textAlign = "center";
+    
+    globals.ctx.font = "22px emulogic";
+    globals.ctx.strokeStyle = "white";
+    globals.ctx.strokeText(`LEVEL ${levelNumber}`, canvasWidthDividedBy2, 39);
+    
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.filter = "drop-shadow(0 0 5px rgb(212 212 212))";
+    globals.ctx.fillStyle = "rgb(212 212 212)";
+
+    for (let i = 0; i < introductoryTxt.length; i++) {
+        globals.ctx.fillText(introductoryTxt[i], canvasWidthDividedBy2, introductoryTxtLineYCoordinate);
+
+        introductoryTxtLineYCoordinate += 28;
+    }
 }
 
 function drawLevel() {

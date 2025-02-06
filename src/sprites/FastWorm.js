@@ -54,7 +54,7 @@ export default class FastWorm extends Character {
             distanceLimitToStopApproachingPlayer = 1;
         }
 
-        if ((vpVectorLength >= distanceLimitToStopApproachingPlayer) && (vpVectorLength <= MIN_DISTANCE_TO_START_CHASE)) {
+        if ((vpVectorLength >= distanceLimitToStopApproachingPlayer) && (vpVectorLength <= MIN_DISTANCE_TO_START_CHASE) && (this.afterAttackStop.value === 0)) {
             if (vpVectorX < 0) {
                 this.state = State.LEFT;
 
@@ -70,20 +70,11 @@ export default class FastWorm extends Character {
             }
 
             const uvVectorX = vpVectorX / vpVectorLength;
-            if (this.afterAttackStop.value === 0) {
-                this.physics.vx = this.physics.vLimit * uvVectorX;
-            } else {
-                this.physics.vx = 0;
-            }
+            this.physics.vx = this.physics.vLimit * uvVectorX;
             
-            let uvVectorY;
             if (globals.doFastWormsFly) {
-                uvVectorY = vpVectorY / vpVectorLength;
-                if (this.afterAttackStop.value === 0) {
-                    this.physics.vy = this.physics.vLimit * uvVectorY;
-                } else {
-                    this.physics.vy = 0;
-                }
+                const uvVectorY = vpVectorY / vpVectorLength;
+                this.physics.vy = this.physics.vLimit * uvVectorY;
             }
         } else {
             this.physics.vx = 0;
@@ -96,7 +87,11 @@ export default class FastWorm extends Character {
         // |||||||||||| ACCELERATION IN THE Y AXIS IS THE GRAVITY
         this.physics.ay = GRAVITY;
 
-        this.physics.vy += this.physics.ay * globals.deltaTime;
+        if (this.afterAttackStop.value === 0) {
+            this.physics.vy += this.physics.ay * globals.deltaTime;
+        } else {
+            this.physics.vy = 0;
+        }
 
         // |||||||||||| CALCULATE THE DISTANCE IT MOVES (Y AXIS)
         if (this.physics.vy > 0) {
