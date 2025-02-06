@@ -75,6 +75,8 @@ function initVars() {
 
     globals.currentSound = Sound.NO_SOUND;
 
+    globals.levelInitializationTimer = new Timer(5, 1, 5);
+
     globals.rawScores = [
         {
             position: 1,

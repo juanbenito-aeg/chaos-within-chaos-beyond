@@ -26,6 +26,10 @@ export default function render() {
             drawControlsMenu();
             break;
         
+        case Game.LOADING_LEVEL:
+            drawLoadingLevel();
+            break;
+
         case Game.PLAYING:
             drawLevel();
             break;
@@ -626,6 +630,10 @@ function renderControlsMenuSparkle(particle) {
 
         globals.ctx.restore();
     }
+}
+
+function drawLoadingLevel() {
+    enlargeCanvasForMenus();
 }
 
 function drawLevel() {

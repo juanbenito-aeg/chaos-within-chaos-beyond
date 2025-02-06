@@ -75,6 +75,10 @@ export default {
     rawScores: [],
     workedScores: [],
 
+    loadingLevel1BackgroundImg: {},
+    loadingLevel2BackgroundImg: {},
+    levelInitializationTimer: {},
+
     level: {},
     levelBackgroundImg: {},
     levelSprites: [],

@@ -44,7 +44,7 @@ export default function update() {
             break;
 
         case Game.LOADING_LEVEL:
-            initLevel();
+            updateLoadingLevel();
 
         case Game.PLAYING:
             playLevel();
@@ -316,6 +316,21 @@ function updateControlsMenuSparkle(particle) {
     particle.alpha -= 0.01;
     if (particle.alpha <= 0) {
         particle.state = ParticleState.OFF;
+    }
+}
+
+function updateLoadingLevel() {
+    if (globals.levelInitializationTimer.value === 0) {
+        globals.levelInitializationTimer.value = globals.levelInitializationTimer.valueToStartCountingFrom;
+
+        initLevel();
+    } else {
+        globals.levelInitializationTimer.timeChangeCounter += globals.deltaTime;
+
+        if (globals.levelInitializationTimer.timeChangeCounter >= globals.levelInitializationTimer.timeChangeValue) {
+            globals.levelInitializationTimer.value--;
+            globals.levelInitializationTimer.timeChangeCounter = 0;
+        }
     }
 }
 
