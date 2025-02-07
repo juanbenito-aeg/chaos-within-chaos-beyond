@@ -606,9 +606,11 @@ function createControlsMenuSparkle() {
 
 function initLevel() {
     // |||||||||||| RESET GLOBAL VARIABLES (1)
-    globals.HUDSprites      = [];
-    globals.levelSprites    = [];
-    globals.levelParticles  = [];
+    globals.HUDSprites                  = [];
+    globals.levelSprites                = [];
+    globals.levelParticles              = [];
+    globals.doFastWormsFly              = false;
+    globals.numOfRageSymbolParticlesOFF = 0;
 
     // |||||||||||| INITIALIZE MAP
     initMap();
@@ -626,6 +628,11 @@ function initLevel() {
         
         initLevel1ExclusiveSprites();
     } else {
+        // |||||||||||| RESET GLOBAL VARIABLES (3)
+        globals.rageLevelToReachToMakeHellBatsAppear    = 0;
+        globals.hellBatsApparitionEventSprites          = [];
+        globals.isHellBatsApparitionEventTakingPlace    = false;
+
         initLevel2ExclusiveSprites();
         
         initFastWormsFlyingStateTimer();
