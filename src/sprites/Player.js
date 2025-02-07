@@ -108,7 +108,7 @@ export default class Player extends Character {
 
         // |||||||| CALCULATE THE DISTANCE IT MOVES
         if (this.physics.vy > 0) {
-            this.yPos += Math.max(this.physics.vy * globals.deltaTime, 1);
+            this.yPos += Math.max(this.physics.vy * globals.deltaTime, 2);
         } else {
             this.yPos += this.physics.vy * globals.deltaTime;
         }
