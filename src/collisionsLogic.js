@@ -1859,12 +1859,14 @@ function detectCollisionBetweenPotionAndMapObstacles() {
                 Block.SPIKES_LEFTWARDS,
                 Block.SPIKES_RIGHTWARDS,
                 Block.GRAY_BLOCK,
+                Block.LAVA_1,
                 Block.DARK_BROWN_SLOPE_UPWARDS,
                 Block.DARK_BROWN_SLOPE_DOWNWARDS,
             ];
         
             // |||||||||||| RESET COLLISION STATE
-            potion.collisions.isCollidingWithObstacleOnTheBottom   = false;
+            potion.collisions.isCollidingWithObstacleOnTheBottom    = false;
+            potion.collisions.isCollidingWithLava                   = false;
         
             // |||||||||||| COLLISIONS (2 POSSIBLE SPOTS)
             // ----------------------
@@ -1888,6 +1890,10 @@ function detectCollisionBetweenPotionAndMapObstacles() {
                 isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                 
                 if (isCollidingOnPos1) {
+                    if (obstaclesIDs[i] === Block.LAVA_1) {
+                        potion.collisions.isCollidingWithLava = true;
+                    }
+                
                     // |||| CALCULATE OVERLAP ON X & Y
                     overlapX = brickSize - (Math.floor(xPos) % brickSize);
                     overlapY = (Math.floor(yPos) % brickSize) + 1;
@@ -1925,6 +1931,10 @@ function detectCollisionBetweenPotionAndMapObstacles() {
                 isCollidingOnPos2 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
                 
                 if (isCollidingOnPos2) {
+                    if (obstaclesIDs[i] === Block.LAVA_1) {
+                        potion.collisions.isCollidingWithLava = true;
+                    }
+
                     // |||| CALCULATE OVERLAP ON X & Y
                     overlapX = (Math.floor(xPos) % brickSize) + 1;
                     overlapY = (Math.floor(yPos) % brickSize) + 1;

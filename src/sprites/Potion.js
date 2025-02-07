@@ -24,7 +24,7 @@ export default class Potion extends InGameSprite {
     updateLogic() {
         const player = globals.levelSprites[0];
 
-        if (this.collisions.isCollidingWithPlayer && (player.hitBox.xSize !== 28)) {
+        if ((this.collisions.isCollidingWithPlayer && (player.hitBox.xSize !== 28)) || this.collisions.isCollidingWithLava) {
             this.state = State.OFF;
         }
     }
