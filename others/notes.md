@@ -1,4 +1,7 @@
 - TODOS:
+    - Dudas a consultar:
+        - ¿Música en "High Scores" y "Controls"?
+
     - Sprint 09 | Retoques:
         - Comprobar que gusanos no vuelan después de terminar nivel 2 y volver a empezar nivel 1 desde menú principal
         - Aumentar velocidad de salto y posterior caída (gravedad)
