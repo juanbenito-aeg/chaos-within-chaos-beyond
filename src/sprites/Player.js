@@ -104,6 +104,8 @@ export default class Player extends Character {
         
             // |||||||| ASSIGN INITIAL JUMP VELOCITY
             this.physics.vy += this.physics.jumpForce;
+
+            globals.currentSound = Sound.JUMP;
         }
 
         // |||||||| CALCULATE THE DISTANCE IT MOVES
@@ -176,12 +178,16 @@ export default class Player extends Character {
         if (this.collisions.isCollidingWithSpikes && (this.afterAttackLeeway.value === 0)) {
             this.lifePoints--;
             this.afterAttackLeeway.value = 4;
+
+            globals.currentSound = Sound.LIFE_POINT_LOST;
         }
         
         if (this.collisions.isCollidingWithLava) {
             this.lifePoints--;
             this.xPos = this.lastCheckpoint.xPos;
             this.yPos = this.lastCheckpoint.yPos;
+
+            globals.currentSound = Sound.LIFE_POINT_LOST;
         }
 
         // |||| COLLISION WITH ENEMIES
@@ -205,6 +211,8 @@ export default class Player extends Character {
                 if ((!this.isLeftwardsHandToHandAttackEffective && !this.isRightwardsHandToHandAttackEffective) && (this.afterAttackLeeway.value === 0)) {
                     this.lifePoints--;
                     this.afterAttackLeeway.value = 4;
+
+                    globals.currentSound = Sound.LIFE_POINT_LOST;
                 }
             }
         }
@@ -214,11 +222,15 @@ export default class Player extends Character {
         if (this.collisions.isCollidingWithAcid && (this.afterAttackLeeway.value === 0)) {            
             this.lifePoints--;
             this.afterAttackLeeway.value = 4;
+
+            globals.currentSound = Sound.LIFE_POINT_LOST;
         }
         
         if (this.collisions.isCollidingWithArrow && (this.afterAttackLeeway.value === 0)) {
             this.lifePoints--;
             this.afterAttackLeeway.value = 4;
+
+            globals.currentSound = Sound.LIFE_POINT_LOST;
         }
 
         if (this.afterAttackLeeway.value > 0) {
@@ -255,6 +267,8 @@ export default class Player extends Character {
                 if (this.rageLevel < 0) {
                     this.rageLevel = 0;
                 }
+
+                globals.currentSound = Sound.POTION_COLLECTION;
             }
             
             if (this.collisions.isCollidingWithBluePotion) {
@@ -264,6 +278,8 @@ export default class Player extends Character {
                 }
 
                 globals.score += 70;
+
+                globals.currentSound = Sound.POTION_COLLECTION;
             }
         }
 

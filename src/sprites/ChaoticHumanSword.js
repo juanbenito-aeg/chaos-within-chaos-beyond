@@ -1,6 +1,6 @@
 import Character from "./Character.js";
 import globals from "../globals.js";
-import { State, GRAVITY } from "../constants.js";
+import { Sound, State, GRAVITY } from "../constants.js";
 import { initPotionGreen, initPotionBlue, initEnemyDeathParticles } from "../initialize.js";
 
 export default class ChaoticHumanSword extends Character {
@@ -97,6 +97,8 @@ export default class ChaoticHumanSword extends Character {
                 } else {
                     this.afterAttackLeeway.value = 4;
                 }
+
+                globals.currentSound = Sound.HAMMER_HIT;
             }
         }
         

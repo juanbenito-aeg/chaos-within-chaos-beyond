@@ -241,6 +241,30 @@ function loadAssets() {
     orbThrowSound.load();
     globals.sounds.push(orbThrowSound);
     globals.assetsToLoad.push(orbThrowSound);
+    
+    const jumpSound = document.querySelector("#jumpSound");
+    jumpSound.addEventListener("canplaythrough", loadHandler, false);
+    jumpSound.load();
+    globals.sounds.push(jumpSound);
+    globals.assetsToLoad.push(jumpSound);
+    
+    const potionCollectionSound = document.querySelector("#potionCollectionSound");
+    potionCollectionSound.addEventListener("canplaythrough", loadHandler, false);
+    potionCollectionSound.load();
+    globals.sounds.push(potionCollectionSound);
+    globals.assetsToLoad.push(potionCollectionSound);
+    
+    const hammerHitSound = document.querySelector("#hammerHitSound");
+    hammerHitSound.addEventListener("canplaythrough", loadHandler, false);
+    hammerHitSound.load();
+    globals.sounds.push(hammerHitSound);
+    globals.assetsToLoad.push(hammerHitSound);
+    
+    const lifePointLostSound = document.querySelector("#lifePointLostSound");
+    lifePointLostSound.addEventListener("canplaythrough", loadHandler, false);
+    lifePointLostSound.load();
+    globals.sounds.push(lifePointLostSound);
+    globals.assetsToLoad.push(lifePointLostSound);
 }
 
 // |||||||||||| CODE BLOCK TO CALL EACH TIME AN ASSET IS LOADED

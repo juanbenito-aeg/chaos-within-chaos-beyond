@@ -26,6 +26,10 @@ const Sound = {
     NO_SOUND: -1,
     LEVEL_MUSIC: 0,
     ORB_THROW: 1,
+    JUMP: 2,
+    POTION_COLLECTION: 3,
+    HAMMER_HIT: 4,
+    LIFE_POINT_LOST: 5,
 };
 
 // |||||||||||| DIFFERENT TILESETS

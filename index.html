@@ -1,28 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chaos Within Chaos Beyond</title>
-    <link rel="stylesheet" href="./css/styles.css">
-</head>
-<body>
-    <canvas id="gameHUD" width="448" height="85">
-        Your browser does not support the HTML5 canvas tag.
-    </canvas>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Chaos Within Chaos Beyond</title>
+        <link rel="stylesheet" href="./css/styles.css" />
+    </head>
+    <body>
+        <canvas id="gameHUD" width="448" height="85">
+            Your browser does not support the HTML5 canvas tag.
+        </canvas>
 
-    <canvas id="gameScreen" width="448" height="256">
-        Your browser does not support the HTML5 canvas tag.
-    </canvas>
+        <canvas id="gameScreen" width="448" height="256">
+            Your browser does not support the HTML5 canvas tag.
+        </canvas>
 
-    <audio id="levelMusic">
-        <source src="./sounds/levelMusic.wav" type="audio/wav">
-        <source src="./sounds/levelMusic.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="orbThrowSound">
-        <source src="./sounds/orbThrow.wav" type="audio/wav">
-    </audio>
+        <audio id="levelMusic">
+            <source src="./sounds/levelMusic.wav" type="audio/wav" />
+            <source src="./sounds/levelMusic.mp3" type="audio/mpeg" />
+        </audio>
 
-    <script type="module" src="./src/game.js"></script>
-</body>
+        <audio id="orbThrowSound">
+            <source src="./sounds/orbThrow.wav" type="audio/wav" />
+        </audio>
+        <audio id="jumpSound">
+            <source src="./sounds/jump.wav" type="audio/wav" />
+        </audio>
+        <audio id="potionCollectionSound">
+            <source src="./sounds/potionCollection.wav" type="audio/wav" />
+        </audio>
+        <audio id="hammerHitSound">
+            <source src="./sounds/hammerHit.wav" type="audio/wav" />
+        </audio>
+        <audio id="lifePointLostSound">
+            <source src="./sounds/lifePointLost.wav" type="audio/wav" />
+        </audio>
+
+        <script type="module" src="./src/game.js"></script>
+    </body>
 </html>

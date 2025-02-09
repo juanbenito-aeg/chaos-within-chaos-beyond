@@ -1,6 +1,6 @@
 import Character from "./Character.js";
 import globals from "../globals.js";
-import { State, GRAVITY } from "../constants.js";
+import { Sound, State, GRAVITY } from "../constants.js";
 import { initArrow, initPotionGreen, initPotionBlue, initEnemyDeathParticles } from "../initialize.js";
 
 export default class ChaoticHumanBow extends Character {
@@ -60,6 +60,8 @@ export default class ChaoticHumanBow extends Character {
                 } else {
                     this.afterAttackLeeway.value = 4;
                 }
+
+                globals.currentSound = Sound.HAMMER_HIT;
             }
         }
         

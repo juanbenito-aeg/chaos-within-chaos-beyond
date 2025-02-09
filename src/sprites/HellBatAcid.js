@@ -1,6 +1,6 @@
 import Character from "./Character.js";
 import globals from "../globals.js";
-import { State } from "../constants.js";
+import { Sound, State } from "../constants.js";
 import { initAcid, initPotionGreen, initPotionBlue, initEnemyDeathParticles } from "../initialize.js";
 
 export default class HellBatAcid extends Character {
@@ -55,6 +55,8 @@ export default class HellBatAcid extends Character {
                 } else {
                     this.afterAttackLeeway.value = 4;
                 }
+
+                globals.currentSound = Sound.HAMMER_HIT;
             }
         }
         

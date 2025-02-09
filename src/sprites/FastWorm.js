@@ -1,6 +1,6 @@
 import Character from "./Character.js";
 import globals from "../globals.js";
-import { State, GRAVITY } from "../constants.js";
+import { Sound, State, GRAVITY } from "../constants.js";
 import { initPotionGreen, initPotionBlue, initEnemyDeathParticles } from "../initialize.js";
 
 export default class FastWorm extends Character {
@@ -132,6 +132,8 @@ export default class FastWorm extends Character {
                     this.afterAttackLeeway.value = 4;
                     this.afterAttackStop.value = 2;
                 }
+
+                globals.currentSound = Sound.HAMMER_HIT;
             }
         }
         
