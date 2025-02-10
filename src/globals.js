@@ -72,8 +72,7 @@ export default {
 
     score: 0,
     highScore: 0,
-    rawScores: [],
-    workedScores: [],
+    highScores: [],
 
     loadingLevel1BackgroundImg: {},
     loadingLevel2BackgroundImg: {},

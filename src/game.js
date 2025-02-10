@@ -1,14 +1,16 @@
 import globals from "./globals.js";
 import update from "./gameLogic.js";
 import render from "./gameRender.js";
-import { initEssentials } from "./initialize.js";
+import { initVars, loadDBDataAndInitEssentials } from "./initialize.js";
 
 // |||||||||||| GAME INITIALIZATION
 
 window.onload = init;
 
 function init() {
-    initEssentials();
+    initVars();
+
+    loadDBDataAndInitEssentials();
 
     // |||||||| FIRST FRAME REQUEST
     window.requestAnimationFrame(gameLoop);

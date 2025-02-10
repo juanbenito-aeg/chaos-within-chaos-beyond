@@ -24,33 +24,6 @@ import { Level, level1, level2 } from "./Level.js";
 import { Game, FPS, Sound, Block, SpriteID, State, ParticleID, ParticleState } from "./constants.js";
 import { updateMusic, keydownHandler, keyupHandler } from "./events.js";
 
-function initEssentials() {
-    // |||||||||||| INITIALIZE HTML ELEMENTS
-    initHTMLElements();
-
-    // |||||||||||| INITIALIZE GAME VARIABLES
-    initVars();
-
-    initEvents();
-
-    // |||||||||||| LOAD ASSETS SUCH AS TILEMAPS, IMAGES & SOUNDS
-    loadAssets();
-}
-
-function initHTMLElements() {
-    // |||||||| CANVAS, CONTEXT (SCREEN)
-    globals.canvas = document.getElementById("gameScreen");
-    globals.ctx = globals.canvas.getContext("2d");
-    
-    // |||||||| CANVAS, CONTEXT (HUD)
-    globals.canvasHUD = document.getElementById("gameHUD");
-    globals.ctxHUD = globals.canvasHUD.getContext("2d");
-
-    // |||||||| ANTI-ALIASING DELETION
-    globals.ctx.imageSmoothingEnabled = false;
-    globals.ctxHUD.imageSmoothingEnabled = false;
-}
-
 function initVars() {
     // |||||||| INITIALIZE TIME MANAGEMENT VARIABLES
     globals.previousCycleMilliseconds = 0;
@@ -79,129 +52,65 @@ function initVars() {
     initLoadingLevel1BackgroundImg();
     initLoadingLevel2BackgroundImg();
     initMap();
+}
 
-    globals.rawScores = [
-        {
-            position: 1,
-            name: "AAA",
-            score: 20000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 2,
-            name: "BBB",
-            score: 19000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 3,
-            name: "CCC",
-            score: 18000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 4,
-            name: "DDD",
-            score: 17000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 5,
-            name: "EEE",
-            score: 16000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 6,
-            name: "FFF",
-            score: 15000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 7,
-            name: "GGG",
-            score: 14000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 8,
-            name: "HHH",
-            score: 13000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 9,
-            name: "III",
-            score: 12000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 10,
-            name: "JJJ",
-            score: 11000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 11,
-            name: "KKK",
-            score: 10000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 12,
-            name: "LLL",
-            score: 9000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 13,
-            name: "MMM",
-            score: 8000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 14,
-            name: "NNN",
-            score: 7000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 15,
-            name: "OOO",
-            score: 6000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 16,
-            name: "PPP",
-            score: 5000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 17,
-            name: "QQQ",
-            score: 4000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 18,
-            name: "RRR",
-            score: 3000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 19,
-            name: "SSS",
-            score: 2000,
-            isLastGamePlayer: false,
-        },
-        {
-            position: 20,
-            name: "TTT",
-            score: 1000,
-            isLastGamePlayer: false,
-        },
-    ];
+function loadDBDataAndInitEssentials() {
+    // |||||||||||| RELATIVE PATH TO THE FILE MAKING THE REQUEST
+    const url = "./src/server/routes/get-all-score.php";
+
+    const request = new XMLHttpRequest();
+
+    request.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            if (this.status === 200) {
+                if (this.responseText !== null) {
+                    const resultJSON = JSON.parse(this.responseText);
+
+                    initHighScores(resultJSON);
+
+                    initEssentials();
+                } else {
+                    alert("Communication error: No data received");
+                }
+            } else {
+                alert(`Communication error: ${this.statusText}`);
+            }
+        }
+    }
+
+    request.open("GET", url, true);
+    request.responseType = "text";
+    request.send();
+}
+
+function initHighScores(resultJSON) {
+    for (let i = 0; i < resultJSON.length; i++) {
+        globals.highScores[i] = new HighScore(-1, resultJSON[i].name, resultJSON[i].score);
+    }
+}
+
+function initEssentials() {
+    // |||||||||||| INITIALIZE HTML ELEMENTS
+    initHTMLElements();
+
+    initEvents();
+
+    // |||||||||||| LOAD ASSETS SUCH AS TILEMAPS, IMAGES & SOUNDS
+    loadAssets();
+}
+
+function initHTMLElements() {
+    // |||||||| CANVAS, CONTEXT (SCREEN)
+    globals.canvas = document.getElementById("gameScreen");
+    globals.ctx = globals.canvas.getContext("2d");
+    
+    // |||||||| CANVAS, CONTEXT (HUD)
+    globals.canvasHUD = document.getElementById("gameHUD");
+    globals.ctxHUD = globals.canvasHUD.getContext("2d");
+
+    // |||||||| ANTI-ALIASING DELETION
+    globals.ctx.imageSmoothingEnabled = false;
+    globals.ctxHUD.imageSmoothingEnabled = false;
 }
 
 function initEvents() {
@@ -426,7 +335,7 @@ function initHighScoresMenu() {
 
     initHighScoresMenuBackgroundImg();
 
-    initScores();
+    sortHighScores();
 
     initNoticeOnTheBottom();
 
@@ -444,41 +353,25 @@ function initHighScoresMenuBackgroundImg() {
     globals.highScoresMenuBackgroundImg = highScoresMenuBackgroundImg;
 }
 
-function initScores() {
-    // |||||||||||| FILL "workedScores" ARRAY WITH "HighScore" CLASS INSTANCES
-    for (let i = 0; i < globals.rawScores.length; i++) {
-        const currentPosition = globals.rawScores[i].position;
-        const currentName = globals.rawScores[i].name;
-        const currentScore = globals.rawScores[i].score;
-
-        globals.workedScores[i] = new HighScore(currentPosition, currentName, currentScore);
-
-        if (globals.rawScores[i].isLastGamePlayer) {
-            globals.workedScores[i].isLastGamePlayer = true;
-            globals.rawScores[i].isLastGamePlayer = false;
-        }
-    }
-
-    // |||||||||||| SORT "workedScores" ARRAY IN DESCENDING ORDER BY SCORE
-    for (let i = 0; i < globals.workedScores.length; i++) {
-        for (let j = i + 1; j < globals.workedScores.length; j++) {
-            if (globals.workedScores[i].score <= globals.workedScores[j].score) {
-                const temporaryScore = globals.workedScores[i];
+function sortHighScores() {
+    // |||||||||||| SORT "highScores" ARRAY IN DESCENDING ORDER BY SCORE
+    for (let i = 0; i < globals.highScores.length; i++) {        
+        for (let j = i + 1; j < globals.highScores.length; j++) {
+            if (globals.highScores[i].score <= globals.highScores[j].score) {
+                const temporaryScore = globals.highScores[i];
                 
-                globals.workedScores[i] = globals.workedScores[j];
+                globals.highScores[i] = globals.highScores[j];
                 
-                globals.workedScores[j] = temporaryScore;
+                globals.highScores[j] = temporaryScore;
             }
             
-            globals.workedScores[i].position = i + 1;
-
-            if (j === (globals.workedScores.length - 1)) {
-                globals.workedScores[j].position = j + 1; 
-            }
+            globals.highScores[i].position = i + 1;
+            globals.highScores[j].position = j + 1;
         }
         
-        if (globals.workedScores[i].isLastGamePlayer) {
-            globals.lastGamePlayerPosition = globals.workedScores[i].position;
+        if (globals.highScores[i].isLastGamePlayer) {
+            globals.highScores[i].isLastGamePlayer = false;
+            globals.lastGamePlayerPosition = globals.highScores[i].position;
         }
     }
 }
@@ -711,9 +604,9 @@ function initCommonToTheTwoLevelsSprites() {
 }
 
 function initHighScore() {
-    for (let i = 0; i < globals.rawScores.length; i++) {
-        if (globals.highScore < globals.rawScores[i].score) {
-            globals.highScore = globals.rawScores[i].score;
+    for (let i = 0; i < globals.highScores.length; i++) {
+        if (globals.highScore < globals.highScores[i].score) {
+            globals.highScore = globals.highScores[i].score;
         }
     }
 }
@@ -1722,7 +1615,8 @@ function initGameWonBackgroundImg() {
 
 // |||||||||||| EXPORTS
 export {
-    initEssentials,
+    initVars,
+    loadDBDataAndInitEssentials,
     initMainMenu,    
     initStoryMenu,    
     initHighScoresMenu,    

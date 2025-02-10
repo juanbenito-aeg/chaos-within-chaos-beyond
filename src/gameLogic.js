@@ -1,3 +1,4 @@
+import HighScore from "./HighScore.js";
 import globals from "./globals.js";
 import detectCollisions from "./collisionsLogic.js";
 import { Game, Sound, SpriteID, State, ParticleID, ParticleState } from "./constants.js";
@@ -186,7 +187,9 @@ function updateStoryMenu() {
 }
 
 function updateHighScoresMenu() {
-    updateCurrentScoresPage();
+    if (globals.didPlayerEnterHighScoresMenuFromMainMenu) {
+        updateCurrentScoresPage();
+    }
     updateCurrentScreenFromHighScores();
 }
 
@@ -642,17 +645,29 @@ function  updateLastGamePlayerNameInsertion() {
 
         const lastGamePlayerName = globals.lastGamePlayerName.join("");
         
-        const lastGamePlayerData = {
-            position: -1,
-            name: lastGamePlayerName,
-            score: globals.score,
-            isLastGamePlayer: true,
-        };
+        const lastGamePlayerData = new HighScore(-1, lastGamePlayerName, globals.score);
+        lastGamePlayerData.isLastGamePlayer = true;
 
-        globals.rawScores.push(lastGamePlayerData);
+        globals.highScores.push(lastGamePlayerData);
+
+        insertNewScoreIntoDB(lastGamePlayerData);
 
         globals.action.confirmSelection = false;
     }
+}
+
+function insertNewScoreIntoDB(lastGamePlayerData) {
+    // |||||||||||| STRING DATA TO SEND
+    const dataToSend = `name=${lastGamePlayerData.name}&score=${lastGamePlayerData.score}`;
+
+    // |||||||||||| RELATIVE PATH TO THE FILE MAKING THE REQUEST
+    const url = "./src/server/routes/post-score.php";
+
+    const request = new XMLHttpRequest();
+    request.open("POST", url, true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.responseType = "text";
+    request.send(dataToSend);
 }
 
 function updateCurrentGameOverSelection() {
