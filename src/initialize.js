@@ -86,6 +86,7 @@ function loadDBDataAndInitEssentials() {
 function initHighScores(resultJSON) {
     for (let i = 0; i < resultJSON.length; i++) {
         globals.highScores[i] = new HighScore(-1, resultJSON[i].name, resultJSON[i].score);
+        globals.highScores[i].score = parseInt(globals.highScores[i].score);
     }
 }
 
@@ -357,7 +358,7 @@ function sortHighScores() {
     // |||||||||||| SORT "highScores" ARRAY IN DESCENDING ORDER BY SCORE
     for (let i = 0; i < globals.highScores.length; i++) {        
         for (let j = i + 1; j < globals.highScores.length; j++) {
-            if (globals.highScores[i].score <= globals.highScores[j].score) {
+            if (globals.highScores[i].score < globals.highScores[j].score) {
                 const temporaryScore = globals.highScores[i];
                 
                 globals.highScores[i] = globals.highScores[j];
@@ -365,9 +366,10 @@ function sortHighScores() {
                 globals.highScores[j] = temporaryScore;
             }
             
-            globals.highScores[i].position = i + 1;
             globals.highScores[j].position = j + 1;
         }
+
+        globals.highScores[i].position = i + 1;
         
         if (globals.highScores[i].isLastGamePlayer) {
             globals.highScores[i].isLastGamePlayer = false;

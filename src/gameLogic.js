@@ -641,6 +641,8 @@ function  updateLastGamePlayerNameInsertion() {
         globals.lastGamePlayerNameCurrentLetterIndex++;
         globals.action.moveRight = false;
     } else if (globals.action.confirmSelection) {
+        globals.action.confirmSelection = false;
+
         globals.wasLastGamePlayerNameEntered = true;
 
         const lastGamePlayerName = globals.lastGamePlayerName.join("");
@@ -651,8 +653,6 @@ function  updateLastGamePlayerNameInsertion() {
         globals.highScores.push(lastGamePlayerData);
 
         insertNewScoreIntoDB(lastGamePlayerData);
-
-        globals.action.confirmSelection = false;
     }
 }
 
@@ -664,6 +664,17 @@ function insertNewScoreIntoDB(lastGamePlayerData) {
     const url = "./src/server/routes/post-score.php";
 
     const request = new XMLHttpRequest();
+
+    request.onreadystatechange = function () {
+        if (this.readyState === 4) {
+            if (this.status !== 200) {
+                alert(`Communication error: ${this.statusText}`);
+            } else if (this.responseText === null) {
+                alert("Communication error: No data received");
+            }
+        }
+    }
+
     request.open("POST", url, true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     request.responseType = "text";

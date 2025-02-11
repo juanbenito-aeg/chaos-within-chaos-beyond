@@ -277,6 +277,7 @@ function drawHighScoresMenu() {
     globals.ctx.direction = "rtl";
 
     if (globals.didPlayerEnterHighScoresMenuFromMainMenu) {
+        globals.lastGamePlayerPosition = 0;
         renderHighScoresMenuFromMainMenuTxt();
         renderArrowsUsedToMoveBetweenPages();
     } else {
@@ -322,7 +323,7 @@ function renderNoticeOnTheBottom() {
 }
 
 function renderCurrentScoresPageRecords(scoresRecordsLowerLimit, scoresRecordsUpperLimit) {    
-    // |||||||||||| VARIABLE USED IN CASE THE LAST GAME PLAYER DID NOT REACH THE TOP 3, IN ORDER TO ALWAYS SHOW THESE ON THE FIRST PAGE
+    // |||||||||||| VARIABLE USED IN CASE THE LAST GAME PLAYER DID NOT REACH THE TOP 3, IN ORDER TO ALWAYS SHOW THESE THREE BEST SCORES ON THE FIRST PAGE
     let scoresRecordsIndexIfLastGamePlayerNotInTop3 = -1;
     if ((globals.currentScoresPage === 1) && (scoresRecordsLowerLimit > 2)) {
         scoresRecordsIndexIfLastGamePlayerNotInTop3 = 0;
@@ -412,11 +413,6 @@ function renderCurrentScoresPageRecords(scoresRecordsLowerLimit, scoresRecordsUp
 }
 
 function renderHighScoresMenuFromMainMenuTxt() {
-    // |||||||||||| PLAYERS' DATA DRAWING
-
-    globals.ctx.font = "8px emulogic";
-    globals.ctx.fillStyle = "rgb(212 212 212)";
-    
     let scoresRecordsLowerLimit = 0;
     let scoresRecordsUpperLimit = 10;
 
@@ -425,6 +421,7 @@ function renderHighScoresMenuFromMainMenuTxt() {
         scoresRecordsUpperLimit = 20;
     }
 
+    // |||||||||||| PLAYERS' DATA DRAWING
     renderCurrentScoresPageRecords(scoresRecordsLowerLimit, scoresRecordsUpperLimit);
 }
 
@@ -459,11 +456,6 @@ function renderArrowsUsedToMoveBetweenPages() {
 }
 
 function renderHighScoresMenuFromGameOverTxt() {
-    // |||||||||||| PLAYERS' DATA DRAWING
-
-    globals.ctx.font = "8px emulogic";
-    globals.ctx.fillStyle = "rgb(212 212 212)";
-    
     let scoresRecordsLowerLimit = 0;
     let scoresRecordsUpperLimit = 10;
 
@@ -472,6 +464,11 @@ function renderHighScoresMenuFromGameOverTxt() {
         scoresRecordsLowerLimit = (globals.lastGamePlayerPosition - 5) - 1;
         scoresRecordsUpperLimit = globals.lastGamePlayerPosition;
     }
+
+    // |||||||||||| PLAYERS' DATA DRAWING
+    
+    globals.ctx.font = "8px emulogic";
+    globals.ctx.fillStyle = "rgb(212 212 212)";
 
     renderCurrentScoresPageRecords(scoresRecordsLowerLimit, scoresRecordsUpperLimit);
 }
