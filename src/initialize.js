@@ -993,6 +993,11 @@ function initChaoticHumanBow() {
         },
         {
             state: State.LEFT_ATTACK_2,
+            xPos: 458,
+            yPos: 560,
+        },
+        {
+            state: State.LEFT_ATTACK_2,
             xPos: 765,
             yPos: 343,
         },
@@ -1005,6 +1010,11 @@ function initChaoticHumanBow() {
             state: State.LEFT_ATTACK_2,
             xPos: 1629,
             yPos: 530,
+        },
+        {
+            state: State.LEFT_ATTACK_2,
+            xPos: 1623,
+            yPos: 800,
         },
         {
             state: State.LEFT_ATTACK_2,
@@ -1107,6 +1117,13 @@ function initHellBatAcid() {
             yRotCenter: 59,
             aRadius: 60,
             bRadius: 20,
+        },
+        {
+            omega: 1.85,
+            xRotCenter: 465,
+            yRotCenter: 110,
+            aRadius: 43,
+            bRadius: 25,
         },
         {
             omega: 3,
