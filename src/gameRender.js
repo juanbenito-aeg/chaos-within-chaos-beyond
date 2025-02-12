@@ -7,7 +7,7 @@ export default function render() {
     // |||||||| CHANGE WHAT THE GAME IS DOING BASED ON THE GAME STATE
     switch (globals.gameState) {
         case Game.LOADING:
-            // DRAW LOADING SPINNER
+            drawLoading();
             break;
         
         case Game.MAIN_MENU:
@@ -79,6 +79,48 @@ function renderNBackgroundImg(nBackgroundImg) {
         0, 0,                                                             // THE DESTINATION X & Y POSITION
         nBackgroundImg.imageSet.xSize, nBackgroundImg.imageSet.ySize      // THE DESTINATION WIDTH & HEIGHT
     );
+}
+
+function drawLoading() {
+    enlargeCanvasForMenus();
+
+    globals.ctx.fillStyle = "black";
+    globals.ctx.fillRect(0, 0, 597, 341);
+
+    renderLoadingTxt();
+    renderLoadingBar();
+}
+
+function renderLoadingTxt() {
+    const canvasWidthDividedBy2 = globals.canvas.width / 2;
+    globals.ctx.textAlign = "center";
+    globals.ctx.font = "9px emulogic";
+    globals.ctx.fillStyle = "rgb(212 212 212)";
+
+    let txtToRender = "LOADING...";
+
+    if (globals.assetsLoadProgressAsPercentage === 100) {
+        txtToRender = "PRESS ENTER TO START";
+    }
+
+    globals.ctx.fillText(txtToRender, canvasWidthDividedBy2, 145);
+}
+
+function renderLoadingBar() {
+    const assetsLoadProgressBarYCoordinate = globals.canvas.height / 2;
+
+    const assetsLoadProgressBarMaxWidth = 200;
+    const assetsLoadProgressBarCurrentWidth = (globals.assetsLoadProgressAsPercentage / 100) * assetsLoadProgressBarMaxWidth;
+
+    const assetsLoadProgressBarHeight = 30;
+
+    globals.ctx.fillStyle = "rgb(212 212 212)";
+    globals.ctx.fillRect(125, assetsLoadProgressBarYCoordinate, assetsLoadProgressBarCurrentWidth, assetsLoadProgressBarHeight);
+    
+    globals.ctx.lineJoin = "bevel";
+    globals.ctx.lineWidth = 5;
+    globals.ctx.strokeStyle = "rgb(100 100 100)";
+    globals.ctx.strokeRect(125, assetsLoadProgressBarYCoordinate, assetsLoadProgressBarMaxWidth, assetsLoadProgressBarHeight);
 }
 
 function drawMainMenu() {

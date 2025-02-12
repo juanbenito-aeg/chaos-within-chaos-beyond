@@ -9,7 +9,7 @@ export default function update() {
     // |||||||||||| CHANGE WHAT THE GAME IS DOING BASED ON THE GAME STATE
     switch (globals.gameState) {
         case Game.LOADING:
-            console.log("Loading assets...");
+            updateLoading();
             break;
         
         case Game.LOADING_MAIN_MENU:
@@ -67,6 +67,13 @@ export default function update() {
         case Game.WON:
             updateGameWon();
             break;
+    }
+}
+
+function updateLoading() {
+    if ((globals.assetsLoadProgressAsPercentage === 100) && globals.action.confirmSelection) {
+        globals.action.confirmSelection = false;
+        globals.gameState = Game.LOADING_MAIN_MENU;
     }
 }
 

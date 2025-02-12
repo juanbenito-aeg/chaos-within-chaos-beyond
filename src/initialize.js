@@ -54,6 +54,20 @@ function initVars() {
     initMap();
 }
 
+function initHTMLElements() {
+    // |||||||| CANVAS, CONTEXT (SCREEN)
+    globals.canvas = document.getElementById("gameScreen");
+    globals.ctx = globals.canvas.getContext("2d");
+    
+    // |||||||| CANVAS, CONTEXT (HUD)
+    globals.canvasHUD = document.getElementById("gameHUD");
+    globals.ctxHUD = globals.canvasHUD.getContext("2d");
+
+    // |||||||| ANTI-ALIASING DELETION
+    globals.ctx.imageSmoothingEnabled = false;
+    globals.ctxHUD.imageSmoothingEnabled = false;
+}
+
 function loadDBDataAndInitEssentials() {
     // |||||||||||| RELATIVE PATH TO THE FILE MAKING THE REQUEST
     const url = "./src/server/routes/get-all-score.php";
@@ -68,7 +82,12 @@ function loadDBDataAndInitEssentials() {
 
                     initHighScores(resultJSON);
 
-                    initEssentials();
+                    initEvents();
+
+                    // |||||||||||| LOAD ASSETS SUCH AS TILEMAPS, IMAGES & SOUNDS
+                    loadAssets();
+
+                    globals.assetsLoadProgressAsPercentage = 100 / (globals.assetsToLoad.length + 1);
                 } else {
                     alert("Communication error: No data received");
                 }
@@ -88,30 +107,6 @@ function initHighScores(resultJSON) {
         globals.highScores[i] = new HighScore(-1, resultJSON[i].name, resultJSON[i].score);
         globals.highScores[i].score = parseInt(globals.highScores[i].score);
     }
-}
-
-function initEssentials() {
-    // |||||||||||| INITIALIZE HTML ELEMENTS
-    initHTMLElements();
-
-    initEvents();
-
-    // |||||||||||| LOAD ASSETS SUCH AS TILEMAPS, IMAGES & SOUNDS
-    loadAssets();
-}
-
-function initHTMLElements() {
-    // |||||||| CANVAS, CONTEXT (SCREEN)
-    globals.canvas = document.getElementById("gameScreen");
-    globals.ctx = globals.canvas.getContext("2d");
-    
-    // |||||||| CANVAS, CONTEXT (HUD)
-    globals.canvasHUD = document.getElementById("gameHUD");
-    globals.ctxHUD = globals.canvasHUD.getContext("2d");
-
-    // |||||||| ANTI-ALIASING DELETION
-    globals.ctx.imageSmoothingEnabled = false;
-    globals.ctxHUD.imageSmoothingEnabled = false;
 }
 
 function initEvents() {
@@ -180,6 +175,12 @@ function loadAssets() {
 // |||||||||||| CODE BLOCK TO CALL EACH TIME AN ASSET IS LOADED
 function loadHandler() {
     globals.assetsLoaded++;
+    
+    globals.assetsLoadProgressAsPercentage += 100 / (globals.assetsToLoad.length + 1);
+
+    if (globals.assetsLoadProgressAsPercentage > 100) {
+        globals.assetsLoadProgressAsPercentage = Math.floor(globals.assetsLoadProgressAsPercentage);
+    }
 
     if (globals.assetsLoaded === globals.assetsToLoad.length) {
         for (let i = 0; i < globals.tileSets.length; i++) {
@@ -189,10 +190,6 @@ function loadHandler() {
         for (let i = 0; i < globals.sounds.length; i++) {
             globals.sounds[i].removeEventListener("canplaythrough", loadHandler, false);
         }
-
-        console.log("Assets finished loading");
-
-        globals.gameState = Game.LOADING_MAIN_MENU;
     }
 }
 
@@ -1618,6 +1615,7 @@ function initGameWonBackgroundImg() {
 // |||||||||||| EXPORTS
 export {
     initVars,
+    initHTMLElements,
     loadDBDataAndInitEssentials,
     initMainMenu,    
     initStoryMenu,    

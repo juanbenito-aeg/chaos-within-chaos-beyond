@@ -29,6 +29,8 @@ export default {
     // |||||||| HOLDS THE ELEMENTS TO LOAD (PRIMARILY, IMAGES & SOUNDS)
     assetsToLoad: [],
 
+    assetsLoadProgressAsPercentage: 0,
+
     // |||||||| INDICATES THE NUMBER OF ELEMENTS THAT HAVE BEEN LOADED SO FAR
     assetsLoaded: 0,
 
