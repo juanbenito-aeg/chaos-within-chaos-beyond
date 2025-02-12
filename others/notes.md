@@ -1,12 +1,7 @@
 - TODOS:
-    - Dudas a consultar:
-        - ¿Es correcto mostrar al jugador de la última partida en la última posición y solo en las anteriores a los que están por delante en cuanto a puntuación?
-
     - Sprint 09 | Retoques:
-        - Comprobar que gusanos no vuelan después de terminar nivel 2 y volver a empezar nivel 1 desde menú principal
         - Aumentar velocidad de salto y posterior caída (gravedad)
         - Hacer que los humanos con espada hagan cargas en momentos aleatorios (aumento drástico de velocidad durante unos segundos)
-        - Hacer que los humanos con espada se detengan al ser atacados, al igual que pasa con los gusanos
         - Meter más enemigos, principalmente murciélagos en el segundo nivel
 
     - Otros:
