@@ -46,6 +46,7 @@ function initVars() {
         throwMagicalOrb: false,
     };
 
+    globals.currentMusic = Sound.NO_SOUND;
     globals.currentSound = Sound.NO_SOUND;
 
     globals.levelInitializationTimer = new Timer(8, 1, 8);
@@ -132,44 +133,58 @@ function loadAssets() {
     globals.tileSets.push(tileSet);
     globals.assetsToLoad.push(tileSet);
 
+    // |||||||||||| LOAD MUSIC
+    
+    const musicArray = [];
+    
+    const mainMenuMusic = document.querySelector("#mainMenuMusic");
+    const storyMusic = document.querySelector("#storyMusic");
+    const highScoresMusic = document.querySelector("#highScoresMusic");
+    const levelMusic = document.querySelector("#levelMusic");
+    const gameOverMusic = document.querySelector("#gameOverMusic");
+    const gameWonMusic = document.querySelector("#gameWonMusic");
+
+    musicArray.push(
+        mainMenuMusic,
+        storyMusic,
+        highScoresMusic,
+        levelMusic,
+        gameOverMusic,
+        gameWonMusic,
+    );
+
+    for (let i = 0; i < musicArray.length; i++) {
+        musicArray[i].addEventListener("canplaythrough", loadHandler, false);
+        musicArray[i].addEventListener("timeupdate", updateMusic, false);
+        musicArray[i].load();
+        globals.sounds.push(musicArray[i]);
+        globals.assetsToLoad.push(musicArray[i]);
+    }
+
     // |||||||||||| LOAD SOUNDS
 
-    const levelMusic = document.querySelector("#levelMusic");
-    levelMusic.addEventListener("canplaythrough", loadHandler, false);
-    levelMusic.addEventListener("timeupdate", updateMusic, false);
-    levelMusic.load();
-    globals.sounds.push(levelMusic);
-    globals.assetsToLoad.push(levelMusic);
+    const soundsArray = [];
 
     const orbThrowSound = document.querySelector("#orbThrowSound");
-    orbThrowSound.addEventListener("canplaythrough", loadHandler, false);
-    orbThrowSound.load();
-    globals.sounds.push(orbThrowSound);
-    globals.assetsToLoad.push(orbThrowSound);
-    
     const jumpSound = document.querySelector("#jumpSound");
-    jumpSound.addEventListener("canplaythrough", loadHandler, false);
-    jumpSound.load();
-    globals.sounds.push(jumpSound);
-    globals.assetsToLoad.push(jumpSound);
-    
     const potionCollectionSound = document.querySelector("#potionCollectionSound");
-    potionCollectionSound.addEventListener("canplaythrough", loadHandler, false);
-    potionCollectionSound.load();
-    globals.sounds.push(potionCollectionSound);
-    globals.assetsToLoad.push(potionCollectionSound);
-    
     const hammerHitSound = document.querySelector("#hammerHitSound");
-    hammerHitSound.addEventListener("canplaythrough", loadHandler, false);
-    hammerHitSound.load();
-    globals.sounds.push(hammerHitSound);
-    globals.assetsToLoad.push(hammerHitSound);
-    
     const lifePointLostSound = document.querySelector("#lifePointLostSound");
-    lifePointLostSound.addEventListener("canplaythrough", loadHandler, false);
-    lifePointLostSound.load();
-    globals.sounds.push(lifePointLostSound);
-    globals.assetsToLoad.push(lifePointLostSound);
+
+    soundsArray.push(
+        orbThrowSound,
+        jumpSound,
+        potionCollectionSound,
+        hammerHitSound,
+        lifePointLostSound,
+    );
+
+    for (let i = 0; i < soundsArray.length; i++) {
+        soundsArray[i].addEventListener("canplaythrough", loadHandler, false);
+        soundsArray[i].load();
+        globals.sounds.push(soundsArray[i]);
+        globals.assetsToLoad.push(soundsArray[i]);
+    }
 }
 
 // |||||||||||| CODE BLOCK TO CALL EACH TIME AN ASSET IS LOADED
@@ -177,9 +192,9 @@ function loadHandler() {
     globals.assetsLoaded++;
     
     globals.assetsLoadProgressAsPercentage += 100 / (globals.assetsToLoad.length + 1);
-
-    if (globals.assetsLoadProgressAsPercentage > 100) {
-        globals.assetsLoadProgressAsPercentage = Math.floor(globals.assetsLoadProgressAsPercentage);
+    
+    if (globals.assetsLoadProgressAsPercentage > 99.99) {
+        globals.assetsLoadProgressAsPercentage = Math.ceil(globals.assetsLoadProgressAsPercentage);
     }
 
     if (globals.assetsLoaded === globals.assetsToLoad.length) {
@@ -213,6 +228,20 @@ function initLoadingLevel2BackgroundImg() {
     globals.loadingLevel2BackgroundImg = loadingLevel2BackgroundImg;
 }
 
+function checkIfMusicIsPlayingAndIfSoResetIt() {
+    if (globals.currentMusic !== Sound.NO_SOUND) {
+        const music = globals.sounds[globals.currentMusic];
+        music.pause();
+        music.currentTime = 0;
+    }
+}
+
+function setMusic(musicID) {
+    globals.currentMusic = musicID;
+    globals.sounds[globals.currentMusic].play();
+    globals.sounds[globals.currentMusic].volume = 0.5;
+}
+
 function initMainMenu() {
     // |||||||||||| RESET GLOBAL VARIABLES USED ON THE MAIN MENU
     globals.mainMenuSprites             = [];
@@ -222,6 +251,9 @@ function initMainMenu() {
 
     // |||||||||||| CHANGE GAME STATE
     globals.gameState = Game.MAIN_MENU;
+
+    checkIfMusicIsPlayingAndIfSoResetIt();
+    setMusic(Sound.MAIN_MENU_MUSIC);
 }
 
 function initMainMenuSprites() {
@@ -310,6 +342,9 @@ function initStoryMenu() {
 
     // |||||||||||| CHANGE GAME STATE
     globals.gameState = Game.STORY_MENU;
+
+    checkIfMusicIsPlayingAndIfSoResetIt();
+    setMusic(Sound.STORY_MUSIC);
 }
 
 function initStoryMenuBackgroundImg() {
@@ -339,6 +374,9 @@ function initHighScoresMenu() {
 
     // |||||||||||| CHANGE GAME STATE
     globals.gameState = Game.HIGH_SCORES_MENU;
+
+    checkIfMusicIsPlayingAndIfSoResetIt();
+    setMusic(Sound.HIGH_SCORES_MUSIC);
 }
 
 function initHighScoresMenuBackgroundImg() {
@@ -400,6 +438,8 @@ function initControlsMenu() {
 
     // |||||||||||| CHANGE GAME STATE
     globals.gameState = Game.CONTROLS_MENU;
+
+    checkIfMusicIsPlayingAndIfSoResetIt();
 }
 
 function initControlsMenuSprites() {
@@ -561,9 +601,8 @@ function initLevel() {
     // |||||||||||| CHANGE GAME STATE
     globals.gameState = Game.PLAYING;
 
-    globals.sounds[Sound.LEVEL_MUSIC].currentTime = 0;
-    globals.sounds[Sound.LEVEL_MUSIC].play();
-    globals.sounds[Sound.LEVEL_MUSIC].volume = 0.5;
+    checkIfMusicIsPlayingAndIfSoResetIt();
+    setMusic(Sound.LEVEL_MUSIC);
 }
 
 function initMap() {
@@ -1593,6 +1632,9 @@ function initGameOver() {
 
     // |||||||||||| CHANGE GAME STATE
     globals.gameState = Game.OVER;
+
+    checkIfMusicIsPlayingAndIfSoResetIt();
+    setMusic(Sound.GAME_OVER_MUSIC);
 }
 
 function initSkull() {
@@ -1613,10 +1655,13 @@ function initGameWon() {
     
     // |||||||||||| CHANGE GAME STATE
     globals.gameState = Game.WON;
+
+    checkIfMusicIsPlayingAndIfSoResetIt();
+    setMusic(Sound.GAME_WON_MUSIC);
 }
 
 function initGameWonToGameOverTimer() {
-    globals.gameWonToGameOverTimer = new Timer(20, 1);
+    globals.gameWonToGameOverTimer = new Timer(29, 1);
 }
 
 function initGameWonBackgroundImg() {
@@ -1634,6 +1679,7 @@ export {
     initVars,
     initHTMLElements,
     loadDBDataAndInitEssentials,
+    checkIfMusicIsPlayingAndIfSoResetIt,
     initMainMenu,    
     initStoryMenu,    
     initHighScoresMenu,    

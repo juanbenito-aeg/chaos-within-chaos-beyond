@@ -40,6 +40,8 @@ export default {
     // |||||||||||| SOUNDS
     sounds: [],
 
+    currentMusic: -1,
+
     // |||||||||||| CURRENT SOUND TO PLAY
     currentSound: -1,
 

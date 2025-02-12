@@ -2,7 +2,7 @@ import HighScore from "./HighScore.js";
 import globals from "./globals.js";
 import detectCollisions from "./collisionsLogic.js";
 import { Game, Sound, SpriteID, State, ParticleID, ParticleState } from "./constants.js";
-import { initMainMenu, initStoryMenu, initHighScoresMenu, initControlsMenu, initLevel, initGameOver, initGameWon, initRageSymbolParticles, createControlsMenuSparkle, createLavaParticle } from "./initialize.js";
+import { checkIfMusicIsPlayingAndIfSoResetIt, initMainMenu, initStoryMenu, initHighScoresMenu, initControlsMenu, initLevel, initGameOver, initGameWon, initRageSymbolParticles, createControlsMenuSparkle, createLavaParticle } from "./initialize.js";
 import { updateEvents } from "./events.js";
 
 export default function update() {
@@ -331,6 +331,8 @@ function updateControlsMenuSparkle(particle) {
 }
 
 function updateLoadingLevel() {
+    checkIfMusicIsPlayingAndIfSoResetIt();
+    
     if (globals.levelInitializationTimer.value === 0) {
         globals.levelInitializationTimer.value = globals.levelInitializationTimer.valueToStartCountingFrom;
 

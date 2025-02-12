@@ -24,12 +24,17 @@ const FPS = 30;
 // |||||||||||| GAME SOUNDS
 const Sound = {
     NO_SOUND: -1,
-    LEVEL_MUSIC: 0,
-    ORB_THROW: 1,
-    JUMP: 2,
-    POTION_COLLECTION: 3,
-    HAMMER_HIT: 4,
-    LIFE_POINT_LOST: 5,
+    MAIN_MENU_MUSIC: 0,
+    STORY_MUSIC: 1,
+    HIGH_SCORES_MUSIC: 2,
+    LEVEL_MUSIC: 3,
+    GAME_OVER_MUSIC: 4,
+    GAME_WON_MUSIC: 5,
+    ORB_THROW: 6,
+    JUMP: 7,
+    POTION_COLLECTION: 8,
+    HAMMER_HIT: 9,
+    LIFE_POINT_LOST: 10,
 };
 
 // |||||||||||| DIFFERENT TILESETS

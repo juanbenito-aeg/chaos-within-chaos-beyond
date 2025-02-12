@@ -3,14 +3,18 @@ import { Game, Sound, SpriteID, Key } from "./constants.js";
 import { initHellBatHandToHand } from "./initialize.js";
 
 function updateMusic() {
-    const buffer = 0.275;
-    const music = globals.sounds[Sound.LEVEL_MUSIC];
-    if ((globals.gameState === Game.PLAYING) && (music.currentTime > (music.duration - buffer))) {
-        music.currentTime = 0;
-        music.play();
-    } else if (globals.gameState !== Game.PLAYING) {
-        music.currentTime = 0;
-        music.pause();
+    if (globals.currentMusic !== Sound.NO_SOUND) {
+        let buffer = 0.275;
+        if (globals.currentMusic === Sound.GAME_WON_MUSIC) {
+            buffer = 0;
+        }
+
+        const music = globals.sounds[globals.currentMusic];
+    
+        if (music.currentTime >= (music.duration - buffer)) {
+            music.currentTime = 0;
+            music.play();
+        }
     }
 }
 
