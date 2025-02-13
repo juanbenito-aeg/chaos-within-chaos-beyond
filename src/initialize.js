@@ -49,7 +49,7 @@ function initVars() {
     globals.currentMusic = Sound.NO_SOUND;
     globals.currentSound = Sound.NO_SOUND;
 
-    globals.levelInitializationTimer = new Timer(8, 1, 8);
+    globals.levelInitializationTimer = new Timer(0, 1, 0);
     initLoadingLevel1BackgroundImg();
     initLoadingLevel2BackgroundImg();
     initMap();
@@ -879,6 +879,11 @@ function initFastWorm() {
                 yPos: 2176,
             },
             {
+                state: State.LEFT,
+                xPos: 219,
+                yPos: 1420,
+            },
+            {
                 state: State.RIGHT,
                 xPos: 234,
                 yPos: 768,
@@ -1061,6 +1066,11 @@ function initChaoticHumanBow() {
             yPos: 854,
         },
         {
+            state: State.RIGHT_ATTACK_2,
+            xPos: 1985,
+            yPos: 285,
+        },
+        {
             state: State.LEFT_ATTACK_2,
             xPos: 2333,
             yPos: 48,
@@ -1198,6 +1208,13 @@ function initHellBatAcid() {
             yRotCenter: 805,
             aRadius: 95,
             bRadius: 30,
+        },
+        {
+            omega: 2.5,
+            xRotCenter: 2175,
+            yRotCenter: 385,
+            aRadius: 60,
+            bRadius: 25,
         },
         {
             omega: 1.75,
@@ -1376,17 +1393,45 @@ function initHellBatHandToHand(isFunctionInvokedFromEvent, xPos, vLimit, omega, 
     const hellBatHandToHandSpritesAttributes = [
         {
             xPos: 0,
-            vLimit: 50,
-            omega: 2.5,
-            yRef: 2312,
-            amplitude: 60,
+            vLimit: 90,
+            omega: 3.5,
+            yRef: 2500,
+            amplitude: 45,
         },
         {
             xPos: 0,
-            vLimit: 60,
-            omega: 1.5,
-            yRef: 998,
-            amplitude: 140,
+            vLimit: 80,
+            omega: 3,
+            yRef: 2315,
+            amplitude: 82,
+        },
+        {
+            xPos: 0,
+            vLimit: 90,
+            omega: 4,
+            yRef: 1550,
+            amplitude: 25,
+        },
+        {
+            xPos: 0,
+            vLimit: 80,
+            omega: 2.5,
+            yRef: 1092,
+            amplitude: 75,
+        },
+        {
+            xPos: 0,
+            vLimit: 80,
+            omega: 3,
+            yRef: 894,
+            amplitude: 70,
+        },
+        {
+            xPos: 0,
+            vLimit: 70,
+            omega: 3.5,
+            yRef: 394,
+            amplitude: 52,
         },
         {
             xPos: 0,
