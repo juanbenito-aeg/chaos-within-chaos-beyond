@@ -612,8 +612,8 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
             }
         }
     } else { // STATIC
-        // |||||||| SPOT 6
-        xPos = player.xPos + player.hitBox.xOffset;
+        // |||||||| SPOT 6 ("xPos" IS CALCULATED USING HARD-CODED DATA TO AVOID X.G'S SPRITE'S WEIRD MOVEMENTS WHEN ATTACKING HAND TO HAND)
+        xPos = player.xPos + 16;
         yPos = player.yPos + player.hitBox.yOffset;
         for (let i = 0; i < obstaclesIDs.length; i++) {
             isCollidingOnPos6 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
@@ -678,8 +678,8 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
             }
         }
         
-        // |||||||| SPOT 1
-        xPos = player.xPos + player.hitBox.xOffset + player.hitBox.xSize - 1;
+        // |||||||| SPOT 1 ("xPos" IS CALCULATED USING HARD-CODED DATA TO AVOID X.G'S SPRITE'S WEIRD MOVEMENTS WHEN ATTACKING HAND TO HAND)
+        xPos = player.xPos + 16 + 12 - 1;
         yPos = player.yPos + player.hitBox.yOffset;
         for (let i = 0; i < obstaclesIDs.length; i++) {
             isCollidingOnPos1 = isCollidingWithObstacleAt(xPos, yPos, obstaclesIDs[i]);
