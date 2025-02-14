@@ -69,43 +69,31 @@ function initHTMLElements() {
     globals.ctxHUD.imageSmoothingEnabled = false;
 }
 
-function loadDBDataAndInitEssentials() {
+async function loadDBDataAndInitEssentials() {
     // |||||||||||| RELATIVE PATH TO THE FILE MAKING THE REQUEST
-    const url = "./src/server/routes/get-all-score.php";
+    const url = "./src/server/routes/get-all-scores.php";
 
-    const request = new XMLHttpRequest();
+    const response = await fetch(url);
 
-    request.onreadystatechange = function () {
-        if (this.readyState === 4) {
-            if (this.status === 200) {
-                if (this.responseText !== null) {
-                    const resultJSON = JSON.parse(this.responseText);
+    if (response.ok) {
+        const responseJSON = await response.json();
 
-                    initHighScores(resultJSON);
+        initHighScores(responseJSON);
 
-                    initEvents();
+        initEvents();
 
-                    // |||||||||||| LOAD ASSETS SUCH AS TILEMAPS, IMAGES & SOUNDS
-                    loadAssets();
+        // |||||||||||| LOAD ASSETS SUCH AS TILEMAPS, IMAGES & SOUNDS
+        loadAssets();
 
-                    globals.assetsLoadProgressAsPercentage = 100 / (globals.assetsToLoad.length + 1);
-                } else {
-                    alert("Communication error: No data received");
-                }
-            } else {
-                alert(`Communication error: ${this.statusText}`);
-            }
-        }
+        globals.assetsLoadProgressAsPercentage = 100 / (globals.assetsToLoad.length + 1);
+    } else {
+        alert(`Communication error: ${response.statusText}`);
     }
-
-    request.open("GET", url, true);
-    request.responseType = "text";
-    request.send();
 }
 
-function initHighScores(resultJSON) {
-    for (let i = 0; i < resultJSON.length; i++) {
-        globals.highScores[i] = new HighScore(-1, resultJSON[i].name, resultJSON[i].score);
+function initHighScores(responseJSON) {
+    for (let i = 0; i < responseJSON.length; i++) {
+        globals.highScores[i] = new HighScore(-1, responseJSON[i].name, responseJSON[i].score);
         globals.highScores[i].score = parseInt(globals.highScores[i].score);
     }
 }
