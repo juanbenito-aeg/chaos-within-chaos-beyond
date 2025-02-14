@@ -1,5 +1,6 @@
 - TODOS:
     - Otros:
+        - Refactorizar función insertNewScoreIntoDB (gameLogic.js) haciendo uso de la API Fetch
         - Poner levelInitializationTimer a 8 segundos
         - ¿Refactorizar clases haciendo una de Enemy?
         - ¿Crear atributos/propiedades con valores idénticos entre instancias de una clase en su constructor en vez de en el bucle de la función init de "initialize.js"?
