@@ -665,29 +665,24 @@ function  updateLastGamePlayerNameInsertion() {
     }
 }
 
-function insertNewScoreIntoDB(lastGamePlayerData) {
-    // |||||||||||| STRING DATA TO SEND
-    const dataToSend = `name=${lastGamePlayerData.name}&score=${lastGamePlayerData.score}`;
-
+async function insertNewScoreIntoDB(lastGamePlayerData) {
     // |||||||||||| RELATIVE PATH TO THE FILE MAKING THE REQUEST
     const url = "./src/server/routes/post-score.php";
 
-    const request = new XMLHttpRequest();
+    // |||||||||||| STRING DATA TO SEND
+    const dataToSend = `name=${lastGamePlayerData.name}&score=${lastGamePlayerData.score}`;
 
-    request.onreadystatechange = function () {
-        if (this.readyState === 4) {
-            if (this.status !== 200) {
-                alert(`Communication error: ${this.statusText}`);
-            } else if (this.responseText === null) {
-                alert("Communication error: No data received");
-            }
-        }
+    const response = await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: dataToSend,
+    });
+
+    if (!response.ok) {
+        alert(`Communication error: ${response.statusText}`);
     }
-
-    request.open("POST", url, true);
-    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    request.responseType = "text";
-    request.send(dataToSend);
 }
 
 function updateCurrentGameOverSelection() {
