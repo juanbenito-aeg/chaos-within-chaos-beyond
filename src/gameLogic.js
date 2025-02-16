@@ -235,69 +235,9 @@ function updateCurrentScreenFromHighScores() {
 }
 
 function updateControlsMenu() {
-    // updateControlsMenuSprites();
     updateControlsMenuParticles();
     returnToTheMainMenu();
 }
-
-// function updateControlsMenuSprites() {
-//     for (let i = 0; i < globals.controlsMenuSprites.length; i++) {
-//         const sprite = globals.controlsMenuSprites[i];
-
-//         updateControlsMenuSprite(sprite);
-//     }
-// }
-
-// function updateControlsMenuSprite(sprite) {
-//     const type = sprite.id;
-
-//     switch (type) {
-//         // |||||||||||| "LEFT ARROW" KEY
-//         case SpriteID.LEFT_ARROW_KEY:
-//             updateLeftArrowKey(sprite);
-//             break;
-
-//         // |||||||||||| "RIGHT ARROW" KEY
-//         case SpriteID.RIGHT_ARROW_KEY:
-//             updateRightArrowKey(sprite);
-//             break;
-
-//         // |||||||||||| "SPACE" KEY
-//         case SpriteID.SPACE_KEY:
-//             updateSpaceKey(sprite);
-//             break;
-
-//         // |||||||||||| "A" LETTER KEY
-//         case SpriteID.A_LETTER_KEY:
-//             updateALetterKey(sprite);
-//             break;
-
-//         // |||||||||||| "S" LETTER KEY
-//         case SpriteID.S_LETTER_KEY:
-//             updateSLetterKey(sprite);
-//             break;
-//     }
-// }
-
-// function updateLeftArrowKey(sprite) {
-//     sprite.frames.frameCounter = 0;
-// }
-
-// function updateRightArrowKey(sprite) {
-//     sprite.frames.frameCounter = 0;
-// }
-
-// function updateSpaceKey(sprite) {
-//     sprite.frames.frameCounter = 0;
-// }
-
-// function updateALetterKey(sprite) {
-//     sprite.frames.frameCounter = 0;
-// }
-
-// function updateSLetterKey(sprite) {
-//     sprite.frames.frameCounter = 0;
-// }
 
 function updateControlsMenuParticles() {
     for (let i = 0; i < globals.controlsMenuParticles.length; i++) {
@@ -367,8 +307,6 @@ function playLevel() {
 
     // |||||||||||| UPDATE EVENTS
     updateEvents();
-
-    updateHUDRageLevel();
     
     checkIfGameOver();
 
@@ -559,20 +497,6 @@ function updateSpritesLogic() {
     for (let i = 0; i < globals.levelSprites.length; i++) {
         const sprite = globals.levelSprites[i];
         sprite.updateLogic();
-    }
-}
-
-function updateHUDRageLevel() {
-    const player = globals.levelSprites[0];
-
-    const rageBarSymbol = globals.HUDSprites[1];
-
-    if (player.rageLevel === 100) {
-        rageBarSymbol.frames.frameCounter = 2;
-    } else if (player.rageLevel > 50) {
-        rageBarSymbol.frames.frameCounter = 1;
-    } else {
-        rageBarSymbol.frames.frameCounter = 0;
     }
 }
 

@@ -1531,10 +1531,17 @@ function initRageSymbolParticles() {
     let color;
     if (player.rageLevel === 100) {
         color = "rgb(208 0 0 / 0.75)";
+
+        // |||||||||||| ALSO CHANGE THE COLOR (ACTUALLY THE FRAME) OF THE SYMBOL
+        rageBarSymbol.frames.frameCounter = 2;
     } else if (player.rageLevel > 50) {
         color = "rgb(232 93 4 / 0.75)";
+
+        rageBarSymbol.frames.frameCounter = 1;
     } else {
         color = "rgb(255 186 8 / 0.75)";
+
+        rageBarSymbol.frames.frameCounter = 0;
     }
 
     let angle = Math.PI * 2;
