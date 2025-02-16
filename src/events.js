@@ -159,7 +159,7 @@ function isMagicalOrbThrowCanceledDueToRageBeing100() {
 
     let isMagicalOrbThrowCanceled = false;
 
-    if ((player.rageLevel === 100) && (!player.isMagicalOrbThrowRandomlyPerformed)) {
+    if (player.rageLevel === 100) {
         isMagicalOrbThrowCanceled = true;
     }
 
