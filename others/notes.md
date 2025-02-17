@@ -1,4 +1,4 @@
 - TODOS:
     - Otros:
-        - Cambiar de posición los dos bloques grises sobre los pinchos al comienzo del primer nivel
+        - Meter sonido para cuando el jugador llega a un checkpoint
         - Poner levelInitializationTimer a 8 segundos
