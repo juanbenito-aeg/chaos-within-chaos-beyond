@@ -1088,8 +1088,9 @@ function initChaoticHumanBow() {
 
         const physics = new Physics(-1);
 
-        const hitBox = new HitBox(8, 36, 15, 5);
+        const hitBox = new HitBox(13, 37, 9, 4);
         if (currentSpriteState === State.RIGHT_ATTACK_2) {
+            hitBox.xSize = 12;
             hitBox.xOffset = 13;
         }
 
