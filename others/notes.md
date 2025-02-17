@@ -1,4 +1,3 @@
 - TODOS:
     - Otros:
-        - Meter sonido para cuando el jugador llega a un checkpoint
         - Poner levelInitializationTimer a 8 segundos
