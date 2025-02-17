@@ -291,8 +291,6 @@ function playLevel() {
     // |||||||||||| UPDATE PHYSICS
     updateSpritesPhysics();
 
-    playSound();
-
     // |||||||||||| UPDATE PARTICLES
     updateLevelParticles();
     
@@ -304,6 +302,8 @@ function playLevel() {
     
     // |||||||||||| UPDATE LOGIC
     updateSpritesLogic();
+
+    playSound();
 
     // |||||||||||| UPDATE EVENTS
     updateEvents();
