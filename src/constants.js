@@ -36,6 +36,7 @@ const Sound = {
     HAMMER_HIT: 9,
     LIFE_POINT_LOST: 10,
     CHECKPOINT_REACHED: 11,
+    ORB_EXPLOSION: 12,
 };
 
 // |||||||||||| DIFFERENT TILESETS
