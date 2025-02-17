@@ -158,6 +158,7 @@ function loadAssets() {
     const potionCollectionSound = document.querySelector("#potionCollectionSound");
     const hammerHitSound = document.querySelector("#hammerHitSound");
     const lifePointLostSound = document.querySelector("#lifePointLostSound");
+    const checkpointReachedSound = document.querySelector("#checkpointReachedSound");
 
     soundsArray.push(
         orbThrowSound,
@@ -165,6 +166,7 @@ function loadAssets() {
         potionCollectionSound,
         hammerHitSound,
         lifePointLostSound,
+        checkpointReachedSound,
     );
 
     for (let i = 0; i < soundsArray.length; i++) {
@@ -180,9 +182,9 @@ function loadHandler() {
     globals.assetsLoaded++;
     
     globals.assetsLoadProgressAsPercentage += 100 / (globals.assetsToLoad.length + 1);
-    
-    if (globals.assetsLoadProgressAsPercentage > 99.99) {
-        globals.assetsLoadProgressAsPercentage = Math.ceil(globals.assetsLoadProgressAsPercentage);
+
+    if (globals.assetsLoadProgressAsPercentage > 100) {
+        globals.assetsLoadProgressAsPercentage = Math.floor(globals.assetsLoadProgressAsPercentage);
     }
 
     if (globals.assetsLoaded === globals.assetsToLoad.length) {

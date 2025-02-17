@@ -35,6 +35,7 @@ const Sound = {
     POTION_COLLECTION: 8,
     HAMMER_HIT: 9,
     LIFE_POINT_LOST: 10,
+    CHECKPOINT_REACHED: 11,
 };
 
 // |||||||||||| DIFFERENT TILESETS

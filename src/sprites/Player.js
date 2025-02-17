@@ -121,6 +121,8 @@ export default class Player extends Character {
                 this.lastCheckpoint.yPos = this.checkpoints[i].yPosUpperLimit;
 
                 initCheckpointParticles(this);
+
+                globals.currentSound = Sound.CHECKPOINT_REACHED;                
             }
         }
 
