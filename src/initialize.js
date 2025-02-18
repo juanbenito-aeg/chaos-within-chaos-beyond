@@ -843,8 +843,8 @@ function initFastWorm() {
         fastWormSpritesAttributes = [
             {
                 state: State.LEFT,
-                xPos: 396,
-                yPos: 180,
+                xPos: 185,
+                yPos: 177,
             },
             {
                 state: State.RIGHT,
@@ -1027,6 +1027,11 @@ function initChaoticHumanBow() {
             yPos: 55,
         },
         {
+            state: State.LEFT_ATTACK_2,
+            xPos: 362,
+            yPos: 151,
+        },
+        {
             state: State.RIGHT_ATTACK_2,
             xPos: 112,
             yPos: 328,
@@ -1043,7 +1048,12 @@ function initChaoticHumanBow() {
         },
         {
             state: State.LEFT_ATTACK_2,
-            xPos: 1448,
+            xPos: 1453,
+            yPos: 128,
+        },
+        {
+            state: State.LEFT_ATTACK_2,
+            xPos: 1418,
             yPos: 168,
         },
         {
