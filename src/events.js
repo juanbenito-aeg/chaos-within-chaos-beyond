@@ -23,7 +23,7 @@ function lowerPlayerLifePointsDueToRageBeing100() {
     
     if ((player.rageLevel === 100) && (player.nextLifePointsReductionDelay.value === 0)) {
         player.lifePoints -= 0.25;
-        player.nextLifePointsReductionDelay.value = 10;    
+        player.nextLifePointsReductionDelay.value = 5;    
     } else if ((player.rageLevel === 100) && (player.nextLifePointsReductionDelay.value > 0)) {
         player.nextLifePointsReductionDelay.timeChangeCounter += globals.deltaTime;
 
@@ -32,7 +32,7 @@ function lowerPlayerLifePointsDueToRageBeing100() {
             player.nextLifePointsReductionDelay.timeChangeCounter = 0;
         }
     } else {
-        player.nextLifePointsReductionDelay.value = 10;    
+        player.nextLifePointsReductionDelay.value = 5;    
         player.nextLifePointsReductionDelay.timeChangeCounter = 0;        
     }
 }

@@ -13,7 +13,7 @@ export default class Player extends Character {
         this.rageLevel                              = 0;                // RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
         this.nextOrbThrowDelay                      = new Timer(0, 1);  // TIMING OF THE DELAY BETWEEN SUCCESSIVE MAGICAL ORB THROWS (THE INITIAL VALUE OF THE TIMER IS 0 AS THE PLAYER HAS TO BE ALLOWED TO THROW A MAGICAL ORB FROM THE START OF THE GAME)
         this.nextRagePtUpDelay                      = new Timer(4, 1);
-        this.nextLifePointsReductionDelay           = new Timer(10, 1);
+        this.nextLifePointsReductionDelay           = new Timer(5, 1);
         this.checkpoints                            = checkpoints;
         this.lastCheckpoint                         = {
             xPos: xPos,
