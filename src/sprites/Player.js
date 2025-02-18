@@ -132,6 +132,8 @@ export default class Player extends Character {
                 initCheckpointParticles(this);
 
                 globals.currentSound = Sound.CHECKPOINT_REACHED;                
+
+                globals.score += 200;
             }
         }
 
@@ -284,7 +286,7 @@ export default class Player extends Character {
                     this.lifePoints = 5;
                 }
 
-                globals.score += 70;
+                globals.score += 100;
 
                 globals.currentSound = Sound.POTION_COLLECTION;
             }
