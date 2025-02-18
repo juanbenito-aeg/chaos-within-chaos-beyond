@@ -1,3 +1,6 @@
 - TODOS:
     - Otros:
         - Poner levelInitializationTimer a 8 segundos
+        - Al colisionar con bloques de puertas cerradas mostrar mensaje indicando que están bloqueadas (además, añadir sonido de risa de la bruja)
+        - Crear chispas con gravedad que aparezcan en el límite del martillo al atacar cuerpo a cuerpo (tanto en ataques fallidos como en ataques efectivos)
+        - Cambiar los puntos que se le otorgan al jugador para que siempre sean múltiplos de 50
