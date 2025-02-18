@@ -160,7 +160,9 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
         Block.SPIKES_LEFTWARDS,
         Block.SPIKES_RIGHTWARDS,
         Block.GRAY_BLOCK,
+        Block.CLOSED_DOOR_CHUNK_1,
         Block.OPEN_DOOR_CHUNK_2,
+        Block.CLOSED_DOOR_CHUNK_2,
         Block.LAVA_1,
         Block.DARK_BROWN_SLOPE_UPWARDS,
         Block.DARK_BROWN_SLOPE_DOWNWARDS,
@@ -178,6 +180,7 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
     player.collisions.isCollidingWithLava                = false;
     player.collisions.isCollidingWithSlope               = false;
     player.collisions.isCollidingWithOpenDoor            = false;
+    player.collisions.isCollidingWithClosedDoor          = false;
 
     // |||||||||||| COLLISIONS (8 POSSIBLE SPOTS)
     // 6--------------------1
@@ -484,6 +487,8 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                     player.collisions.isCollidingWithSpikes = true;
                 } else if (obstaclesIDs[i] === Block.OPEN_DOOR_CHUNK_2) {
                     player.collisions.isCollidingWithOpenDoor = true;
+                } else if ((obstaclesIDs[i] === Block.CLOSED_DOOR_CHUNK_1) || (obstaclesIDs[i] === Block.CLOSED_DOOR_CHUNK_2)) {
+                    player.collisions.isCollidingWithClosedDoor = true;
                 }
 
                 if (!player.collisions.isCollidingWithSlope) {
@@ -510,6 +515,8 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                         player.collisions.isCollidingWithSpikes = true;
                     } else if (obstaclesIDs[i] === Block.OPEN_DOOR_CHUNK_2) {
                         player.collisions.isCollidingWithOpenDoor = true;
+                    } else if ((obstaclesIDs[i] === Block.CLOSED_DOOR_CHUNK_1) || (obstaclesIDs[i] === Block.CLOSED_DOOR_CHUNK_2)) {
+                        player.collisions.isCollidingWithClosedDoor = true;
                     }
     
                     if (!player.collisions.isCollidingWithSlope) {
@@ -570,6 +577,8 @@ function detectCollisionBetweenPlayerAndMapObstacles() {
                         player.collisions.isCollidingWithLava = true;
                     } else if (obstaclesIDs[i] === Block.OPEN_DOOR_CHUNK_2) {
                         player.collisions.isCollidingWithOpenDoor = true;
+                    } else if ((obstaclesIDs[i] === Block.CLOSED_DOOR_CHUNK_1) || (obstaclesIDs[i] === Block.CLOSED_DOOR_CHUNK_2)) {
+                        player.collisions.isCollidingWithClosedDoor = true;
                     }
                     
                     // |||| CALCULATE OVERLAP ON X & Y

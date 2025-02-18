@@ -39,6 +39,7 @@ const Sound = {
     ORB_EXPLOSION: 12,
     CHANGE_MENU_SELECTION: 13,
     CONFIRM_SELECTION: 14,
+    WITCH_LAUGH: 15,
 };
 
 // |||||||||||| DIFFERENT TILESETS

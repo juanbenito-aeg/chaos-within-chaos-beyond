@@ -87,6 +87,10 @@ export default {
     levelSprites: [],
     levelParticles: [],
 
+    closedDoorsPosition: [],
+    closedDoorsNotice: "",
+    closedDoorsNoticeTimer: {},
+
     // |||||||||||| VARIABLES TO MANAGE THE EVENT OF FLYING FAST WORMS IN THE SECOND LEVEL
     doFastWormsFly: false,
     fastWormsFlyingStateTimer: {},

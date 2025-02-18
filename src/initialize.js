@@ -162,6 +162,7 @@ function loadAssets() {
     const orbExplosionSound = document.querySelector("#orbExplosionSound");
     const changeMenuSelectionSound = document.querySelector("#changeMenuSelectionSound");
     const confirmSelectionSound = document.querySelector("#confirmSelectionSound");
+    const witchLaughSound = document.querySelector("#witchLaughSound");
 
     soundsArray.push(
         orbThrowSound,
@@ -173,6 +174,7 @@ function loadAssets() {
         orbExplosionSound,
         changeMenuSelectionSound,
         confirmSelectionSound,
+        witchLaughSound,
     );
 
     for (let i = 0; i < soundsArray.length; i++) {
@@ -594,6 +596,9 @@ function initLevel() {
 
     initLevelParticles();
 
+    initClosedDoorsPosition();
+    initClosedDoorsNoticeTimer();
+
     // |||||||||||| CHANGE GAME STATE
     globals.gameState = Game.PLAYING;
 
@@ -719,7 +724,7 @@ function initPlayer() {
         xPos = 26;
         yPos = 0;
     } else {
-        xPos = 35;
+        xPos = 51;
         yPos = 2612;
     }
 
@@ -1317,6 +1322,29 @@ function initAcid(hellBatAcid) {
 
     // |||||||||||| ADD ACID TO ITS CORRESPONDING SPRITES ARRAY
     globals.levelSprites.push(acid);
+}
+
+function initClosedDoorsPosition() {
+    const currentLevel = globals.level.data;
+
+    const brickSize = globals.level.imageSet.xGridSize;
+
+    for (let i = 0; i < currentLevel.length; i++) {
+        for (let j = 0; j < currentLevel[0].length; j++) {
+            if (currentLevel[i][j] === Block.CLOSED_DOOR_CHUNK_1) {
+                const closedDoorPosition = {
+                    xPos: (j * brickSize),
+                    yPos: (i * brickSize),
+                };
+
+                globals.closedDoorsPosition.push(closedDoorPosition);
+            }
+        }
+    }
+}
+
+function initClosedDoorsNoticeTimer() {
+    globals.closedDoorsNoticeTimer = new Timer(5, 1, 5);
 }
 
 function initLevel2ExclusiveSprites() {

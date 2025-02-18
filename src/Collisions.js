@@ -14,4 +14,5 @@ export default class Collisions {
     isCollidingWithLava                 = false;
     isCollidingWithSlope                = false;
     isCollidingWithOpenDoor             = false;
+    isCollidingWithClosedDoor           = false;
 }

@@ -250,7 +250,7 @@ export default class Player extends Character {
                 this.afterAttackLeeway.timeChangeCounter = 0;
             }
 
-            // |||||||||||| MAKE THE SPRITE BLINK DURING THE LEEWAY IT IS GIVEN JUST AFTER IT IS ATTACKED 
+            // |||| MAKE THE SPRITE BLINK DURING THE LEEWAY IT IS GIVEN JUST AFTER IT IS ATTACKED 
             if (this.afterAttackLeeway.timeChangeCounter > 0.75) {
                 this.isDrawn = false;
             } else if (this.afterAttackLeeway.timeChangeCounter > 0.5) {
@@ -293,5 +293,27 @@ export default class Player extends Character {
         }
     
         this.updateRageLevel();
+
+        if (this.collisions.isCollidingWithClosedDoor && (globals.closedDoorsNoticeTimer.value === globals.closedDoorsNoticeTimer.valueToStartCountingFrom) && (globals.closedDoorsNoticeTimer.timeChangeCounter === 0)) {
+            globals.closedDoorsNotice = "LOCKED";
+            
+            if (globals.level.number === 1) {
+                globals.currentSound = Sound.WITCH_LAUGH;
+            }
+        }
+
+        if (globals.closedDoorsNotice === "LOCKED") {
+            if (globals.closedDoorsNoticeTimer.value === 0) {
+                globals.closedDoorsNotice = "";
+                globals.closedDoorsNoticeTimer.value = globals.closedDoorsNoticeTimer.valueToStartCountingFrom;
+            } else {
+                globals.closedDoorsNoticeTimer.timeChangeCounter += globals.deltaTime;
+
+                if (globals.closedDoorsNoticeTimer.timeChangeCounter >= globals.closedDoorsNoticeTimer.timeChangeValue) {
+                    globals.closedDoorsNoticeTimer.value--;
+                    globals.closedDoorsNoticeTimer.timeChangeCounter = 0;
+                }
+            }
+        }
     }
 }

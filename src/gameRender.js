@@ -711,7 +711,8 @@ function drawLevel() {
     renderMap();
     renderHUD();
     renderLevelSprites();
-    renderLevelParticles()
+    renderLevelParticles();
+    renderClosedDoorsTxt();
     restoreCamera();
 }
 
@@ -1044,6 +1045,15 @@ function renderEnemyDeathParticle(particle) {
         globals.ctx.fillRect(particle.xPos, particle.yPos, particle.width, particle.height);
 
         globals.ctx.restore();
+    }
+}
+
+function renderClosedDoorsTxt() {
+    globals.ctx.font = "7px emulogic";
+    globals.ctx.fillStyle = "rgb(255 180 180)";
+
+    for (let i = 0; i < globals.closedDoorsPosition.length; i++) {
+        globals.ctx.fillText(globals.closedDoorsNotice, (globals.closedDoorsPosition[i].xPos - 14), (globals.closedDoorsPosition[i].yPos - 4));
     }
 }
 
