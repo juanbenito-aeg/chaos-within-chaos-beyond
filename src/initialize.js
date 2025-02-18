@@ -160,6 +160,8 @@ function loadAssets() {
     const lifePointLostSound = document.querySelector("#lifePointLostSound");
     const checkpointReachedSound = document.querySelector("#checkpointReachedSound");
     const orbExplosionSound = document.querySelector("#orbExplosionSound");
+    const changeMenuSelectionSound = document.querySelector("#changeMenuSelectionSound");
+    const confirmSelectionSound = document.querySelector("#confirmSelectionSound");
 
     soundsArray.push(
         orbThrowSound,
@@ -169,6 +171,8 @@ function loadAssets() {
         lifePointLostSound,
         checkpointReachedSound,
         orbExplosionSound,
+        changeMenuSelectionSound,
+        confirmSelectionSound,
     );
 
     for (let i = 0; i < soundsArray.length; i++) {

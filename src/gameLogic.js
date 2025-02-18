@@ -10,6 +10,7 @@ export default function update() {
     switch (globals.gameState) {
         case Game.LOADING:
             updateLoading();
+            playSound();
             break;
         
         case Game.LOADING_MAIN_MENU:
@@ -73,7 +74,19 @@ export default function update() {
 function updateLoading() {
     if ((globals.assetsLoadProgressAsPercentage === 100) && globals.action.confirmSelection) {
         globals.action.confirmSelection = false;
+        globals.currentSound = Sound.CONFIRM_SELECTION;
         globals.gameState = Game.LOADING_MAIN_MENU;
+    }
+}
+
+function playSound() {
+    if (globals.currentSound !== Sound.NO_SOUND) {
+        // |||||||||||| PLAY THE SOUND THAT HAS BEEN INVOKED
+        globals.sounds[globals.currentSound].currentTime = 0;
+        globals.sounds[globals.currentSound].play();
+
+        // |||||||||||| RESET "currentSound"
+        globals.currentSound = Sound.NO_SOUND;
     }
 }
 
@@ -81,6 +94,7 @@ function updateMainMenu() {
     updateMainMenuSprites();    
     updateCurrentMainMenuSelection();
     updateCurrentScreenFromMainMenu();
+    playSound();
 }
 
 function updateMainMenuSprites() {
@@ -121,40 +135,48 @@ function updateCurrentMainMenuSelection() {
         switch (globals.currentMainMenuSelection) {
             case "HIGH SCORES":
                 globals.currentMainMenuSelection = "NEW GAME";
+                globals.currentSound = Sound.CHANGE_MENU_SELECTION;
                 break;
 
             case "CONTROLS":
                 globals.currentMainMenuSelection = "STORY";
+                globals.currentSound = Sound.CHANGE_MENU_SELECTION;
                 break;
         }
     } else if (globals.action.moveRight) {
         switch (globals.currentMainMenuSelection) {
             case "NEW GAME":
                 globals.currentMainMenuSelection = "HIGH SCORES";
+                globals.currentSound = Sound.CHANGE_MENU_SELECTION;
                 break;
 
             case "STORY":
                 globals.currentMainMenuSelection = "CONTROLS";
+                globals.currentSound = Sound.CHANGE_MENU_SELECTION;
                 break;
         }
     } else if (globals.action.moveDown) {
         switch (globals.currentMainMenuSelection) {
             case "NEW GAME":
                 globals.currentMainMenuSelection = "STORY";
+                globals.currentSound = Sound.CHANGE_MENU_SELECTION;
                 break;
 
             case "HIGH SCORES":
                 globals.currentMainMenuSelection = "CONTROLS";
+                globals.currentSound = Sound.CHANGE_MENU_SELECTION;
                 break;
         }
     } else if (globals.action.moveUp) {
         switch (globals.currentMainMenuSelection) {
             case "STORY":
                 globals.currentMainMenuSelection = "NEW GAME";
+                globals.currentSound = Sound.CHANGE_MENU_SELECTION;
                 break;
 
             case "CONTROLS":
                 globals.currentMainMenuSelection = "HIGH SCORES";
+                globals.currentSound = Sound.CHANGE_MENU_SELECTION;
                 break;
         }
     }
@@ -162,6 +184,8 @@ function updateCurrentMainMenuSelection() {
 
 function updateCurrentScreenFromMainMenu() {
     if (globals.action.confirmSelection) {
+        globals.currentSound = Sound.CONFIRM_SELECTION;
+
         switch (globals.currentMainMenuSelection) {
             case "NEW GAME":
                 globals.gameState = Game.LOADING_LEVEL;
@@ -196,6 +220,7 @@ function updateStoryMenu() {
 function updateHighScoresMenu() {
     if (globals.didPlayerEnterHighScoresMenuFromMainMenu) {
         updateCurrentScoresPage();
+        playSound();
     }
     updateCurrentScreenFromHighScores();
 }
@@ -203,6 +228,8 @@ function updateHighScoresMenu() {
 function updateCurrentScoresPage() {
     if (globals.action.moveRight && (globals.currentScoresPage === 1)) {
         globals.currentScoresPage = 2;
+
+        globals.currentSound = Sound.CHANGE_MENU_SELECTION;
 
         globals.horizontalSkewForEvenDataRecords = 0.5;
         globals.verticalSkewForEvenDataRecords = 0.5;
@@ -212,6 +239,8 @@ function updateCurrentScoresPage() {
         globals.action.moveRight = false;
     } else if (globals.action.moveLeft && (globals.currentScoresPage === 2)) {
         globals.currentScoresPage = 1;
+
+        globals.currentSound = Sound.CHANGE_MENU_SELECTION;
 
         globals.horizontalSkewForEvenDataRecords = 0.5;
         globals.verticalSkewForEvenDataRecords = 0.5;
@@ -500,17 +529,6 @@ function updateSpritesLogic() {
     }
 }
 
-function playSound() {
-    if (globals.currentSound !== Sound.NO_SOUND) {
-        // |||||||||||| PLAY THE SOUND THAT HAS BEEN INVOKED
-        globals.sounds[globals.currentSound].currentTime = 0;
-        globals.sounds[globals.currentSound].play();
-
-        // |||||||||||| RESET "currentSound"
-        globals.currentSound = Sound.NO_SOUND;
-    }
-}
-
 function checkIfGameOver() {
     const player = globals.levelSprites[0];
 
@@ -544,6 +562,8 @@ function updateGameOver() {
         updateCurrentGameOverSelection();
         updateCurrentScreenFromGameOver();
     }
+    
+    playSound();
 }
 
 function  updateLastGamePlayerNameInsertion() {
@@ -553,6 +573,7 @@ function  updateLastGamePlayerNameInsertion() {
         for (let i = 0; i < alphabet.length; i++) {
             if ((globals.lastGamePlayerName[globals.lastGamePlayerNameCurrentLetterIndex] === alphabet[i]) && (i !== 0)) {
                 globals.lastGamePlayerName[globals.lastGamePlayerNameCurrentLetterIndex] = alphabet[i - 1];
+                globals.currentSound = Sound.CHANGE_MENU_SELECTION;
                 break;
             }
         }
@@ -562,6 +583,7 @@ function  updateLastGamePlayerNameInsertion() {
         for (let i = 0; i < alphabet.length; i++) {
             if ((globals.lastGamePlayerName[globals.lastGamePlayerNameCurrentLetterIndex] === alphabet[i]) && (i !== (alphabet.length - 1))) {
                 globals.lastGamePlayerName[globals.lastGamePlayerNameCurrentLetterIndex] = alphabet[i + 1];
+                globals.currentSound = Sound.CHANGE_MENU_SELECTION;
                 break;
             }
         }
@@ -569,12 +591,16 @@ function  updateLastGamePlayerNameInsertion() {
         globals.action.moveDown = false;
     } else if (globals.action.moveLeft && (globals.lastGamePlayerNameCurrentLetterIndex !== 0)) {
         globals.lastGamePlayerNameCurrentLetterIndex--;
+        globals.currentSound = Sound.CHANGE_MENU_SELECTION;
         globals.action.moveLeft = false;
     } else if (globals.action.moveRight && (globals.lastGamePlayerNameCurrentLetterIndex !== 2)) {
         globals.lastGamePlayerNameCurrentLetterIndex++;
+        globals.currentSound = Sound.CHANGE_MENU_SELECTION;
         globals.action.moveRight = false;
     } else if (globals.action.confirmSelection) {
         globals.action.confirmSelection = false;
+
+        globals.currentSound = Sound.CONFIRM_SELECTION;
 
         globals.wasLastGamePlayerNameEntered = true;
 
@@ -612,16 +638,20 @@ async function insertNewScoreIntoDB(lastGamePlayerData) {
 function updateCurrentGameOverSelection() {
     if (globals.action.moveDown && (globals.currentGameOverSelection === "CHECK HIGH SCORES TABLE")) {
         globals.currentGameOverSelection = "RETURN TO THE MAIN MENU";
+        globals.currentSound = Sound.CHANGE_MENU_SELECTION;
     } else if (globals.action.moveUp && (globals.currentGameOverSelection === "RETURN TO THE MAIN MENU")) {
         globals.currentGameOverSelection = "CHECK HIGH SCORES TABLE";
+        globals.currentSound = Sound.CHANGE_MENU_SELECTION;
     }
 }
 
 function updateCurrentScreenFromGameOver() {
     if (globals.action.confirmSelection && (globals.currentGameOverSelection === "CHECK HIGH SCORES TABLE")) {
         globals.didPlayerEnterHighScoresMenuFromMainMenu = false;
+        globals.currentSound = Sound.CONFIRM_SELECTION;
         globals.gameState = Game.LOADING_HIGH_SCORES_MENU;
     } else if (globals.action.confirmSelection && (globals.currentGameOverSelection === "RETURN TO THE MAIN MENU")) {
+        globals.currentSound = Sound.CONFIRM_SELECTION;
         globals.gameState = Game.LOADING_MAIN_MENU;
 
         // |||||||||||| AVOID STARTING NEW GAME JUST AFTER CONFIRMING THE CURRENT SELECTION
