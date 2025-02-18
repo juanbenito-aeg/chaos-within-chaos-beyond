@@ -12,7 +12,7 @@ export default class Player extends Character {
         this.isRightwardsHandToHandAttackEffective  = false;
         this.rageLevel                              = 0;                // RAGE LEVEL, STARTING IN 0 AND RANGING FROM 0 TO 100
         this.nextOrbThrowDelay                      = new Timer(0, 1);  // TIMING OF THE DELAY BETWEEN SUCCESSIVE MAGICAL ORB THROWS (THE INITIAL VALUE OF THE TIMER IS 0 AS THE PLAYER HAS TO BE ALLOWED TO THROW A MAGICAL ORB FROM THE START OF THE GAME)
-        this.nextRagePtUpDelay                      = new Timer(3, 1);
+        this.nextRagePtUpDelay                      = new Timer(4, 1);
         this.nextLifePointsReductionDelay           = new Timer(10, 1);
         this.checkpoints                            = checkpoints;
         this.lastCheckpoint                         = {
@@ -53,9 +53,18 @@ export default class Player extends Character {
     }
 
     updateRageLevel() {
-        if ((this.nextRagePtUpDelay.value === 0) && (this.rageLevel < 100)) {
-            this.rageLevel++;
-            this.nextRagePtUpDelay.value = this.lifePoints;
+        if (this.nextRagePtUpDelay.value === 0) {
+            this.rageLevel += 2;
+
+            if (this.rageLevel > 100) {
+                this.rageLevel = 100;
+            }
+
+            if (this.lifePoints >= 2.5) {
+                this.nextRagePtUpDelay.value = 4;
+            } else {
+                this.nextRagePtUpDelay.value = 2;
+            }
         } else {
             this.nextRagePtUpDelay.timeChangeCounter += globals.deltaTime;
 
@@ -168,8 +177,6 @@ export default class Player extends Character {
 
     updateLogic() {
         // |||||||||||| UPDATE LIFE POINTS, SCORE & RAGE LEVEL
-        
-        const playerLifePtsBeforeChecks = this.lifePoints;
 
         // |||||||| CONDITIONS THAT MAKE THE PLAYER LOSE LIFE POINTS
 
@@ -281,12 +288,6 @@ export default class Player extends Character {
 
                 globals.currentSound = Sound.POTION_COLLECTION;
             }
-        }
-
-        // |||||||||||| IF THE PLAYER HAS EITHER LOST OR EARNED LIFE POINTS, UPDATE THE TIMER USED TO INCREASE THEIR RAGE LEVEL
-        if (this.lifePoints !== playerLifePtsBeforeChecks) {
-            this.nextRagePtUpDelay.value = this.lifePoints;
-            this.nextRagePtUpDelay.timeChangeCounter = 0;
         }
     
         this.updateRageLevel();
