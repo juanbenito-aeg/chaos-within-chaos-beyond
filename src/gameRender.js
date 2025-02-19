@@ -979,6 +979,10 @@ function renderLevelsParticle(particle) {
         case ParticleID.ENEMY_DEATH:
             renderEnemyDeathParticle(particle);
             break;
+        
+        case ParticleID.HAMMER_HIT:
+            renderHammerHitParticle(particle);
+            break;
     }
 }
 
@@ -1043,6 +1047,19 @@ function renderEnemyDeathParticle(particle) {
 
         globals.ctx.fillStyle = "rgb(120 6 6)";
         globals.ctx.fillRect(particle.xPos, particle.yPos, particle.width, particle.height);
+
+        globals.ctx.restore();
+    }
+}
+
+function renderHammerHitParticle(particle) {
+    if (particle.state !== ParticleState.OFF) {
+        globals.ctx.save();
+
+        globals.ctx.globalAlpha = particle.alpha;
+
+        globals.ctx.fillStyle = "rgb(255 232 8)";
+        globals.ctx.fillRect(particle.xPos, particle.yPos, particle.widthAndHeight, particle.widthAndHeight);
 
         globals.ctx.restore();
     }

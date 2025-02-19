@@ -406,6 +406,10 @@ function updateLevelParticle(particle) {
         case ParticleID.ENEMY_DEATH:
             updateEnemyDeathParticle(particle);
             break;
+        
+        case ParticleID.HAMMER_HIT:
+            updateHammerHitParticle(particle);
+            break;
     }
 }
 
@@ -502,6 +506,41 @@ function updateEnemyDeathParticle(particle) {
 
     particle.physics.vx += particle.physics.ax * globals.deltaTime;
     particle.physics.vy += particle.physics.ay * globals.deltaTime;
+
+    particle.xPos += particle.physics.vx * globals.deltaTime;
+    particle.yPos += particle.physics.vy * globals.deltaTime;
+}
+
+function updateHammerHitParticle(particle) {
+    particle.fadeCounter += globals.deltaTime;
+
+    switch (particle.state) {
+        case ParticleState.ON:
+            if (particle.fadeCounter >= particle.timeToFade) {
+                particle.fadeCounter = 0;
+                particle.state = ParticleState.FADE;                
+            }
+            break;
+
+        case ParticleState.FADE:
+            particle.alpha -= 0.05;
+            if (particle.alpha <= 0) {
+                particle.state = ParticleState.OFF;
+            }
+            break;
+    }
+
+    particle.physics.vx += particle.physics.ax * globals.deltaTime;
+    particle.physics.vy += particle.physics.ay * globals.deltaTime;
+
+    // |||||||||||| LIMIT THE VELOCITIES TO 1, IN ORDER TO AVOID DIRECTION CHANGES
+
+    const velModule = Math.sqrt((particle.physics.vx ** 2) + (particle.physics.vy ** 2));
+
+    if (velModule < 1) {
+        particle.physics.vx = 0;
+        particle.physics.vy = 0;
+    }
 
     particle.xPos += particle.physics.vx * globals.deltaTime;
     particle.yPos += particle.physics.vy * globals.deltaTime;

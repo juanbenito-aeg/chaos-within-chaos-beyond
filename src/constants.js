@@ -188,6 +188,7 @@ const ParticleID = {
     CHECKPOINT: 2,
     LAVA: 3,
     ENEMY_DEATH: 4,
+    HAMMER_HIT: 5,
 };
 
 // |||||||||||| PARTICLE STATE IDENTIFIER

@@ -19,9 +19,9 @@ import Timer from "./Timer.js";
 import Camera from "./Camera.js";
 import HighScore from "./HighScore.js";
 import globals from "./globals.js";
-import { RageSymbolParticle, ControlsMenuSparkle, CheckpointParticle, LavaParticle, EnemyDeathParticle } from "./Particle.js";
+import { RageSymbolParticle, ControlsMenuSparkle, CheckpointParticle, LavaParticle, EnemyDeathParticle, HammerHitParticle } from "./Particle.js";
 import { Level, level1, level2 } from "./Level.js";
-import { Game, FPS, Sound, Block, SpriteID, State, ParticleID, ParticleState } from "./constants.js";
+import { Game, FPS, Sound, Block, SpriteID, State, GRAVITY, ParticleID, ParticleState } from "./constants.js";
 import { updateMusic, keydownHandler, keyupHandler } from "./events.js";
 
 function initVars() {
@@ -1708,6 +1708,44 @@ function initEnemyDeathParticles(enemy) {
     }
 }
 
+function initHammerHitParticles(player) {
+    const numOfParticles = 30;
+
+    let xInit = player.xPos + player.hitBox.xOffset + 1;
+    
+    let randomAngleLowerLimit = 220;
+    let randomAngleUpperLimit = 290;
+
+    if (player.state === State.RIGHT_ATTACK_HAND_TO_HAND) {
+        xInit += (player.hitBox.xSize - 3);
+        randomAngleLowerLimit = 250;
+        randomAngleUpperLimit = 320;
+    }
+
+    const yInit = player.yPos + player.hitBox.yOffset + 10;
+    const alpha = 1.0;
+    const widthAndHeight = 1;
+
+    for (let i = 0; i < numOfParticles; i++) {
+        const velocity = (Math.random() * 10) + 5;
+        const physics = new Physics(velocity, 5);
+
+        const timeToFade = Math.random() * 0.25;
+
+        const particle = new HammerHitParticle(ParticleID.HAMMER_HIT, ParticleState.ON, xInit, yInit, physics, alpha, widthAndHeight, timeToFade);
+
+        const randomAngle = ((Math.random() * (randomAngleUpperLimit - randomAngleLowerLimit)) + randomAngleLowerLimit) * (Math.PI / 180);
+
+        particle.physics.vx = particle.physics.vLimit * Math.cos(randomAngle);
+        particle.physics.vy = particle.physics.vLimit * Math.sin(randomAngle);
+        
+        particle.physics.ax = particle.physics.aLimit * Math.cos(randomAngle);
+        particle.physics.ay = GRAVITY;
+
+        globals.levelParticles.push(particle);
+    }
+}
+
 function initGameOver() {
     // |||||||||||| RESET GLOBAL VARIABLES USED ON THE "GAME OVER" SCREEN
     globals.lastGamePlayerName = ["A", "A", "A"];
@@ -1783,6 +1821,7 @@ export {
     createLavaParticle,
     initCheckpointParticles,
     initEnemyDeathParticles,
+    initHammerHitParticles,
     initGameOver,
     initGameWon,    
 };

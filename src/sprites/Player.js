@@ -2,7 +2,7 @@ import Character from "./Character.js";
 import Timer from "../Timer.js";
 import globals from "../globals.js";
 import { Sound, SpriteID, State, GRAVITY } from "../constants.js";
-import { initMagicalOrb, initCheckpointParticles } from "../initialize.js";
+import { initMagicalOrb, initCheckpointParticles, initHammerHitParticles } from "../initialize.js";
 
 export default class Player extends Character {
     constructor(id, state, xPos, yPos, imageSet, frames, physics, hitBox, collisions, lifePoints, afterAttackLeeway, checkpoints) {
@@ -174,6 +174,10 @@ export default class Player extends Character {
         } else {
             this.hitBox.xSize = 12;
             this.hitBox.xOffset = 16;
+        }
+
+        if (((this.state === State.LEFT_ATTACK_HAND_TO_HAND) || (this.state === State.RIGHT_ATTACK_HAND_TO_HAND)) && (this.frames.frameCounter === 3) && (this.frames.frameChangeCounter === 1)) {
+            initHammerHitParticles(this);
         }
     }
 

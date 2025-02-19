@@ -70,10 +70,21 @@ class EnemyDeathParticle extends Particle {
     }
 }
 
+class HammerHitParticle extends Particle {
+    constructor(id, state, xPos, yPos, physics, alpha, widthAndHeight, timeToFade) {
+        super(id, state, xPos, yPos, physics, alpha);
+
+        this.widthAndHeight = widthAndHeight;
+        this.fadeCounter    = 0;
+        this.timeToFade     = timeToFade;
+    }
+}
+
 export {
     RageSymbolParticle,
     ControlsMenuSparkle,
     CheckpointParticle,
     LavaParticle,
     EnemyDeathParticle,
+    HammerHitParticle,
 };
