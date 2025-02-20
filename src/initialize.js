@@ -1735,17 +1735,17 @@ function initEnemyDeathParticles(enemy) {
 }
 
 function initHammerHitParticles(player) {
-    const numOfParticles = 30;
+    const numOfParticles = 10;
 
     let xInit = player.xPos + player.hitBox.xOffset + 1;
     
-    let randomAngleLowerLimit = 220;
-    let randomAngleUpperLimit = 290;
+    let randomAngleLowerLimit = 200;
+    let randomAngleUpperLimit = 300;
 
     if (player.state === State.RIGHT_ATTACK_HAND_TO_HAND) {
         xInit += (player.hitBox.xSize - 3);
-        randomAngleLowerLimit = 250;
-        randomAngleUpperLimit = 320;
+        randomAngleLowerLimit = 240;
+        randomAngleUpperLimit = 340;
     }
 
     const yInit = player.yPos + player.hitBox.yOffset + 10;
@@ -1756,9 +1756,9 @@ function initHammerHitParticles(player) {
         const velocity = (Math.random() * 10) + 5;
         const physics = new Physics(velocity, 5);
 
-        const timeToFade = Math.random() * 0.25;
+        const disappearanceTimer = new Timer(0.85, 0.85, 0.85);
 
-        const particle = new HammerHitParticle(ParticleID.HAMMER_HIT, ParticleState.ON, xInit, yInit, physics, alpha, widthAndHeight, timeToFade);
+        const particle = new HammerHitParticle(ParticleID.HAMMER_HIT, ParticleState.ON, xInit, yInit, physics, alpha, widthAndHeight, disappearanceTimer);
 
         const randomAngle = ((Math.random() * (randomAngleUpperLimit - randomAngleLowerLimit)) + randomAngleLowerLimit) * (Math.PI / 180);
 

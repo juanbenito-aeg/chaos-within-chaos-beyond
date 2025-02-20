@@ -71,12 +71,11 @@ class EnemyDeathParticle extends Particle {
 }
 
 class HammerHitParticle extends Particle {
-    constructor(id, state, xPos, yPos, physics, alpha, widthAndHeight, timeToFade) {
+    constructor(id, state, xPos, yPos, physics, alpha, widthAndHeight, disappearanceTimer) {
         super(id, state, xPos, yPos, physics, alpha);
 
-        this.widthAndHeight = widthAndHeight;
-        this.fadeCounter    = 0;
-        this.timeToFade     = timeToFade;
+        this.widthAndHeight     = widthAndHeight;
+        this.disappearanceTimer = disappearanceTimer;
     }
 }
 

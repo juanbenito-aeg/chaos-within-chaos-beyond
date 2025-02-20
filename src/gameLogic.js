@@ -512,22 +512,9 @@ function updateEnemyDeathParticle(particle) {
 }
 
 function updateHammerHitParticle(particle) {
-    particle.fadeCounter += globals.deltaTime;
-
-    switch (particle.state) {
-        case ParticleState.ON:
-            if (particle.fadeCounter >= particle.timeToFade) {
-                particle.fadeCounter = 0;
-                particle.state = ParticleState.FADE;                
-            }
-            break;
-
-        case ParticleState.FADE:
-            particle.alpha -= 0.05;
-            if (particle.alpha <= 0) {
-                particle.state = ParticleState.OFF;
-            }
-            break;
+    particle.disappearanceTimer.timeChangeCounter += globals.deltaTime;
+    if (particle.disappearanceTimer.timeChangeCounter >= particle.disappearanceTimer.timeChangeValue) {
+        particle.state = ParticleState.OFF;
     }
 
     particle.physics.vx += particle.physics.ax * globals.deltaTime;
