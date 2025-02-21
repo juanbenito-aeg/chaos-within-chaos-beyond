@@ -272,7 +272,7 @@ export default class Player extends Character {
 
                 globals.score += 50;
 
-                this.rageLevel -= 15;
+                this.rageLevel -= 20;
                 if (this.rageLevel < 0) {
                     this.rageLevel = 0;
                 }
