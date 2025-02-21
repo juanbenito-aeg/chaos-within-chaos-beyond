@@ -49,7 +49,7 @@ function initVars() {
     globals.currentMusic = Sound.NO_SOUND;
     globals.currentSound = Sound.NO_SOUND;
 
-    globals.levelInitializationTimer = new Timer(0, 1, 0);
+    globals.levelInitializationTimer = new Timer(8, 1, 8);
     initLoadingLevel1BackgroundImg();
     initLoadingLevel2BackgroundImg();
     initMap();
