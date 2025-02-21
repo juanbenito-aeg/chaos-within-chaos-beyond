@@ -1,3 +1,0 @@
-- TODOS:
-    - Otros:
-        - Poner levelInitializationTimer a 8 segundos
